@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { isOrganizer, requireUser } from "@/lib/auth";
 import { TIME_ZONE } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
+import { TEST_MESSAGE, pushConfigured, sendPush } from "@/lib/push";
 import { createClient } from "@/lib/supabase/server";
 
 export type FormState = { error: string | null };
@@ -100,4 +101,20 @@ export async function createEventAction(_prev: FormState, formData: FormData): P
   if (error || !data) return { error: errorMessage(error) };
 
   redirect(`/admin/events/${(data as { id: string }).id}`);
+}
+
+// ---------- Upozornění ----------
+
+/** Zkušební push na tohle zařízení (endpoint jeho odběru). */
+export async function sendTestPushAction(endpoint: string): Promise<FormState> {
+  await requireUser();
+  if (!pushConfigured()) return { error: "Upozornění zatím nejsou na serveru nastavená." };
+
+  const supabase = await createClient();
+  const { data } = await supabase.from("push_subscriptions").select("endpoint, p256dh, auth").eq("endpoint", endpoint);
+  if (!data?.length) return { error: "Na tomhle zařízení nemáš upozornění zapnutá." };
+
+  const { sent, gone } = await sendPush(data, TEST_MESSAGE);
+  if (gone.length > 0) await supabase.from("push_subscriptions").delete().in("endpoint", gone);
+  return { error: sent > 0 ? null : "Upozornění se nepodařilo odeslat. Zkus je vypnout a znovu zapnout." };
 }

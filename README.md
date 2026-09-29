@@ -59,11 +59,33 @@ V navigaci se pak objeví záložka **GetUp**.
 5. Na [Vercelu](https://vercel.com) importuj repozitář a nastav proměnné z `.env.example`
    (`NEXT_PUBLIC_SITE_URL` = veřejná adresa, ta se tiskne do QR kódů).
 
+## Push upozornění na nový match
+
+Web Push přes service worker (`public/sw.js`). Na iPhonu fungují jen v aplikaci přidané na plochu (iOS 16.4+),
+v Androidu a na počítači i přímo v prohlížeči. Zapínají se v **Profilu** (přepínač + zkušební upozornění)
+nebo z výzvy na stránce **Matche**.
+
+Jak to funguje: po vzniku matche trigger `matches_push` (migrace `…_push_notifications.sql`) pošle přes `pg_net`
+webhook na `/api/push/match` a ten upozornění zašifruje a rozešle. Dostane ho ten, kdo zrovna neswipoval.
+Zařízení, která upozornění vypnula, se samy smažou.
+
+Nastavení:
+
+1. `npx web-push generate-vapid-keys` a na Vercelu nastav `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`,
+   `VAPID_SUBJECT` (adresa aplikace) a `PUSH_WEBHOOK_SECRET` (dlouhý náhodný řetězec).
+2. V Supabase (SQL Editor) ulož adresu webhooku a stejný klíč do Vaultu:
+   ```sql
+   select vault.create_secret('https://<domena>/api/push/match', 'push_webhook_url');
+   select vault.create_secret('<PUSH_WEBHOOK_SECRET>', 'push_webhook_secret');
+   ```
+   Bez nich trigger nic neposílá (např. při lokálním vývoji).
+
 ## Struktura
 
 ```
 supabase/
   migrations/…_init.sql   schéma, RLS, RPC funkce (join_event, get_deck, swipe, get_matches…)
+  migrations/…_push_notifications.sql  odběry push upozornění + webhook po matchi
   templates/login.html    e-mailová šablona s kódem
   seed.sql                demo akce DEMO26
 src/
@@ -78,6 +100,7 @@ src/
     (app)/matches/        matche + chat
     (app)/profile/        úprava profilu, odhlášení, smazání účtu
     (app)/admin/          organizátoři: akce, QR kódy, statistiky
+    api/push/match/       webhook z databáze → rozeslání push upozornění
   lib/                    Supabase klienti, typy, formátování, chybové hlášky
   components/             sdílené UI
 ```
@@ -102,7 +125,7 @@ Před ostrým spuštěním je smaž podle `supabase/demo/cleanup.sql`.
 
 ## Další kroky (nápady)
 
-- Push notifikace na nový match nebo zprávu (Web Push + service worker).
+- Push upozornění i na nové zprávy (stejný mechanismus jako u matchů).
 - Ověření přes vstupenku z prodejního systému GetUp místo QR kódu.
 - Moderace fotek a přehled nahlášení pro organizátory.
 - Ledolamy podle akce (např. „Na jakou písničku se nejvíc těšíš?“).

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ProfileForm } from "@/components/profile-form";
+import { PushSettings } from "@/components/push-settings";
 import { SubmitButton } from "@/components/submit-button";
 import { btnSecondary, card, largeTitle } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
@@ -15,6 +16,7 @@ export default async function ProfilePage() {
     <main className="px-5 pt-safe">
       <h1 className={`${largeTitle} pt-6`}>Tvůj profil</h1>
       <ProfileForm userId={user.id} profile={profile} />
+      <PushSettings />
 
       <section className={`${card} mt-10 space-y-4`}>
         <p className="ml-1 text-[15px] text-muted">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/icons";
 import { LiveRefresh } from "@/components/live-refresh";
+import { PushPrompt } from "@/components/push-settings";
 import { btnSecondary, card, largeTitle, sectionTitle } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
 import { formatTime } from "@/lib/format";
@@ -24,6 +25,7 @@ export default async function MatchesPage() {
     <main className="px-5 pt-safe">
       <LiveRefresh />
       <h1 className={`${largeTitle} pt-6`}>Matche</h1>
+      <PushPrompt />
 
       {matches.length === 0 && (
         <div className={`${card} mt-8 text-center`}>

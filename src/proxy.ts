@@ -7,7 +7,7 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Vše kromě statických souborů, ikon a manifestu.
-    "/((?!_next/static|_next/image|icon|apple-icon|pwa-icon|manifest.webmanifest|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+    // Vše kromě statických souborů, ikon, manifestu, service workeru a webhooku push upozornění.
+    "/((?!_next/static|_next/image|icon|apple-icon|pwa-icon|manifest.webmanifest|sw\\.js|api/push/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };
