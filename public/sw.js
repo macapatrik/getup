@@ -10,13 +10,24 @@ self.addEventListener("push", (event) => {
     data = { body: event.data ? event.data.text() : "" };
   }
 
+  const url = data.url || "/matches";
+
   event.waitUntil(
-    self.registration.showNotification(data.title || "GetTogether", {
-      body: data.body || "",
-      icon: data.icon || "/pwa-icon/192",
-      tag: data.tag,
-      data: { url: data.url || "/matches" },
-    }),
+    (async () => {
+      // Když má člověk ten chat zrovna otevřený v popředí, upozornění neukazujeme (zprávu vidí).
+      const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+      const reading = windows.some(
+        (client) => client.focused && client.visibilityState === "visible" && new URL(client.url).pathname === url,
+      );
+      if (reading) return;
+
+      await self.registration.showNotification(data.title || "GetTogether", {
+        body: data.body || "",
+        icon: data.icon || "/pwa-icon/192",
+        tag: data.tag,
+        data: { url },
+      });
+    })(),
   );
 });
 

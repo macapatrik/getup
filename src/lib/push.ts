@@ -60,6 +60,17 @@ export function matchMessage(match: { match_id: string; name: string; photo: str
   };
 }
 
+/** Nová zpráva v chatu. Stejný `tag` pro jeden chat = upozornění se nahrazuje, nehromadí. */
+export function chatMessage(message: { match_id: string; name: string; photo: string | null; body: string }): PushMessage {
+  return {
+    title: message.name,
+    body: message.body,
+    url: `/matches/${message.match_id}`,
+    icon: message.photo ? photoUrl(message.photo) : undefined,
+    tag: `chat-${message.match_id}`,
+  };
+}
+
 export const TEST_MESSAGE: PushMessage = {
   title: `${APP_NAME} 💘`,
   body: "Takhle ti přijde upozornění, až budeš mít nový match.",

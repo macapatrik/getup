@@ -7,6 +7,10 @@ Seznamka ve stylu Tinderu napojená na akce [GetUp](https://getup.cz): lidé se 
 3. Swipuje lidi ze stejné akce. Když se lajknou oba → **match** → chat v reálném čase.
 4. Místnost akce je otevřená ještě 24 h po jejím konci. Matche a chat zůstávají napořád.
 
+Akce je otevřená od založení, takže se lidi připojují i týdny předem: odkaz `/j/KÓD` patří do e-mailu se vstupenkou
+a na sociální sítě, QR kód u vstupu je pro ty, kdo přijdou až na místě. V aplikaci vidí odpočet do začátku,
+kolik lidí už na akci je, a odkaz můžou sdílet dál.
+
 Dvě administrace:
 
 - **Můj účet** (`/profile`, pro každého návštěvníka): profil a fotky, moje akce, matche, koho jsem lajknul/a
@@ -76,7 +80,7 @@ Databáze do něj triggerem posílá nové zprávy v jeho matchích a nové matc
 změny tabulek a Realtime nemusí při každé zprávě ověřovat RLS pro každé připojení – škáluje to na stovky lidí
 na akci. Po probuzení telefonu se zprávy dotáhnou dotazem. Fotky se ukládají jako WebP do 1080 px.
 
-## Push upozornění na nový match
+## Push upozornění (nový match, nová zpráva)
 
 Web Push přes service worker (`public/sw.js`). Na iPhonu fungují jen v aplikaci přidané na plochu (iOS 16.4+),
 v Androidu a na počítači i přímo v prohlížeči. Zapínají se v **Profilu** (přepínač + zkušební upozornění)
@@ -84,7 +88,8 @@ nebo z výzvy na stránce **Matche**.
 
 Jak to funguje: po vzniku matche trigger `matches_push` (migrace `…_push_notifications.sql`) pošle přes `pg_net`
 webhook na `/api/push/match` a ten upozornění zašifruje a rozešle. Dostane ho ten, kdo zrovna neswipoval.
-Zařízení, která upozornění vypnula, se samy smažou.
+Nová zpráva jde stejně přes `messages_push` na `/api/push/message` (service worker ji neukáže, když má příjemce
+ten chat otevřený v popředí). Zařízení, která upozornění vypnula, se samy smažou.
 
 Nastavení:
 

@@ -54,6 +54,26 @@ export function eventStatus(event: { starts_at: string; ends_at: string }, now =
   return "closed";
 }
 
+/** Počet kalendářních dní (v české zóně) do začátku akce; 0 = dnes. */
+export function daysUntilStart(startsAt: string, now = new Date()) {
+  const dayKey = (d: Date) => new Intl.DateTimeFormat("sv-SE", { timeZone: TIME_ZONE, dateStyle: "short" }).format(d);
+  return Math.round((Date.parse(dayKey(new Date(startsAt))) - Date.parse(dayKey(now))) / 86_400_000);
+}
+
+/** Krátký odpočet do začátku (a stav během akce) – „za 12 dní“, „zítra“, „dnes ve 21:00“. */
+export function eventCountdown(event: { starts_at: string; ends_at: string }, now = new Date()): string {
+  const status = eventStatus(event, now.getTime());
+  if (status === "live") return "právě probíhá";
+  if (status === "after") return "skončila, chat běží dál";
+  if (status === "closed") return "skončila";
+
+  const days = daysUntilStart(event.starts_at, now);
+  if (days <= 0) return `dnes ve ${formatTime(event.starts_at)}`;
+  if (days === 1) return `zítra ve ${formatTime(event.starts_at)}`;
+  if (days < 7) return `za ${days} dny`;
+  return `za ${days} dní`;
+}
+
 export const STATUS_LABELS: Record<EventStatus, string> = {
   upcoming: "Brzy",
   live: "Právě probíhá",

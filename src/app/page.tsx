@@ -7,9 +7,9 @@ import { btnPrimary, card } from "@/components/ui";
 import { getUser } from "@/lib/auth";
 
 const STEPS: { icon: IconName; title: string; text: string }[] = [
-  { icon: "qr", title: "Naskenuj QR kód na akci", text: "U vstupu, na baru nebo na vstupence od GetUp." },
-  { icon: "heart", title: "Swipuj lidi z koncertu", text: "Uvidíš jen ty, kdo jsou na stejné akci jako ty." },
-  { icon: "chat", title: "Match = chat", text: "Lajknete se oba? Napište si a najděte se u pódia." },
+  { icon: "qr", title: "Připoj se k akci", text: "Odkazem ze vstupenky, nebo QR kódem u vstupu." },
+  { icon: "heart", title: "Swipuj lidi z akce", text: "Uvidíš jen ty, kdo jdou na stejnou akci jako ty. Klidně už týdny předem." },
+  { icon: "chat", title: "Match = chat", text: "Lajknete se oba? Napište si a domluvte se, kde se na akci potkáte." },
 ];
 
 // Ilustrační fotky (vygenerované přes Higgsfield) stahuje do public/people skript

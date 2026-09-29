@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Icon } from "@/components/icons";
+import { ShareButton } from "@/components/share-button";
 import { btnSecondary, card, iconButton } from "@/components/ui";
-import { requireProfile } from "@/lib/auth";
-import { STATUS_LABELS, eventStatus } from "@/lib/format";
+import { getOrigin, requireProfile } from "@/lib/auth";
+import { STATUS_LABELS, eventCountdown, eventStatus, formatNumber } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import type { DeckCard, EventRow } from "@/lib/types";
 import { leaveEventAction, setVisibilityAction } from "../../actions";
@@ -17,18 +18,21 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
   const { user, profile } = await requireProfile();
   const supabase = await createClient();
 
-  const [{ data: event }, { data: attendance }] = await Promise.all([
-    supabase.from("events").select("id, name, venue, starts_at, ends_at").eq("id", id).maybeSingle<EventRow>(),
+  const [{ data: event }, { data: attendance }, { data: counts }] = await Promise.all([
+    supabase.from("events").select("id, name, venue, starts_at, ends_at, join_code").eq("id", id).maybeSingle<Required<EventRow>>(),
     supabase
       .from("event_attendees")
       .select("visible")
       .eq("event_id", id)
       .eq("user_id", user.id)
       .maybeSingle<{ visible: boolean }>(),
+    supabase.rpc("attendee_counts", { p_event_ids: [id] }),
   ]);
   if (!event || !attendance) notFound();
 
   const status = eventStatus(event);
+  const attendees = Number((counts as { attendees: number }[] | null)?.[0]?.attendees ?? 0);
+  const joinUrl = `${await getOrigin()}/j/${event.join_code}`;
   let cards: DeckCard[] = [];
   if (status !== "closed") {
     const { data } = await supabase.rpc("get_deck", { p_event_id: id });
@@ -43,7 +47,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
         </Link>
         <div className="min-w-0 flex-1 text-center">
           <p className="truncate text-[17px] font-semibold">{event.name}</p>
-          <p className="truncate text-[12px] font-medium text-muted">{STATUS_LABELS[status]}</p>
+          <p className="truncate text-[12px] font-medium text-muted">{event.venue || STATUS_LABELS[status]}</p>
         </div>
         <details className="relative">
           <summary aria-label="Nastavení" className={`${iconButton} cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>
@@ -66,6 +70,35 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
           </div>
         </details>
       </header>
+
+      {status !== "closed" && (
+        <div className="glass mt-3 flex shrink-0 items-center gap-2 rounded-full py-1.5 pr-1.5 pl-4">
+          <span className="flex min-w-0 flex-1 items-center gap-3 text-[13px] font-semibold">
+            <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+              {status === "live" ? (
+                <span className="relative flex size-2">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
+                  <span className="relative inline-flex size-2 rounded-full bg-accent" />
+                </span>
+              ) : (
+                <Icon name="clock" className="size-4 text-accent" />
+              )}
+              {eventCountdown(event)}
+            </span>
+            <span className="h-3.5 w-px bg-line" />
+            <span className="inline-flex items-center gap-1.5 truncate text-muted">
+              <Icon name="users" className="size-4" />
+              {formatNumber(attendees)} {attendees === 1 ? "člověk" : attendees < 5 ? "lidi" : "lidí"}
+            </span>
+          </span>
+          <ShareButton
+            title={event.name}
+            text={`Jsem na ${event.name} v GetTogether. Přidej se, ať se na akci najdeme 👋`}
+            url={joinUrl}
+            className="gloss inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold transition active:scale-95"
+          />
+        </div>
+      )}
 
       {!attendance.visible && (
         <p className="glass mt-3 shrink-0 rounded-full px-4 py-2 text-center text-[13px] font-medium text-amber-700">

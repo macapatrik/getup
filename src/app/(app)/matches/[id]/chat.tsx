@@ -99,7 +99,7 @@ export function Chat({
             <p className="mt-4 font-display text-[22px] font-bold">
               Matchli jste se{other.event_name ? ` na ${other.event_name}` : ""}!
             </p>
-            <p className="mt-1 text-[15px] text-muted">Napiš něco. Třeba kde zrovna stojíš 🎤</p>
+            <p className="mt-1 text-[15px] text-muted">Napiš první. Třeba na co se na akci nejvíc těšíš 🎶</p>
           </div>
         )}
         {messages.map((m) => {

@@ -322,7 +322,7 @@ function EmptyState({ loading, onRetry }: { loading: boolean; onRetry: () => voi
       <p className="text-5xl">🎶</p>
       <p className="mt-4 font-display text-[22px] font-bold">Zatím jsi viděl/a všechny</p>
       <p className="mt-2 text-[15px] text-muted">
-        Lidi se připojují průběžně – zkus to za chvíli znovu, nebo se mrkni na své matche.
+        Další lidi se připojují až do začátku akce i během ní. Zkus to později, nebo se mrkni na své matche.
       </p>
       <div className="mt-6 flex gap-3">
         <button type="button" onClick={onRetry} disabled={loading} className={btnSecondary}>
