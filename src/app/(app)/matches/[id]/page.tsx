@@ -4,12 +4,12 @@ import { notFound } from "next/navigation";
 import { Icon } from "@/components/icons";
 import { iconButton } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
-import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/server";
 import type { MatchRow, Message } from "@/lib/types";
 import { unmatchAction } from "../../actions";
 import { Chat } from "./chat";
 import { ChatMenu } from "./chat-menu";
+import { ProfileHeader } from "./profile-header";
 
 export const metadata: Metadata = { title: "Chat" };
 
@@ -38,15 +38,7 @@ export default async function ChatPage(props: PageProps<"/matches/[id]">) {
         <Link href="/matches" aria-label="Zpět" className={iconButton}>
           <Icon name="back" className="size-5" />
         </Link>
-        <div className="glass flex min-w-0 flex-1 items-center gap-2.5 rounded-full py-1 pr-4 pl-1">
-          <img src={photoUrl(match.photos[0])} alt="" className="size-9 rounded-full object-cover" />
-          <div className="min-w-0">
-            <p className="truncate text-[15px] leading-tight font-semibold">
-              {match.display_name}, {match.age}
-            </p>
-            {match.event_name && <p className="truncate text-[12px] leading-tight text-muted">📍 {match.event_name}</p>}
-          </div>
-        </div>
+        <ProfileHeader match={match} />
         <ChatMenu matchId={id} name={match.display_name} unmatch={unmatchAction.bind(null, id)} />
       </header>
 

@@ -36,8 +36,8 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
   }
 
   return (
-    <main className="flex min-h-[calc(100dvh-6rem)] flex-col px-4 pt-safe">
-      <header className="flex items-center gap-3 pt-2">
+    <main className="fixed inset-x-0 top-0 mx-auto flex h-dvh max-w-md flex-col px-4 pt-safe pb-nav-tight">
+      <header className="flex shrink-0 items-center gap-3 pt-2">
         <Link href="/events" aria-label="Zpět" className={iconButton}>
           <Icon name="back" className="size-5" />
         </Link>
@@ -68,7 +68,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
       </header>
 
       {!attendance.visible && (
-        <p className="glass mt-3 rounded-full px-4 py-2 text-center text-[13px] font-medium text-amber-700">
+        <p className="glass mt-3 shrink-0 rounded-full px-4 py-2 text-center text-[13px] font-medium text-amber-700">
           Jsi skrytý/á – ostatní tě neuvidí, matche a chat fungují dál.
         </p>
       )}
@@ -84,7 +84,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
           </div>
         </div>
       ) : (
-        <Deck eventId={id} initialCards={cards} myPhoto={profile.photos[0]} />
+        <Deck eventId={id} eventName={event.name} initialCards={cards} myPhoto={profile.photos[0]} />
       )}
     </main>
   );

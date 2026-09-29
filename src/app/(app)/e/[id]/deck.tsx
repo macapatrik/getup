@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
+import { createPortal } from "react-dom";
 import { Icon } from "@/components/icons";
+import { ProfileSheet } from "@/components/profile-sheet";
 import { btnPrimary, btnSecondary } from "@/components/ui";
 import { errorMessage } from "@/lib/errors";
 import { photoUrl } from "@/lib/photos";
@@ -17,16 +19,19 @@ type Direction = 1 | -1; // 1 = like, -1 = pass
 
 export function Deck({
   eventId,
+  eventName,
   initialCards,
   myPhoto,
 }: {
   eventId: string;
+  eventName: string;
   initialCards: DeckCard[];
   myPhoto?: string;
 }) {
   const [cards, setCards] = useState(initialCards);
   const [leaving, setLeaving] = useState<{ id: string; dir: Direction } | null>(null);
   const [match, setMatch] = useState<{ matchId: string; card: DeckCard } | null>(null);
+  const [profile, setProfile] = useState<DeckCard | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [exhausted, setExhausted] = useState(initialCards.length === 0);
@@ -76,19 +81,21 @@ export function Deck({
   // Šipky na klávesnici (desktop)
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (match) return;
+      if (match || profile) return;
       if (e.key === "ArrowRight") decide(1);
       if (e.key === "ArrowLeft") decide(-1);
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [decide, match]);
+  }, [decide, match, profile]);
 
   const visible = cards.slice(0, 2);
+  const top = cards[0];
 
   return (
-    <div className="flex flex-1 flex-col pt-4">
-      <div className="relative flex-1" style={{ minHeight: "min(68dvh, 560px)" }}>
+    <div className="flex min-h-0 flex-1 flex-col pt-3">
+      {/* Karta vyplní jen volné místo – tlačítka tak zůstanou vždy nad spodní lištou */}
+      <div className="relative min-h-0 flex-1">
         {visible.length === 0 ? (
           <EmptyState loading={loading} onRetry={loadMore} />
         ) : (
@@ -100,6 +107,7 @@ export function Deck({
                 isTop={i === 0}
                 leaving={leaving?.id === card.id ? leaving.dir : null}
                 onDecide={decide}
+                onOpen={() => setProfile(card)}
               />
             ))
             .reverse()
@@ -107,34 +115,73 @@ export function Deck({
       </div>
 
       {error && (
-        <p className="mt-3 text-center text-[15px] font-medium text-danger" role="alert">
+        <p className="mt-2 shrink-0 text-center text-[15px] font-medium text-danger" role="alert">
           {error}
         </p>
       )}
 
-      <div className="flex items-center justify-center gap-8 py-5">
+      <div className="flex shrink-0 items-center justify-center gap-6 pt-4 pb-1">
+        <ActionButton kind="pass" onClick={() => decide(-1)} disabled={!top} />
         <button
           type="button"
-          onClick={() => decide(-1)}
-          disabled={cards.length === 0}
-          aria-label="Nezajímá mě"
-          className="glass grid size-16 place-items-center rounded-full text-danger transition active:scale-90 disabled:opacity-40"
+          onClick={() => top && setProfile(top)}
+          disabled={!top}
+          aria-label="Zobrazit profil"
+          className="glass grid size-12 place-items-center rounded-full text-ink/70 transition active:scale-90 disabled:opacity-40"
         >
-          <Icon name="x" className="size-7" />
+          <Icon name="info" className="size-6" />
         </button>
-        <button
-          type="button"
-          onClick={() => decide(1)}
-          disabled={cards.length === 0}
-          aria-label="Líbí se mi"
-          className="gloss grid size-20 place-items-center rounded-full transition active:scale-90 disabled:opacity-40"
-        >
-          <Icon name="heart" className="size-10 drop-shadow-sm" />
-        </button>
+        <ActionButton kind="like" onClick={() => decide(1)} disabled={!top} />
       </div>
+
+      {profile && (
+        <ProfileSheet
+          person={profile}
+          eventName={eventName}
+          onClose={() => setProfile(null)}
+          actions={
+            profile.id === top?.id ? (
+              <>
+                <ActionButton
+                  kind="pass"
+                  onClick={() => {
+                    setProfile(null);
+                    decide(-1);
+                  }}
+                />
+                <ActionButton
+                  kind="like"
+                  onClick={() => {
+                    setProfile(null);
+                    decide(1);
+                  }}
+                />
+              </>
+            ) : undefined
+          }
+        />
+      )}
 
       {match && <MatchModal match={match} myPhoto={myPhoto} onClose={() => setMatch(null)} />}
     </div>
+  );
+}
+
+/** Symetrická kulatá tlačítka ✕ / ♥ (stejná velikost) */
+function ActionButton({ kind, onClick, disabled }: { kind: "pass" | "like"; onClick: () => void; disabled?: boolean }) {
+  const like = kind === "like";
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={like ? "Líbí se mi" : "Nezajímá mě"}
+      className={`grid size-16 place-items-center rounded-full transition active:scale-90 disabled:opacity-40 ${
+        like ? "gloss" : "glass text-danger"
+      }`}
+    >
+      <Icon name={like ? "heart" : "x"} className={like ? "size-8 drop-shadow-sm" : "size-7"} />
+    </button>
   );
 }
 
@@ -143,11 +190,13 @@ function SwipeCard({
   isTop,
   leaving,
   onDecide,
+  onOpen,
 }: {
   card: DeckCard;
   isTop: boolean;
   leaving: Direction | null;
   onDecide: (dir: Direction) => void;
+  onOpen: () => void;
 }) {
   const [photoIndex, setPhotoIndex] = useState(0);
   const [drag, setDrag] = useState({ x: 0, y: 0 });
@@ -179,10 +228,12 @@ function SwipeCard({
     if (drag.x > SWIPE_THRESHOLD) onDecide(1);
     else if (drag.x < -SWIPE_THRESHOLD) onDecide(-1);
     else if (!moved.current) {
-      // Ťuknutí vlevo / vpravo přepíná fotky
+      // Klepnutí: okraje (čtvrtina karty) přepínají fotky, jinak se otevře profil
       const rect = e.currentTarget.getBoundingClientRect();
-      const forward = e.clientX - rect.left > rect.width / 2;
-      setPhotoIndex((i) => Math.max(0, Math.min(card.photos.length - 1, i + (forward ? 1 : -1))));
+      const x = (e.clientX - rect.left) / rect.width;
+      if (card.photos.length > 1 && x < 0.25) setPhotoIndex((i) => Math.max(0, i - 1));
+      else if (card.photos.length > 1 && x > 0.75) setPhotoIndex((i) => Math.min(card.photos.length - 1, i + 1));
+      else onOpen();
     }
     setDrag({ x: 0, y: 0 });
   }
@@ -243,9 +294,14 @@ function SwipeCard({
       </span>
 
       <div className="glass-photo absolute inset-x-3 bottom-3 rounded-[24px] px-4 py-3.5">
-        <p className="font-display text-[28px] leading-tight font-bold">
-          {card.display_name} <span className="font-normal">{card.age}</span>
-        </p>
+        <div className="flex items-start justify-between gap-3">
+          <p className="font-display text-[28px] leading-tight font-bold">
+            {card.display_name} <span className="font-normal">{card.age}</span>
+          </p>
+          <span className="mt-1.5 grid size-7 shrink-0 place-items-center rounded-full bg-white/25" aria-hidden>
+            <Icon name="info" className="size-5" />
+          </span>
+        </div>
         {card.bio && <p className="mt-0.5 line-clamp-2 text-[15px] leading-snug text-white/90">{card.bio}</p>}
       </div>
     </div>
@@ -283,7 +339,7 @@ function MatchModal({
   onClose: () => void;
 }) {
   const avatar = "size-32 rounded-full border-4 border-white object-cover shadow-[0_18px_40px_-12px_rgb(40_20_80/0.5)]";
-  return (
+  return createPortal(
     <div
       className="aurora fixed inset-0 z-50 flex flex-col items-center justify-center px-8 text-center"
       role="dialog"
@@ -304,6 +360,7 @@ function MatchModal({
       <button type="button" onClick={onClose} className="mt-3 py-2 text-[17px] font-semibold text-accent">
         Swipovat dál
       </button>
-    </div>
+    </div>,
+    document.body,
   );
 }

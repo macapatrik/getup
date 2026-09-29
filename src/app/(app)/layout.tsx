@@ -6,7 +6,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const organizer = await isOrganizer();
 
   return (
-    <div className="mx-auto min-h-dvh max-w-md pb-24">
+    <div className="mx-auto min-h-dvh max-w-md pb-nav">
       {children}
       <BottomNav organizer={organizer} />
     </div>
