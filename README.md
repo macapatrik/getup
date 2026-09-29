@@ -69,6 +69,13 @@ Administrace je pak na adrese `/admin` (v zákaznické aplikaci na ni nic neodka
 5. Na [Vercelu](https://vercel.com) importuj repozitář a nastav proměnné z `.env.example`
    (`NEXT_PUBLIC_SITE_URL` = veřejná adresa, ta se tiskne do QR kódů).
 
+## Realtime (chat a nové matche)
+
+Každý přihlášený má jeden soukromý realtime kanál `user:<id>` (policy na `realtime.messages` pustí jen vlastníka).
+Databáze do něj triggerem posílá nové zprávy v jeho matchích a nové matche (`realtime.send`). Klient tak nesleduje
+změny tabulek a Realtime nemusí při každé zprávě ověřovat RLS pro každé připojení – škáluje to na stovky lidí
+na akci. Po probuzení telefonu se zprávy dotáhnou dotazem. Fotky se ukládají jako WebP do 1080 px.
+
 ## Push upozornění na nový match
 
 Web Push přes service worker (`public/sw.js`). Na iPhonu fungují jen v aplikaci přidané na plochu (iOS 16.4+),
@@ -97,6 +104,7 @@ supabase/
   migrations/…_init.sql   schéma, RLS, RPC funkce (join_event, get_deck, swipe, get_matches…)
   migrations/…_push_notifications.sql  odběry push upozornění + webhook po matchi
   migrations/…_admin_and_account.sql   administrace (admin_*), blokace účtů, Můj účet (my_*, export)
+  migrations/…_realtime_broadcast.sql  soukromé realtime kanály + triggery na zprávy a matche
   templates/login.html    e-mailová šablona s kódem
   seed.sql                demo akce DEMO26
 src/

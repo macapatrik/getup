@@ -1,11 +1,11 @@
 "use client";
 
-import type { RealtimeChannel } from "@supabase/supabase-js";
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { Icon } from "@/components/icons";
 import { errorMessage } from "@/lib/errors";
 import { formatTime } from "@/lib/format";
 import { photoUrl } from "@/lib/photos";
+import { onResume, subscribeRealtime } from "@/lib/realtime";
 import { createClient } from "@/lib/supabase/client";
 import type { MatchRow, Message } from "@/lib/types";
 
@@ -52,31 +52,17 @@ export function Chat({
     if (data?.length) setMessages((current) => merge(current, data as Message[]));
   }, [matchId]);
 
+  // Nové zprávy chodí do mého soukromého kanálu; po (znovu)připojení dotáhneme, co mezitím přišlo.
   useEffect(() => {
-    const supabase = createClient();
-    let channel: RealtimeChannel | null = null;
-    let cancelled = false;
-
-    (async () => {
-      await supabase.realtime.setAuth();
-      if (cancelled) return;
-      channel = supabase
-        .channel(`chat:${matchId}`)
-        .on(
-          "postgres_changes",
-          { event: "INSERT", schema: "public", table: "messages", filter: `match_id=eq.${matchId}` },
-          (payload) => setMessages((current) => merge(current, [payload.new as Message])),
-        )
-        .subscribe((status) => {
-          if (status === "SUBSCRIBED") void catchUp();
-        });
-    })();
-
-    return () => {
-      cancelled = true;
-      if (channel) void supabase.removeChannel(channel);
-    };
-  }, [matchId, catchUp]);
+    const unsubscribes = [
+      subscribeRealtime(meId, "message", (message) => {
+        if (message.match_id === matchId) setMessages((current) => merge(current, [message]));
+      }),
+      subscribeRealtime(meId, "connected", () => void catchUp()),
+      onResume(() => void catchUp()),
+    ];
+    return () => unsubscribes.forEach((u) => u());
+  }, [matchId, meId, catchUp]);
 
   async function send(e: FormEvent) {
     e.preventDefault();

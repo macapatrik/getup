@@ -13,7 +13,8 @@ import type { DeckCard } from "@/lib/types";
 
 const SWIPE_THRESHOLD = 110; // px, od kdy se karta "odhodí"
 const LEAVE_MS = 220;
-const REFILL_BELOW = 3; // kolik karet zbývá, když dotahujeme další
+const REFILL_BELOW = 5; // kolik karet zbývá, když dotahujeme další
+const PRELOAD_AHEAD = 3; // kolika dalším kartám přednačíst hlavní fotku
 
 type Direction = 1 | -1; // 1 = like, -1 = pass
 
@@ -88,6 +89,13 @@ export function Deck({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [decide, match, profile]);
+
+  // Hlavní fotky dalších karet stáhneme dopředu, ať swipování neseká ani na slabé síti.
+  useEffect(() => {
+    cards.slice(1, 1 + PRELOAD_AHEAD).forEach((card) => {
+      if (card.photos[0]) new Image().src = photoUrl(card.photos[0]);
+    });
+  }, [cards]);
 
   const visible = cards.slice(0, 2);
   const top = cards[0];

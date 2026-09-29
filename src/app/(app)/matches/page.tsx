@@ -23,7 +23,7 @@ export default async function MatchesPage() {
 
   return (
     <main className="mx-auto max-w-md px-5 pt-safe lg:pt-6">
-      <LiveRefresh />
+      <LiveRefresh userId={user.id} />
       <h1 className={`${largeTitle} pt-6`}>Matche</h1>
       <PushPrompt />
 

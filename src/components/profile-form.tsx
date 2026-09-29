@@ -5,7 +5,7 @@ import { useRef, useState, type FormEvent } from "react";
 import { MAX_PHOTOS, MIN_AGE } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
 import { ageFromBirthdate } from "@/lib/format";
-import { PHOTOS_BUCKET, photoUrl, randomId, resizeImage } from "@/lib/photos";
+import { PHOTOS_BUCKET, photoExtension, photoUrl, randomId, resizeImage } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
 import { GENDERS, GENDER_LABELS, INTEREST_LABELS, type Gender, type Profile } from "@/lib/types";
 import { Icon } from "./icons";
@@ -99,8 +99,8 @@ export function ProfileForm({
           continue;
         }
         const blob = await resizeImage(photo.file!);
-        const path = `${userId}/${randomId()}.jpg`;
-        const { error } = await storage.upload(path, blob, { contentType: "image/jpeg", cacheControl: "31536000" });
+        const path = `${userId}/${randomId()}.${photoExtension(blob)}`;
+        const { error } = await storage.upload(path, blob, { contentType: blob.type, cacheControl: "31536000" });
         if (error) throw error;
         paths.push(path);
       }
