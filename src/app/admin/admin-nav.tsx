@@ -17,7 +17,7 @@ const ITEMS: { href: string; label: string; icon: IconName; exact?: boolean }[] 
 function CountBadge({ count }: { count: number }) {
   if (count <= 0) return null;
   return (
-    <span className="gloss ml-auto grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-[12px] leading-none font-bold">
+    <span className="ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-accent px-1.5 text-[12px] leading-none font-bold text-white">
       {count}
     </span>
   );

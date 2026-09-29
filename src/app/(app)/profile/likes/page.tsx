@@ -41,7 +41,7 @@ export default async function LikesPage() {
                 </p>
               </div>
               {like.match_id ? (
-                <Link href={`/matches/${like.match_id}`} className="gloss shrink-0 rounded-full px-3.5 py-1.5 text-[13px] font-semibold">
+                <Link href={`/matches/${like.match_id}`} className="shrink-0 rounded-full bg-accent/10 px-3.5 py-1.5 text-[13px] font-semibold text-accent">
                   Match · napsat
                 </Link>
               ) : (

@@ -90,7 +90,7 @@ export function PushSettings() {
   return (
     <section className={`${card} space-y-4`}>
       <div className="flex items-center gap-3">
-        <span className="gloss grid size-10 shrink-0 place-items-center rounded-full">
+        <span className="glass-inner grid size-10 shrink-0 place-items-center rounded-full text-accent">
           <Icon name="bell" className="size-5" />
         </span>
         <div className="min-w-0 flex-1">

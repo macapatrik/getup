@@ -81,7 +81,7 @@ export default async function MatchesPage() {
                           {!theirs && "Ty: "}
                           {m.last_message}
                         </p>
-                        {theirs && <span className="gloss size-2.5 shrink-0 rounded-full" />}
+                        {theirs && <span className="size-2.5 shrink-0 rounded-full bg-accent" />}
                       </div>
                       {m.event_name && <p className="truncate text-[12px] text-faint">📍 {m.event_name}</p>}
                     </div>

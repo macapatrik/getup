@@ -131,12 +131,12 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
 function DigitCounter({ label, value, time }: { label: string; value: number; time: string }) {
   const digits = String(Math.min(Math.max(value, 0), 99999)).padStart(5, "0").split("");
   return (
-    <section className="glass-tint rounded-[36px] p-5">
+    <section className="glass rounded-[36px] p-5">
       <div className="flex items-center gap-3">
         <AppIcon className="size-10 rounded-full" mark="size-6" />
         <div>
           <p className="text-[17px] leading-tight font-semibold">{label}</p>
-          <p className="text-[13px] text-white/85">k {time}</p>
+          <p className="text-[13px] text-muted">k {time}</p>
         </div>
       </div>
       <div className="mt-4 grid grid-cols-5 gap-2" aria-label={`${label}: ${value}`}>
@@ -144,7 +144,7 @@ function DigitCounter({ label, value, time }: { label: string; value: number; ti
           <span
             key={i}
             aria-hidden
-            className="grid aspect-[3/4] max-h-28 place-items-center rounded-[18px] border border-white/40 bg-white/15 font-display text-[52px] leading-none font-bold shadow-[inset_0_1px_0.5px_rgb(255_255_255/0.6),inset_0_0_14px_rgb(255_255_255/0.08)] [text-shadow:0_1px_2px_rgb(150_60_0/0.25)]"
+            className="glass-inner grid aspect-[3/4] max-h-28 place-items-center rounded-[18px] font-display text-[52px] leading-none font-bold text-accent"
           >
             {digit}
           </span>

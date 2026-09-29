@@ -95,7 +95,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
             title={event.name}
             text={`Jsem na ${event.name} v GetTogether. Přidej se, ať se na akci najdeme 👋`}
             url={joinUrl}
-            className="gloss inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold transition active:scale-95"
+            className="glass-inner inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold text-accent transition active:scale-95"
           />
         </div>
       )}

@@ -104,7 +104,7 @@ export default async function Home() {
       <ol className={`${card} mt-8 space-y-4 p-4`}>
         {STEPS.map((step) => (
           <li key={step.title} className="flex items-center gap-3.5">
-            <span className="gloss grid size-11 shrink-0 place-items-center rounded-[13px]">
+            <span className="glass-inner grid size-11 shrink-0 place-items-center rounded-[13px] text-accent">
               <Icon name={step.icon} className="size-6" />
             </span>
             <div>

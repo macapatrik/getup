@@ -109,12 +109,12 @@ export function Chat({
               <div
                 className={`max-w-[78%] rounded-[20px] px-3.5 py-2 ${
                   mine
-                    ? "gloss rounded-br-[6px]"
+                    ? "rounded-br-[6px] bg-accent/12 text-ink"
                     : "glass rounded-bl-[6px]"
                 }`}
               >
                 <p className="text-[17px] leading-snug break-words whitespace-pre-wrap">{m.body}</p>
-                <p className={`mt-0.5 text-right text-[11px] ${mine ? "text-white/75" : "text-faint"}`}>
+                <p className={`mt-0.5 text-right text-[11px] ${mine ? "text-accent/80" : "text-faint"}`}>
                   {formatTime(m.created_at)}
                 </p>
               </div>

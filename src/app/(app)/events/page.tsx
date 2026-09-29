@@ -23,7 +23,7 @@ export const metadata: Metadata = { title: "Akce" };
 
 const STATUS_STYLES: Record<EventStatus, string> = {
   upcoming: "bg-info/10 text-info",
-  live: "gloss",
+  live: "bg-accent/10 text-accent",
   after: "bg-amber-400/20 text-amber-700",
   closed: "bg-fill text-muted",
 };
@@ -61,7 +61,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
 
       <section className={`${card} mt-6`}>
         <div className="flex items-start gap-3.5">
-          <span className="gloss grid size-11 shrink-0 place-items-center rounded-[13px]">
+          <span className="glass-inner grid size-11 shrink-0 place-items-center rounded-[13px] text-accent">
             <Icon name="qr" className="size-6" />
           </span>
           <div>
@@ -103,12 +103,8 @@ export default async function EventsPage(props: PageProps<"/events">) {
                     closed ? "opacity-60" : ""
                   }`}
                 >
-                  <div
-                    className={`flex size-14 shrink-0 flex-col items-center justify-center rounded-[16px] ${
-                      status === "live" ? "gloss" : "glass-inner"
-                    }`}
-                  >
-                    <span className={`text-[11px] font-bold uppercase ${status === "live" ? "text-white/90" : "text-accent"}`}>{month}</span>
+                  <div className="glass-inner flex size-14 shrink-0 flex-col items-center justify-center rounded-[16px]">
+                    <span className="text-[11px] font-bold text-accent uppercase">{month}</span>
                     <span className="font-display text-[22px] leading-none font-bold">{day}</span>
                   </div>
                   <div className="min-w-0 flex-1">
@@ -120,7 +116,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
                       <span
                         className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[12px] font-semibold ${STATUS_STYLES[status]}`}
                       >
-                        {status === "live" && <span className="size-1.5 animate-pulse rounded-full bg-white" />}
+                        {status === "live" && <span className="size-1.5 animate-pulse rounded-full bg-accent" />}
                         {status === "upcoming" ? eventCountdown(event) : STATUS_LABELS[status]}
                       </span>
                       {!closed && attendees > 0 && (
@@ -159,23 +155,23 @@ function NextEventWidget({ event, attendees }: { event: EventRow; attendees: num
             : "dní do startu";
 
   return (
-    <Link href={`/e/${event.id}`} className="glass-tint block rounded-[32px] p-5 transition active:scale-[0.98]">
+    <Link href={`/e/${event.id}`} className="glass block rounded-[32px] p-5 transition active:scale-[0.98]">
       <p className="truncate font-display text-[24px] leading-tight font-bold">{event.name}</p>
-      <p className="mt-0.5 truncate text-[14px] text-white/85">
+      <p className="mt-0.5 truncate text-[14px] text-muted">
         {[event.venue, formatDateTime(event.starts_at)].filter(Boolean).join(" · ")}
       </p>
 
       <div className="mt-5 flex items-end justify-between gap-4">
         <div>
-          <p className="font-display text-[60px] leading-[0.9] font-bold tracking-tight [text-shadow:0_2px_8px_rgb(150_60_0/0.25)]">{big}</p>
-          <p className="mt-1.5 text-[13px] font-semibold text-white/90">{caption}</p>
+          <p className="font-display text-[60px] leading-[0.9] font-bold tracking-tight text-gradient">{big}</p>
+          <p className="mt-1.5 text-[13px] font-semibold text-muted">{caption}</p>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-2.5">
-          <span className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-white/95">
+          <span className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-muted">
             <Icon name="users" className="size-4" />
             {formatNumber(attendees)} {attendees === 1 ? "člověk" : attendees < 5 ? "lidi" : "lidí"}
           </span>
-          <span className="inline-flex items-center gap-1 rounded-full bg-white px-4 py-2 text-[14px] font-bold text-accent shadow-[0_6px_16px_-6px_rgb(120_40_0/0.5)]">
+          <span className="gloss inline-flex items-center gap-1 rounded-full px-4 py-2 text-[14px] font-bold">
             Swipovat <Icon name="chevron" className="size-4" />
           </span>
         </div>
