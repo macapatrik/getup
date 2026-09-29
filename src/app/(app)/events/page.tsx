@@ -18,6 +18,7 @@ import {
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow } from "@/lib/types";
 import { JoinForm } from "./join-form";
+import { QrScanButton } from "./qr-scanner";
 
 export const metadata: Metadata = { title: "Akce" };
 
@@ -67,11 +68,15 @@ export default async function EventsPage(props: PageProps<"/events">) {
           <div>
             <p className="text-[17px] font-semibold">Připoj se k akci</p>
             <p className="text-[15px] leading-snug text-muted">
-              Klikni na odkaz ze vstupenky nebo od GetUp, naskenuj QR kód u vstupu, nebo opiš kód:
+              Naskenuj QR kód u vstupu nebo na vstupence, klikni na odkaz od GetUp, nebo opiš kód.
             </p>
           </div>
         </div>
-        <div className="mt-4">
+        <div className="mt-4 space-y-3">
+          <QrScanButton />
+          <div className="flex items-center gap-3 text-[12px] font-semibold tracking-wide text-faint uppercase">
+            <span className="h-px flex-1 bg-line" /> nebo kód <span className="h-px flex-1 bg-line" />
+          </div>
           <JoinForm initialError={typeof error === "string" ? errorMessage(error) : null} />
         </div>
       </section>

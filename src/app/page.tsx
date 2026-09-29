@@ -7,7 +7,7 @@ import { btnPrimary, card } from "@/components/ui";
 import { getUser } from "@/lib/auth";
 
 const STEPS: { icon: IconName; title: string; text: string }[] = [
-  { icon: "qr", title: "Připoj se k akci", text: "Odkazem ze vstupenky, nebo QR kódem u vstupu." },
+  { icon: "qr", title: "Připoj se k akci", text: "Naskenuj QR kód u vstupu přímo v aplikaci, nebo klikni na odkaz ze vstupenky." },
   { icon: "heart", title: "Swipuj lidi z akce", text: "Uvidíš jen ty, kdo jdou na stejnou akci jako ty. Klidně už týdny předem." },
   { icon: "chat", title: "Match = chat", text: "Lajknete se oba? Napište si a domluvte se, kde se na akci potkáte." },
 ];
