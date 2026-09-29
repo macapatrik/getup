@@ -52,7 +52,7 @@ insert into public.organizers (user_id)
 select id from auth.users where email = 'ty@example.cz';
 ```
 
-V navigaci se pak objeví záložka **Admin**. Další členy týmu už přidáš přímo v administraci (sekce Tým).
+Administrace je pak na adrese `/admin` (v zákaznické aplikaci na ni nic neodkazuje, ulož si ji do záložek). Další členy týmu už přidáš přímo v administraci (sekce Tým).
 
 ### Testování na mobilu přes Wi-Fi
 

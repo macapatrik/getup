@@ -13,17 +13,15 @@ const ITEMS: NavItem[] = [
   { href: "/profile", label: "Účet", icon: "user", match: ["/profile"] },
 ];
 
-const ADMIN_ITEM: NavItem = { href: "/admin", label: "Admin", icon: "shield", match: ["/admin"] };
-
-function useNav(organizer: boolean) {
+// Čistě zákaznická navigace – administrace týmu je jen na /admin a odsud na ni nic neodkazuje.
+function useNav() {
   const pathname = usePathname();
-  const items = organizer ? [...ITEMS, ADMIN_ITEM] : ITEMS;
-  return { pathname, items, isActive: (item: NavItem) => item.match.some((m) => pathname.startsWith(m)) };
+  return { pathname, items: ITEMS, isActive: (item: NavItem) => item.match.some((m) => pathname.startsWith(m)) };
 }
 
 // Plovoucí skleněná lišta ve stylu iOS 26 (telefon a tablet)
-export function BottomNav({ organizer }: { organizer: boolean }) {
-  const { pathname, items, isActive } = useNav(organizer);
+export function BottomNav() {
+  const { pathname, items, isActive } = useNav();
   // V chatu lištu schováme, aby bylo víc místa pro zprávy.
   if (/^\/matches\/[^/]+/.test(pathname)) return null;
 
@@ -53,8 +51,8 @@ export function BottomNav({ organizer }: { organizer: boolean }) {
 }
 
 // Boční panel na počítači (webový portál)
-export function SideNav({ organizer }: { organizer: boolean }) {
-  const { items, isActive } = useNav(organizer);
+export function SideNav() {
+  const { items, isActive } = useNav();
 
   return (
     <aside className="no-print fixed inset-y-0 left-0 z-30 hidden w-72 p-4 lg:block">
