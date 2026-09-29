@@ -82,6 +82,16 @@ src/
   components/             sdílené UI
 ```
 
+## Demo data
+
+V produkčním projektu jsou kvůli ukázkám demo data:
+
+- 3 akce GetUp v Klubu K2: `GU2509` (proběhlá), `HALLO26` a `XMAS26` (nadcházející), plus testovací `DEMO26`.
+- 10 demo uživatelů s e-maily `@demo.gettogether.test` a AI fotkami, jejich lajky, matche a konverzace.
+- Trigger `supabase/demo/greeting.sql`: po matchi s demo účtem pošle demo účet první zprávu.
+
+Před ostrým spuštěním je smaž podle `supabase/demo/cleanup.sql`.
+
 ## Bezpečnost a soukromí
 
 - Cizí profily **nejdou číst přímo z tabulky**, jen přes funkce `get_deck` a `get_matches`. Ty vrací věk místo data narození
