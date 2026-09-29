@@ -1,4 +1,4 @@
-export const APP_NAME = "GetUp Match";
+export const APP_NAME = "GetTogether";
 export const APP_TAGLINE = "Seznam se s lidmi z koncertu";
 
 // Časy akcí zadáváme i zobrazujeme v české časové zóně.

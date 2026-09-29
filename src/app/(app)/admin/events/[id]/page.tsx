@@ -99,7 +99,7 @@ function DigitCounter({ label, value, time }: { label: string; value: number; ti
   return (
     <section className="glass-tint no-print mt-6 rounded-[36px] p-5">
       <div className="flex items-center gap-3">
-        <AppIcon className="size-10 rounded-full" heart="size-5" />
+        <AppIcon className="size-10 rounded-full" mark="size-6" />
         <div>
           <p className="text-[17px] leading-tight font-semibold">{label}</p>
           <p className="text-[13px] text-white/85">k {time}</p>

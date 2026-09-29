@@ -15,7 +15,7 @@ export default async function LoginPage(props: PageProps<"/login">) {
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col px-6 pt-safe pb-8">
       <div className="mt-16 flex flex-col items-center text-center">
-        <AppIcon className="size-20 rounded-[22px]" heart="size-11" />
+        <AppIcon className="size-20 rounded-[22px]" mark="size-14" />
         <h1 className="mt-6 font-display text-[30px] font-bold tracking-tight">Přihlas se</h1>
         <p className="mt-2 max-w-xs text-[17px] text-muted">Pošleme ti na e-mail kód. Žádné heslo si nemusíš pamatovat.</p>
       </div>

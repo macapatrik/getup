@@ -4,7 +4,15 @@
       <stop offset="0" stop-color="#ff2d6f"/>
       <stop offset="1" stop-color="#ff8a3d"/>
     </linearGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.38"/>
+      <stop offset="0.55" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
   </defs>
   <rect width="32" height="32" rx="8" fill="url(#g)"/>
-  <path transform="translate(6 6) scale(0.8333)" fill="#fff" d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.250 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.250 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.170 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"/>
+  <rect width="32" height="32" rx="8" fill="url(#gloss)"/>
+  <g transform="translate(1 0.7) scale(1.25)">
+    <path d="M12 20 5.08 11.93A4.5 4.5 0 1 1 12.98 9.42Z" fill="#fff" fill-opacity="0.96"/>
+    <path d="M12 20 18.92 11.93A4.5 4.5 0 1 0 11.02 9.42Z" fill="#fff" fill-opacity="0.7"/>
+  </g>
 </svg>

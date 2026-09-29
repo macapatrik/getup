@@ -1,4 +1,4 @@
-# GetUp Match
+# GetTogether (by GetUp)
 
 Seznamka ve stylu Tinderu napojená na akce [GetUp](https://getup.cz): lidé se seznamují **jen s ostatními ze stejného koncertu nebo party**.
 
