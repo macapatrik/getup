@@ -1,0 +1,10 @@
+<div style="font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 420px; margin: 0 auto; padding: 24px; color: #111">
+  <h2 style="margin: 0 0 16px">Přihlášení do GetUp Match</h2>
+  <p style="margin: 0 0 8px">Tvůj kód:</p>
+  <p style="font-size: 32px; font-weight: 800; letter-spacing: 8px; margin: 0 0 24px">{{ .Token }}</p>
+  <p style="margin: 0 0 24px">
+    Nebo klikni:
+    <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email&next={{ .RedirectTo }}">přihlásit se</a>
+  </p>
+  <p style="color: #666; font-size: 13px">Pokud ses nepřihlašoval/a, e-mail klidně ignoruj.</p>
+</div>

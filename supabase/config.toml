@@ -1,0 +1,20 @@
+# Lokální Supabase (`npx supabase start`). Chybějící hodnoty doplní CLI výchozími.
+project_id = "getup-match"
+
+[auth]
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/**", "http://127.0.0.1:3000/**"]
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
+otp_length = 6
+
+# Šablona obsahuje kód (pro instalovanou PWA) i odkaz.
+[auth.email.template.magic_link]
+subject = "Tvůj kód do GetUp Match"
+content_path = "./supabase/templates/login.html"
+
+[auth.email.template.confirmation]
+subject = "Tvůj kód do GetUp Match"
+content_path = "./supabase/templates/login.html"
