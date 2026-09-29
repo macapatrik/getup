@@ -12,9 +12,9 @@ import { JoinForm } from "./join-form";
 export const metadata: Metadata = { title: "Akce" };
 
 const STATUS_STYLES: Record<EventStatus, string> = {
-  upcoming: "glass-inner text-white",
+  upcoming: "bg-info/10 text-info",
   live: "gloss",
-  after: "bg-amber-300/30 text-amber-50",
+  after: "bg-amber-400/20 text-amber-700",
   closed: "bg-fill text-muted",
 };
 
@@ -75,7 +75,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
                   }`}
                 >
                   <div className="flex size-14 shrink-0 flex-col items-center justify-center glass-inner rounded-[16px]">
-                    <span className="text-[11px] font-bold text-muted uppercase">{month}</span>
+                    <span className="text-[11px] font-bold text-accent uppercase">{month}</span>
                     <span className="font-display text-[22px] leading-none font-bold">{day}</span>
                   </div>
                   <div className="min-w-0 flex-1">

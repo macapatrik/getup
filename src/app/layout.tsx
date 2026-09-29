@@ -13,11 +13,11 @@ export const metadata: Metadata = {
   title: { default: APP_NAME, template: `%s · ${APP_NAME}` },
   description: APP_TAGLINE,
   applicationName: APP_NAME,
-  appleWebApp: { capable: true, title: APP_NAME, statusBarStyle: "black-translucent" },
+  appleWebApp: { capable: true, title: APP_NAME, statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ec8850",
+  themeColor: "#ffffff",
   viewportFit: "cover",
 };
 

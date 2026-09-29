@@ -113,7 +113,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
           setCode("");
           setError(null);
         }}
-        className="w-full py-1 text-[15px] font-semibold text-white"
+        className="w-full py-1 text-[15px] font-semibold text-accent"
       >
         Jiný e-mail / poslat znovu
       </button>

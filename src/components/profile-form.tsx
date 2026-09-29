@@ -176,7 +176,7 @@ export function ProfileForm({
             <button
               type="button"
               onClick={() => fileInput.current?.click()}
-              className="glass grid aspect-[3/4] place-items-center rounded-[20px] border-dashed text-white transition active:scale-95"
+              className="glass grid aspect-[3/4] place-items-center rounded-[20px] border-dashed text-accent transition active:scale-95"
             >
               <Icon name="plus" className="size-8" />
             </button>
@@ -286,7 +286,7 @@ export function ProfileForm({
       </div>
 
       {error && <p className={errorText}>{error}</p>}
-      {saved && <p className="ml-1 text-[15px] font-semibold text-white">✓ Uloženo</p>}
+      {saved && <p className="ml-1 text-[15px] font-semibold text-success">✓ Uloženo</p>}
 
       <button type="submit" disabled={saving} className={`${btnPrimary} w-full py-4`}>
         {saving ? "Ukládám…" : profile ? "Uložit změny" : "Hotovo, jdeme na to"}

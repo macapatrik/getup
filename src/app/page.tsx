@@ -34,7 +34,7 @@ export default async function Home() {
 
       <section className="mt-10 text-center">
         <span className="glass inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold">
-          <Icon name="ticket" className="size-4" /> Pro návštěvníky akcí GetUp
+          <Icon name="ticket" className="size-4 text-accent" /> Pro návštěvníky akcí GetUp
         </span>
         <h1 className="mt-5 font-display text-[44px] leading-[1.02] font-bold tracking-tight">
           Potkej lidi

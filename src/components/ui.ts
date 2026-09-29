@@ -6,13 +6,13 @@ export const btnSecondary =
   "glass inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[15px] font-semibold text-ink transition active:scale-[0.97] disabled:opacity-50";
 
 export const btnDanger =
-  "inline-flex items-center justify-center gap-2 rounded-full border border-red-200/40 bg-red-500/30 px-5 py-3 text-[15px] font-semibold text-white shadow-[inset_0_1px_0.5px_rgb(255_255_255/0.5)] backdrop-blur-xl transition active:scale-[0.97] disabled:opacity-50";
+  "glass inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[15px] font-semibold text-danger transition active:scale-[0.97] disabled:opacity-50";
 
 export const iconButton =
   "glass grid size-10 shrink-0 place-items-center rounded-full text-ink transition active:scale-90";
 
 export const input =
-  "glass-inner w-full rounded-2xl px-4 py-3.5 text-[17px] text-white placeholder:text-faint outline-none transition focus:border-white/60 focus:ring-4 focus:ring-white/15";
+  "glass-inner w-full rounded-2xl px-4 py-3.5 text-[17px] text-ink placeholder:text-faint outline-none transition focus:border-accent/40 focus:bg-white focus:ring-4 focus:ring-accent/15";
 
 export const label = "mb-2 ml-1 block text-[13px] font-medium text-muted";
 
@@ -29,4 +29,4 @@ export function chip(active: boolean) {
 }
 
 export const errorText =
-  "rounded-2xl border border-red-200/30 bg-red-500/25 px-3.5 py-2.5 text-[15px] font-medium text-white backdrop-blur-xl";
+  "rounded-2xl bg-danger/10 px-3.5 py-2.5 text-[15px] font-medium text-danger";

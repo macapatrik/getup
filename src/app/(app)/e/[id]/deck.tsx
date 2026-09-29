@@ -118,7 +118,7 @@ export function Deck({
           onClick={() => decide(-1)}
           disabled={cards.length === 0}
           aria-label="Nezajímá mě"
-          className="glass grid size-16 place-items-center rounded-full text-white transition active:scale-90 disabled:opacity-40"
+          className="glass grid size-16 place-items-center rounded-full text-danger transition active:scale-90 disabled:opacity-40"
         >
           <Icon name="x" className="size-7" />
         </button>
@@ -301,7 +301,7 @@ function MatchModal({
       <Link href={`/matches/${match.matchId}`} className={`${btnPrimary} mt-10 w-full max-w-xs py-4`}>
         Napsat zprávu
       </Link>
-      <button type="button" onClick={onClose} className="mt-3 py-2 text-[17px] font-semibold text-white">
+      <button type="button" onClick={onClose} className="mt-3 py-2 text-[17px] font-semibold text-accent">
         Swipovat dál
       </button>
     </div>

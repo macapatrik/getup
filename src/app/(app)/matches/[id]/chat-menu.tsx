@@ -36,14 +36,14 @@ export function ChatMenu({
               if (!confirm(`Opravdu zrušit match s ${name}? Chat se smaže.`)) e.preventDefault();
             }}
           >
-            <button type="submit" className="w-full rounded-[14px] px-4 py-3 text-left text-[15px] font-medium hover:bg-white/10">
+            <button type="submit" className="w-full rounded-[14px] px-4 py-3 text-left text-[15px] font-medium hover:bg-black/5">
               Zrušit match
             </button>
           </form>
           <button
             type="button"
             onClick={() => dialog.current?.showModal()}
-            className="w-full rounded-[14px] px-4 py-3 text-left text-[15px] font-medium text-danger hover:bg-white/10"
+            className="w-full rounded-[14px] px-4 py-3 text-left text-[15px] font-medium text-danger hover:bg-danger/10"
           >
             Nahlásit
           </button>
@@ -52,7 +52,7 @@ export function ChatMenu({
 
       <dialog
         ref={dialog}
-        className="glass m-auto w-[calc(100%-2rem)] max-w-sm rounded-[28px] p-6 text-ink backdrop:bg-black/30 backdrop:backdrop-blur-sm"
+        className="glass m-auto w-[calc(100%-2rem)] max-w-sm rounded-[28px] p-6 text-ink backdrop:bg-black/20 backdrop:backdrop-blur-sm"
       >
         <form action={formAction} className="space-y-4">
           <h2 className="font-display text-[22px] font-bold">Nahlásit {name}</h2>

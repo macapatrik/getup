@@ -31,7 +31,7 @@ export function BottomNav({ organizer }: { organizer: boolean }) {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={`flex flex-col items-center gap-0.5 rounded-full py-1.5 text-[11px] font-semibold transition ${
-                  active ? "glass-inner text-white" : "border border-transparent text-white/70 hover:text-white"
+                  active ? "glass-inner text-accent" : "border border-transparent text-ink/60 hover:text-ink"
                 }`}
               >
                 <Icon name={item.icon} className="size-[26px]" />

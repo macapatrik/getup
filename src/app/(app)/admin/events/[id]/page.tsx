@@ -52,7 +52,7 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
 
   return (
     <main className="px-5 pt-safe">
-      <Link href="/admin" className="no-print inline-flex items-center gap-0.5 pt-4 text-[17px] font-medium">
+      <Link href="/admin" className="no-print inline-flex items-center gap-0.5 pt-4 text-[17px] font-medium text-accent">
         <Icon name="back" className="size-5" /> Akce
       </Link>
 
@@ -110,7 +110,7 @@ function DigitCounter({ label, value, time }: { label: string; value: number; ti
           <span
             key={i}
             aria-hidden
-            className="glass-inner grid aspect-[3/4] place-items-center rounded-[18px] font-display text-[52px] leading-none font-bold"
+            className="grid aspect-[3/4] place-items-center rounded-[18px] border border-white/40 bg-white/15 font-display text-[52px] leading-none font-bold shadow-[inset_0_1px_0.5px_rgb(255_255_255/0.6),inset_0_0_14px_rgb(255_255_255/0.08)] [text-shadow:0_1px_2px_rgb(150_60_0/0.25)]"
           >
             {digit}
           </span>
