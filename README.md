@@ -12,6 +12,8 @@ Organizátoři (tým GetUp) mají v aplikaci sekci **GetUp**, kde zakládají ak
 ## Technologie
 
 - **Next.js 16** (App Router, TypeScript, Tailwind CSS 4) jako **PWA**: dá se „nainstalovat“ na plochu telefonu.
+- Design ve světlém stylu iOS („Liquid Glass“): matné sklo, lesklá tlačítka, plovoucí lišta. Utility `glass`, `glass-photo`,
+  `gloss` a `aurora` jsou v `src/app/globals.css`, sdílené třídy v `src/components/ui.ts`.
 - **Supabase**: přihlášení (e-mailový kód), Postgres s Row Level Security, Storage na fotky, Realtime na chat.
 
 ## Spuštění lokálně
@@ -28,6 +30,8 @@ npm run dev                 # http://localhost:3000
 - E-maily s přihlašovacím kódem lokálně chytá **Mailpit**: http://127.0.0.1:54324
 - Seed vytvoří demo akci s kódem **`DEMO26`** (nebo otevři http://localhost:3000/j/DEMO26).
 - Swipování vyzkoušíš ve dvou prohlížečích (běžné + anonymní okno) se dvěma různými e-maily.
+- Ilustrační fotky na úvodní stránce (vygenerované přes Higgsfield, model Nano Banana) stáhneš příkazem `npm run photos`
+  do `public/people/`. Bez nich úvodní stránka ukáže jen barevné karty.
 
 ### Jak se stát organizátorem
 

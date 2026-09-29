@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import QRCode from "qrcode";
 import { Icon } from "@/components/icons";
-import { btnSecondary, card } from "@/components/ui";
+import { btnSecondary, card, sectionTitle } from "@/components/ui";
 import { getOrigin, isOrganizer } from "@/lib/auth";
-import { STATUS_LABELS, eventStatus, formatDateTime } from "@/lib/format";
+import { STATUS_LABELS, eventStatus, formatDateTime, formatNumber } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow } from "@/lib/types";
 import { PrintButton } from "./print-button";
@@ -50,21 +50,21 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
   ];
 
   return (
-    <main className="px-5 pt-6">
-      <Link href="/admin" className="no-print inline-flex items-center gap-1 text-sm text-muted hover:text-white">
-        <Icon name="back" className="size-4" /> Všechny akce
+    <main className="px-5 pt-safe">
+      <Link href="/admin" className="no-print inline-flex items-center gap-0.5 pt-4 text-[17px] text-accent">
+        <Icon name="back" className="size-5" /> Akce
       </Link>
 
-      <h1 className="mt-4 text-3xl font-black">{event.name}</h1>
-      <p className="text-muted">
+      <h1 className="mt-3 font-display text-[30px] leading-tight font-bold tracking-tight">{event.name}</h1>
+      <p className="mt-1 text-[15px] text-muted">
         {[event.venue, formatDateTime(event.starts_at)].filter(Boolean).join(" · ")} · {STATUS_LABELS[eventStatus(event)]}
       </p>
 
-      <section className="mt-6 rounded-3xl bg-white p-6 text-center text-black">
-        <p className="text-sm font-bold tracking-widest uppercase">Seznam se s lidmi z akce</p>
+      <section className="mt-6 rounded-[32px] border-[3px] border-white bg-white p-6 text-center text-black shadow-[0_24px_60px_-24px_rgb(40_20_80/0.45)]">
+        <p className="text-gradient text-[13px] font-bold tracking-widest uppercase">Seznam se s lidmi z akce</p>
         <img src={qr} alt={`QR kód pro ${event.name}`} className="mx-auto mt-2 w-full max-w-xs" />
-        <p className="text-sm">nebo zadej kód</p>
-        <p className="font-mono text-4xl font-black tracking-[0.3em]">{event.join_code}</p>
+        <p className="text-[13px] text-neutral-500">nebo zadej kód</p>
+        <p className="font-mono text-4xl font-bold tracking-[0.3em]">{event.join_code}</p>
         <p className="mt-2 text-xs break-all text-neutral-500">{joinUrl}</p>
       </section>
 
@@ -76,12 +76,12 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
       </div>
 
       <section className="no-print mt-8">
-        <h2 className="mb-3 text-lg font-bold">Statistiky</h2>
+        <h2 className={sectionTitle}>Statistiky</h2>
         <div className="grid grid-cols-3 gap-3">
           {tiles.map(([title, value]) => (
-            <div key={title} className={`${card} p-4 text-center`}>
-              <p className="text-2xl font-black">{value ?? "–"}</p>
-              <p className="text-xs text-muted">{title}</p>
+            <div key={title} className={`${card} px-2 py-4 text-center`}>
+              <p className="font-display text-[22px] font-bold tracking-tight">{value === undefined ? "–" : formatNumber(value)}</p>
+              <p className="text-[12px] text-muted">{title}</p>
             </div>
           ))}
         </div>

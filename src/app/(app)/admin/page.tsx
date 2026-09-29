@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { card } from "@/components/ui";
+import { Icon } from "@/components/icons";
+import { card, largeTitle, sectionTitle } from "@/components/ui";
 import { isOrganizer } from "@/lib/auth";
 import { STATUS_LABELS, eventStatus, formatDateTime } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
@@ -22,30 +23,35 @@ export default async function AdminPage() {
   const events = (data ?? []) as EventRow[];
 
   return (
-    <main className="px-5 pt-8">
-      <p className="text-sm font-semibold tracking-widest text-accent uppercase">GetUp tým</p>
-      <h1 className="text-3xl font-black">Akce a QR kódy</h1>
+    <main className="px-5 pt-safe">
+      <p className="pt-6 text-[13px] font-semibold tracking-wide text-accent uppercase">GetUp tým</p>
+      <h1 className={largeTitle}>Akce a QR kódy</h1>
 
       <section className={`${card} mt-6`}>
-        <h2 className="mb-4 text-lg font-bold">Nová akce</h2>
+        <h2 className="mb-4 font-display text-[20px] font-bold">Nová akce</h2>
         <CreateEventForm />
       </section>
 
-      <h2 className="mt-10 mb-3 text-lg font-bold">Všechny akce</h2>
+      <h2 className={`${sectionTitle} mt-9`}>Všechny akce</h2>
       {events.length === 0 ? (
-        <p className="text-muted">Zatím žádné.</p>
+        <p className={`${card} text-center text-[15px] text-muted`}>Zatím žádné.</p>
       ) : (
-        <ul className="space-y-3">
+        <ul className="glass overflow-hidden rounded-[24px]">
           {events.map((event) => (
-            <li key={event.id}>
-              <Link href={`/admin/events/${event.id}`} className={`${card} block transition hover:border-muted`}>
+            <li key={event.id} className="border-b border-line last:border-0">
+              <Link href={`/admin/events/${event.id}`} className="flex items-center gap-3 px-4 py-3.5 active:bg-black/5">
+                <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="truncate font-bold">{event.name}</p>
-                  <span className="shrink-0 font-mono text-sm tracking-widest text-accent">{event.join_code}</span>
+                  <p className="truncate text-[17px] font-semibold">{event.name}</p>
+                  <span className="shrink-0 rounded-full bg-accent/10 px-2.5 py-0.5 font-mono text-[13px] font-semibold tracking-widest text-accent">
+                    {event.join_code}
+                  </span>
                 </div>
-                <p className="mt-1 text-sm text-muted">
+                <p className="mt-0.5 text-[14px] text-muted">
                   {formatDateTime(event.starts_at)} · {STATUS_LABELS[eventStatus(event)]}
                 </p>
+                </div>
+                <Icon name="chevron" className="size-4 shrink-0 text-faint" />
               </Link>
             </li>
           ))}

@@ -47,3 +47,16 @@ export function ageFromBirthdate(birthdate: string, today = new Date()) {
   if (today.getMonth() + 1 < m || (today.getMonth() + 1 === m && today.getDate() < d)) age--;
   return age;
 }
+
+const dayFormat = new Intl.DateTimeFormat("cs-CZ", { timeZone: TIME_ZONE, day: "numeric" });
+const monthFormat = new Intl.DateTimeFormat("cs-CZ", { timeZone: TIME_ZONE, month: "short" });
+
+/** Pro "kalendářovou" dlaždici: { day: "29", month: "zář" } */
+export function dayAndMonth(iso: string) {
+  const date = new Date(iso);
+  return { day: dayFormat.format(date).replace(".", ""), month: monthFormat.format(date).replace(".", "") };
+}
+
+export function formatNumber(value: number) {
+  return new Intl.NumberFormat("cs-CZ").format(value);
+}

@@ -1,50 +1,96 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { FallbackImg } from "@/components/fallback-img";
+import { Icon, type IconName } from "@/components/icons";
 import { Logo } from "@/components/logo";
-import { btnPrimary } from "@/components/ui";
+import { btnPrimary, card } from "@/components/ui";
 import { getUser } from "@/lib/auth";
 
-const STEPS = [
-  { title: "Naskenuj QR kód na akci", text: "Najdeš ho u vstupu, na baru nebo na vstupence od GetUp." },
-  { title: "Swipuj lidi z koncertu", text: "Uvidíš jen ty, kdo jsou na stejné akci jako ty." },
-  { title: "Match = chat", text: "Když se lajknete oba, můžete si hned napsat a najít se u pódia." },
+const STEPS: { icon: IconName; title: string; text: string }[] = [
+  { icon: "qr", title: "Naskenuj QR kód na akci", text: "U vstupu, na baru nebo na vstupence od GetUp." },
+  { icon: "heart", title: "Swipuj lidi z koncertu", text: "Uvidíš jen ty, kdo jsou na stejné akci jako ty." },
+  { icon: "chat", title: "Match = chat", text: "Lajknete se oba? Napište si a najděte se u pódia." },
+];
+
+// Ilustrační fotky (vygenerované přes Higgsfield) leží v public/people.
+// Když chybí, karta ukáže jen barevný přechod.
+const HERO = [
+  { src: "/people/veronika.webp", name: "Veronika", age: 27, rotate: "-rotate-[9deg] -translate-x-[44%]", tint: "from-sky-300 to-violet-300" },
+  { src: "/people/eliska.webp", name: "Eliška", age: 22, rotate: "rotate-[9deg] translate-x-[44%]", tint: "from-amber-200 to-orange-300" },
+  { src: "/people/tereza.webp", name: "Tereza", age: 24, rotate: "", tint: "from-pink-300 to-orange-200" },
 ];
 
 export default async function Home() {
   if (await getUser()) redirect("/events");
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-md flex-col px-6 pt-10 pb-8">
-      <Logo />
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col px-6 pt-safe pb-8">
+      <header className="flex items-center justify-between pt-3">
+        <Logo />
+        <Link href="/login" className="text-[15px] font-semibold text-accent">
+          Přihlásit se
+        </Link>
+      </header>
 
-      <section className="mt-14 flex-1">
-        <p className="text-sm font-semibold tracking-widest text-accent uppercase">Party × seznamka</p>
-        <h1 className="mt-3 text-5xl leading-[1.05] font-black">
-          Potkej lidi <span className="text-party">z&nbsp;koncertu</span>.
+      <section className="mt-10 text-center">
+        <span className="glass inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold text-ink/80">
+          <Icon name="ticket" className="size-4 text-accent" /> Pro návštěvníky akcí GetUp
+        </span>
+        <h1 className="mt-5 font-display text-[44px] leading-[1.02] font-bold tracking-tight">
+          Potkej lidi
+          <br />
+          <span className="text-gradient">z&nbsp;koncertu.</span>
         </h1>
-        <p className="mt-5 text-lg text-muted">
-          Ta holka nebo kluk z první řady? Teď si můžete napsat. Bez trapných pohledů přes celý sál.
+        <p className="mx-auto mt-4 max-w-xs text-[17px] leading-snug text-muted">
+          Ta holka nebo kluk z první řady? Teď si můžete napsat.
         </p>
-
-        <ol className="mt-10 space-y-5">
-          {STEPS.map((step, i) => (
-            <li key={step.title} className="flex gap-4">
-              <span className="grid size-9 shrink-0 place-items-center rounded-full bg-surface-2 font-bold text-accent">
-                {i + 1}
-              </span>
-              <div>
-                <p className="font-semibold">{step.title}</p>
-                <p className="text-sm text-muted">{step.text}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
       </section>
 
-      <Link href="/login" className={`${btnPrimary} mt-10 w-full py-4 text-lg`}>
+      <div className="relative mx-auto mt-10 h-[330px] w-[210px]">
+        {HERO.map((p, i) => (
+          <div
+            key={p.name}
+            className={`absolute inset-0 overflow-hidden rounded-[30px] border-[3px] border-white bg-gradient-to-br shadow-[0_24px_50px_-18px_rgb(40_20_80/0.45)] ${p.tint} ${p.rotate} ${
+              i < 2 ? "scale-[0.88] opacity-95" : ""
+            }`}
+          >
+            <FallbackImg src={p.src} className="absolute inset-0 size-full object-cover" />
+            {i === 2 && (
+              <div className="glass-photo absolute inset-x-2.5 bottom-2.5 rounded-[20px] px-3.5 py-2.5 text-left">
+                <p className="font-display text-[19px] font-bold">
+                  {p.name} <span className="font-normal">{p.age}</span>
+                </p>
+                <p className="text-[12px] text-white/85">📍 GetUp Open Air</p>
+              </div>
+            )}
+          </div>
+        ))}
+        <div className="glass absolute -top-4 -right-16 flex items-center gap-2 rounded-full py-1.5 pr-3.5 pl-1.5">
+          <span className="gloss grid size-7 place-items-center rounded-full">
+            <Icon name="heart" className="size-4" />
+          </span>
+          <span className="text-[13px] font-bold">Je to match!</span>
+        </div>
+      </div>
+
+      <ol className={`${card} mt-12 space-y-4 p-4`}>
+        {STEPS.map((step) => (
+          <li key={step.title} className="flex items-center gap-3.5">
+            <span className="gloss grid size-11 shrink-0 place-items-center rounded-[13px]">
+              <Icon name={step.icon} className="size-6" />
+            </span>
+            <div>
+              <p className="text-[16px] font-semibold">{step.title}</p>
+              <p className="text-[14px] leading-snug text-muted">{step.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <Link href="/login" className={`${btnPrimary} mt-8 w-full py-4`}>
         Začít
       </Link>
-      <p className="mt-4 text-center text-xs text-muted">Jen pro 18+. Pokračováním souhlasíš s pravidly komunity.</p>
+      <p className="mt-4 text-center text-[12px] text-muted">Jen pro 18+. Pokračováním souhlasíš s pravidly komunity.</p>
     </main>
   );
 }

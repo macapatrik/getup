@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/icons";
-import { card } from "@/components/ui";
+import { card, largeTitle, sectionTitle } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
 import { errorMessage } from "@/lib/errors";
-import { STATUS_LABELS, eventStatus, formatDateTime } from "@/lib/format";
+import { STATUS_LABELS, dayAndMonth, eventStatus, formatTime, type EventStatus } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow } from "@/lib/types";
 import { JoinForm } from "./join-form";
 
 export const metadata: Metadata = { title: "Akce" };
 
-const STATUS_STYLES = {
-  upcoming: "bg-sky-500/15 text-sky-300",
-  live: "bg-party text-white",
-  after: "bg-amber-500/15 text-amber-300",
-  closed: "bg-surface-2 text-muted",
-} as const;
+const STATUS_STYLES: Record<EventStatus, string> = {
+  upcoming: "bg-info/12 text-info",
+  live: "gloss",
+  after: "bg-amber-400/20 text-amber-700",
+  closed: "bg-fill text-muted",
+};
 
 export default async function EventsPage(props: PageProps<"/events">) {
   const { user, profile } = await requireProfile();
@@ -34,18 +34,20 @@ export default async function EventsPage(props: PageProps<"/events">) {
     .filter((e): e is EventRow => e !== null);
 
   return (
-    <main className="px-5 pt-8">
-      <p className="text-muted">Čau {profile.display_name} 👋</p>
-      <h1 className="text-3xl font-black">Kde dneska paříš?</h1>
+    <main className="px-5 pt-safe">
+      <header className="pt-6">
+        <p className="text-[15px] font-medium text-muted">Čau {profile.display_name} 👋</p>
+        <h1 className={largeTitle}>Kde dneska paříš?</h1>
+      </header>
 
       <section className={`${card} mt-6`}>
-        <div className="flex items-start gap-3">
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-2 text-accent">
-            <Icon name="qr" />
+        <div className="flex items-start gap-3.5">
+          <span className="gloss grid size-11 shrink-0 place-items-center rounded-[13px]">
+            <Icon name="qr" className="size-6" />
           </span>
           <div>
-            <p className="font-semibold">Naskenuj QR kód foťákem v mobilu</p>
-            <p className="text-sm text-muted">Najdeš ho u vstupu, na baru nebo na vstupence. Nebo opiš kód:</p>
+            <p className="text-[17px] font-semibold">Naskenuj QR kód foťákem</p>
+            <p className="text-[15px] leading-snug text-muted">U vstupu, na baru nebo na vstupence. Nebo opiš kód:</p>
           </div>
         </div>
         <div className="mt-4">
@@ -53,9 +55,9 @@ export default async function EventsPage(props: PageProps<"/events">) {
         </div>
       </section>
 
-      <h2 className="mt-10 mb-3 text-lg font-bold">Tvoje akce</h2>
+      <h2 className={`${sectionTitle} mt-9`}>Tvoje akce</h2>
       {events.length === 0 ? (
-        <p className="rounded-3xl border border-dashed border-line p-6 text-center text-muted">
+        <p className={`${card} text-center text-[15px] text-muted`}>
           Zatím žádná. Jakmile se připojíš k akci, objeví se tady.
         </p>
       ) : (
@@ -63,24 +65,32 @@ export default async function EventsPage(props: PageProps<"/events">) {
           {events.map((event) => {
             const status = eventStatus(event);
             const closed = status === "closed";
+            const { day, month } = dayAndMonth(event.starts_at);
             return (
               <li key={event.id}>
                 <Link
                   href={closed ? "/matches" : `/e/${event.id}`}
-                  className={`${card} flex items-center gap-4 transition hover:border-muted ${closed ? "opacity-60" : ""}`}
+                  className={`glass flex items-center gap-4 rounded-[24px] p-3.5 pr-4 transition active:scale-[0.98] ${
+                    closed ? "opacity-60" : ""
+                  }`}
                 >
+                  <div className="flex size-14 shrink-0 flex-col items-center justify-center rounded-[16px] bg-white shadow-[0_2px_8px_rgb(0_0_0/0.06)]">
+                    <span className="text-[11px] font-bold text-accent uppercase">{month}</span>
+                    <span className="font-display text-[22px] leading-none font-bold">{day}</span>
+                  </div>
                   <div className="min-w-0 flex-1">
+                    <p className="truncate text-[17px] font-semibold">{event.name}</p>
+                    <p className="truncate text-[14px] text-muted">
+                      {[event.venue, formatTime(event.starts_at)].filter(Boolean).join(" · ")}
+                    </p>
                     <span
-                      className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${STATUS_STYLES[status]}`}
+                      className={`mt-1.5 inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[12px] font-semibold ${STATUS_STYLES[status]}`}
                     >
+                      {status === "live" && <span className="size-1.5 animate-pulse rounded-full bg-white" />}
                       {STATUS_LABELS[status]}
                     </span>
-                    <p className="mt-2 truncate text-lg font-bold">{event.name}</p>
-                    <p className="truncate text-sm text-muted">
-                      {[event.venue, formatDateTime(event.starts_at)].filter(Boolean).join(" · ")}
-                    </p>
                   </div>
-                  {!closed && <span className="text-2xl text-accent">→</span>}
+                  {!closed && <Icon name="chevron" className="size-5 text-faint" />}
                 </Link>
               </li>
             );

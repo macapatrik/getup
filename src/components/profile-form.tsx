@@ -9,7 +9,7 @@ import { PHOTOS_BUCKET, photoUrl, randomId, resizeImage } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
 import { GENDERS, GENDER_LABELS, INTEREST_LABELS, type Gender, type Profile } from "@/lib/types";
 import { Icon } from "./icons";
-import { btnPrimary, chip, input, label } from "./ui";
+import { btnPrimary, chip, errorText, input, label } from "./ui";
 
 type PhotoItem = { key: string; preview: string; path?: string; file?: File };
 
@@ -142,22 +142,22 @@ export function ProfileForm({
   })();
 
   return (
-    <form onSubmit={onSubmit} className="mt-8 space-y-7">
+    <form onSubmit={onSubmit} className="mt-7 space-y-6">
       <section>
         <span className={label}>Fotky (první je hlavní)</span>
         <div className="grid grid-cols-3 gap-2">
           {photos.map((photo, i) => (
-            <div key={photo.key} className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-surface-2">
+            <div key={photo.key} className="relative aspect-[3/4] overflow-hidden rounded-[20px] border-2 border-white bg-fill shadow-[0_8px_20px_-10px_rgb(40_20_80/0.4)]">
               <img src={photo.preview} alt="" className="size-full object-cover" />
               {i === 0 ? (
-                <span className="absolute bottom-1.5 left-1.5 rounded-full bg-party px-2 py-0.5 text-[10px] font-bold">
+                <span className="gloss absolute bottom-1.5 left-1.5 rounded-full px-2 py-0.5 text-[10px] font-bold">
                   HLAVNÍ
                 </span>
               ) : (
                 <button
                   type="button"
                   onClick={() => makeMain(photo.key)}
-                  className="absolute bottom-1.5 left-1.5 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-semibold backdrop-blur"
+                  className="glass-photo absolute bottom-1.5 left-1.5 rounded-full px-2 py-0.5 text-[10px] font-semibold"
                 >
                   Hlavní
                 </button>
@@ -166,7 +166,7 @@ export function ProfileForm({
                 type="button"
                 onClick={() => removePhoto(photo.key)}
                 aria-label="Odebrat fotku"
-                className="absolute top-1.5 right-1.5 grid size-7 place-items-center rounded-full bg-black/60 backdrop-blur"
+                className="glass-photo absolute top-1.5 right-1.5 grid size-7 place-items-center rounded-full"
               >
                 <Icon name="x" className="size-4" />
               </button>
@@ -176,7 +176,7 @@ export function ProfileForm({
             <button
               type="button"
               onClick={() => fileInput.current?.click()}
-              className="grid aspect-[3/4] place-items-center rounded-2xl border-2 border-dashed border-line text-muted transition hover:border-accent hover:text-white"
+              className="glass grid aspect-[3/4] place-items-center rounded-[20px] border-dashed text-accent transition active:scale-95"
             >
               <Icon name="plus" className="size-8" />
             </button>
@@ -269,7 +269,7 @@ export function ProfileForm({
 
       <div>
         <label htmlFor="bio" className={label}>
-          Pár slov o tobě <span className="text-muted/60">(nepovinné)</span>
+          Pár slov o tobě <span className="text-faint">(nepovinné)</span>
         </label>
         <textarea
           id="bio"
@@ -285,8 +285,8 @@ export function ProfileForm({
         />
       </div>
 
-      {error && <p className="text-sm text-red-300">{error}</p>}
-      {saved && <p className="text-sm text-emerald-300">Uloženo.</p>}
+      {error && <p className={errorText}>{error}</p>}
+      {saved && <p className="ml-1 text-[15px] font-medium text-success">Uloženo ✓</p>}
 
       <button type="submit" disabled={saving} className={`${btnPrimary} w-full py-4`}>
         {saving ? "Ukládám…" : profile ? "Uložit změny" : "Hotovo, jdeme na to"}

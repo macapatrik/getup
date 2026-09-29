@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { SubmitButton } from "@/components/submit-button";
-import { btnPrimary, input, label } from "@/components/ui";
+import { btnPrimary, errorText, input, label } from "@/components/ui";
 import { createEventAction, type FormState } from "../actions";
 
 export function CreateEventForm() {
@@ -36,8 +36,8 @@ export function CreateEventForm() {
           <input id="ends_at" name="ends_at" type="datetime-local" required className={input} />
         </div>
       </div>
-      <p className="text-xs text-muted">Čas v české zóně. Po konci akce je swipování otevřené ještě 24 hodin.</p>
-      {state.error && <p className="text-sm text-red-300">{state.error}</p>}
+      <p className="ml-1 text-[13px] text-muted">Čas v české zóně. Po konci akce je swipování otevřené ještě 24 hodin.</p>
+      {state.error && <p className={errorText}>{state.error}</p>}
       <SubmitButton className={`${btnPrimary} w-full`} pendingText="Zakládám…">
         Založit a vygenerovat QR
       </SubmitButton>

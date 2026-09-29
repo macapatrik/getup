@@ -53,7 +53,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
 
   if (step === "email") {
     return (
-      <form onSubmit={sendCode} className="mt-8 space-y-4">
+      <form onSubmit={sendCode} className="glass mt-10 space-y-4 rounded-[28px] p-5">
         <div>
           <label htmlFor="email" className={label}>
             E-mail
@@ -70,7 +70,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
             className={input}
           />
         </div>
-        {error && <p className="text-sm text-red-300">{error}</p>}
+        {error && <p className="ml-1 text-[15px] text-danger">{error}</p>}
         <button type="submit" disabled={busy} className={`${btnPrimary} w-full py-4`}>
           {busy ? "Posílám…" : "Poslat kód"}
         </button>
@@ -79,9 +79,9 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
   }
 
   return (
-    <form onSubmit={verifyCode} className="mt-8 space-y-4">
-      <p className="text-sm text-muted">
-        Kód jsme poslali na <span className="font-medium text-white">{email}</span>. Můžeš taky kliknout na odkaz
+    <form onSubmit={verifyCode} className="glass mt-10 space-y-4 rounded-[28px] p-5">
+      <p className="text-[15px] text-muted">
+        Kód jsme poslali na <span className="font-semibold text-ink">{email}</span>. Můžeš taky kliknout na odkaz
         v e-mailu.
       </p>
       <div>
@@ -102,7 +102,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
           className={`${input} text-center text-2xl tracking-[0.4em]`}
         />
       </div>
-      {error && <p className="text-sm text-red-300">{error}</p>}
+      {error && <p className="ml-1 text-[15px] text-danger">{error}</p>}
       <button type="submit" disabled={busy} className={`${btnPrimary} w-full py-4`}>
         {busy ? "Ověřuji…" : "Přihlásit se"}
       </button>
@@ -113,7 +113,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
           setCode("");
           setError(null);
         }}
-        className="w-full text-sm text-muted underline-offset-4 hover:underline"
+        className="w-full py-1 text-[15px] font-semibold text-accent"
       >
         Jiný e-mail / poslat znovu
       </button>

@@ -18,9 +18,18 @@ export function renderAppIcon(size: number) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #ff2d87, #ff7a1a)",
+          background: "linear-gradient(135deg, #ff2d6f, #ff8a3d)",
+          position: "relative",
         }}
       >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            background: "linear-gradient(180deg, rgba(255,255,255,0.38), rgba(255,255,255,0) 55%)",
+          }}
+        />
         <img src={HEART_SVG} width={heart} height={heart} alt="" />
       </div>
     ),

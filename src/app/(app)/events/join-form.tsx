@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { SubmitButton } from "@/components/submit-button";
-import { input } from "@/components/ui";
+import { errorText, input } from "@/components/ui";
 import { joinEventAction, type FormState } from "../actions";
 
 export function JoinForm({ initialError }: { initialError: string | null }) {
@@ -22,11 +22,11 @@ export function JoinForm({ initialError }: { initialError: string | null }) {
           aria-label="Kód akce"
           className={`${input} font-mono tracking-[0.3em] uppercase`}
         />
-        <SubmitButton pendingText="…" className="shrink-0 rounded-2xl bg-party px-5 font-semibold disabled:opacity-50">
+        <SubmitButton pendingText="…" className="gloss shrink-0 rounded-2xl px-5 text-[17px] font-semibold transition active:scale-95 disabled:opacity-50">
           Vstoupit
         </SubmitButton>
       </div>
-      {state.error && <p className="text-sm text-red-300">{state.error}</p>}
+      {state.error && <p className={errorText}>{state.error}</p>}
     </form>
   );
 }

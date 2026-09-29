@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Icon } from "@/components/icons";
-import { btnSecondary } from "@/components/ui";
+import { btnSecondary, card, iconButton } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
 import { STATUS_LABELS, eventStatus } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
@@ -14,7 +14,7 @@ export const metadata: Metadata = { title: "Swipování" };
 
 export default async function EventPage(props: PageProps<"/e/[id]">) {
   const { id } = await props.params;
-  const { user } = await requireProfile();
+  const { user, profile } = await requireProfile();
   const supabase = await createClient();
 
   const [{ data: event }, { data: attendance }] = await Promise.all([
@@ -36,30 +36,30 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
   }
 
   return (
-    <main className="flex min-h-[calc(100dvh-6rem)] flex-col px-4 pt-4">
-      <header className="flex items-center gap-2">
-        <Link href="/events" aria-label="Zpět" className="grid size-10 place-items-center rounded-full hover:bg-surface">
-          <Icon name="back" />
+    <main className="flex min-h-[calc(100dvh-6rem)] flex-col px-4 pt-safe">
+      <header className="flex items-center gap-3 pt-2">
+        <Link href="/events" aria-label="Zpět" className={iconButton}>
+          <Icon name="back" className="size-5" />
         </Link>
-        <div className="min-w-0 flex-1">
-          <p className="truncate font-bold">{event.name}</p>
-          <p className="truncate text-xs text-muted">{STATUS_LABELS[status]}</p>
+        <div className="min-w-0 flex-1 text-center">
+          <p className="truncate text-[17px] font-semibold">{event.name}</p>
+          <p className="truncate text-[12px] font-medium text-muted">{STATUS_LABELS[status]}</p>
         </div>
         <details className="relative">
-          <summary
-            aria-label="Nastavení"
-            className="grid size-10 cursor-pointer list-none place-items-center rounded-full hover:bg-surface [&::-webkit-details-marker]:hidden"
-          >
-            <Icon name="dots" />
+          <summary aria-label="Nastavení" className={`${iconButton} cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>
+            <Icon name="dots" className="size-5" />
           </summary>
-          <div className="absolute right-0 z-20 mt-2 w-64 space-y-2 rounded-2xl border border-line bg-surface-2 p-3 shadow-xl">
+          <div className="glass absolute right-0 z-20 mt-2 w-64 overflow-hidden rounded-[20px] p-1.5">
             <form action={setVisibilityAction.bind(null, id, !attendance.visible)}>
-              <button type="submit" className={`${btnSecondary} w-full text-sm`}>
+              <button type="submit" className="w-full rounded-[14px] px-4 py-3 text-left text-[15px] font-medium hover:bg-black/5">
                 {attendance.visible ? "Skrýt mě před ostatními" : "Zase mě ukazuj ostatním"}
               </button>
             </form>
             <form action={leaveEventAction.bind(null, id)}>
-              <button type="submit" className="w-full rounded-full px-5 py-2.5 text-sm text-red-300 hover:bg-red-500/10">
+              <button
+                type="submit"
+                className="w-full rounded-[14px] px-4 py-3 text-left text-[15px] font-medium text-danger hover:bg-danger/10"
+              >
                 Opustit akci
               </button>
             </form>
@@ -68,21 +68,23 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
       </header>
 
       {!attendance.visible && (
-        <p className="mt-3 rounded-2xl bg-amber-500/10 px-4 py-2 text-sm text-amber-200">
-          Jsi skrytý/á – ostatní tě v balíčku neuvidí, ale matche a chat fungují dál.
+        <p className="glass mt-3 rounded-full px-4 py-2 text-center text-[13px] font-medium text-amber-700">
+          Jsi skrytý/á – ostatní tě neuvidí, matche a chat fungují dál.
         </p>
       )}
 
       {status === "closed" ? (
-        <div className="flex flex-1 flex-col items-center justify-center text-center">
-          <p className="text-xl font-bold">Tahle akce už skončila</p>
-          <p className="mt-2 text-muted">Tvoje matche a zprávy ti ale zůstávají.</p>
-          <Link href="/matches" className={`${btnSecondary} mt-6`}>
-            Moje matche
-          </Link>
+        <div className="flex flex-1 items-center">
+          <div className={`${card} w-full text-center`}>
+            <p className="font-display text-[22px] font-bold">Tahle akce už skončila</p>
+            <p className="mt-1 text-[15px] text-muted">Tvoje matche a zprávy ti ale zůstávají.</p>
+            <Link href="/matches" className={`${btnSecondary} mt-5`}>
+              Moje matche
+            </Link>
+          </div>
         </div>
       ) : (
-        <Deck eventId={id} initialCards={cards} />
+        <Deck eventId={id} initialCards={cards} myPhoto={profile.photos[0]} />
       )}
     </main>
   );

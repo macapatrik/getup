@@ -15,7 +15,15 @@ const REFILL_BELOW = 3; // kolik karet zbývá, když dotahujeme další
 
 type Direction = 1 | -1; // 1 = like, -1 = pass
 
-export function Deck({ eventId, initialCards }: { eventId: string; initialCards: DeckCard[] }) {
+export function Deck({
+  eventId,
+  initialCards,
+  myPhoto,
+}: {
+  eventId: string;
+  initialCards: DeckCard[];
+  myPhoto?: string;
+}) {
   const [cards, setCards] = useState(initialCards);
   const [leaving, setLeaving] = useState<{ id: string; dir: Direction } | null>(null);
   const [match, setMatch] = useState<{ matchId: string; card: DeckCard } | null>(null);
@@ -99,7 +107,7 @@ export function Deck({ eventId, initialCards }: { eventId: string; initialCards:
       </div>
 
       {error && (
-        <p className="mt-3 text-center text-sm text-red-300" role="alert">
+        <p className="mt-3 text-center text-[15px] text-danger" role="alert">
           {error}
         </p>
       )}
@@ -110,22 +118,22 @@ export function Deck({ eventId, initialCards }: { eventId: string; initialCards:
           onClick={() => decide(-1)}
           disabled={cards.length === 0}
           aria-label="Nezajímá mě"
-          className="grid size-16 place-items-center rounded-full border border-line bg-surface text-muted shadow-lg transition hover:text-white active:scale-90 disabled:opacity-40"
+          className="glass grid size-16 place-items-center rounded-full text-danger transition active:scale-90 disabled:opacity-40"
         >
-          <Icon name="x" className="size-8" />
+          <Icon name="x" className="size-7" />
         </button>
         <button
           type="button"
           onClick={() => decide(1)}
           disabled={cards.length === 0}
           aria-label="Líbí se mi"
-          className="grid size-20 place-items-center rounded-full bg-party text-white shadow-lg shadow-accent/30 transition active:scale-90 disabled:opacity-40"
+          className="gloss grid size-20 place-items-center rounded-full transition active:scale-90 disabled:opacity-40"
         >
-          <Icon name="heart" className="size-10" />
+          <Icon name="heart" className="size-10 drop-shadow-sm" />
         </button>
       </div>
 
-      {match && <MatchModal match={match} onClose={() => setMatch(null)} />}
+      {match && <MatchModal match={match} myPhoto={myPhoto} onClose={() => setMatch(null)} />}
     </div>
   );
 }
@@ -195,7 +203,7 @@ function SwipeCard({
 
   return (
     <div
-      className="absolute inset-0 touch-none overflow-hidden rounded-[2rem] bg-surface-2 shadow-2xl select-none"
+      className="absolute inset-0 touch-none overflow-hidden rounded-[32px] border-[3px] border-white bg-gradient-to-br from-pink-200 to-orange-100 shadow-[0_28px_60px_-24px_rgb(40_20_80/0.55)] select-none"
       style={{
         transform,
         transition: dragging ? "none" : `transform ${LEAVE_MS}ms ease-out`,
@@ -214,31 +222,31 @@ function SwipeCard({
       />
 
       {card.photos.length > 1 && (
-        <div className="absolute inset-x-3 top-3 flex gap-1">
+        <div className="absolute inset-x-4 top-3 flex gap-1">
           {card.photos.map((p, i) => (
-            <span key={p} className={`h-1 flex-1 rounded-full ${i === photoIndex ? "bg-white" : "bg-white/35"}`} />
+            <span key={p} className={`h-1 flex-1 rounded-full shadow-sm ${i === photoIndex ? "bg-white" : "bg-white/40"}`} />
           ))}
         </div>
       )}
 
       <span
-        className="absolute top-10 left-6 -rotate-12 rounded-xl border-4 border-emerald-400 px-3 py-1 text-3xl font-black text-emerald-400"
+        className="absolute top-10 left-5 -rotate-12 rounded-full bg-white/90 px-5 py-2 font-display text-2xl font-bold text-success shadow-lg backdrop-blur"
         style={{ opacity: likeOpacity }}
       >
         LÍBÍ
       </span>
       <span
-        className="absolute top-10 right-6 rotate-12 rounded-xl border-4 border-rose-400 px-3 py-1 text-3xl font-black text-rose-400"
+        className="absolute top-10 right-5 rotate-12 rounded-full bg-white/90 px-5 py-2 font-display text-2xl font-bold text-danger shadow-lg backdrop-blur"
         style={{ opacity: nopeOpacity }}
       >
         NE
       </span>
 
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-5 pt-24">
-        <p className="text-3xl font-black">
+      <div className="glass-photo absolute inset-x-3 bottom-3 rounded-[24px] px-4 py-3.5">
+        <p className="font-display text-[28px] leading-tight font-bold">
           {card.display_name} <span className="font-normal">{card.age}</span>
         </p>
-        {card.bio && <p className="mt-1 line-clamp-3 text-sm text-white/85">{card.bio}</p>}
+        {card.bio && <p className="mt-0.5 line-clamp-2 text-[15px] leading-snug text-white/90">{card.bio}</p>}
       </div>
     </div>
   );
@@ -246,10 +254,10 @@ function SwipeCard({
 
 function EmptyState({ loading, onRetry }: { loading: boolean; onRetry: () => void }) {
   return (
-    <div className="flex h-full flex-col items-center justify-center rounded-[2rem] border border-dashed border-line p-8 text-center">
+    <div className="glass flex h-full flex-col items-center justify-center rounded-[32px] p-8 text-center">
       <p className="text-5xl">🎶</p>
-      <p className="mt-4 text-xl font-bold">Zatím jsi viděl/a všechny</p>
-      <p className="mt-2 text-muted">
+      <p className="mt-4 font-display text-[22px] font-bold">Zatím jsi viděl/a všechny</p>
+      <p className="mt-2 text-[15px] text-muted">
         Lidi se připojují průběžně – zkus to za chvíli znovu, nebo se mrkni na své matche.
       </p>
       <div className="mt-6 flex gap-3">
@@ -265,26 +273,35 @@ function EmptyState({ loading, onRetry }: { loading: boolean; onRetry: () => voi
   );
 }
 
-function MatchModal({ match, onClose }: { match: { matchId: string; card: DeckCard }; onClose: () => void }) {
+function MatchModal({
+  match,
+  myPhoto,
+  onClose,
+}: {
+  match: { matchId: string; card: DeckCard };
+  myPhoto?: string;
+  onClose: () => void;
+}) {
+  const avatar = "size-32 rounded-full border-4 border-white object-cover shadow-[0_18px_40px_-12px_rgb(40_20_80/0.5)]";
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-night/90 px-8 text-center backdrop-blur-md"
+      className="aurora fixed inset-0 z-50 flex flex-col items-center justify-center px-8 text-center"
       role="dialog"
       aria-modal="true"
     >
-      <p className="text-party text-5xl font-black">Je to match!</p>
-      <p className="mt-3 text-lg text-muted">
-        Ty a {match.card.display_name} jste se lajkli. Napiš první!
-      </p>
-      <img
-        src={photoUrl(match.card.photos[0])}
-        alt={match.card.display_name}
-        className="mt-8 size-40 rounded-full border-4 border-accent object-cover shadow-2xl shadow-accent/40"
-      />
+      <div className="relative flex items-center">
+        {myPhoto && <img src={photoUrl(myPhoto)} alt="" className={`${avatar} -mr-6 -rotate-6`} />}
+        <img src={photoUrl(match.card.photos[0])} alt={match.card.display_name} className={`${avatar} rotate-6`} />
+        <span className="gloss absolute -bottom-3 left-1/2 grid size-14 -translate-x-1/2 place-items-center rounded-full border-4 border-white">
+          <Icon name="heart" className="size-7" />
+        </span>
+      </div>
+      <p className="mt-10 font-display text-[44px] leading-none font-bold tracking-tight text-gradient">Je to match!</p>
+      <p className="mt-3 text-[17px] text-muted">Ty a {match.card.display_name} jste se lajkli. Napiš první!</p>
       <Link href={`/matches/${match.matchId}`} className={`${btnPrimary} mt-10 w-full max-w-xs py-4`}>
         Napsat zprávu
       </Link>
-      <button type="button" onClick={onClose} className="mt-4 text-muted hover:text-white">
+      <button type="button" onClick={onClose} className="mt-3 py-2 text-[17px] font-semibold text-accent">
         Swipovat dál
       </button>
     </div>

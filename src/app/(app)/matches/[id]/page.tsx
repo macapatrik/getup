@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Icon } from "@/components/icons";
+import { iconButton } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/server";
@@ -32,17 +33,19 @@ export default async function ChatPage(props: PageProps<"/matches/[id]">) {
   const messages = ((latest ?? []) as Message[]).reverse();
 
   return (
-    <main className="fixed inset-x-0 top-0 mx-auto flex h-dvh max-w-md flex-col bg-night">
-      <header className="flex items-center gap-3 border-b border-line px-3 py-2">
-        <Link href="/matches" aria-label="Zpět" className="grid size-10 place-items-center rounded-full hover:bg-surface">
-          <Icon name="back" />
+    <main className="fixed inset-x-0 top-0 mx-auto flex h-dvh max-w-md flex-col">
+      <header className="flex items-center gap-2 px-3 pt-safe pb-2">
+        <Link href="/matches" aria-label="Zpět" className={iconButton}>
+          <Icon name="back" className="size-5" />
         </Link>
-        <img src={photoUrl(match.photos[0])} alt="" className="size-10 rounded-full object-cover" />
-        <div className="min-w-0 flex-1">
-          <p className="truncate font-semibold">
-            {match.display_name}, {match.age}
-          </p>
-          {match.event_name && <p className="truncate text-xs text-muted">📍 {match.event_name}</p>}
+        <div className="glass flex min-w-0 flex-1 items-center gap-2.5 rounded-full py-1 pr-4 pl-1">
+          <img src={photoUrl(match.photos[0])} alt="" className="size-9 rounded-full object-cover" />
+          <div className="min-w-0">
+            <p className="truncate text-[15px] leading-tight font-semibold">
+              {match.display_name}, {match.age}
+            </p>
+            {match.event_name && <p className="truncate text-[12px] leading-tight text-muted">📍 {match.event_name}</p>}
+          </div>
         </div>
         <ChatMenu matchId={id} name={match.display_name} unmatch={unmatchAction.bind(null, id)} />
       </header>
