@@ -170,7 +170,7 @@ export function PushPrompt() {
           type="button"
           onClick={enable}
           disabled={busy}
-          className="gloss shrink-0 rounded-full px-4 py-2 text-[14px] font-semibold transition active:scale-95 disabled:opacity-60"
+          className="gloss-ink shrink-0 rounded-full px-4 py-2 text-[14px] font-semibold transition active:scale-95 disabled:opacity-60"
         >
           Zapnout
         </button>

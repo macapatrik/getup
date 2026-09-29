@@ -22,7 +22,7 @@ export function JoinForm({ initialError }: { initialError: string | null }) {
           aria-label="Kód akce"
           className={`${input} font-mono tracking-[0.3em] uppercase`}
         />
-        <SubmitButton pendingText="…" className="gloss shrink-0 rounded-2xl px-5 text-[17px] font-semibold transition active:scale-95 disabled:opacity-50">
+        <SubmitButton pendingText="…" className="gloss-ink shrink-0 rounded-2xl px-5 text-[17px] font-semibold transition active:scale-95 disabled:opacity-50">
           Vstoupit
         </SubmitButton>
       </div>

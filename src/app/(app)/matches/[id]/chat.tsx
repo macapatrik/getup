@@ -144,7 +144,7 @@ export function Chat({
           type="submit"
           disabled={sending || !text.trim()}
           aria-label="Odeslat"
-          className="gloss grid size-12 shrink-0 place-items-center rounded-full transition active:scale-90 disabled:opacity-40"
+          className="gloss-ink grid size-12 shrink-0 place-items-center rounded-full transition active:scale-90 disabled:opacity-40"
         >
           <Icon name="send" className="size-5" />
         </button>

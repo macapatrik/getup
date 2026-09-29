@@ -1,6 +1,6 @@
 // Designový systém (iOS 26 Liquid Glass). Utility `glass`, `gloss` apod. jsou v globals.css.
 export const btnPrimary =
-  "gloss inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[17px] font-semibold transition active:scale-[0.97] disabled:opacity-50";
+  "gloss-ink inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[17px] font-semibold transition active:scale-[0.97] disabled:opacity-50";
 
 export const btnSecondary =
   "glass inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[15px] font-semibold text-ink transition active:scale-[0.97] disabled:opacity-50";
@@ -24,7 +24,7 @@ export const largeTitle = "font-display text-[34px] leading-[1.1] font-bold trac
 
 export function chip(active: boolean) {
   return `rounded-full px-4 py-2.5 text-[15px] font-semibold transition active:scale-95 ${
-    active ? "gloss" : "glass text-ink"
+    active ? "gloss-ink" : "glass text-ink"
   }`;
 }
 

@@ -171,7 +171,7 @@ function NextEventWidget({ event, attendees }: { event: EventRow; attendees: num
             <Icon name="users" className="size-4" />
             {formatNumber(attendees)} {attendees === 1 ? "člověk" : attendees < 5 ? "lidi" : "lidí"}
           </span>
-          <span className="gloss inline-flex items-center gap-1 rounded-full px-4 py-2 text-[14px] font-bold">
+          <span className="gloss-ink inline-flex items-center gap-1 rounded-full px-4 py-2 text-[14px] font-bold">
             Swipovat <Icon name="chevron" className="size-4" />
           </span>
         </div>
