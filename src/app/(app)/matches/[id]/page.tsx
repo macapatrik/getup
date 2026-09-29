@@ -33,7 +33,7 @@ export default async function ChatPage(props: PageProps<"/matches/[id]">) {
   const messages = ((latest ?? []) as Message[]).reverse();
 
   return (
-    <main className="fixed inset-x-0 top-0 mx-auto flex h-dvh max-w-md flex-col">
+    <main className="fixed inset-x-0 top-0 mx-auto flex h-dvh max-w-md flex-col lg:left-72 lg:py-4">
       <header className="flex items-center gap-2 px-3 pt-safe pb-2">
         <Link href="/matches" aria-label="Zpět" className={iconButton}>
           <Icon name="back" className="size-5" />

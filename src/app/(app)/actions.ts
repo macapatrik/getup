@@ -2,8 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { isOrganizer, requireUser } from "@/lib/auth";
-import { TIME_ZONE } from "@/lib/config";
+import { requireUser } from "@/lib/auth";
 import { errorMessage } from "@/lib/errors";
 import { TEST_MESSAGE, pushConfigured, sendPush } from "@/lib/push";
 import { createClient } from "@/lib/supabase/server";
@@ -75,32 +74,14 @@ export async function signOutAction() {
   redirect("/");
 }
 
-// ---------- Organizátor ----------
+// ---------- Můj účet ----------
 
-export async function createEventAction(_prev: FormState, formData: FormData): Promise<FormState> {
+/** Zrušení lajku (jen dokud z něj není match). */
+export async function unlikeAction(userId: string) {
   await requireUser();
-  if (!(await isOrganizer())) return { error: errorMessage("GU403") };
-
-  const name = String(formData.get("name") ?? "").trim();
-  const venue = String(formData.get("venue") ?? "").trim();
-  const startsAt = String(formData.get("starts_at") ?? "");
-  const endsAt = String(formData.get("ends_at") ?? "");
-
-  if (!name) return { error: "Vyplň název akce." };
-  if (!startsAt || !endsAt) return { error: "Vyplň začátek i konec akce." };
-  if (endsAt <= startsAt) return { error: "Konec musí být po začátku." };
-
   const supabase = await createClient();
-  const { data, error } = await supabase.rpc("create_event", {
-    p_name: name,
-    p_venue: venue,
-    p_starts_at: startsAt,
-    p_ends_at: endsAt,
-    p_time_zone: TIME_ZONE,
-  });
-  if (error || !data) return { error: errorMessage(error) };
-
-  redirect(`/admin/events/${(data as { id: string }).id}`);
+  await supabase.rpc("unlike", { p_target: userId });
+  revalidatePath("/profile", "layout");
 }
 
 // ---------- Upozornění ----------

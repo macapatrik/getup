@@ -22,7 +22,7 @@ export default async function MatchesPage() {
   const chats = matches.filter((m) => m.last_message);
 
   return (
-    <main className="px-5 pt-safe">
+    <main className="mx-auto max-w-md px-5 pt-safe lg:pt-6">
       <LiveRefresh />
       <h1 className={`${largeTitle} pt-6`}>Matche</h1>
       <PushPrompt />

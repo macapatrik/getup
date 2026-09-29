@@ -88,7 +88,7 @@ export function PushSettings() {
   }
 
   return (
-    <section className={`${card} mt-10 space-y-4`}>
+    <section className={`${card} space-y-4`}>
       <div className="flex items-center gap-3">
         <span className="gloss grid size-10 shrink-0 place-items-center rounded-full">
           <Icon name="bell" className="size-5" />

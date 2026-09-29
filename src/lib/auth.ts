@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Profile } from "@/lib/types";
 
@@ -43,6 +43,13 @@ export const isOrganizer = cache(async () => {
   const { data } = await supabase.rpc("is_organizer");
   return data === true;
 });
+
+/** Přihlášený organizátor (tým GetUp), jinak 404. */
+export async function requireOrganizer() {
+  const user = await requireUser();
+  if (!(await isOrganizer())) notFound();
+  return user;
+}
 
 /** Veřejná adresa aplikace – pro odkazy v QR kódech. */
 export async function getOrigin() {

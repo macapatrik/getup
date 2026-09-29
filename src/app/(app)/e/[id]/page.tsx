@@ -36,7 +36,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
   }
 
   return (
-    <main className="fixed inset-x-0 top-0 mx-auto flex h-dvh max-w-md flex-col px-4 pt-safe pb-nav-tight">
+    <main className="fixed inset-x-0 top-0 mx-auto flex h-dvh max-w-md flex-col px-4 pt-safe pb-nav-tight lg:left-72 lg:pt-6 lg:pb-8">
       <header className="flex shrink-0 items-center gap-3 pt-2">
         <Link href="/events" aria-label="Zpět" className={iconButton}>
           <Icon name="back" className="size-5" />

@@ -34,7 +34,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
     .filter((e): e is EventRow => e !== null);
 
   return (
-    <main className="px-5 pt-safe">
+    <main className="mx-auto max-w-md px-5 pt-safe lg:pt-6">
       <header className="pt-6">
         <p className="text-[15px] font-medium text-muted">Čau {profile.display_name} 👋</p>
         <h1 className={largeTitle}>Kde dneska paříš?</h1>

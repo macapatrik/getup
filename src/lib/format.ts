@@ -23,6 +23,26 @@ export function formatTime(iso: string) {
   return timeFormat.format(new Date(iso));
 }
 
+/** ISO čas → hodnota pro <input type="datetime-local"> v české zóně */
+export function toLocalInput(iso: string) {
+  return new Intl.DateTimeFormat("sv-SE", {
+    timeZone: TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  })
+    .format(new Date(iso))
+    .replace(" ", "T");
+}
+
+export function formatDate(iso: string) {
+  return new Intl.DateTimeFormat("cs-CZ", { timeZone: TIME_ZONE, day: "numeric", month: "numeric", year: "numeric" }).format(
+    new Date(iso),
+  );
+}
+
 export type EventStatus = "upcoming" | "live" | "after" | "closed";
 
 export function eventStatus(event: { starts_at: string; ends_at: string }, now = Date.now()): EventStatus {

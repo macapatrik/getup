@@ -7,7 +7,17 @@ Seznamka ve stylu Tinderu napojená na akce [GetUp](https://getup.cz): lidé se 
 3. Swipuje lidi ze stejné akce. Když se lajknou oba → **match** → chat v reálném čase.
 4. Místnost akce je otevřená ještě 24 h po jejím konci. Matche a chat zůstávají napořád.
 
-Organizátoři (tým GetUp) mají v aplikaci sekci **GetUp**, kde zakládají akce, stahují nebo tisknou QR kódy a sledují statistiky (lidé, swipy, matche, zprávy).
+Dvě administrace:
+
+- **Můj účet** (`/profile`, pro každého návštěvníka): profil a fotky, moje akce, matche, koho jsem lajknul/a
+  (lajk jde zrušit, dokud z něj není match), upozornění, stažení všech mých dat (JSON) a smazání účtu.
+  Každý vidí jen svoje data.
+- **Administrace** (`/admin`, jen pro tým GetUp): webový portál s bočním panelem, na mobilu se záložkami nahoře.
+  Přehled s čísly, akce (založení, úprava, smazání, QR kódy k tisku, statistiky), uživatelé (hledání, detail,
+  blokace), nahlášení (vyřešit / zablokovat) a tým (přidání a odebrání organizátorů podle e-mailu).
+  Zprávy z chatů organizátoři nevidí.
+
+Na počítači má aplikace boční panel místo spodní lišty.
 
 ## Technologie
 
@@ -42,7 +52,7 @@ insert into public.organizers (user_id)
 select id from auth.users where email = 'ty@example.cz';
 ```
 
-V navigaci se pak objeví záložka **GetUp**.
+V navigaci se pak objeví záložka **Admin**. Další členy týmu už přidáš přímo v administraci (sekce Tým).
 
 ### Testování na mobilu přes Wi-Fi
 
@@ -86,6 +96,7 @@ Nastavení:
 supabase/
   migrations/…_init.sql   schéma, RLS, RPC funkce (join_event, get_deck, swipe, get_matches…)
   migrations/…_push_notifications.sql  odběry push upozornění + webhook po matchi
+  migrations/…_admin_and_account.sql   administrace (admin_*), blokace účtů, Můj účet (my_*, export)
   templates/login.html    e-mailová šablona s kódem
   seed.sql                demo akce DEMO26
 src/
@@ -98,8 +109,8 @@ src/
     (app)/events/         moje akce + zadání kódu
     (app)/e/[id]/         swipování (balíček karet)
     (app)/matches/        matche + chat
-    (app)/profile/        úprava profilu, odhlášení, smazání účtu
-    (app)/admin/          organizátoři: akce, QR kódy, statistiky
+    (app)/profile/        Můj účet: přehled, úprava profilu, lajky, export dat, smazání účtu
+    admin/                administrace týmu GetUp: přehled, akce + QR, uživatelé, nahlášení, tým
     api/push/match/       webhook z databáze → rozeslání push upozornění
   lib/                    Supabase klienti, typy, formátování, chybové hlášky
   components/             sdílené UI
@@ -120,13 +131,15 @@ Před ostrým spuštěním je smaž podle `supabase/demo/cleanup.sql`.
 - Cizí profily **nejdou číst přímo z tabulky**, jen přes funkce `get_deck` a `get_matches`. Ty vrací věk místo data narození
   a jen lidi ze společné akce nebo matche.
 - Nikdo nevidí, kdo ho lajknul. Match vznikne až při vzájemném lajku (ošetřeno i pro současné lajky).
-- Aplikace je jen pro 18+ (hlídá to databáze). Obsahuje zrušení matche, nahlášení (vidí ho organizátoři) a smazání účtu.
+- Aplikace je jen pro 18+ (hlídá to databáze). Obsahuje zrušení matche, nahlášení (řeší ho tým v administraci) a smazání účtu.
+- Zablokovaný účet zmizí z balíčků i z matchů ostatních a nemůže swipovat, psát ani se připojit k akci (triggery v databázi).
+- Každý si může stáhnout všechna svoje data (Můj účet → Stáhnout moje data).
 - Fotky jsou ve veřejném bucketu pod náhodnými názvy. Pro vyšší soukromí je lze přepnout na podepsané URL.
 
 ## Další kroky (nápady)
 
 - Push upozornění i na nové zprávy (stejný mechanismus jako u matchů).
 - Ověření přes vstupenku z prodejního systému GetUp místo QR kódu.
-- Moderace fotek a přehled nahlášení pro organizátory.
+- Moderace fotek (kontrola nových fotek před zveřejněním).
 - Ledolamy podle akce (např. „Na jakou písničku se nejvíc těšíš?“).
 - Generované typy databáze: `npx supabase gen types typescript --local > src/lib/database.types.ts`.

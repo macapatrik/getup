@@ -11,6 +11,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## Projekt GetTogether (dříve GetUp Match)
 
 - Seznamka pro návštěvníky akcí GetUp: Next.js 16 (App Router) + Supabase. UI texty jsou česky.
-- Schéma a veškerá bezpečnostní logika je v `supabase/migrations/` (RLS + RPC funkce). Cizí profily čti jen přes RPC `get_deck` / `get_matches`, nikdy nepřidávej select policy na cizí řádky `profiles`.
+- Schéma a veškerá bezpečnostní logika je v `supabase/migrations/` (RLS + RPC funkce). Cizí profily čti jen přes security definer RPC (`get_deck`, `get_matches`, `my_likes`, `admin_*`), nikdy nepřidávej select policy na cizí řádky `profiles`.
+- Administrace týmu je v `src/app/admin/` (vlastní layout, `requireOrganizer()`); každá `admin_*` funkce v SQL začíná `perform public.assert_organizer()`. Zákaznická část „Můj účet“ je `src/app/(app)/profile/`.
 - SQL funkce vyhazují chyby s kódy `GUxxx`; české hlášky k nim jsou v `src/lib/errors.ts` (při novém kódu doplň obojí).
 - Kontroly: `npx tsc --noEmit`, `npm run lint`, `npm run build`.

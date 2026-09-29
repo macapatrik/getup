@@ -151,4 +151,9 @@ body {
     background: white;
     color: black;
   }
+  /* Administrace: bez místa pro boční panel */
+  .print-full {
+    padding: 0 !important;
+    max-width: none !important;
+  }
 }
