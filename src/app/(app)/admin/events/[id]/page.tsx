@@ -63,7 +63,7 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
 
       <DigitCounter label="Matchů na akci" value={stats?.matches ?? 0} time={formatTime(new Date().toISOString())} />
 
-      <section className="mt-6 rounded-[32px] border-[3px] border-white bg-white p-6 text-center text-black [text-shadow:none] shadow-[0_24px_60px_-24px_rgb(40_20_80/0.45)]">
+      <section className="mt-6 rounded-[32px] border-[3px] border-white bg-white p-6 text-center text-black [text-shadow:none] shadow-[0_24px_60px_-24px_rgb(60_30_10/0.45)]">
         <p className="text-[13px] font-bold tracking-widest text-accent uppercase [text-shadow:none]">Seznam se s lidmi z akce</p>
         <img src={qr} alt={`QR kód pro ${event.name}`} className="mx-auto mt-2 w-full max-w-xs" />
         <p className="text-[13px] text-neutral-500">nebo zadej kód</p>

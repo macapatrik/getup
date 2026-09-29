@@ -147,7 +147,7 @@ export function ProfileForm({
         <span className={label}>Fotky (první je hlavní)</span>
         <div className="grid grid-cols-3 gap-2">
           {photos.map((photo, i) => (
-            <div key={photo.key} className="relative aspect-[3/4] overflow-hidden rounded-[20px] border-2 border-white bg-fill shadow-[0_8px_20px_-10px_rgb(40_20_80/0.4)]">
+            <div key={photo.key} className="relative aspect-[3/4] overflow-hidden rounded-[20px] border-2 border-white bg-fill shadow-[0_8px_20px_-10px_rgb(60_30_10/0.4)]">
               <img src={photo.preview} alt="" className="size-full object-cover" />
               {i === 0 ? (
                 <span className="gloss absolute bottom-1.5 left-1.5 rounded-full px-2 py-0.5 text-[10px] font-bold">

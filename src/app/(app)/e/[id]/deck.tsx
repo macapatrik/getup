@@ -254,7 +254,7 @@ function SwipeCard({
 
   return (
     <div
-      className="absolute inset-0 touch-none overflow-hidden rounded-[32px] border-[3px] border-white bg-gradient-to-br from-pink-200 to-orange-100 shadow-[0_28px_60px_-24px_rgb(40_20_80/0.55)] select-none"
+      className="absolute inset-0 touch-none overflow-hidden rounded-[32px] border-[3px] border-white bg-gradient-to-br from-orange-200 to-amber-50 shadow-[0_28px_60px_-24px_rgb(60_30_10/0.55)] select-none"
       style={{
         transform,
         transition: dragging ? "none" : `transform ${LEAVE_MS}ms ease-out`,
@@ -338,7 +338,7 @@ function MatchModal({
   myPhoto?: string;
   onClose: () => void;
 }) {
-  const avatar = "size-32 rounded-full border-4 border-white object-cover shadow-[0_18px_40px_-12px_rgb(40_20_80/0.5)]";
+  const avatar = "size-32 rounded-full border-4 border-white object-cover shadow-[0_18px_40px_-12px_rgb(60_30_10/0.5)]";
   return createPortal(
     <div
       className="aurora fixed inset-0 z-50 flex flex-col items-center justify-center px-8 text-center"

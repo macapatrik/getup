@@ -15,9 +15,9 @@ const STEPS: { icon: IconName; title: string; text: string }[] = [
 // Ilustrační fotky (vygenerované přes Higgsfield) stahuje do public/people skript
 // scripts/download-photos.mjs při buildu. Když chybí, ukáže se jen barevný přechod.
 const HERO = [
-  { photo: "veronika", name: "Veronika", age: 27, rotate: "-rotate-[9deg] -translate-x-[44%]", tint: "from-sky-300 to-violet-300" },
-  { photo: "jakub", name: "Jakub", age: 26, rotate: "rotate-[9deg] translate-x-[44%]", tint: "from-amber-200 to-orange-300" },
-  { photo: "tereza", name: "Tereza", age: 24, rotate: "", tint: "from-pink-300 to-orange-200" },
+  { photo: "veronika", name: "Veronika", age: 27, rotate: "-rotate-[9deg] -translate-x-[44%]", tint: "from-amber-200 to-orange-300" },
+  { photo: "jakub", name: "Jakub", age: 26, rotate: "rotate-[9deg] translate-x-[44%]", tint: "from-orange-200 to-amber-300" },
+  { photo: "tereza", name: "Tereza", age: 24, rotate: "", tint: "from-orange-300 to-amber-200" },
 ];
 
 const CROWD = ["klara", "matej", "nikola", "tomas", "adela"];
@@ -25,7 +25,7 @@ const CROWD = ["klara", "matej", "nikola", "tomas", "adela"];
 function Avatar({ photo, className = "" }: { photo: string; className?: string }) {
   return (
     <span
-      className={`relative block shrink-0 overflow-hidden rounded-full border-2 border-white bg-gradient-to-br from-pink-200 to-orange-200 shadow-[0_6px_14px_-6px_rgb(40_20_80/0.45)] ${className}`}
+      className={`relative block shrink-0 overflow-hidden rounded-full border-2 border-white bg-gradient-to-br from-orange-200 to-amber-100 shadow-[0_6px_14px_-6px_rgb(60_30_10/0.45)] ${className}`}
     >
       <FallbackImg src={`/people/${photo}.webp`} className="absolute inset-0 size-full object-cover" />
     </span>
@@ -62,7 +62,7 @@ export default async function Home() {
         {HERO.map((p, i) => (
           <div
             key={p.name}
-            className={`absolute inset-0 overflow-hidden rounded-[30px] border-[3px] border-white bg-gradient-to-br shadow-[0_24px_50px_-18px_rgb(40_20_80/0.45)] ${p.tint} ${p.rotate} ${
+            className={`absolute inset-0 overflow-hidden rounded-[30px] border-[3px] border-white bg-gradient-to-br shadow-[0_24px_50px_-18px_rgb(60_30_10/0.45)] ${p.tint} ${p.rotate} ${
               i < 2 ? "scale-[0.88] opacity-95" : ""
             }`}
           >
