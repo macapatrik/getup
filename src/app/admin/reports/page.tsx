@@ -35,15 +35,15 @@ export default async function AdminReportsPage(props: PageProps<"/admin/reports"
       </div>
 
       {reports.length === 0 ? (
-        <Empty>{all ? "Zatím nikdo nikoho nenahlásil." : "Nic k řešení 🎉"}</Empty>
+        <Empty>{all ? "Zatím nikdo nikoho nenahlásil." : "Nic k řešení."}</Empty>
       ) : (
         <ul className="grid gap-3 xl:grid-cols-2">
           {reports.map((report) => (
-            <li key={report.id} className={`glass rounded-[24px] p-4 ${report.resolved_at ? "opacity-70" : ""}`}>
+            <li key={report.id} className={`glass rounded-[20px] p-4 ${report.resolved_at ? "opacity-70" : ""}`}>
               <div className="flex items-center gap-3">
                 <Avatar photo={report.reported_photo} name={report.reported_name} className="size-12" />
                 <div className="min-w-0 flex-1">
-                  <Link href={`/admin/users/${report.reported_id}`} className="block truncate text-[17px] font-semibold hover:text-accent">
+                  <Link href={`/admin/users/${report.reported_id}`} className="block truncate text-[17px] font-semibold hover:text-ink">
                     {report.reported_name ?? "Smazaný profil"}
                   </Link>
                   <p className="text-[13px] text-muted">
@@ -57,7 +57,7 @@ export default async function AdminReportsPage(props: PageProps<"/admin/reports"
                 </div>
               </div>
 
-              <p className="glass-inner mt-3 rounded-2xl px-4 py-3 text-[15px] leading-snug">„{report.reason}“</p>
+              <p className="glass-inner mt-3 rounded-[14px] px-4 py-3 text-[15px] leading-snug">„{report.reason}“</p>
 
               <div className="mt-3 flex flex-wrap gap-2">
                 <form action={resolveReportAction.bind(null, report.id, !report.resolved_at)}>

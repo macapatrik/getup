@@ -63,7 +63,7 @@ export default async function AdminHomePage() {
                   <li key={event.id}>
                     <Link href={`/admin/events/${event.id}`} className={row}>
                       <span className="glass-inner flex size-12 shrink-0 flex-col items-center justify-center rounded-[14px]">
-                        <span className="text-[10px] font-bold text-accent uppercase">{month}</span>
+                        <span className="text-[10px] font-bold text-muted uppercase">{month}</span>
                         <span className="font-display text-[19px] leading-none font-bold">{day}</span>
                       </span>
                       <span className="min-w-0 flex-1">
@@ -84,7 +84,7 @@ export default async function AdminHomePage() {
         <section>
           <SectionTitle title="K vyřešení" href="/admin/reports" />
           {reports.length === 0 ? (
-            <Empty>Žádná nevyřešená nahlášení 🎉</Empty>
+            <Empty>Žádná nevyřešená nahlášení.</Empty>
           ) : (
             <ul className={list}>
               {reports.map((report) => (

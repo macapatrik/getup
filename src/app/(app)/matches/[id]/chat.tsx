@@ -89,7 +89,7 @@ export function Chat({
       <div className="flex-1 space-y-1.5 overflow-y-auto px-3 py-3">
         {messages.length === 0 && (
           <div className="flex flex-col items-center pt-10 text-center">
-            <span className="gloss rounded-full p-1">
+            <span className="rounded-full bg-white p-1 shadow-[0_8px_24px_-12px_rgb(0_0_0/0.25)]">
               <img
                 src={photoUrl(other.photos[0])}
                 alt=""
@@ -99,7 +99,7 @@ export function Chat({
             <p className="mt-4 font-display text-[22px] font-bold">
               Matchli jste se{other.event_name ? ` na ${other.event_name}` : ""}!
             </p>
-            <p className="mt-1 text-[15px] text-muted">Napiš první. Třeba na co se na akci nejvíc těšíš 🎶</p>
+            <p className="mt-1 text-[15px] text-muted">Napiš první. Třeba na co se na akci nejvíc těšíš.</p>
           </div>
         )}
         {messages.map((m) => {
@@ -109,12 +109,12 @@ export function Chat({
               <div
                 className={`max-w-[78%] rounded-[20px] px-3.5 py-2 ${
                   mine
-                    ? "rounded-br-[6px] bg-accent/12 text-ink"
+                    ? "rounded-br-[6px] bg-ink text-white"
                     : "glass rounded-bl-[6px]"
                 }`}
               >
                 <p className="text-[17px] leading-snug break-words whitespace-pre-wrap">{m.body}</p>
-                <p className={`mt-0.5 text-right text-[11px] ${mine ? "text-accent/80" : "text-faint"}`}>
+                <p className={`mt-0.5 text-right text-[11px] ${mine ? "text-white/60" : "text-faint"}`}>
                   {formatTime(m.created_at)}
                 </p>
               </div>

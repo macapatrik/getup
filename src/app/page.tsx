@@ -46,12 +46,12 @@ export default async function Home() {
 
       <section className="mt-10 text-center">
         <span className="glass inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold">
-          <Icon name="ticket" className="size-4 text-accent" /> Pro návštěvníky akcí GetUp
+          <Icon name="ticket" className="size-4 text-ink" /> Pro návštěvníky akcí GetUp
         </span>
         <h1 className="mt-5 font-display text-[44px] leading-[1.02] font-bold tracking-tight">
           Potkej lidi
           <br />
-          <span className="text-gradient">z&nbsp;koncertu.</span>
+          <span className="text-muted">z&nbsp;koncertu.</span>
         </h1>
         <p className="mx-auto mt-4 max-w-xs text-[17px] leading-snug text-muted">
           Ta holka nebo kluk z první řady? Teď si můžete napsat.
@@ -72,7 +72,7 @@ export default async function Home() {
                 <p className="font-display text-[19px] font-bold">
                   {p.name} <span className="font-normal">{p.age}</span>
                 </p>
-                <p className="text-[12px] text-white/85">📍 GetUp Open Air</p>
+                <p className="text-[12px] text-white/85">GetUp Open Air</p>
               </div>
             )}
           </div>
@@ -104,7 +104,7 @@ export default async function Home() {
       <ol className={`${card} mt-8 space-y-4 p-4`}>
         {STEPS.map((step) => (
           <li key={step.title} className="flex items-center gap-3.5">
-            <span className="glass-inner grid size-11 shrink-0 place-items-center rounded-[13px] text-accent">
+            <span className="glass-inner grid size-11 shrink-0 place-items-center rounded-[13px] text-ink">
               <Icon name={step.icon} className="size-6" />
             </span>
             <div>

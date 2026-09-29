@@ -134,7 +134,7 @@ export function ProfileSheet({
               </h2>
               {eventName && (
                 <span className="glass-inner mt-2 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[13px] font-semibold">
-                  📍 {eventName}
+                  {eventName}
                 </span>
               )}
             </div>

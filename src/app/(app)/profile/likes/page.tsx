@@ -19,7 +19,7 @@ export default async function LikesPage() {
 
   return (
     <main className="mx-auto max-w-md px-5 pt-safe lg:max-w-2xl lg:pt-6">
-      <Link href="/profile" className="inline-flex items-center gap-0.5 pt-4 text-[17px] font-medium text-accent">
+      <Link href="/profile" className="inline-flex items-center gap-0.5 pt-4 text-[17px] font-medium text-ink">
         <Icon name="back" className="size-5" /> Můj účet
       </Link>
       <h1 className={`${largeTitle} pt-2`}>Koho jsem lajknul/a</h1>
@@ -28,7 +28,7 @@ export default async function LikesPage() {
       {likes.length === 0 ? (
         <p className={`${card} mt-6 text-center text-[15px] text-muted`}>Zatím nikoho.</p>
       ) : (
-        <ul className="glass mt-6 divide-y divide-line overflow-hidden rounded-[24px]">
+        <ul className="glass mt-6 divide-y divide-line overflow-hidden rounded-[20px]">
           {likes.map((like) => (
             <li key={like.user_id} className="flex items-center gap-3 px-4 py-3">
               <img src={photoUrl(like.photo)} alt="" className="size-12 shrink-0 rounded-full object-cover" />
@@ -41,7 +41,7 @@ export default async function LikesPage() {
                 </p>
               </div>
               {like.match_id ? (
-                <Link href={`/matches/${like.match_id}`} className="shrink-0 rounded-full bg-accent/10 px-3.5 py-1.5 text-[13px] font-semibold text-accent">
+                <Link href={`/matches/${like.match_id}`} className="shrink-0 rounded-full bg-accent/10 px-3.5 py-1.5 text-[13px] font-semibold text-ink">
                   Match · napsat
                 </Link>
               ) : (

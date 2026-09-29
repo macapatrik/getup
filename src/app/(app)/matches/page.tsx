@@ -44,7 +44,7 @@ export default async function MatchesPage() {
             {fresh.map((m) => (
               <li key={m.match_id} className="shrink-0">
                 <Link href={`/matches/${m.match_id}`} className="flex w-[76px] flex-col items-center gap-1.5">
-                  <span className="gloss rounded-full p-[3px]">
+                  <span className="rounded-full bg-ink p-[2px]">
                     <img
                       src={photoUrl(m.photos[0])}
                       alt=""
@@ -62,7 +62,7 @@ export default async function MatchesPage() {
       {chats.length > 0 && (
         <section className="mt-7">
           <h2 className={sectionTitle}>Zprávy</h2>
-          <ul className="glass overflow-hidden rounded-[24px]">
+          <ul className="glass overflow-hidden rounded-[20px]">
             {chats.map((m) => {
               const theirs = m.last_sender_id !== user.id;
               return (
@@ -83,7 +83,7 @@ export default async function MatchesPage() {
                         </p>
                         {theirs && <span className="size-2.5 shrink-0 rounded-full bg-accent" />}
                       </div>
-                      {m.event_name && <p className="truncate text-[12px] text-faint">📍 {m.event_name}</p>}
+                      {m.event_name && <p className="truncate text-[12px] text-faint">{m.event_name}</p>}
                     </div>
                     <Icon name="chevron" className="size-4 shrink-0 text-faint" />
                   </Link>

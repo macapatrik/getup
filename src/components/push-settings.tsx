@@ -90,7 +90,7 @@ export function PushSettings() {
   return (
     <section className={`${card} space-y-4`}>
       <div className="flex items-center gap-3">
-        <span className="glass-inner grid size-10 shrink-0 place-items-center rounded-full text-accent">
+        <span className="glass-inner grid size-10 shrink-0 place-items-center rounded-full text-ink">
           <Icon name="bell" className="size-5" />
         </span>
         <div className="min-w-0 flex-1">
@@ -105,7 +105,7 @@ export function PushSettings() {
             aria-label="Upozornění na matche"
             disabled={busy}
             onClick={on ? disable : enable}
-            className={`relative h-[31px] w-[51px] shrink-0 rounded-full transition-colors disabled:opacity-60 ${on ? "bg-accent" : "bg-black/10"}`}
+            className={`relative h-[31px] w-[51px] shrink-0 rounded-full transition-colors disabled:opacity-60 ${on ? "bg-success" : "bg-black/10"}`}
           >
             <span
               className={`absolute top-[2px] left-[2px] size-[27px] rounded-full bg-white shadow-[0_2px_6px_rgb(0_0_0/0.2)] transition-transform ${on ? "translate-x-5" : ""}`}
@@ -157,7 +157,7 @@ export function PushPrompt() {
 
   return (
     <div className="glass mt-5 flex items-center gap-3 rounded-[22px] py-3 pr-2 pl-4">
-      <Icon name="bell" className="size-6 shrink-0 text-accent" />
+      <Icon name="bell" className="size-6 shrink-0 text-ink" />
       <div className="min-w-0 flex-1">
         {state === "install" ? (
           <InstallHint />

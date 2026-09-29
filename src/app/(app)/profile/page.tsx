@@ -85,7 +85,7 @@ export default async function AccountPage() {
             {events.length === 0 ? (
               <p className={`${card} text-center text-[15px] text-muted`}>Zatím žádná.</p>
             ) : (
-              <ul className="glass divide-y divide-line overflow-hidden rounded-[24px]">
+              <ul className="glass divide-y divide-line overflow-hidden rounded-[20px]">
                 {events.map((event) => {
                   const status = eventStatus(event);
                   return (
@@ -111,14 +111,14 @@ export default async function AccountPage() {
           <section>
             <div className="mb-2 flex items-baseline justify-between">
               <h2 className={`${sectionTitle} mb-0`}>Moje matche</h2>
-              <Link href="/matches" className="text-[14px] font-semibold text-accent">
+              <Link href="/matches" className="text-[14px] font-semibold text-ink">
                 Chaty
               </Link>
             </div>
             {matches.length === 0 ? (
               <p className={`${card} text-center text-[15px] text-muted`}>Zatím žádný match.</p>
             ) : (
-              <ul className="glass flex gap-4 overflow-x-auto rounded-[24px] p-4 [scrollbar-width:none]">
+              <ul className="glass flex gap-4 overflow-x-auto rounded-[20px] p-4 [scrollbar-width:none]">
                 {matches.map((m) => (
                   <li key={m.match_id} className="shrink-0">
                     <Link href={`/matches/${m.match_id}`} className="flex w-16 flex-col items-center gap-1">
@@ -135,7 +135,7 @@ export default async function AccountPage() {
             <div className="mb-2 flex items-baseline justify-between">
               <h2 className={`${sectionTitle} mb-0`}>Koho jsem lajknul/a</h2>
               {likes.length > 0 && (
-                <Link href="/profile/likes" className="text-[14px] font-semibold text-accent">
+                <Link href="/profile/likes" className="text-[14px] font-semibold text-ink">
                   Všechny ({likes.length})
                 </Link>
               )}
@@ -143,7 +143,7 @@ export default async function AccountPage() {
             {likes.length === 0 ? (
               <p className={`${card} text-center text-[15px] text-muted`}>Zatím nikoho. Běž swipovat!</p>
             ) : (
-              <Link href="/profile/likes" className="glass flex items-center gap-3 rounded-[24px] p-4">
+              <Link href="/profile/likes" className="glass flex items-center gap-3 rounded-[20px] p-4">
                 <span className="flex -space-x-3">
                   {likes.slice(0, 5).map((like) => (
                     <img

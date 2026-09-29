@@ -12,7 +12,7 @@ export default async function EditProfilePage() {
 
   return (
     <main className="mx-auto max-w-md px-5 pt-safe lg:pt-6">
-      <Link href="/profile" className="inline-flex items-center gap-0.5 pt-4 text-[17px] font-medium text-accent">
+      <Link href="/profile" className="inline-flex items-center gap-0.5 pt-4 text-[17px] font-medium text-ink">
         <Icon name="back" className="size-5" /> Můj účet
       </Link>
       <h1 className={`${largeTitle} pt-2`}>Upravit profil</h1>

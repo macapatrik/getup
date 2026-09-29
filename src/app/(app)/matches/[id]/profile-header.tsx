@@ -23,7 +23,7 @@ export function ProfileHeader({ match }: { match: MatchRow }) {
             {match.display_name}, {match.age}
           </span>
           {match.event_name && (
-            <span className="block truncate text-[12px] leading-tight text-muted">📍 {match.event_name}</span>
+            <span className="block truncate text-[12px] leading-tight text-muted">{match.event_name}</span>
           )}
         </span>
       </button>

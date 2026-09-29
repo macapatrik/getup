@@ -22,8 +22,8 @@ import { JoinForm } from "./join-form";
 export const metadata: Metadata = { title: "Akce" };
 
 const STATUS_STYLES: Record<EventStatus, string> = {
-  upcoming: "bg-info/10 text-info",
-  live: "bg-accent/10 text-accent",
+  upcoming: "bg-fill text-muted",
+  live: "bg-fill text-ink",
   after: "bg-amber-400/20 text-amber-700",
   closed: "bg-fill text-muted",
 };
@@ -55,13 +55,13 @@ export default async function EventsPage(props: PageProps<"/events">) {
   return (
     <main className="mx-auto max-w-md px-5 pt-safe lg:pt-6">
       <header className="pt-6">
-        <p className="text-[15px] font-medium text-muted">Čau {profile.display_name} 👋</p>
+        <p className="text-[15px] font-medium text-muted">Čau {profile.display_name}</p>
         <h1 className={largeTitle}>Kam vyrazíš?</h1>
       </header>
 
       <section className={`${card} mt-6`}>
         <div className="flex items-start gap-3.5">
-          <span className="glass-inner grid size-11 shrink-0 place-items-center rounded-[13px] text-accent">
+          <span className="glass-inner grid size-11 shrink-0 place-items-center rounded-[14px] text-ink">
             <Icon name="qr" className="size-6" />
           </span>
           <div>
@@ -99,12 +99,12 @@ export default async function EventsPage(props: PageProps<"/events">) {
               <li key={event.id}>
                 <Link
                   href={closed ? "/matches" : `/e/${event.id}`}
-                  className={`glass flex items-center gap-4 rounded-[24px] p-3.5 pr-4 transition active:scale-[0.98] ${
+                  className={`glass flex items-center gap-4 rounded-[20px] p-3.5 pr-4 transition active:scale-[0.98] ${
                     closed ? "opacity-60" : ""
                   }`}
                 >
-                  <div className="glass-inner flex size-14 shrink-0 flex-col items-center justify-center rounded-[16px]">
-                    <span className="text-[11px] font-bold text-accent uppercase">{month}</span>
+                  <div className="glass-inner flex size-14 shrink-0 flex-col items-center justify-center rounded-[14px]">
+                    <span className="text-[11px] font-bold text-muted uppercase">{month}</span>
                     <span className="font-display text-[22px] leading-none font-bold">{day}</span>
                   </div>
                   <div className="min-w-0 flex-1">
@@ -155,7 +155,7 @@ function NextEventWidget({ event, attendees }: { event: EventRow; attendees: num
             : "dní do startu";
 
   return (
-    <Link href={`/e/${event.id}`} className="glass block rounded-[32px] p-5 transition active:scale-[0.98]">
+    <Link href={`/e/${event.id}`} className="glass block rounded-[20px] p-5 transition active:scale-[0.98]">
       <p className="truncate font-display text-[24px] leading-tight font-bold">{event.name}</p>
       <p className="mt-0.5 truncate text-[14px] text-muted">
         {[event.venue, formatDateTime(event.starts_at)].filter(Boolean).join(" · ")}
@@ -163,7 +163,7 @@ function NextEventWidget({ event, attendees }: { event: EventRow; attendees: num
 
       <div className="mt-5 flex items-end justify-between gap-4">
         <div>
-          <p className="font-display text-[60px] leading-[0.9] font-bold tracking-tight text-gradient">{big}</p>
+          <p className="font-display text-[60px] leading-[0.9] font-bold tracking-tight">{big}</p>
           <p className="mt-1.5 text-[13px] font-semibold text-muted">{caption}</p>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-2.5">

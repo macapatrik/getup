@@ -262,7 +262,7 @@ function SwipeCard({
 
   return (
     <div
-      className="absolute inset-0 touch-none overflow-hidden rounded-[32px] border-[3px] border-white bg-gradient-to-br from-orange-200 to-amber-50 shadow-[0_28px_60px_-24px_rgb(60_30_10/0.55)] select-none"
+      className="absolute inset-0 touch-none overflow-hidden rounded-[32px] border-[3px] border-white bg-fill shadow-[0_28px_60px_-24px_rgb(60_30_10/0.55)] select-none"
       style={{
         transform,
         transition: dragging ? "none" : `transform ${LEAVE_MS}ms ease-out`,
@@ -319,7 +319,9 @@ function SwipeCard({
 function EmptyState({ loading, onRetry }: { loading: boolean; onRetry: () => void }) {
   return (
     <div className="glass flex h-full flex-col items-center justify-center rounded-[32px] p-8 text-center">
-      <p className="text-5xl">🎶</p>
+      <span className="glass-inner grid size-16 place-items-center rounded-full text-muted">
+        <Icon name="users" className="size-8" />
+      </span>
       <p className="mt-4 font-display text-[22px] font-bold">Zatím jsi viděl/a všechny</p>
       <p className="mt-2 text-[15px] text-muted">
         Další lidi se připojují až do začátku akce i během ní. Zkus to později, nebo se mrkni na své matche.
@@ -360,12 +362,12 @@ function MatchModal({
           <Icon name="heart" className="size-7" />
         </span>
       </div>
-      <p className="mt-10 font-display text-[44px] leading-none font-bold tracking-tight text-gradient">Je to match!</p>
+      <p className="mt-10 font-display text-[44px] leading-none font-bold tracking-tight">Je to match!</p>
       <p className="mt-3 text-[17px] text-muted">Ty a {match.card.display_name} jste se lajkli. Napiš první!</p>
       <Link href={`/matches/${match.matchId}`} className={`${btnPrimary} mt-10 w-full max-w-xs py-4`}>
         Napsat zprávu
       </Link>
-      <button type="button" onClick={onClose} className="mt-3 py-2 text-[17px] font-semibold text-accent">
+      <button type="button" onClick={onClose} className="mt-3 py-2 text-[17px] font-semibold text-ink">
         Swipovat dál
       </button>
     </div>,

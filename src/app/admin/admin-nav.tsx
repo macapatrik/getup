@@ -17,7 +17,7 @@ const ITEMS: { href: string; label: string; icon: IconName; exact?: boolean }[] 
 function CountBadge({ count }: { count: number }) {
   if (count <= 0) return null;
   return (
-    <span className="ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-accent px-1.5 text-[12px] leading-none font-bold text-white">
+    <span className="ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-ink px-1.5 text-[12px] leading-none font-bold text-white">
       {count}
     </span>
   );
@@ -31,11 +31,11 @@ export function AdminNav({ email, openReports }: { email: string; openReports: n
   return (
     <>
       <aside className="no-print fixed inset-y-0 left-0 z-30 hidden w-72 p-4 lg:block">
-        <div className="glass flex h-full flex-col rounded-[28px] p-4">
+        <div className="glass flex h-full flex-col rounded-[20px] p-4">
           <Link href="/admin" className="px-2 pt-1">
             <Logo />
           </Link>
-          <p className="mt-3 px-2 text-[12px] font-bold tracking-widest text-accent uppercase">Administrace</p>
+          <p className="mt-3 px-2 text-[12px] font-bold tracking-widest text-muted uppercase">Administrace</p>
 
           <nav className="mt-5 space-y-1">
             {ITEMS.map((item) => {
@@ -45,8 +45,8 @@ export function AdminNav({ email, openReports }: { email: string; openReports: n
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`flex items-center gap-3 rounded-2xl px-3 py-2.5 text-[15px] font-semibold transition ${
-                    active ? "glass-inner text-accent" : "border border-transparent text-ink/70 hover:bg-black/[0.04] hover:text-ink"
+                  className={`flex items-center gap-3 rounded-[14px] px-3 py-2.5 text-[15px] font-semibold transition ${
+                    active ? "glass-inner text-ink" : "border border-transparent text-ink/70 hover:bg-black/[0.04] hover:text-ink"
                   }`}
                 >
                   <Icon name={item.icon} className="size-5" />
@@ -60,7 +60,7 @@ export function AdminNav({ email, openReports }: { email: string; openReports: n
           <div className="mt-auto space-y-2 border-t border-line pt-4">
             <Link
               href="/events"
-              className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-[15px] font-semibold text-ink/70 transition hover:bg-black/[0.04] hover:text-ink"
+              className="flex items-center gap-3 rounded-[14px] px-3 py-2.5 text-[15px] font-semibold text-ink/70 transition hover:bg-black/[0.04] hover:text-ink"
             >
               <Icon name="back" className="size-5" /> Zpět do aplikace
             </Link>
@@ -88,7 +88,7 @@ export function AdminNav({ email, openReports }: { email: string; openReports: n
             >
               {item.label}
               {item.href === "/admin/reports" && openReports > 0 && (
-                <span className="rounded-full bg-white/90 px-1.5 text-[12px] font-bold text-accent">{openReports}</span>
+                <span className="rounded-full bg-white/90 px-1.5 text-[12px] font-bold text-ink">{openReports}</span>
               )}
             </Link>
           ))}

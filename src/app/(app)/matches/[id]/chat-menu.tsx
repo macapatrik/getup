@@ -52,7 +52,7 @@ export function ChatMenu({
 
       <dialog
         ref={dialog}
-        className="glass m-auto w-[calc(100%-2rem)] max-w-sm rounded-[28px] p-6 text-ink backdrop:bg-black/20 backdrop:backdrop-blur-sm"
+        className="glass m-auto w-[calc(100%-2rem)] max-w-sm rounded-[20px] p-6 text-ink backdrop:bg-black/20 backdrop:backdrop-blur-sm"
       >
         <form action={formAction} className="space-y-4">
           <h2 className="font-display text-[22px] font-bold">Nahlásit {name}</h2>

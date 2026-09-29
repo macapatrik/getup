@@ -21,7 +21,7 @@ export function PageHeader({
     <header className="flex flex-wrap items-end justify-between gap-4 pt-5 pb-6 lg:pt-2">
       <div className="min-w-0">
         {back && (
-          <Link href={back.href} className="no-print mb-1.5 inline-flex items-center gap-0.5 text-[15px] font-medium text-accent">
+          <Link href={back.href} className="no-print mb-1.5 inline-flex items-center gap-0.5 text-[15px] font-medium text-ink">
             <Icon name="back" className="size-4" /> {back.label}
           </Link>
         )}
@@ -37,7 +37,7 @@ export function StatTile({ label, value, hint, alert }: { label: string; value?:
   return (
     <div className={`${card} !p-4`}>
       <p className="text-[13px] font-medium text-muted">{label}</p>
-      <p className={`mt-1 font-display text-[30px] leading-none font-bold tracking-tight ${alert ? "text-accent" : ""}`}>
+      <p className={`mt-1 font-display text-[30px] leading-none font-bold tracking-tight ${alert ? "text-danger" : ""}`}>
         {value === undefined ? "–" : formatNumber(value)}
       </p>
       {hint && <p className="mt-1.5 text-[12px] text-muted">{hint}</p>}
@@ -56,9 +56,9 @@ export function Avatar({ photo, name, className = "size-10" }: { photo?: string 
 
 const BADGE_TONES = {
   neutral: "bg-fill text-muted",
-  accent: "bg-accent/10 text-accent",
+  accent: "bg-fill text-ink",
   danger: "bg-danger/10 text-danger",
-  info: "bg-info/10 text-info",
+  info: "bg-fill text-muted",
   success: "bg-success/15 text-green-700",
 } as const;
 
@@ -86,7 +86,7 @@ export function SectionTitle({ title, href, linkLabel = "Zobrazit vše" }: { tit
     <div className="mb-2 flex items-baseline justify-between gap-3">
       <h2 className={`${sectionTitle} mb-0`}>{title}</h2>
       {href && (
-        <Link href={href} className="text-[14px] font-semibold text-accent">
+        <Link href={href} className="text-[14px] font-semibold text-ink">
           {linkLabel}
         </Link>
       )}
@@ -99,5 +99,5 @@ export function Empty({ children }: { children: ReactNode }) {
 }
 
 /** Skleněný seznam s řádky oddělenými linkou */
-export const list = "glass overflow-hidden rounded-[24px] divide-y divide-line";
+export const list = "glass overflow-hidden rounded-[20px] divide-y divide-line";
 export const row = "flex items-center gap-3 px-4 py-3 transition hover:bg-black/[0.03] active:bg-black/5";

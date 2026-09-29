@@ -53,7 +53,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
 
   if (step === "email") {
     return (
-      <form onSubmit={sendCode} className="glass mt-10 space-y-4 rounded-[28px] p-5">
+      <form onSubmit={sendCode} className="glass mt-10 space-y-4 rounded-[20px] p-5">
         <div>
           <label htmlFor="email" className={label}>
             E-mail
@@ -79,7 +79,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
   }
 
   return (
-    <form onSubmit={verifyCode} className="glass mt-10 space-y-4 rounded-[28px] p-5">
+    <form onSubmit={verifyCode} className="glass mt-10 space-y-4 rounded-[20px] p-5">
       <p className="text-[15px] text-muted">
         Kód jsme poslali na <span className="font-semibold text-ink">{email}</span>. Můžeš taky kliknout na odkaz
         v e-mailu.
@@ -113,7 +113,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
           setCode("");
           setError(null);
         }}
-        className="w-full py-1 text-[15px] font-semibold text-accent"
+        className="w-full py-1 text-[15px] font-semibold text-ink"
       >
         Jiný e-mail / poslat znovu
       </button>

@@ -27,7 +27,7 @@ export function BottomNav() {
 
   return (
     <nav className="no-print pointer-events-none fixed inset-x-0 bottom-0 z-30 px-5 pb-safe lg:hidden">
-      <ul className="glass pointer-events-auto mx-auto mb-1 flex max-w-sm gap-1 rounded-full p-1.5">
+      <ul className="glass-bar pointer-events-auto mx-auto mb-1 flex max-w-sm gap-1 rounded-full p-1.5">
         {items.map((item) => {
           const active = isActive(item);
           return (
@@ -36,7 +36,7 @@ export function BottomNav() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={`flex flex-col items-center gap-0.5 rounded-full py-1.5 text-[11px] font-semibold transition ${
-                  active ? "glass-inner text-accent" : "border border-transparent text-ink/60 hover:text-ink"
+                  active ? "glass-inner text-ink" : "border border-transparent text-ink/60 hover:text-ink"
                 }`}
               >
                 <Icon name={item.icon} className="size-[26px]" />
@@ -56,7 +56,7 @@ export function SideNav() {
 
   return (
     <aside className="no-print fixed inset-y-0 left-0 z-30 hidden w-72 p-4 lg:block">
-      <div className="glass flex h-full flex-col rounded-[28px] p-4">
+      <div className="glass flex h-full flex-col rounded-[20px] p-4">
         <Link href="/events" className="px-2 pt-1">
           <Logo />
         </Link>
@@ -68,8 +68,8 @@ export function SideNav() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`flex items-center gap-3 rounded-2xl px-3 py-2.5 text-[15px] font-semibold transition ${
-                  active ? "glass-inner text-accent" : "border border-transparent text-ink/70 hover:bg-black/[0.04] hover:text-ink"
+                className={`flex items-center gap-3 rounded-[14px] px-3 py-2.5 text-[15px] font-semibold transition ${
+                  active ? "glass-inner text-ink" : "border border-transparent text-ink/70 hover:bg-black/[0.04] hover:text-ink"
                 }`}
               >
                 <Icon name={item.icon} className="size-5" />

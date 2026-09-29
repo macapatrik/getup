@@ -14,4 +14,5 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Schéma a veškerá bezpečnostní logika je v `supabase/migrations/` (RLS + RPC funkce). Cizí profily čti jen přes security definer RPC (`get_deck`, `get_matches`, `my_likes`, `admin_*`), nikdy nepřidávej select policy na cizí řádky `profiles`.
 - Administrace týmu je v `src/app/admin/` (vlastní layout, `requireOrganizer()`); každá `admin_*` funkce v SQL začíná `perform public.assert_organizer()`. Zákaznická část „Můj účet“ je `src/app/(app)/profile/`.
 - SQL funkce vyhazují chyby s kódy `GUxxx`; české hlášky k nim jsou v `src/lib/errors.ts` (při novém kódu doplň obojí).
+- Design: bílá karta `glass`, šedá výplň `glass-inner`, černé hlavní tlačítko `gloss-ink`; oranžová (`gloss`, `bg-accent`) jen srdíčko, logo a stavová tečka. Zaoblení karet 20 px, vnitřních prvků 14 px. V rozhraní žádné emoji.
 - Kontroly: `npx tsc --noEmit`, `npm run lint`, `npm run build`.

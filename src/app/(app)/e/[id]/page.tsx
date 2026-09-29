@@ -81,7 +81,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
                   <span className="relative inline-flex size-2 rounded-full bg-accent" />
                 </span>
               ) : (
-                <Icon name="clock" className="size-4 text-accent" />
+                <Icon name="clock" className="size-4 text-muted" />
               )}
               {eventCountdown(event)}
             </span>
@@ -95,7 +95,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
             title={event.name}
             text={`Jsem na ${event.name} v GetTogether. Přidej se, ať se na akci najdeme 👋`}
             url={joinUrl}
-            className="glass-inner inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold text-accent transition active:scale-95"
+            className="glass-inner inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold text-ink transition active:scale-95"
           />
         </div>
       )}

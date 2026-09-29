@@ -125,7 +125,7 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
                     <p className="text-[15px]">„{report.reason}“</p>
                     <p className="mt-1 text-[13px] text-muted">
                       {report.reporter ?? "Smazaný účet"} · {formatDateTime(report.created_at)} ·{" "}
-                      {report.resolved_at ? "vyřešeno" : <span className="font-semibold text-accent">nevyřešeno</span>}
+                      {report.resolved_at ? "vyřešeno" : <span className="font-semibold text-danger">nevyřešeno</span>}
                     </p>
                   </li>
                 ))}
