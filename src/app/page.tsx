@@ -12,13 +12,25 @@ const STEPS: { icon: IconName; title: string; text: string }[] = [
   { icon: "chat", title: "Match = chat", text: "Lajknete se oba? Napište si a najděte se u pódia." },
 ];
 
-// Ilustrační fotky (vygenerované přes Higgsfield) leží v public/people.
-// Když chybí, karta ukáže jen barevný přechod.
+// Ilustrační fotky (vygenerované přes Higgsfield) stahuje do public/people skript
+// scripts/download-photos.mjs při buildu. Když chybí, ukáže se jen barevný přechod.
 const HERO = [
-  { src: "/people/veronika.webp", name: "Veronika", age: 27, rotate: "-rotate-[9deg] -translate-x-[44%]", tint: "from-sky-300 to-violet-300" },
-  { src: "/people/eliska.webp", name: "Eliška", age: 22, rotate: "rotate-[9deg] translate-x-[44%]", tint: "from-amber-200 to-orange-300" },
-  { src: "/people/tereza.webp", name: "Tereza", age: 24, rotate: "", tint: "from-pink-300 to-orange-200" },
+  { photo: "veronika", name: "Veronika", age: 27, rotate: "-rotate-[9deg] -translate-x-[44%]", tint: "from-sky-300 to-violet-300" },
+  { photo: "jakub", name: "Jakub", age: 26, rotate: "rotate-[9deg] translate-x-[44%]", tint: "from-amber-200 to-orange-300" },
+  { photo: "tereza", name: "Tereza", age: 24, rotate: "", tint: "from-pink-300 to-orange-200" },
 ];
+
+const CROWD = ["klara", "matej", "nikola", "tomas", "adela"];
+
+function Avatar({ photo, className = "" }: { photo: string; className?: string }) {
+  return (
+    <span
+      className={`relative block shrink-0 overflow-hidden rounded-full border-2 border-white bg-gradient-to-br from-pink-200 to-orange-200 shadow-[0_6px_14px_-6px_rgb(40_20_80/0.45)] ${className}`}
+    >
+      <FallbackImg src={`/people/${photo}.webp`} className="absolute inset-0 size-full object-cover" />
+    </span>
+  );
+}
 
 export default async function Home() {
   if (await getUser()) redirect("/events");
@@ -54,7 +66,7 @@ export default async function Home() {
               i < 2 ? "scale-[0.88] opacity-95" : ""
             }`}
           >
-            <FallbackImg src={p.src} className="absolute inset-0 size-full object-cover" />
+            <FallbackImg src={`/people/${p.photo}.webp`} className="absolute inset-0 size-full object-cover" />
             {i === 2 && (
               <div className="glass-photo absolute inset-x-2.5 bottom-2.5 rounded-[20px] px-3.5 py-2.5 text-left">
                 <p className="font-display text-[19px] font-bold">
@@ -65,15 +77,31 @@ export default async function Home() {
             )}
           </div>
         ))}
-        <div className="glass absolute -top-4 -right-16 flex items-center gap-2 rounded-full py-1.5 pr-3.5 pl-1.5">
-          <span className="gloss grid size-7 place-items-center rounded-full">
-            <Icon name="heart" className="size-4" />
+        <div className="glass absolute -top-5 -right-16 flex items-center gap-2 rounded-full py-1.5 pr-3.5 pl-1.5">
+          <span className="relative flex">
+            <Avatar photo="patrik" className="size-8" />
+            <Avatar photo="tereza" className="-ml-2.5 size-8" />
+            <span className="gloss absolute -bottom-1 left-1/2 grid size-4 -translate-x-1/2 place-items-center rounded-full border border-white">
+              <Icon name="heart" className="size-2.5" />
+            </span>
           </span>
           <span className="text-[13px] font-bold">Je to match!</span>
         </div>
       </div>
 
-      <ol className={`${card} mt-12 space-y-4 p-4`}>
+      <div className="mt-12 flex flex-col items-center gap-3 text-center">
+        <div className="flex">
+          {CROWD.map((photo, i) => (
+            <Avatar key={photo} photo={photo} className={`size-12 ${i > 0 ? "-ml-3.5" : ""}`} />
+          ))}
+        </div>
+        <div>
+          <p className="text-[15px] leading-tight font-semibold">Kdo je na akci s tebou?</p>
+          <p className="text-[13px] text-muted">Uvidíš po naskenování QR kódu.</p>
+        </div>
+      </div>
+
+      <ol className={`${card} mt-8 space-y-4 p-4`}>
         {STEPS.map((step) => (
           <li key={step.title} className="flex items-center gap-3.5">
             <span className="gloss grid size-11 shrink-0 place-items-center rounded-[13px]">

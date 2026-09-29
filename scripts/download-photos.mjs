@@ -1,5 +1,8 @@
 // Stáhne ilustrační fotky vygenerované přes Higgsfield (Nano Banana) do public/people
-// a zmenší je na WebP. Spuštění: npm run photos
+// a zmenší je na WebP. Běží automaticky před `npm run build` (i na Vercelu),
+// ručně: npm run photos. Už stažené fotky přeskočí; když stažení selže, build nespadne –
+// úvodní stránka pak ukáže jen barevné karty.
+import { existsSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import sharp from "sharp";
 
@@ -13,18 +16,30 @@ const PHOTOS = {
   nikola: "114717_b0bcdf6f-045c-439e-8bf8-93f407837033",
   adela: "114717_a5ade355-08fd-4ca7-9cc5-812ddc2a9155",
   patrik: "114717_c4793336-4490-4e56-89ed-09faf90c28c0",
+  jakub: "125905_ba105b81-617f-499c-b96f-4c58713790f5",
+  matej: "125906_b95e94b0-8915-42f0-aa05-820e19dab82f",
+  tomas: "125905_4999e604-70db-4646-a0df-fed1bfc8c418",
 };
 
 const outDir = new URL("../public/people/", import.meta.url);
 await mkdir(outDir, { recursive: true });
 
+let failed = 0;
 for (const [name, id] of Object.entries(PHOTOS)) {
-  const res = await fetch(`${BASE}${id}.png`);
-  if (!res.ok) throw new Error(`${name}: HTTP ${res.status}`);
-  const webp = await sharp(Buffer.from(await res.arrayBuffer()))
-    .resize({ width: 720 })
-    .webp({ quality: 80 })
-    .toBuffer();
-  await writeFile(new URL(`${name}.webp`, outDir), webp);
-  console.log(`✓ ${name}.webp (${Math.round(webp.length / 1024)} kB)`);
+  const target = new URL(`${name}.webp`, outDir);
+  if (existsSync(target)) continue;
+  try {
+    const res = await fetch(`${BASE}${id}.png`, { signal: AbortSignal.timeout(20_000) });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const webp = await sharp(Buffer.from(await res.arrayBuffer()))
+      .resize({ width: 720 })
+      .webp({ quality: 80 })
+      .toBuffer();
+    await writeFile(target, webp);
+    console.log(`✓ ${name}.webp (${Math.round(webp.length / 1024)} kB)`);
+  } catch (err) {
+    failed++;
+    console.warn(`⚠ ${name}: ${err instanceof Error ? err.message : err}`);
+  }
 }
+if (failed) console.warn(`⚠ ${failed} fotek se nepodařilo stáhnout – úvodní stránka ukáže barevné karty.`);
