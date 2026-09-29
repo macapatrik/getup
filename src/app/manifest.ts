@@ -10,8 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/events",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#f5f5f8",
-    theme_color: "#f5f5f8",
+    background_color: "#dc5f78",
+    theme_color: "#ec8850",
     icons: [
       { src: "/pwa-icon/192", sizes: "192x192", type: "image/png" },
       { src: "/pwa-icon/512", sizes: "512x512", type: "image/png" },

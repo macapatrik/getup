@@ -24,7 +24,7 @@ export default async function AdminPage() {
 
   return (
     <main className="px-5 pt-safe">
-      <p className="pt-6 text-[13px] font-semibold tracking-wide text-accent uppercase">GetUp tým</p>
+      <p className="pt-6 text-[13px] font-semibold tracking-wide text-muted uppercase">GetUp tým</p>
       <h1 className={largeTitle}>Akce a QR kódy</h1>
 
       <section className={`${card} mt-6`}>
@@ -39,11 +39,11 @@ export default async function AdminPage() {
         <ul className="glass overflow-hidden rounded-[24px]">
           {events.map((event) => (
             <li key={event.id} className="border-b border-line last:border-0">
-              <Link href={`/admin/events/${event.id}`} className="flex items-center gap-3 px-4 py-3.5 active:bg-black/5">
+              <Link href={`/admin/events/${event.id}`} className="flex items-center gap-3 px-4 py-3.5 active:bg-white/10">
                 <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between gap-3">
                   <p className="truncate text-[17px] font-semibold">{event.name}</p>
-                  <span className="shrink-0 rounded-full bg-accent/10 px-2.5 py-0.5 font-mono text-[13px] font-semibold tracking-widest text-accent">
+                  <span className="shrink-0 glass-inner rounded-full px-2.5 py-0.5 font-mono text-[13px] font-semibold tracking-widest">
                     {event.join_code}
                   </span>
                 </div>

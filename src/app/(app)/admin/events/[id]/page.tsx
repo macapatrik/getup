@@ -3,9 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import QRCode from "qrcode";
 import { Icon } from "@/components/icons";
+import { AppIcon } from "@/components/logo";
 import { btnSecondary, card, sectionTitle } from "@/components/ui";
 import { getOrigin, isOrganizer } from "@/lib/auth";
-import { STATUS_LABELS, eventStatus, formatDateTime, formatNumber } from "@/lib/format";
+import { STATUS_LABELS, eventStatus, formatDateTime, formatNumber, formatTime } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow } from "@/lib/types";
 import { PrintButton } from "./print-button";
@@ -51,7 +52,7 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
 
   return (
     <main className="px-5 pt-safe">
-      <Link href="/admin" className="no-print inline-flex items-center gap-0.5 pt-4 text-[17px] text-accent">
+      <Link href="/admin" className="no-print inline-flex items-center gap-0.5 pt-4 text-[17px] font-medium">
         <Icon name="back" className="size-5" /> Akce
       </Link>
 
@@ -60,8 +61,10 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
         {[event.venue, formatDateTime(event.starts_at)].filter(Boolean).join(" · ")} · {STATUS_LABELS[eventStatus(event)]}
       </p>
 
-      <section className="mt-6 rounded-[32px] border-[3px] border-white bg-white p-6 text-center text-black shadow-[0_24px_60px_-24px_rgb(40_20_80/0.45)]">
-        <p className="text-gradient text-[13px] font-bold tracking-widest uppercase">Seznam se s lidmi z akce</p>
+      <DigitCounter label="Matchů na akci" value={stats?.matches ?? 0} time={formatTime(new Date().toISOString())} />
+
+      <section className="mt-6 rounded-[32px] border-[3px] border-white bg-white p-6 text-center text-black [text-shadow:none] shadow-[0_24px_60px_-24px_rgb(40_20_80/0.45)]">
+        <p className="text-[13px] font-bold tracking-widest text-accent uppercase [text-shadow:none]">Seznam se s lidmi z akce</p>
         <img src={qr} alt={`QR kód pro ${event.name}`} className="mx-auto mt-2 w-full max-w-xs" />
         <p className="text-[13px] text-neutral-500">nebo zadej kód</p>
         <p className="font-mono text-4xl font-bold tracking-[0.3em]">{event.join_code}</p>
@@ -87,5 +90,32 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
         </div>
       </section>
     </main>
+  );
+}
+
+/** Widget ve stylu iOS: číslice v dlaždicích na tónovaném skle */
+function DigitCounter({ label, value, time }: { label: string; value: number; time: string }) {
+  const digits = String(Math.min(Math.max(value, 0), 99999)).padStart(5, "0").split("");
+  return (
+    <section className="glass-tint no-print mt-6 rounded-[36px] p-5">
+      <div className="flex items-center gap-3">
+        <AppIcon className="size-10 rounded-full" heart="size-5" />
+        <div>
+          <p className="text-[17px] leading-tight font-semibold">{label}</p>
+          <p className="text-[13px] text-white/85">k {time}</p>
+        </div>
+      </div>
+      <div className="mt-4 grid grid-cols-5 gap-2" aria-label={`${label}: ${value}`}>
+        {digits.map((digit, i) => (
+          <span
+            key={i}
+            aria-hidden
+            className="glass-inner grid aspect-[3/4] place-items-center rounded-[18px] font-display text-[52px] leading-none font-bold"
+          >
+            {digit}
+          </span>
+        ))}
+      </div>
+    </section>
   );
 }

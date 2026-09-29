@@ -107,7 +107,7 @@ export function Deck({
       </div>
 
       {error && (
-        <p className="mt-3 text-center text-[15px] text-danger" role="alert">
+        <p className="mt-3 text-center text-[15px] font-medium text-danger" role="alert">
           {error}
         </p>
       )}
@@ -118,7 +118,7 @@ export function Deck({
           onClick={() => decide(-1)}
           disabled={cards.length === 0}
           aria-label="Nezajímá mě"
-          className="glass grid size-16 place-items-center rounded-full text-danger transition active:scale-90 disabled:opacity-40"
+          className="glass grid size-16 place-items-center rounded-full text-white transition active:scale-90 disabled:opacity-40"
         >
           <Icon name="x" className="size-7" />
         </button>
@@ -230,13 +230,13 @@ function SwipeCard({
       )}
 
       <span
-        className="absolute top-10 left-5 -rotate-12 rounded-full bg-white/90 px-5 py-2 font-display text-2xl font-bold text-success shadow-lg backdrop-blur"
+        className="absolute top-10 left-5 -rotate-12 rounded-full bg-white/90 px-5 py-2 font-display text-2xl font-bold text-success [text-shadow:none] shadow-lg backdrop-blur"
         style={{ opacity: likeOpacity }}
       >
         LÍBÍ
       </span>
       <span
-        className="absolute top-10 right-5 rotate-12 rounded-full bg-white/90 px-5 py-2 font-display text-2xl font-bold text-danger shadow-lg backdrop-blur"
+        className="absolute top-10 right-5 rotate-12 rounded-full bg-white/90 px-5 py-2 font-display text-2xl font-bold text-danger-strong [text-shadow:none] shadow-lg backdrop-blur"
         style={{ opacity: nopeOpacity }}
       >
         NE
@@ -301,7 +301,7 @@ function MatchModal({
       <Link href={`/matches/${match.matchId}`} className={`${btnPrimary} mt-10 w-full max-w-xs py-4`}>
         Napsat zprávu
       </Link>
-      <button type="button" onClick={onClose} className="mt-3 py-2 text-[17px] font-semibold text-accent">
+      <button type="button" onClick={onClose} className="mt-3 py-2 text-[17px] font-semibold text-white">
         Swipovat dál
       </button>
     </div>

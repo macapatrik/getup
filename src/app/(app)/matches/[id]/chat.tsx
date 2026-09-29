@@ -124,7 +124,7 @@ export function Chat({
                 className={`max-w-[78%] rounded-[20px] px-3.5 py-2 ${
                   mine
                     ? "gloss rounded-br-[6px]"
-                    : "rounded-bl-[6px] bg-white text-ink shadow-[0_1px_2px_rgb(0_0_0/0.06)]"
+                    : "glass rounded-bl-[6px]"
                 }`}
               >
                 <p className="text-[17px] leading-snug break-words whitespace-pre-wrap">{m.body}</p>
@@ -163,7 +163,7 @@ export function Chat({
           <Icon name="send" className="size-5" />
         </button>
       </form>
-      {error && <p className="px-5 pb-2 text-[15px] text-danger">{error}</p>}
+      {error && <p className="px-5 pb-2 text-[15px] font-medium text-danger">{error}</p>}
     </>
   );
 }

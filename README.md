@@ -12,7 +12,7 @@ Organizátoři (tým GetUp) mají v aplikaci sekci **GetUp**, kde zakládají ak
 ## Technologie
 
 - **Next.js 16** (App Router, TypeScript, Tailwind CSS 4) jako **PWA**: dá se „nainstalovat“ na plochu telefonu.
-- Design ve světlém stylu iOS („Liquid Glass“): matné sklo, lesklá tlačítka, plovoucí lišta. Utility `glass`, `glass-photo`,
+- Design ve stylu iOS 26 „Liquid Glass“: čiré sklo se světlou hranou nad barevnou tapetou, lesklá tlačítka, plovoucí lišta. Utility `glass`, `glass-tint`, `glass-inner`, `glass-photo`,
   `gloss` a `aurora` jsou v `src/app/globals.css`, sdílené třídy v `src/components/ui.ts`.
 - **Supabase**: přihlášení (e-mailový kód), Postgres s Row Level Security, Storage na fotky, Realtime na chat.
 

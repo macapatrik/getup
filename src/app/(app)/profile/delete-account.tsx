@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { btnDanger } from "@/components/ui";
+import { btnDanger, errorText } from "@/components/ui";
 import { PHOTOS_BUCKET } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
 
@@ -38,7 +38,7 @@ export function DeleteAccount({ userId }: { userId: string }) {
       <button type="button" onClick={onDelete} disabled={busy} className={`${btnDanger} w-full`}>
         {busy ? "Mažu…" : "Smazat účet"}
       </button>
-      {error && <p className="mt-2 ml-1 text-[15px] text-danger">{error}</p>}
+      {error && <p className={`${errorText} mt-2`}>{error}</p>}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { btnPrimary, input, label } from "@/components/ui";
+import { btnPrimary, errorText, input, label } from "@/components/ui";
 import { createClient } from "@/lib/supabase/client";
 
 export function LoginForm({ next, linkError }: { next: string; linkError: boolean }) {
@@ -70,7 +70,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
             className={input}
           />
         </div>
-        {error && <p className="ml-1 text-[15px] text-danger">{error}</p>}
+        {error && <p className={errorText}>{error}</p>}
         <button type="submit" disabled={busy} className={`${btnPrimary} w-full py-4`}>
           {busy ? "Posílám…" : "Poslat kód"}
         </button>
@@ -102,7 +102,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
           className={`${input} text-center text-2xl tracking-[0.4em]`}
         />
       </div>
-      {error && <p className="ml-1 text-[15px] text-danger">{error}</p>}
+      {error && <p className={errorText}>{error}</p>}
       <button type="submit" disabled={busy} className={`${btnPrimary} w-full py-4`}>
         {busy ? "Ověřuji…" : "Přihlásit se"}
       </button>
@@ -113,7 +113,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
           setCode("");
           setError(null);
         }}
-        className="w-full py-1 text-[15px] font-semibold text-accent"
+        className="w-full py-1 text-[15px] font-semibold text-white"
       >
         Jiný e-mail / poslat znovu
       </button>

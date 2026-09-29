@@ -27,14 +27,14 @@ export default async function Home() {
     <main className="mx-auto flex min-h-dvh max-w-md flex-col px-6 pt-safe pb-8">
       <header className="flex items-center justify-between pt-3">
         <Logo />
-        <Link href="/login" className="text-[15px] font-semibold text-accent">
+        <Link href="/login" className="glass rounded-full px-4 py-2 text-[15px] font-semibold">
           Přihlásit se
         </Link>
       </header>
 
       <section className="mt-10 text-center">
-        <span className="glass inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold text-ink/80">
-          <Icon name="ticket" className="size-4 text-accent" /> Pro návštěvníky akcí GetUp
+        <span className="glass inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold">
+          <Icon name="ticket" className="size-4" /> Pro návštěvníky akcí GetUp
         </span>
         <h1 className="mt-5 font-display text-[44px] leading-[1.02] font-bold tracking-tight">
           Potkej lidi

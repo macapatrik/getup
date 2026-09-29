@@ -65,7 +65,7 @@ export default async function MatchesPage() {
               const theirs = m.last_sender_id !== user.id;
               return (
                 <li key={m.match_id} className="border-b border-line last:border-0">
-                  <Link href={`/matches/${m.match_id}`} className="flex items-center gap-3.5 px-4 py-3 active:bg-black/5">
+                  <Link href={`/matches/${m.match_id}`} className="flex items-center gap-3.5 px-4 py-3 active:bg-white/10">
                     <img src={photoUrl(m.photos[0])} alt="" className="size-[52px] shrink-0 rounded-full object-cover" />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-baseline justify-between gap-2">
