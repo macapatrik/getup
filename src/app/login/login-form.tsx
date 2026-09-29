@@ -19,7 +19,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
     setError(null);
     const { error } = await createClient().auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: `${window.location.origin}${next}` },
+      options: { emailRedirectTo: `${window.location.origin}/auth/confirm?next=${encodeURIComponent(next)}` },
     });
     setBusy(false);
     if (error) {
