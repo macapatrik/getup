@@ -5,7 +5,7 @@ import { Icon } from "@/components/icons";
 import { PushSettings } from "@/components/push-settings";
 import { SubmitButton } from "@/components/submit-button";
 import { btnSecondary, card, pill, sectionTitle } from "@/components/ui";
-import { requireProfile } from "@/lib/auth";
+import { isOrganizer, requireProfile } from "@/lib/auth";
 import { STATUS_LABELS, ageFromBirthdate, eventStatus, formatDate, formatNumber } from "@/lib/format";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/server";
@@ -20,7 +20,8 @@ const linkRow = "flex items-center gap-3 px-4 py-3 transition hover:bg-fill/60 a
 export default async function AccountPage() {
   const { user, profile } = await requireProfile();
   const supabase = await createClient();
-  const [{ data: statsRows }, { data: likeRows }, { data: matchRows }, { data: attendance }] = await Promise.all([
+  const [organizer, { data: statsRows }, { data: likeRows }, { data: matchRows }, { data: attendance }] = await Promise.all([
+    isOrganizer(),
     supabase.rpc("my_stats"),
     supabase.rpc("my_likes"),
     supabase.rpc("get_matches"),
@@ -183,7 +184,7 @@ export default async function AccountPage() {
                   <Icon name="logout" className="size-5" /> Odhlásit se
                 </SubmitButton>
               </form>
-              <DeleteAccount userId={user.id} />
+              <DeleteAccount userId={user.id} organizer={organizer} />
             </section>
           </div>
         </div>

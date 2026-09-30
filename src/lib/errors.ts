@@ -11,6 +11,7 @@ const MESSAGES: Record<string, string> = {
   GU013: "Organizátora nejde zablokovat – nejdřív ho odeber z týmu.",
   GU014: "Uživatel s tímto e-mailem neexistuje. Musí se nejdřív aspoň jednou přihlásit do aplikace.",
   GU015: "Sám sebe z týmu odebrat nemůžeš.",
+  GU016: "Jsi v týmu GetUp, účet si smazat nemůžeš. Nejdřív se nech odebrat z týmu.",
   GU401: "Přihlas se prosím znovu.",
   GU403: "Na tohle nemáš oprávnění.",
 };
