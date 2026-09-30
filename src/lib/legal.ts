@@ -1,9 +1,10 @@
-// Údaje provozovatele pro právní stránky (/podminky, /soukromi). PŘED SPUŠTĚNÍM DOPLŇ.
+// Údaje provozovatele pro právní stránky (/podminky, /soukromi).
 export const OPERATOR = {
-  name: "GetUp s.r.o.", // TODO: přesný název podle rejstříku
-  id: "000 00 000", // TODO: IČO
-  address: "České Budějovice", // TODO: sídlo
-  email: "info@get-up.fun", // TODO: kontaktní e-mail pro soukromí a nahlášení
+  name: "Patrik Máca",
+  id: "177387", // TODO: ověřit celé IČO (obvykle 8 číslic)
+  address: "Zlukovská 794", // TODO: doplnit obec a PSČ
+  vat: "neplátce DPH",
+  email: "info@get-up.fun", // TODO: potvrdit kontaktní e-mail pro soukromí a nahlášení
   web: "https://get-up.fun",
 };
 

@@ -9,7 +9,7 @@ export default function TermsPage() {
   return (
     <LegalPage title="Podmínky užití" updated={LEGAL_UPDATED}>
       <p>
-        {APP_NAME} provozuje {OPERATOR.name}, IČO {OPERATOR.id}, {OPERATOR.address}. Používáním aplikace souhlasíš s těmito
+        {APP_NAME} provozuje {OPERATOR.name}, IČO {OPERATOR.id}, {OPERATOR.address}, {OPERATOR.vat}. Používáním aplikace souhlasíš s těmito
         podmínkami. Jsou krátké, přečti si je.
       </p>
 
