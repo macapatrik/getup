@@ -47,8 +47,8 @@ npm run dev                 # http://localhost:3000
 - E-maily s přihlašovacím kódem lokálně chytá **Mailpit**: http://127.0.0.1:54324
 - Seed vytvoří demo akci s kódem **`DEMO26`** (nebo otevři http://localhost:3000/j/DEMO26).
 - Swipování vyzkoušíš ve dvou prohlížečích (běžné + anonymní okno) se dvěma různými e-maily.
-- Ilustrační fotky na úvodní stránce (vygenerované přes Higgsfield, model Nano Banana) stáhneš příkazem `npm run photos`
-  do `public/people/`. Bez nich úvodní stránka ukáže jen barevné karty.
+- Ilustrační fotky na úvodní stránce (vygenerované přes Higgsfield, model Nano Banana) jsou v `public/people/`;
+  chybějící by dostáhl `npm run photos` (běží i před buildem). Bez nich úvodní stránka ukáže jen barevné karty.
 
 ### Jak se stát organizátorem
 
@@ -156,7 +156,7 @@ src/
 V produkčním projektu jsou kvůli ukázkám demo data:
 
 - 3 akce GetUp v Klubu K2: `GU2509` (proběhlá), `HALLO26` a `XMAS26` (nadcházející), plus testovací `DEMO26`.
-- 10 demo uživatelů s e-maily `@demo.gettogether.test` a AI fotkami, jejich lajky, matche a konverzace.
+- 10 demo uživatelů s e-maily `@demo.gettogether.test`, každý se třemi AI fotkami (portrét, klub, den), jejich lajky, matche a konverzace.
 - Trigger `supabase/demo/greeting.sql`: po matchi s demo účtem pošle demo účet první zprávu.
 
 Před ostrým spuštěním je smaž podle `supabase/demo/cleanup.sql`.
