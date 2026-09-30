@@ -158,6 +158,7 @@ V produkčním projektu jsou kvůli ukázkám demo data:
 - 3 akce GetUp v Klubu K2: `GU2509` (proběhlá), `HALLO26` a `XMAS26` (nadcházející), plus testovací `DEMO26`.
 - 10 demo uživatelů s e-maily `@demo.gettogether.test`, každý se třemi AI fotkami (portrét, klub, den), jejich lajky, matche a konverzace.
 - Trigger `supabase/demo/greeting.sql`: po matchi s demo účtem pošle demo účet první zprávu.
+- Trigger `supabase/demo/auto_like.sql`: nového návštěvníka akce rovnou lajknou až tři demo účty, ať má po swipnutí matche.
 
 Před ostrým spuštěním je smaž podle `supabase/demo/cleanup.sql`.
 
