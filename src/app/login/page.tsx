@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AppIcon } from "@/components/logo";
 import { getUser } from "@/lib/auth";
@@ -20,6 +21,17 @@ export default async function LoginPage(props: PageProps<"/login">) {
         <p className="mt-2 max-w-xs text-[17px] text-muted">Pošleme ti na e-mail kód. Žádné heslo si nemusíš pamatovat.</p>
       </div>
       <LoginForm next={nextPath} linkError={error === "link"} />
+      <p className="mt-auto pt-8 text-center text-[12px] text-muted">
+        Přihlášením souhlasíš s{" "}
+        <Link href="/podminky" className="underline">
+          podmínkami užití
+        </Link>{" "}
+        a{" "}
+        <Link href="/soukromi" className="underline">
+          ochranou soukromí
+        </Link>
+        .
+      </p>
     </main>
   );
 }

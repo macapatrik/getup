@@ -118,7 +118,17 @@ export default async function Home() {
       <Link href="/login" className={`${btnPrimary} mt-8 w-full py-4`}>
         Začít
       </Link>
-      <p className="mt-4 text-center text-[12px] text-muted">Jen pro 18+. Pokračováním souhlasíš s pravidly komunity.</p>
+      <p className="mt-4 text-center text-[12px] text-muted">
+        Jen pro 18+. Pokračováním souhlasíš s{" "}
+        <Link href="/podminky" className="underline">
+          podmínkami užití
+        </Link>{" "}
+        a{" "}
+        <Link href="/soukromi" className="underline">
+          ochranou soukromí
+        </Link>
+        .
+      </p>
     </main>
   );
 }

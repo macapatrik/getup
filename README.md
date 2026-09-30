@@ -104,6 +104,23 @@ Nastavení:
    ```
    Bez nich trigger nic neposílá (např. při lokálním vývoji).
 
+## Checklist spuštění
+
+Před ostrým spuštěním (viz také [Nasazení](#nasazení-supabase-cloud--vercel)):
+
+1. **Právní texty**: doplň provozovatele v `src/lib/legal.ts` (název, IČO, sídlo, e-mail). Stránky `/podminky` a `/soukromi`
+   jsou odkazované z úvodu a přihlášení.
+2. **Doména**: přidej vlastní doménu na Vercelu a nastav `NEXT_PUBLIC_SITE_URL` a `VAPID_SUBJECT` na ni; v Supabase
+   Authentication → URL Configuration změň *Site URL* a *Redirect URLs*; ve Vaultu přepiš `push_webhook_url`
+   (`select vault.update_secret(id, 'https://<domena>/api/push/match') from vault.secrets where name = 'push_webhook_url'`).
+3. **E-maily**: vlastní SMTP (Resend, Amazon SES…) v Authentication → SMTP a limit *Rate Limits → Email* podle očekávaného
+   náporu (při oznámení akce klidně 1 000/h). Vestavěný mailer Supabase pošle jen pár e-mailů za hodinu.
+4. **Tarify**: Supabase Pro (500 lidí připojených naráz; bez limitu útraty 10 000), Vercel Pro (komerční provoz).
+5. **Demo data**: spusť `supabase/demo/cleanup.sql` a v Storage smaž složky demo účtů.
+6. **Akce**: v administraci založ skutečné akce se správným datem a časem, vytiskni QR kódy, odkaz `/j/KÓD` dej do e-mailu se
+   vstupenkou a na sociální sítě.
+7. **Zkouška**: dva telefony, dva účty: připojení QR kódem, swipe, match, push upozornění, chat, nahlášení, smazání účtu.
+
 ## Struktura
 
 ```
@@ -125,6 +142,8 @@ src/
     (app)/e/[id]/         swipování (balíček karet)
     (app)/matches/        matche + chat
     (app)/profile/        Můj účet: přehled, úprava profilu, lajky, export dat, smazání účtu
+    podminky/, soukromi/  podmínky užití a ochrana soukromí (údaje provozovatele v src/lib/legal.ts)
+    opengraph-image.tsx   náhled při sdílení odkazu; error.tsx / global-error.tsx chybové stránky
     admin/                administrace týmu GetUp: přehled, akce + QR, uživatelé, nahlášení, tým
     api/push/match/       webhook z databáze → rozeslání push upozornění
   lib/                    Supabase klienti, typy, formátování, chybové hlášky

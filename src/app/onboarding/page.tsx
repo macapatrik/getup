@@ -20,7 +20,8 @@ export default async function OnboardingPage(props: PageProps<"/onboarding">) {
       </div>
       <h1 className="mt-8 font-display text-[34px] font-bold tracking-tight">Ukaž se</h1>
       <p className="mt-2 text-[17px] text-muted">
-        Profil uvidí jen lidi ze stejné akce. Datum narození nikomu neukazujeme, jen věk.
+        Profil uvidí jen lidi ze stejné akce. Datum narození nikomu neukazujeme, jen věk. Používej svoje vlastní fotky, aplikace
+        je jen pro 18+.
       </p>
       <ProfileForm userId={user.id} profile={null} redirectTo={nextPath} />
     </main>
