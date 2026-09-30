@@ -111,10 +111,9 @@ Před ostrým spuštěním (viz také [Nasazení](#nasazení-supabase-cloud--ver
 
 1. **Právní texty**: doplň provozovatele v `src/lib/legal.ts` (název, IČO, sídlo, e-mail). Stránky `/podminky` a `/soukromi`
    jsou odkazované z úvodu a přihlášení.
-2. **Doména**: `together.get-up.fun` je u projektu na Vercelu přidaná; v DNS domény get-up.fun musí být záznam
-   `together CNAME cname.vercel-dns.com`. Pak nastav `NEXT_PUBLIC_SITE_URL` a `VAPID_SUBJECT` na `https://together.get-up.fun`;
-   v Supabase Authentication → URL Configuration změň *Site URL* a *Redirect URLs*; ve Vaultu přepiš `push_webhook_url`
-   (`select vault.update_secret(id, 'https://together.get-up.fun/api/push/match') from vault.secrets where name = 'push_webhook_url'`).
+2. **Doména**: aplikace běží na `https://together.get-up.fun` (na Vercelu přidaná, v DNS `together CNAME cname.vercel-dns.com`,
+   `NEXT_PUBLIC_SITE_URL` i `VAPID_SUBJECT` nastavené, Vault `push_webhook_url` přepsaný). V Supabase Authentication →
+   URL Configuration musí být *Site URL* `https://together.get-up.fun` a v *Redirect URLs* `https://together.get-up.fun/**`.
 3. **E-maily**: vlastní SMTP (Resend, Amazon SES…) v Authentication → SMTP a limit *Rate Limits → Email* podle očekávaného
    náporu (při oznámení akce klidně 1 000/h). Vestavěný mailer Supabase pošle jen pár e-mailů za hodinu.
 4. **Tarify**: Supabase Pro (500 lidí připojených naráz; bez limitu útraty 10 000), Vercel Pro (komerční provoz).

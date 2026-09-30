@@ -17,7 +17,7 @@ export function pushConfigured() {
 function configure() {
   if (configured) return;
   webpush.setVapidDetails(
-    process.env.VAPID_SUBJECT || process.env.NEXT_PUBLIC_SITE_URL || "https://getup-match.vercel.app",
+    process.env.VAPID_SUBJECT || process.env.NEXT_PUBLIC_SITE_URL || "https://together.get-up.fun",
     process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
     process.env.VAPID_PRIVATE_KEY!,
   );
