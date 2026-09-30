@@ -1,8 +1,8 @@
 // Údaje provozovatele pro právní stránky (/podminky, /soukromi).
 export const OPERATOR = {
   name: "Patrik Máca",
-  id: "177387", // TODO: ověřit celé IČO (obvykle 8 číslic)
-  address: "Zlukovská 794", // TODO: doplnit obec a PSČ
+  id: "17738700",
+  address: "Zlukovská 794, 391 81 Veselí nad Lužnicí",
   vat: "neplátce DPH",
   email: "info@get-up.fun", // TODO: potvrdit kontaktní e-mail pro soukromí a nahlášení
   web: "https://get-up.fun",
