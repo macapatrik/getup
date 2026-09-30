@@ -12,7 +12,7 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center px-6 text-center">
-      <p className="font-display text-[30px] font-bold tracking-tight">Něco se pokazilo</p>
+      <p className="text-[28px] font-bold">Něco se pokazilo</p>
       <p className="mt-2 text-[16px] text-muted">Zkus to prosím znovu. Když to nepomůže, zavři aplikaci a otevři ji znovu.</p>
       <div className="mt-8 flex gap-3">
         <button type="button" onClick={reset} className={btnPrimary}>

@@ -86,18 +86,21 @@ export function Chat({
 
   return (
     <>
-      <div className="flex-1 space-y-1.5 overflow-y-auto px-3 py-3">
+      <div className="flex-1 space-y-2 overflow-y-auto px-3 py-3">
         {messages.length === 0 && (
           <div className="flex flex-col items-center pt-10 text-center">
-            <span className="rounded-full bg-white p-1 shadow-[0_8px_24px_-12px_rgb(0_0_0/0.25)]">
+            <span className="relative">
               <img
                 src={photoUrl(other.photos[0])}
                 alt=""
-                className="size-28 rounded-full border-4 border-white object-cover"
+                className="size-28 rounded-full border-4 border-accent-soft bg-fill object-cover"
               />
+              <span className="fill-accent absolute -right-1 -bottom-1 grid size-9 place-items-center rounded-full border-4 border-white">
+                <Icon name="heart" className="size-4" />
+              </span>
             </span>
-            <p className="mt-4 font-display text-[22px] font-bold">
-              Matchli jste se{other.event_name ? ` na ${other.event_name}` : ""}!
+            <p className="mt-5 text-[22px] font-bold">
+              Matchli jste se{other.event_name ? ` na ${other.event_name}` : ""}
             </p>
             <p className="mt-1 text-[15px] text-muted">Napiš první. Třeba na co se na akci nejvíc těšíš.</p>
           </div>
@@ -107,14 +110,12 @@ export function Chat({
           return (
             <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
               <div
-                className={`max-w-[78%] rounded-[20px] px-3.5 py-2 ${
-                  mine
-                    ? "rounded-br-[6px] bg-accent/12 text-ink"
-                    : "glass rounded-bl-[6px]"
+                className={`max-w-[78%] rounded-[16px] px-3.5 py-2 ${
+                  mine ? "fill-accent-soft rounded-br-[4px] !text-ink" : "fill-soft rounded-bl-[4px]"
                 }`}
               >
-                <p className="text-[17px] leading-snug break-words whitespace-pre-wrap">{m.body}</p>
-                <p className={`mt-0.5 text-right text-[11px] ${mine ? "text-accent/80" : "text-faint"}`}>
+                <p className="text-[16px] leading-snug break-words whitespace-pre-wrap">{m.body}</p>
+                <p className={`mt-0.5 text-right text-[11px] ${mine ? "text-accent" : "text-muted"}`}>
                   {formatTime(m.created_at)}
                 </p>
               </div>
@@ -138,13 +139,13 @@ export function Chat({
           maxLength={2000}
           placeholder="Napiš zprávu…"
           aria-label="Zpráva"
-          className="glass max-h-32 flex-1 resize-none rounded-[22px] px-4 py-3 text-[17px] outline-none placeholder:text-faint"
+          className="surface max-h-32 flex-1 resize-none rounded-[16px] px-4 py-3 text-[16px] outline-none placeholder:text-muted focus:border-accent/40"
         />
         <button
           type="submit"
           disabled={sending || !text.trim()}
           aria-label="Odeslat"
-          className="gloss-ink grid size-12 shrink-0 place-items-center rounded-full transition active:scale-90 disabled:opacity-40"
+          className="fill-accent grid size-12 shrink-0 place-items-center rounded-[12px] transition active:scale-90 disabled:opacity-40"
         >
           <Icon name="send" className="size-5" />
         </button>

@@ -4,7 +4,19 @@ import { useEffect, useState } from "react";
 import { Icon } from "./icons";
 
 /** Sdílení odkazu: nativní panel (iOS/Android), na počítači zkopírování do schránky. */
-export function ShareButton({ title, text, url, className }: { title: string; text: string; url: string; className: string }) {
+export function ShareButton({
+  title,
+  text,
+  url,
+  className,
+  iconOnly = false,
+}: {
+  title: string;
+  text: string;
+  url: string;
+  className: string;
+  iconOnly?: boolean;
+}) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -27,9 +39,9 @@ export function ShareButton({ title, text, url, className }: { title: string; te
   }
 
   return (
-    <button type="button" onClick={share} className={className} aria-label="Sdílet odkaz na akci">
-      <Icon name="share" className="size-[18px]" />
-      {copied ? "Zkopírováno" : "Sdílet"}
+    <button type="button" onClick={share} className={className} aria-label={copied ? "Odkaz zkopírován" : "Sdílet odkaz na akci"}>
+      <Icon name={copied && iconOnly ? "check" : "share"} className={iconOnly ? "size-6" : "size-[18px]"} />
+      {!iconOnly && (copied ? "Zkopírováno" : "Sdílet")}
     </button>
   );
 }

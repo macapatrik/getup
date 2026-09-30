@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState, type PointerEvent } from "rea
 import { createPortal } from "react-dom";
 import { Icon } from "@/components/icons";
 import { ProfileSheet } from "@/components/profile-sheet";
-import { btnPrimary, btnSecondary } from "@/components/ui";
+import { btnPrimary, btnSecondary, photoBadge } from "@/components/ui";
 import { errorMessage } from "@/lib/errors";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
@@ -21,11 +21,13 @@ type Direction = 1 | -1; // 1 = like, -1 = pass
 export function Deck({
   eventId,
   eventName,
+  venue,
   initialCards,
   myPhoto,
 }: {
   eventId: string;
   eventName: string;
+  venue?: string;
   initialCards: DeckCard[];
   myPhoto?: string;
 }) {
@@ -101,9 +103,9 @@ export function Deck({
   const top = cards[0];
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col pt-3">
-      {/* Karta vyplní jen volné místo – tlačítka tak zůstanou vždy nad spodní lištou */}
-      <div className="relative min-h-0 flex-1">
+    <div className="flex min-h-0 flex-1 flex-col px-4 pt-3">
+      {/* Karta vyplní volné místo; tlačítka přesahují přes její spodní okraj jako u Romio. */}
+      <div className="relative mb-9 min-h-0 flex-1">
         {visible.length === 0 ? (
           <EmptyState loading={loading} onRetry={loadMore} />
         ) : (
@@ -112,6 +114,7 @@ export function Deck({
               <SwipeCard
                 key={card.id}
                 card={card}
+                venue={venue}
                 isTop={i === 0}
                 leaving={leaving?.id === card.id ? leaving.dir : null}
                 onDecide={decide}
@@ -120,27 +123,19 @@ export function Deck({
             ))
             .reverse()
         )}
+
+        <div className="absolute -bottom-8 left-1/2 z-10 flex -translate-x-1/2 items-center gap-5">
+          <ActionButton kind="pass" onClick={() => decide(-1)} disabled={!top} />
+          <ActionButton kind="like" onClick={() => decide(1)} disabled={!top} />
+          <ActionButton kind="info" onClick={() => top && setProfile(top)} disabled={!top} />
+        </div>
       </div>
 
       {error && (
-        <p className="mt-2 shrink-0 text-center text-[15px] font-medium text-danger" role="alert">
+        <p className="mt-3 shrink-0 text-center text-[14px] font-medium text-danger" role="alert">
           {error}
         </p>
       )}
-
-      <div className="flex shrink-0 items-center justify-center gap-6 pt-4 pb-1">
-        <ActionButton kind="pass" onClick={() => decide(-1)} disabled={!top} />
-        <button
-          type="button"
-          onClick={() => top && setProfile(top)}
-          disabled={!top}
-          aria-label="Zobrazit profil"
-          className="glass grid size-12 place-items-center rounded-full text-ink/70 transition active:scale-90 disabled:opacity-40"
-        >
-          <Icon name="info" className="size-6" />
-        </button>
-        <ActionButton kind="like" onClick={() => decide(1)} disabled={!top} />
-      </div>
 
       {profile && (
         <ProfileSheet
@@ -175,32 +170,45 @@ export function Deck({
   );
 }
 
-/** Symetrická kulatá tlačítka ✕ / ♥ (stejná velikost) */
-function ActionButton({ kind, onClick, disabled }: { kind: "pass" | "like"; onClick: () => void; disabled?: boolean }) {
+/** Bílá kulatá tlačítka pod kartou: ✕ (48 px), ♥ (64 px), i (48 px) */
+function ActionButton({
+  kind,
+  onClick,
+  disabled,
+}: {
+  kind: "pass" | "like" | "info";
+  onClick: () => void;
+  disabled?: boolean;
+}) {
+  const labels = { pass: "Nezajímá mě", like: "Líbí se mi", info: "Zobrazit profil" } as const;
   const like = kind === "like";
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={disabled}
-      aria-label={like ? "Líbí se mi" : "Nezajímá mě"}
-      className={`grid size-16 place-items-center rounded-full transition active:scale-90 disabled:opacity-40 ${
-        like ? "gloss" : "glass text-danger"
+      aria-label={labels[kind]}
+      className={`shadow-indigo grid place-items-center rounded-full bg-white transition active:scale-90 disabled:opacity-40 ${
+        like ? "size-16 text-accent" : "size-12 text-indigo"
       }`}
     >
-      <Icon name={like ? "heart" : "x"} className={like ? "size-8 drop-shadow-sm" : "size-7"} />
+      {kind === "pass" && <Icon name="x" className="size-6" />}
+      {kind === "like" && <Icon name="heart" className="size-8" />}
+      {kind === "info" && <Icon name="info" className="size-6" />}
     </button>
   );
 }
 
 function SwipeCard({
   card,
+  venue,
   isTop,
   leaving,
   onDecide,
   onOpen,
 }: {
   card: DeckCard;
+  venue?: string;
   isTop: boolean;
   leaving: Direction | null;
   onDecide: (dir: Direction) => void;
@@ -255,14 +263,14 @@ function SwipeCard({
   let transform = "none";
   if (leaving) transform = `translate(${leaving * 140}%, ${drag.y}px) rotate(${leaving * 24}deg)`;
   else if (dragging) transform = `translate(${drag.x}px, ${drag.y * 0.4}px) rotate(${drag.x / 16}deg)`;
-  else if (!isTop) transform = "scale(0.95) translateY(12px)";
+  else if (!isTop) transform = "scale(0.97) translateY(10px)";
 
   const likeOpacity = leaving === 1 ? 1 : Math.max(0, Math.min(1, drag.x / SWIPE_THRESHOLD));
   const nopeOpacity = leaving === -1 ? 1 : Math.max(0, Math.min(1, -drag.x / SWIPE_THRESHOLD));
 
   return (
     <div
-      className="absolute inset-0 touch-none overflow-hidden rounded-[32px] border-[3px] border-white bg-fill shadow-[0_28px_60px_-24px_rgb(60_30_10/0.55)] select-none"
+      className="absolute inset-0 touch-none overflow-hidden rounded-[32px] bg-fill select-none"
       style={{
         transform,
         transition: dragging ? "none" : `transform ${LEAVE_MS}ms ease-out`,
@@ -279,6 +287,7 @@ function SwipeCard({
         draggable={false}
         className="pointer-events-none size-full object-cover"
       />
+      <div className="photo-fade pointer-events-none absolute inset-x-0 bottom-0 h-1/2" />
 
       {card.photos.length > 1 && (
         <div className="absolute inset-x-4 top-3 flex gap-1">
@@ -288,29 +297,34 @@ function SwipeCard({
         </div>
       )}
 
+      {/* Růžové kolečko uprostřed karty při tahu: ♥ = líbí, ✕ = ne */}
       <span
-        className="absolute top-10 left-5 -rotate-12 rounded-full bg-white/90 px-5 py-2 font-display text-2xl font-bold text-success [text-shadow:none] shadow-lg backdrop-blur"
+        className="fill-accent absolute top-1/2 left-1/2 grid size-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full"
         style={{ opacity: likeOpacity }}
+        aria-hidden
       >
-        LÍBÍ
+        <Icon name="heart" className="size-8" />
       </span>
       <span
-        className="absolute top-10 right-5 rotate-12 rounded-full bg-white/90 px-5 py-2 font-display text-2xl font-bold text-danger-strong [text-shadow:none] shadow-lg backdrop-blur"
+        className="fill-accent absolute top-1/2 left-1/2 grid size-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full"
         style={{ opacity: nopeOpacity }}
+        aria-hidden
       >
-        NE
+        <Icon name="x" className="size-8" />
       </span>
 
-      <div className="glass-photo absolute inset-x-3 bottom-3 rounded-[24px] px-4 py-3.5">
-        <div className="flex items-start justify-between gap-3">
-          <p className="font-display text-[28px] leading-tight font-bold">
-            {card.display_name} <span className="font-normal">{card.age}</span>
-          </p>
-          <span className="mt-1.5 grid size-7 shrink-0 place-items-center rounded-full bg-white/25" aria-hidden>
-            <Icon name="info" className="size-5" />
+      <div className="absolute inset-x-0 bottom-0 p-4 pb-14 text-white">
+        <p className="text-[24px] leading-8 font-semibold">{card.display_name}</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <span className={photoBadge}>
+            <Icon name="gender" className="size-[18px]" /> {card.age} let
           </span>
+          {venue && (
+            <span className={`${photoBadge} min-w-0`}>
+              <Icon name="pin" className="size-[18px] shrink-0" /> <span className="truncate">{venue}</span>
+            </span>
+          )}
         </div>
-        {card.bio && <p className="mt-0.5 line-clamp-2 text-[15px] leading-snug text-white/90">{card.bio}</p>}
       </div>
     </div>
   );
@@ -318,11 +332,11 @@ function SwipeCard({
 
 function EmptyState({ loading, onRetry }: { loading: boolean; onRetry: () => void }) {
   return (
-    <div className="glass flex h-full flex-col items-center justify-center rounded-[32px] p-8 text-center">
-      <span className="glass-inner grid size-16 place-items-center rounded-full text-muted">
+    <div className="surface flex h-full flex-col items-center justify-center rounded-[32px] p-8 text-center">
+      <span className="fill-accent-soft grid size-16 place-items-center rounded-full">
         <Icon name="users" className="size-8" />
       </span>
-      <p className="mt-4 font-display text-[22px] font-bold">Zatím jsi viděl/a všechny</p>
+      <p className="mt-4 text-[22px] font-bold">Zatím jsi viděl/a všechny</p>
       <p className="mt-2 text-[15px] text-muted">
         Další lidi se připojují až do začátku akce i během ní. Zkus to později, nebo se mrkni na své matche.
       </p>
@@ -339,6 +353,7 @@ function EmptyState({ loading, onRetry }: { loading: boolean; onRetry: () => voi
   );
 }
 
+/** Obrazovka „Je to match!“ jako u Romio: světle růžové pozadí, velké srdce, obě fotky, dvě tlačítka dole. */
 function MatchModal({
   match,
   myPhoto,
@@ -348,28 +363,36 @@ function MatchModal({
   myPhoto?: string;
   onClose: () => void;
 }) {
-  const avatar = "size-32 rounded-full border-4 border-white object-cover shadow-[0_18px_40px_-12px_rgb(60_30_10/0.5)]";
+  const avatar = "size-24 rounded-full border-4 border-white bg-fill object-cover shadow-[0_18px_40px_-14px_rgb(62_54_237/0.45)]";
   return createPortal(
     <div
-      className="aurora fixed inset-0 z-50 flex flex-col items-center justify-center px-8 text-center"
+      className="match-bg fixed inset-0 z-50 flex flex-col items-center px-6 pt-safe pb-safe text-center"
       role="dialog"
       aria-modal="true"
     >
-      <div className="relative flex items-center">
-        {myPhoto && <img src={photoUrl(myPhoto)} alt="" className={`${avatar} -mr-6 -rotate-6`} />}
-        <img src={photoUrl(match.card.photos[0])} alt={match.card.display_name} className={`${avatar} rotate-6`} />
-        <span className="gloss absolute -bottom-3 left-1/2 grid size-14 -translate-x-1/2 place-items-center rounded-full border-4 border-white">
-          <Icon name="heart" className="size-7" />
+      <div className="flex flex-1 flex-col items-center justify-center">
+        <span className="grid size-44 animate-[pop-in_0.4s_cubic-bezier(0.34,1.56,0.64,1)] place-items-center rounded-full bg-gradient-to-b from-[#ff9be9] to-accent shadow-[0_40px_70px_-30px_rgb(247_89_245/0.75)]">
+          <Icon name="heart" className="size-24 text-white drop-shadow-[0_6px_12px_rgb(0_0_0/0.15)]" />
         </span>
+        <div className="-mt-8 flex items-center justify-center">
+          {myPhoto && <img src={photoUrl(myPhoto)} alt="" className={`${avatar} -mr-4`} />}
+          <img src={photoUrl(match.card.photos[0])} alt={match.card.display_name} className={avatar} />
+        </div>
+        <p className="mt-8 text-[32px] leading-tight font-bold">Je to match!</p>
+        <p className="mt-2 text-[16px] text-muted">
+          Ty a {match.card.display_name} jste se lajkli.
+          <br />
+          Napiš první.
+        </p>
       </div>
-      <p className="mt-10 font-display text-[44px] leading-none font-bold tracking-tight">Je to match!</p>
-      <p className="mt-3 text-[17px] text-muted">Ty a {match.card.display_name} jste se lajkli. Napiš první!</p>
-      <Link href={`/matches/${match.matchId}`} className={`${btnPrimary} mt-10 w-full max-w-xs py-4`}>
-        Napsat zprávu
-      </Link>
-      <button type="button" onClick={onClose} className="mt-3 py-2 text-[17px] font-semibold text-ink">
-        Swipovat dál
-      </button>
+      <div className="w-full max-w-sm space-y-3 pb-3">
+        <Link href={`/matches/${match.matchId}`} className={`${btnPrimary} w-full py-3.5`}>
+          Napsat zprávu
+        </Link>
+        <button type="button" onClick={onClose} className={`${btnSecondary} w-full py-3.5`}>
+          Swipovat dál
+        </button>
+      </div>
     </div>,
     document.body,
   );

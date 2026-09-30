@@ -1,27 +1,26 @@
 @import "tailwindcss";
 
 /*
- * Vzhled jako Apple (iOS „grouped“ styl): světle šedé pozadí, čistě bílé karty
- * s vlasovou linkou a měkkým stínem, černá hlavní tlačítka. Oranžová GetUp jen
- * na srdíčku, logu a jedné tečce. Rozmazané sklo jen na lištách, pod kterými
- * projíždí obsah.
+ * Vzhled podle šablony Romio (Envato): bílé pozadí, karty s 2px světle šedou linkou,
+ * růžová (#f759f5) na hlavní tlačítka, aktivní záložku, srdíčko a logo, indigo (#3e36ed)
+ * jen jako přechod přes spodek fotek a na ikonách u karty. Písmo Urbanist.
  */
 @theme {
-  --color-ink: #1d1d1f;
-  --color-muted: #6e6e73;
-  --color-faint: #aeaeb2;
-  --color-line: rgb(60 60 67 / 0.12);
-  --color-fill: rgb(118 118 128 / 0.1);
-  --color-page: #f5f5f7;
-  /* Oranžová GetUp (get-up.fun: primary #ff6a15) */
-  --color-accent: #ff6a15;
-  --color-accent-2: #ff8f45;
-  --color-success: #34c759;
-  --color-danger: #ff3b30;
-  --color-danger-strong: #ff3b30;
-  --color-info: #0a84ff;
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", var(--font-geist-sans), system-ui, sans-serif;
-  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", var(--font-geist-sans), system-ui, sans-serif;
+  --color-ink: #12151c;
+  --color-muted: #616568;
+  --color-faint: #9a9ea3;
+  --color-line: #ececec;
+  --color-fill: #f5f5f5;
+  --color-page: #ffffff;
+  --color-accent: #f759f5;
+  --color-accent-soft: #fae8f9;
+  --color-indigo: #3e36ed;
+  --color-success: #00d061;
+  --color-danger: #ff4444;
+  --color-danger-strong: #ff4444;
+  --color-info: #3e36ed;
+  --font-sans: var(--font-urbanist), system-ui, sans-serif;
+  --font-display: var(--font-urbanist), system-ui, sans-serif;
 }
 
 :root {
@@ -35,80 +34,79 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Celoobrazovkové pozadí (match) */
-@utility aurora {
-  background: var(--color-page);
-}
-
-/* Bílá karta – obsahové bloky, seznamy, sekundární tlačítka */
-@utility glass {
+/* Bílá karta s linkou – obsahové bloky, seznamy, položky */
+@utility surface {
   background: #ffffff;
-  border: 1px solid rgb(0 0 0 / 0.05);
-  box-shadow:
-    0 1px 2px rgb(0 0 0 / 0.03),
-    0 10px 30px -18px rgb(0 0 0 / 0.14);
+  border: 2px solid var(--color-fill);
 }
 
-/* Šedá výplň uvnitř karty – pole, dlaždice, aktivní položka */
-@utility glass-inner {
+/* Světle šedá výplň – pole, dlaždice, cizí bublina v chatu */
+@utility fill-soft {
   background: var(--color-fill);
 }
 
-/* Rozmazaná lišta – spodní navigace, hlavičky (pod nimi projíždí obsah) */
-@utility glass-bar {
-  background: rgb(255 255 255 / 0.78);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgb(0 0 0 / 0.06);
-  box-shadow: 0 8px 30px -16px rgb(0 0 0 / 0.18);
+/* Spodní navigace a hlavičky */
+@utility bar {
+  background: #ffffff;
+  border-top: 1px solid #eeeeee;
 }
 
-/* Sklo přes fotky */
-@utility glass-photo {
-  background: linear-gradient(155deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0.06) 50%, rgb(255 255 255 / 0.1));
-  -webkit-backdrop-filter: blur(22px) saturate(170%);
-  backdrop-filter: blur(22px) saturate(170%);
-  border: 1px solid rgb(255 255 255 / 0.3);
-  box-shadow:
-    inset 0 1px 0.5px rgb(255 255 255 / 0.6),
-    inset 1px 0 0.5px rgb(255 255 255 / 0.25),
-    inset 0 0 20px rgb(255 255 255 / 0.08),
-    0 10px 30px -10px rgb(0 0 0 / 0.35);
+/* Bílý obrys přes fotku – štítky (věk, místo) a tlačítka na kartě */
+@utility photo-chip {
+  border: 2px solid rgb(255 255 255 / 0.4);
   color: white;
 }
 
-/* Oranžová GetUp – plná barva bez přechodu: srdíčko (lajk, match) a ikona aplikace */
-@utility gloss {
+/* Přechod do indiga přes spodní polovinu fotky (karta, nový match) */
+@utility photo-fade {
+  background: linear-gradient(180deg, rgb(62 54 237 / 0) 0%, #3e36ed 100%);
+}
+
+/* Růžová – hlavní tlačítko, srdíčko, odeslat */
+@utility fill-accent {
   background: var(--color-accent);
-  box-shadow: 0 8px 20px -10px rgb(255 106 21 / 0.55);
   color: white;
+  box-shadow: 0 12px 24px -14px rgb(247 89 245 / 0.6);
 }
 
-/* Černé hlavní tlačítko jako Apple – plná barva, bez lesku. Hlavní akce na obrazovce. */
-@utility gloss-ink {
-  background: var(--color-ink);
-  box-shadow: 0 8px 20px -12px rgb(0 0 0 / 0.5);
-  color: white;
+/* Světle růžová s růžovým textem – vedlejší tlačítko, štítek */
+@utility fill-accent-soft {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
 }
 
-@utility text-gradient {
-  background-image: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* Bílé kulaté tlačítko pod kartou (✕, ♥, i) */
+@utility shadow-indigo {
+  box-shadow: 0 16px 20px -10px rgb(62 54 237 / 0.32);
+}
+
+/* Pozadí obrazovky „Je to match!“ */
+@utility match-bg {
+  background: linear-gradient(180deg, #fae8f9 0%, #ffffff 55%);
 }
 
 @utility pb-safe {
-  padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
+  padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
 }
 
-/* Místo pro plovoucí spodní lištu: u scrollovacích stránek (pb-nav) a u celoobrazovkových (pb-nav-tight) */
+/* Místo pro spodní lištu: u scrollovacích stránek (pb-nav) a u celoobrazovkových (pb-nav-tight) */
 @utility pb-nav {
-  padding-bottom: calc(max(env(safe-area-inset-bottom), 0.5rem) + 6.5rem);
+  padding-bottom: calc(max(env(safe-area-inset-bottom), 0.75rem) + 5.5rem);
 }
 
 @utility pb-nav-tight {
-  padding-bottom: calc(max(env(safe-area-inset-bottom), 0.5rem) + 5.25rem);
+  padding-bottom: calc(max(env(safe-area-inset-bottom), 0.75rem) + 4.25rem);
+}
+
+@utility pt-safe {
+  padding-top: max(env(safe-area-inset-top), 0.75rem);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @keyframes sheet-up {
@@ -129,8 +127,15 @@ body {
   }
 }
 
-@utility pt-safe {
-  padding-top: max(env(safe-area-inset-top), 0.75rem);
+@keyframes pop-in {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @media print {
@@ -141,7 +146,7 @@ body {
     background: white;
     color: black;
   }
-  .glass {
+  .surface {
     box-shadow: none;
   }
   /* Administrace: bez místa pro boční panel */

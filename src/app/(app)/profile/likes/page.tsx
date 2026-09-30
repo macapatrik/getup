@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Icon } from "@/components/icons";
-import { btnSecondary, card, largeTitle } from "@/components/ui";
+import { BackHeader } from "@/components/app-header";
+import { btnSecondary, card, pill } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
 import { formatDate } from "@/lib/format";
 import { photoUrl } from "@/lib/photos";
@@ -18,43 +18,41 @@ export default async function LikesPage() {
   const likes = (data ?? []) as MyLike[];
 
   return (
-    <main className="mx-auto max-w-md px-5 pt-safe lg:max-w-2xl lg:pt-6">
-      <Link href="/profile" className="inline-flex items-center gap-0.5 pt-4 text-[17px] font-medium text-ink">
-        <Icon name="back" className="size-5" /> Můj účet
-      </Link>
-      <h1 className={`${largeTitle} pt-2`}>Koho jsem lajknul/a</h1>
-      <p className="mt-1 text-[15px] text-muted">Druhá strana se o lajku dozví, jen když ti ho oplatí.</p>
+    <main className="mx-auto max-w-md pb-nav lg:max-w-2xl lg:pt-6">
+      <BackHeader href="/profile" title="Koho jsem lajknul/a" subtitle="Druhá strana se o lajku dozví, jen když ti ho oplatí." />
 
-      {likes.length === 0 ? (
-        <p className={`${card} mt-6 text-center text-[15px] text-muted`}>Zatím nikoho.</p>
-      ) : (
-        <ul className="glass mt-6 divide-y divide-line overflow-hidden rounded-[20px]">
-          {likes.map((like) => (
-            <li key={like.user_id} className="flex items-center gap-3 px-4 py-3">
-              <img src={photoUrl(like.photo)} alt="" className="size-12 shrink-0 rounded-full object-cover" />
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-[16px] font-semibold">
-                  {like.display_name}, {like.age}
-                </p>
-                <p className="truncate text-[13px] text-muted">
-                  {[like.event_name, formatDate(like.liked_at)].filter(Boolean).join(" · ")}
-                </p>
-              </div>
-              {like.match_id ? (
-                <Link href={`/matches/${like.match_id}`} className="shrink-0 rounded-full bg-accent/10 px-3.5 py-1.5 text-[13px] font-semibold text-ink">
-                  Match · napsat
-                </Link>
-              ) : (
-                <form action={unlikeAction.bind(null, like.user_id)}>
-                  <button type="submit" className={`${btnSecondary} !px-3.5 !py-1.5 !text-[13px]`}>
-                    Zrušit lajk
-                  </button>
-                </form>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="px-4">
+        {likes.length === 0 ? (
+          <p className={`${card} mt-6 text-center text-[15px] text-muted`}>Zatím nikoho.</p>
+        ) : (
+          <ul className="mt-4 space-y-3">
+            {likes.map((like) => (
+              <li key={like.user_id} className="surface flex items-center gap-3 rounded-[36px] p-1 pr-3">
+                <img src={photoUrl(like.photo)} alt="" className="size-16 shrink-0 rounded-full bg-fill object-cover" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[16px] font-bold">
+                    {like.display_name}, {like.age}
+                  </p>
+                  <p className="truncate text-[13px] text-muted">
+                    {[like.event_name, formatDate(like.liked_at)].filter(Boolean).join(" · ")}
+                  </p>
+                </div>
+                {like.match_id ? (
+                  <Link href={`/matches/${like.match_id}`} className={`${pill} shrink-0 !px-3.5 !py-2 !text-[13px]`}>
+                    Match · napsat
+                  </Link>
+                ) : (
+                  <form action={unlikeAction.bind(null, like.user_id)}>
+                    <button type="submit" className={`${btnSecondary} !bg-fill !px-3.5 !py-2 !text-[13px] !text-ink`}>
+                      Zrušit lajk
+                    </button>
+                  </form>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </main>
   );
 }

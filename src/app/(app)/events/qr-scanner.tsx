@@ -30,14 +30,25 @@ function nativeDetector(): Detector | null {
   }
 }
 
-/** Tlačítko „Naskenovat QR kód“ – otevře foťák přímo v aplikaci. */
-export function QrScanButton() {
+/** Tlačítko „Naskenovat QR kód“ – otevře foťák přímo v aplikaci. `compact` = jen ikona do hlavičky. */
+export function QrScanButton({ compact = false }: { compact?: boolean }) {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={`${btnPrimary} w-full`}>
-        <Icon name="camera" className="size-5" /> Naskenovat QR kód
-      </button>
+      {compact ? (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label="Naskenovat QR kód"
+          className="grid size-10 place-items-center text-ink transition active:scale-90"
+        >
+          <Icon name="qr" className="size-6" />
+        </button>
+      ) : (
+        <button type="button" onClick={() => setOpen(true)} className={`${btnPrimary} w-full`}>
+          <Icon name="camera" className="size-5" /> Naskenovat QR kód
+        </button>
+      )}
       {open && <Scanner onClose={() => setOpen(false)} />}
     </>
   );
@@ -132,7 +143,7 @@ function Scanner({ onClose }: { onClose: () => void }) {
       {/* Rámeček – ztmavené okolí, průhledný střed */}
       {!error && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="size-[68vw] max-w-[320px] rounded-[28px] border-2 border-white/90 shadow-[0_0_0_100vmax_rgb(0_0_0/0.45)]" />
+          <div className="size-[68vw] max-w-[320px] rounded-[32px] border-2 border-white/90 shadow-[0_0_0_100vmax_rgb(0_0_0/0.45)]" />
         </div>
       )}
 
@@ -150,7 +161,7 @@ function Scanner({ onClose }: { onClose: () => void }) {
 
       <div className="relative mt-auto px-6 pb-safe text-center">
         {error ? (
-          <div className="mb-4 rounded-[20px] bg-white/10 p-4 backdrop-blur">
+          <div className="mb-4 rounded-[16px] bg-white/10 p-4 backdrop-blur">
             <p className="text-[15px] leading-snug">{error}</p>
             <button type="button" onClick={onClose} className={`${btnSecondary} mt-3 !bg-white !text-ink`}>
               Opsat kód

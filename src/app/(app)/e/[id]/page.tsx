@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BackHeader } from "@/components/app-header";
 import { Icon } from "@/components/icons";
 import { ShareButton } from "@/components/share-button";
-import { btnSecondary, card, iconButton } from "@/components/ui";
+import { btnSecondary, card } from "@/components/ui";
 import { getOrigin, requireProfile } from "@/lib/auth";
 import { STATUS_LABELS, eventCountdown, eventStatus, formatNumber } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
@@ -39,77 +40,76 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
     cards = (data ?? []) as DeckCard[];
   }
 
+  const menuItem = "w-full rounded-[12px] px-4 py-3 text-left text-[15px] font-semibold hover:bg-fill";
+
   return (
-    <main className="fixed inset-x-0 top-0 mx-auto flex h-dvh max-w-md flex-col px-4 pt-safe pb-nav-tight lg:left-72 lg:pt-6 lg:pb-8">
-      <header className="flex shrink-0 items-center gap-3 pt-2">
-        <Link href="/events" aria-label="Zpět" className={iconButton}>
-          <Icon name="back" className="size-5" />
-        </Link>
-        <div className="min-w-0 flex-1 text-center">
-          <p className="truncate text-[17px] font-semibold">{event.name}</p>
-          <p className="truncate text-[12px] font-medium text-muted">{event.venue || STATUS_LABELS[status]}</p>
-        </div>
-        <details className="relative">
-          <summary aria-label="Nastavení" className={`${iconButton} cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>
-            <Icon name="dots" className="size-5" />
-          </summary>
-          <div className="glass absolute right-0 z-20 mt-2 w-64 overflow-hidden rounded-[20px] p-1.5">
-            <form action={setVisibilityAction.bind(null, id, !attendance.visible)}>
-              <button type="submit" className="w-full rounded-[14px] px-4 py-3 text-left text-[15px] font-medium hover:bg-black/5">
-                {attendance.visible ? "Skrýt mě před ostatními" : "Zase mě ukazuj ostatním"}
-              </button>
-            </form>
-            <form action={leaveEventAction.bind(null, id)}>
-              <button
-                type="submit"
-                className="w-full rounded-[14px] px-4 py-3 text-left text-[15px] font-medium text-danger hover:bg-danger/10"
+    <main className="fixed inset-x-0 top-0 mx-auto flex h-dvh max-w-md flex-col pb-nav-tight lg:left-72 lg:pt-6 lg:pb-8">
+      <BackHeader
+        href="/events"
+        title={event.name}
+        subtitle={event.venue || STATUS_LABELS[status]}
+        right={
+          <>
+            <ShareButton
+              title={event.name}
+              text={`Jsem na ${event.name} v GetTogether. Přidej se, ať se na akci najdeme.`}
+              url={joinUrl}
+              iconOnly
+              className="grid size-10 place-items-center text-ink transition active:scale-90"
+            />
+            <details className="relative">
+              <summary
+                aria-label="Nastavení"
+                className="grid size-10 cursor-pointer list-none place-items-center text-ink [&::-webkit-details-marker]:hidden"
               >
-                Opustit akci
-              </button>
-            </form>
-          </div>
-        </details>
-      </header>
+                <Icon name="dots" className="size-6" />
+              </summary>
+              <div className="surface absolute right-0 z-20 mt-1 w-64 overflow-hidden rounded-[16px] p-1.5 shadow-[0_16px_40px_-20px_rgb(0_0_0/0.3)]">
+                <form action={setVisibilityAction.bind(null, id, !attendance.visible)}>
+                  <button type="submit" className={menuItem}>
+                    {attendance.visible ? "Skrýt mě před ostatními" : "Zase mě ukazuj ostatním"}
+                  </button>
+                </form>
+                <form action={leaveEventAction.bind(null, id)}>
+                  <button type="submit" className={`${menuItem} text-danger hover:bg-danger/10`}>
+                    Opustit akci
+                  </button>
+                </form>
+              </div>
+            </details>
+          </>
+        }
+      />
 
       {status !== "closed" && (
-        <div className="glass mt-3 flex shrink-0 items-center gap-2 rounded-full py-1.5 pr-1.5 pl-4">
-          <span className="flex min-w-0 flex-1 items-center gap-3 text-[13px] font-semibold">
-            <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
-              {status === "live" ? (
-                <span className="relative flex size-2">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
-                  <span className="relative inline-flex size-2 rounded-full bg-accent" />
-                </span>
-              ) : (
-                <Icon name="clock" className="size-4 text-muted" />
-              )}
-              {eventCountdown(event)}
-            </span>
-            <span className="h-3.5 w-px bg-line" />
-            <span className="inline-flex items-center gap-1.5 truncate text-muted">
-              <Icon name="users" className="size-4" />
-              {formatNumber(attendees)} {attendees === 1 ? "člověk" : attendees < 5 ? "lidi" : "lidí"}
-            </span>
+        <div className="flex shrink-0 flex-wrap items-center gap-2 px-4 pt-3">
+          <span className="fill-accent-soft inline-flex items-center gap-1.5 rounded-[10px] px-3 py-1 text-[12px] font-semibold">
+            {status === "live" ? (
+              <span className="relative flex size-2">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
+                <span className="relative inline-flex size-2 rounded-full bg-accent" />
+              </span>
+            ) : (
+              <Icon name="clock" className="size-4" />
+            )}
+            {eventCountdown(event)}
           </span>
-          <ShareButton
-            title={event.name}
-            text={`Jsem na ${event.name} v GetTogether. Přidej se, ať se na akci najdeme 👋`}
-            url={joinUrl}
-            className="glass-inner inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-semibold text-ink transition active:scale-95"
-          />
+          <span className="fill-soft inline-flex items-center gap-1.5 rounded-[10px] px-3 py-1 text-[12px] font-semibold text-muted">
+            <Icon name="users" className="size-4" />
+            {formatNumber(attendees)} {attendees === 1 ? "člověk" : attendees < 5 ? "lidi" : "lidí"}
+          </span>
+          {!attendance.visible && (
+            <span className="inline-flex items-center rounded-[10px] bg-amber-100 px-3 py-1 text-[12px] font-semibold text-amber-800">
+              Jsi skrytý/á
+            </span>
+          )}
         </div>
-      )}
-
-      {!attendance.visible && (
-        <p className="glass mt-3 shrink-0 rounded-full px-4 py-2 text-center text-[13px] font-medium text-amber-700">
-          Jsi skrytý/á – ostatní tě neuvidí, matche a chat fungují dál.
-        </p>
       )}
 
       {status === "closed" ? (
-        <div className="flex flex-1 items-center">
+        <div className="flex flex-1 items-center px-4">
           <div className={`${card} w-full text-center`}>
-            <p className="font-display text-[22px] font-bold">Tahle akce už skončila</p>
+            <p className="text-[22px] font-bold">Tahle akce už skončila</p>
             <p className="mt-1 text-[15px] text-muted">Tvoje matche a zprávy ti ale zůstávají.</p>
             <Link href="/matches" className={`${btnSecondary} mt-5`}>
               Moje matche
@@ -117,7 +117,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
           </div>
         </div>
       ) : (
-        <Deck eventId={id} eventName={event.name} initialCards={cards} myPhoto={profile.photos[0]} />
+        <Deck eventId={id} eventName={event.name} venue={event.venue} initialCards={cards} myPhoto={profile.photos[0]} />
       )}
     </main>
   );

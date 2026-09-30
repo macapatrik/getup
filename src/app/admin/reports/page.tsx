@@ -39,7 +39,7 @@ export default async function AdminReportsPage(props: PageProps<"/admin/reports"
       ) : (
         <ul className="grid gap-3 xl:grid-cols-2">
           {reports.map((report) => (
-            <li key={report.id} className={`glass rounded-[20px] p-4 ${report.resolved_at ? "opacity-70" : ""}`}>
+            <li key={report.id} className={`surface rounded-[16px] p-4 ${report.resolved_at ? "opacity-70" : ""}`}>
               <div className="flex items-center gap-3">
                 <Avatar photo={report.reported_photo} name={report.reported_name} className="size-12" />
                 <div className="min-w-0 flex-1">
@@ -57,7 +57,7 @@ export default async function AdminReportsPage(props: PageProps<"/admin/reports"
                 </div>
               </div>
 
-              <p className="glass-inner mt-3 rounded-[14px] px-4 py-3 text-[15px] leading-snug">„{report.reason}“</p>
+              <p className="fill-soft mt-3 rounded-[12px] px-4 py-3 text-[15px] leading-snug">„{report.reason}“</p>
 
               <div className="mt-3 flex flex-wrap gap-2">
                 <form action={resolveReportAction.bind(null, report.id, !report.resolved_at)}>

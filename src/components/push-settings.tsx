@@ -90,11 +90,11 @@ export function PushSettings() {
   return (
     <section className={`${card} space-y-4`}>
       <div className="flex items-center gap-3">
-        <span className="glass-inner grid size-10 shrink-0 place-items-center rounded-full text-ink">
+        <span className="fill-accent-soft grid size-10 shrink-0 place-items-center rounded-full">
           <Icon name="bell" className="size-5" />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-[17px] font-semibold">Upozornění na matche</p>
+          <p className="text-[17px] font-bold">Upozornění na matche</p>
           <p className="text-[13px] text-muted">{STATUS[state]}</p>
         </div>
         {(state === "on" || state === "off") && (
@@ -105,7 +105,7 @@ export function PushSettings() {
             aria-label="Upozornění na matche"
             disabled={busy}
             onClick={on ? disable : enable}
-            className={`relative h-[31px] w-[51px] shrink-0 rounded-full transition-colors disabled:opacity-60 ${on ? "bg-success" : "bg-black/10"}`}
+            className={`relative h-[31px] w-[51px] shrink-0 rounded-full transition-colors disabled:opacity-60 ${on ? "bg-accent" : "bg-fill"}`}
           >
             <span
               className={`absolute top-[2px] left-[2px] size-[27px] rounded-full bg-white shadow-[0_2px_6px_rgb(0_0_0/0.2)] transition-transform ${on ? "translate-x-5" : ""}`}
@@ -156,8 +156,8 @@ export function PushPrompt() {
   if (dismissed || (state !== "off" && state !== "install") || wasDismissed()) return null;
 
   return (
-    <div className="glass mt-5 flex items-center gap-3 rounded-[22px] py-3 pr-2 pl-4">
-      <Icon name="bell" className="size-6 shrink-0 text-ink" />
+    <div className="surface mt-4 flex items-center gap-3 rounded-[16px] py-3 pr-2 pl-4">
+      <Icon name="bell" className="size-6 shrink-0 text-accent" />
       <div className="min-w-0 flex-1">
         {state === "install" ? (
           <InstallHint />
@@ -170,7 +170,7 @@ export function PushPrompt() {
           type="button"
           onClick={enable}
           disabled={busy}
-          className="gloss-ink shrink-0 rounded-full px-4 py-2 text-[14px] font-semibold transition active:scale-95 disabled:opacity-60"
+          className="fill-accent shrink-0 rounded-[12px] px-4 py-2 text-[14px] font-bold transition active:scale-95 disabled:opacity-60"
         >
           Zapnout
         </button>

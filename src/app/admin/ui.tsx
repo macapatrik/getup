@@ -99,5 +99,5 @@ export function Empty({ children }: { children: ReactNode }) {
 }
 
 /** Skleněný seznam s řádky oddělenými linkou */
-export const list = "glass overflow-hidden rounded-[20px] divide-y divide-line";
+export const list = "surface overflow-hidden rounded-[16px] divide-y divide-line";
 export const row = "flex items-center gap-3 px-4 py-3 transition hover:bg-black/[0.03] active:bg-black/5";

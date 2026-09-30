@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { ProfileSheet } from "@/components/profile-sheet";
+import { pill } from "@/components/ui";
 import { photoUrl } from "@/lib/photos";
 import type { MatchRow } from "@/lib/types";
 
-/** Hlavička chatu – klepnutím se otevře profil protějšku. */
+/** Hlavička chatu – jméno a štítek akce jako u Romio; klepnutím se otevře profil protějšku. */
 export function ProfileHeader({ match }: { match: MatchRow }) {
   const [open, setOpen] = useState(false);
 
@@ -15,16 +16,12 @@ export function ProfileHeader({ match }: { match: MatchRow }) {
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`Profil: ${match.display_name}`}
-        className="glass flex min-w-0 flex-1 items-center gap-2.5 rounded-full py-1 pr-4 pl-1 text-left transition active:scale-[0.98]"
+        className="flex min-w-0 flex-1 items-center gap-2.5 py-1 text-left transition active:opacity-70"
       >
-        <img src={photoUrl(match.photos[0])} alt="" className="size-9 rounded-full object-cover" />
-        <span className="min-w-0">
-          <span className="block truncate text-[15px] leading-tight font-semibold">
-            {match.display_name}, {match.age}
-          </span>
-          {match.event_name && (
-            <span className="block truncate text-[12px] leading-tight text-muted">{match.event_name}</span>
-          )}
+        <img src={photoUrl(match.photos[0])} alt="" className="size-10 shrink-0 rounded-full bg-fill object-cover" />
+        <span className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5">
+          <span className="truncate text-[18px] leading-tight font-bold">{match.display_name}</span>
+          {match.event_name && <span className={`${pill} max-w-full truncate`}>{match.event_name}</span>}
         </span>
       </button>
       {open && <ProfileSheet person={match} eventName={match.event_name} onClose={() => setOpen(false)} />}

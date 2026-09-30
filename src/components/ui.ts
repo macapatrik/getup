@@ -1,32 +1,43 @@
-// Designový systém ve stylu Apple. Utility `glass` (bílá karta), `glass-inner` (šedá výplň), `gloss-ink` (černé tlačítko) jsou v globals.css.
+// Designový systém podle šablony Romio. Utility `surface` (bílá karta s linkou), `fill-soft` (šedá výplň),
+// `fill-accent` (růžové tlačítko) a `fill-accent-soft` (světle růžové) jsou v globals.css.
 export const btnPrimary =
-  "gloss-ink inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[17px] font-semibold transition active:scale-[0.97] disabled:opacity-50";
+  "fill-accent inline-flex items-center justify-center gap-2 rounded-[12px] px-6 py-3 text-[17px] font-bold transition active:scale-[0.97] disabled:opacity-50";
 
 export const btnSecondary =
-  "glass-inner inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[15px] font-semibold text-ink transition active:scale-[0.97] disabled:opacity-50";
+  "fill-accent-soft inline-flex items-center justify-center gap-2 rounded-[12px] px-5 py-3 text-[16px] font-bold transition active:scale-[0.97] disabled:opacity-50";
 
 export const btnDanger =
-  "glass-inner inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[15px] font-semibold text-danger transition active:scale-[0.97] disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-[12px] bg-danger/10 px-5 py-3 text-[16px] font-bold text-danger transition active:scale-[0.97] disabled:opacity-50";
 
 export const iconButton =
-  "glass grid size-10 shrink-0 place-items-center rounded-full text-ink transition active:scale-90";
+  "surface grid size-11 shrink-0 place-items-center rounded-full text-ink transition active:scale-90";
 
 export const input =
-  "glass-inner w-full rounded-[14px] px-4 py-3.5 text-[17px] text-ink placeholder:text-faint outline-none transition focus:bg-white focus:ring-2 focus:ring-ink/80";
+  "fill-soft w-full rounded-[24px] px-4 py-3 text-[16px] text-ink placeholder:text-muted outline-none transition focus:ring-2 focus:ring-accent/50";
 
-export const label = "mb-2 ml-1 block text-[13px] font-medium text-muted";
+/** Pole s ikonou vlevo (obal <IconField>) */
+export const inputWithIcon = `${input} pl-12`;
 
-export const sectionTitle = "mb-2 ml-1 text-[13px] font-semibold tracking-wide text-muted uppercase";
+export const label = "mb-2 block text-[14px] font-bold tracking-wide text-ink uppercase";
 
-export const card = "glass rounded-[20px] p-5";
+export const sectionTitle = "mb-3 text-[18px] font-bold text-ink";
 
-export const largeTitle = "font-display text-[34px] leading-[1.1] font-bold tracking-tight";
+export const card = "surface rounded-[16px] p-4";
+
+export const largeTitle = "font-display text-[28px] leading-[1.15] font-bold";
 
 export function chip(active: boolean) {
-  return `rounded-full px-4 py-2.5 text-[15px] font-semibold transition active:scale-95 ${
-    active ? "gloss-ink" : "glass-inner text-ink"
+  return `rounded-[12px] px-4 py-2.5 text-[15px] font-semibold transition active:scale-95 ${
+    active ? "fill-accent" : "fill-soft text-ink"
   }`;
 }
 
+/** Štítek přes fotku (věk, místo) */
+export const photoBadge =
+  "photo-chip inline-flex items-center gap-1.5 rounded-[30px] px-3.5 py-1.5 text-[13px] font-medium whitespace-nowrap";
+
+/** Malý světle růžový štítek (akce, stav) */
+export const pill = "fill-accent-soft inline-flex items-center gap-1 rounded-[10px] px-3 py-1 text-[12px] font-semibold";
+
 export const errorText =
-  "rounded-2xl bg-danger/10 px-3.5 py-2.5 text-[15px] font-medium text-danger";
+  "rounded-[12px] bg-danger/10 px-3.5 py-2.5 text-[15px] font-medium text-danger";

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Icon } from "@/components/icons";
-import { iconButton } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import type { MatchRow, Message } from "@/lib/types";
@@ -34,9 +33,9 @@ export default async function ChatPage(props: PageProps<"/matches/[id]">) {
 
   return (
     <main className="fixed inset-x-0 top-0 mx-auto flex h-dvh max-w-md flex-col lg:left-72 lg:py-4">
-      <header className="flex items-center gap-2 px-3 pt-safe pb-2">
-        <Link href="/matches" aria-label="Zpět" className={iconButton}>
-          <Icon name="back" className="size-5" />
+      <header className="flex shrink-0 items-center gap-1 border-b-2 border-fill bg-white px-2 pt-safe pb-2.5">
+        <Link href="/messages" aria-label="Zpět" className="grid size-10 shrink-0 place-items-center text-ink transition active:scale-90">
+          <Icon name="back" className="size-6" />
         </Link>
         <ProfileHeader match={match} />
         <ChatMenu matchId={id} name={match.display_name} unmatch={unmatchAction.bind(null, id)} />

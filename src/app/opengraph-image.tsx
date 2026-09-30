@@ -20,8 +20,8 @@ export default function OpenGraphImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#f5f5f7",
-          color: "#1d1d1f",
+          background: "#ffffff",
+          color: "#12151c",
           fontFamily: "system-ui, sans-serif",
         }}
       >
@@ -33,18 +33,17 @@ export default function OpenGraphImage() {
             width: 168,
             height: 168,
             borderRadius: 44,
-            background: "#ff6a15",
-            boxShadow: "0 30px 60px -30px rgba(255,106,21,0.6)",
+            background: "linear-gradient(135deg, #f759f5, #3e36ed)",
+            boxShadow: "0 30px 60px -30px rgba(247,89,245,0.6)",
           }}
         >
           <img src={MARK_SVG} width={116} height={116} alt="" />
         </div>
         <div style={{ display: "flex", marginTop: 44, fontSize: 96, fontWeight: 800, letterSpacing: -3 }}>
-          <span>Get</span>
-          <span style={{ color: "#ff6a15" }}>Together</span>
+          <span style={{ color: "#f759f5" }}>GetTogether</span>
         </div>
-        <div style={{ marginTop: 10, fontSize: 40, color: "#6e6e73" }}>{APP_TAGLINE}</div>
-        <div style={{ marginTop: 56, fontSize: 26, letterSpacing: 6, color: "#aeaeb2", textTransform: "uppercase" }}>by GetUp</div>
+        <div style={{ marginTop: 10, fontSize: 40, color: "#616568" }}>{APP_TAGLINE}</div>
+        <div style={{ marginTop: 56, fontSize: 26, letterSpacing: 6, color: "#9a9ea3", textTransform: "uppercase" }}>by GetUp</div>
       </div>
     ),
     size,

@@ -8,8 +8,9 @@ import { ageFromBirthdate } from "@/lib/format";
 import { PHOTOS_BUCKET, photoExtension, photoUrl, randomId, resizeImage } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
 import { GENDERS, GENDER_LABELS, INTEREST_LABELS, type Gender, type Profile } from "@/lib/types";
+import { IconField } from "./field";
 import { Icon } from "./icons";
-import { btnPrimary, chip, errorText, input, label } from "./ui";
+import { btnPrimary, chip, errorText, input, inputWithIcon, label } from "./ui";
 
 type PhotoItem = { key: string; preview: string; path?: string; file?: File };
 
@@ -142,22 +143,22 @@ export function ProfileForm({
   })();
 
   return (
-    <form onSubmit={onSubmit} className="mt-7 space-y-6">
+    <form onSubmit={onSubmit} className="mt-6 space-y-6">
       <section>
         <span className={label}>Fotky (první je hlavní)</span>
         <div className="grid grid-cols-3 gap-2">
           {photos.map((photo, i) => (
-            <div key={photo.key} className="relative aspect-[3/4] overflow-hidden rounded-[20px] border-2 border-white bg-fill shadow-[0_8px_20px_-10px_rgb(60_30_10/0.4)]">
+            <div key={photo.key} className="relative aspect-[3/4] overflow-hidden rounded-[16px] bg-fill">
               <img src={photo.preview} alt="" className="size-full object-cover" />
               {i === 0 ? (
-                <span className="absolute bottom-1.5 left-1.5 rounded-full bg-ink px-2 py-0.5 text-[10px] font-bold text-white">
+                <span className="fill-accent absolute bottom-1.5 left-1.5 rounded-full px-2 py-0.5 text-[10px] font-bold shadow-none">
                   HLAVNÍ
                 </span>
               ) : (
                 <button
                   type="button"
                   onClick={() => makeMain(photo.key)}
-                  className="glass-photo absolute bottom-1.5 left-1.5 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+                  className="absolute bottom-1.5 left-1.5 rounded-full bg-white/85 px-2 py-0.5 text-[10px] font-bold text-ink"
                 >
                   Hlavní
                 </button>
@@ -166,7 +167,7 @@ export function ProfileForm({
                 type="button"
                 onClick={() => removePhoto(photo.key)}
                 aria-label="Odebrat fotku"
-                className="glass-photo absolute top-1.5 right-1.5 grid size-7 place-items-center rounded-full"
+                className="absolute top-1.5 right-1.5 grid size-7 place-items-center rounded-full bg-white/85 text-ink"
               >
                 <Icon name="x" className="size-4" />
               </button>
@@ -176,7 +177,7 @@ export function ProfileForm({
             <button
               type="button"
               onClick={() => fileInput.current?.click()}
-              className="glass grid aspect-[3/4] place-items-center rounded-[20px] border-dashed text-ink transition active:scale-95"
+              className="fill-accent-soft grid aspect-[3/4] place-items-center rounded-[16px] transition active:scale-95"
             >
               <Icon name="plus" className="size-8" />
             </button>
@@ -199,35 +200,39 @@ export function ProfileForm({
         <label htmlFor="name" className={label}>
           Jméno nebo přezdívka
         </label>
-        <input
-          id="name"
-          maxLength={40}
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-            setSaved(false);
-          }}
-          className={input}
-          placeholder="Jak ti máme říkat?"
-        />
+        <IconField icon="user">
+          <input
+            id="name"
+            maxLength={40}
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+              setSaved(false);
+            }}
+            className={inputWithIcon}
+            placeholder="Jak ti máme říkat?"
+          />
+        </IconField>
       </div>
 
       <div>
         <label htmlFor="birthdate" className={label}>
           Datum narození
         </label>
-        <input
-          id="birthdate"
-          type="date"
-          max={maxBirthdate}
-          value={birthdate}
-          onChange={(e) => {
-            setBirthdate(e.target.value);
-            setSaved(false);
-          }}
-          className={input}
-          suppressHydrationWarning
-        />
+        <IconField icon="calendar">
+          <input
+            id="birthdate"
+            type="date"
+            max={maxBirthdate}
+            value={birthdate}
+            onChange={(e) => {
+              setBirthdate(e.target.value);
+              setSaved(false);
+            }}
+            className={inputWithIcon}
+            suppressHydrationWarning
+          />
+        </IconField>
       </div>
 
       <fieldset>
@@ -280,15 +285,19 @@ export function ProfileForm({
             setBio(e.target.value);
             setSaved(false);
           }}
-          className={`${input} resize-none`}
+          className={`${input} resize-none rounded-[16px]`}
           placeholder="Na koho se nejvíc těšíš? Co piješ na baru?"
         />
       </div>
 
       {error && <p className={errorText}>{error}</p>}
-      {saved && <p className="ml-1 text-[15px] font-semibold text-success">✓ Uloženo</p>}
+      {saved && (
+        <p className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-success">
+          <Icon name="check" className="size-5" /> Uloženo
+        </p>
+      )}
 
-      <button type="submit" disabled={saving} className={`${btnPrimary} w-full py-4`}>
+      <button type="submit" disabled={saving} className={`${btnPrimary} w-full py-3.5`}>
         {saving ? "Ukládám…" : profile ? "Uložit změny" : "Hotovo, jdeme na to"}
       </button>
     </form>

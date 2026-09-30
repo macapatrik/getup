@@ -54,7 +54,7 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
                   <img
                     src={photoUrl(photo)}
                     alt=""
-                    className={`w-full rounded-[20px] object-cover ${i === 0 ? "aspect-[4/5]" : "aspect-square"}`}
+                    className={`w-full rounded-[16px] object-cover ${i === 0 ? "aspect-[4/5]" : "aspect-square"}`}
                   />
                 </a>
               ))}

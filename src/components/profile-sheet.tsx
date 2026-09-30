@@ -14,7 +14,10 @@ export type SheetPerson = {
 
 const CLOSE_DRAG = 110; // px tahu dolů, od kterých se list zavře
 
-/** Vysouvací profil člověka (iOS "sheet"). Zavře se tlačítkem, klepnutím vedle, tahem dolů nebo Esc. */
+const outlineChip =
+  "inline-flex items-center gap-1.5 rounded-[30px] border-2 border-fill px-3.5 py-1.5 text-[14px] font-medium text-ink whitespace-nowrap";
+
+/** Vysouvací profil člověka (rozložení jako Romio „Profile“). Zavře se tlačítkem, klepnutím vedle, tahem dolů nebo Esc. */
 export function ProfileSheet({
   person,
   eventName,
@@ -95,18 +98,18 @@ export function ProfileSheet({
           type="button"
           onClick={onClose}
           aria-label="Zavřít profil"
-          className="glass-photo absolute top-4 right-4 z-10 grid size-9 place-items-center rounded-full"
+          className="absolute top-4 right-4 z-10 grid size-10 place-items-center rounded-full bg-white/90 text-ink shadow-[0_8px_20px_-10px_rgb(0_0_0/0.4)]"
         >
           <Icon name="x" className="size-5" />
         </button>
 
         <div className="overflow-y-auto overscroll-contain">
-          {/* Fotky – posun do stran */}
-          <div className="relative">
+          {/* Fotky – posun do stran, zaoblený rám jako u Romio */}
+          <div className="relative px-3 pt-3">
             <div
               ref={gallery}
               onScroll={onGalleryScroll}
-              className="flex aspect-[4/5] max-h-[52dvh] w-full snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              className="no-scrollbar flex aspect-[4/5] max-h-[52dvh] w-full snap-x snap-mandatory overflow-x-auto rounded-[32px] bg-fill"
             >
               {person.photos.map((p) => (
                 <img
@@ -119,7 +122,7 @@ export function ProfileSheet({
               ))}
             </div>
             {person.photos.length > 1 && (
-              <div className="absolute top-6 right-16 left-4 flex gap-1">
+              <div className="absolute top-6 right-16 left-7 flex gap-1">
                 {person.photos.map((p, i) => (
                   <span key={p} className={`h-1 flex-1 rounded-full shadow-sm ${i === photoIndex ? "bg-white" : "bg-white/45"}`} />
                 ))}
@@ -127,29 +130,32 @@ export function ProfileSheet({
             )}
           </div>
 
-          <div className="space-y-4 px-5 pt-5 pb-6">
+          <div className="space-y-5 px-4 pt-4 pb-6">
             <div>
-              <h2 className="font-display text-[30px] leading-tight font-bold tracking-tight">
-                {person.display_name} <span className="font-normal text-muted">{person.age}</span>
-              </h2>
-              {eventName && (
-                <span className="glass-inner mt-2 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[13px] font-semibold">
-                  {eventName}
+              <h2 className="text-[24px] leading-tight font-bold">{person.display_name}</h2>
+              <div className="mt-2.5 flex flex-wrap gap-2">
+                <span className={outlineChip}>
+                  <Icon name="gender" className="size-4" /> {person.age} let
                 </span>
-              )}
+                {eventName && (
+                  <span className={`${outlineChip} min-w-0`}>
+                    <Icon name="ticket" className="size-4 shrink-0" /> <span className="truncate">{eventName}</span>
+                  </span>
+                )}
+              </div>
             </div>
 
-            <section className="glass-inner rounded-[20px] p-4">
-              <p className="text-[13px] font-semibold tracking-wide text-muted uppercase">O mně</p>
-              <p className="mt-1.5 text-[17px] leading-snug">
-                {person.bio || <span className="text-muted">Zatím o sobě nic nenapsal/a.</span>}
+            <section>
+              <p className="text-[18px] font-bold">O mně</p>
+              <p className="mt-1.5 text-[16px] leading-relaxed text-muted">
+                {person.bio || "Zatím o sobě nic nenapsal/a."}
               </p>
             </section>
           </div>
         </div>
 
         {actions && (
-          <div className="flex shrink-0 items-center justify-center gap-6 border-t border-line bg-white/90 px-5 pt-3 pb-safe backdrop-blur">
+          <div className="flex shrink-0 items-center justify-center gap-5 border-t-2 border-fill bg-white px-5 pt-3 pb-safe">
             {actions}
           </div>
         )}

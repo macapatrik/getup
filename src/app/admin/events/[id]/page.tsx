@@ -107,7 +107,7 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
         </div>
 
         <div className="lg:sticky lg:top-8 lg:order-2">
-          <section className="rounded-[20px] border-[3px] border-white bg-white p-6 text-center text-black shadow-[0_24px_60px_-24px_rgb(60_30_10/0.45)] [text-shadow:none]">
+          <section className="rounded-[16px] border-[3px] border-white bg-white p-6 text-center text-black shadow-[0_24px_60px_-24px_rgb(60_30_10/0.45)] [text-shadow:none]">
             <p className="text-[13px] font-bold tracking-widest text-ink uppercase">Seznam se s lidmi z akce</p>
             <img src={qr} alt={`QR kód pro ${event.name}`} className="mx-auto mt-2 w-full max-w-xs" />
             <p className="text-[13px] text-neutral-500">nebo zadej kód</p>
@@ -131,7 +131,7 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
 function DigitCounter({ label, value, time }: { label: string; value: number; time: string }) {
   const digits = String(Math.min(Math.max(value, 0), 99999)).padStart(5, "0").split("");
   return (
-    <section className="glass rounded-[20px] p-5">
+    <section className="surface rounded-[16px] p-5">
       <div className="flex items-center gap-3">
         <AppIcon className="size-10 rounded-full" mark="size-6" />
         <div>
@@ -144,7 +144,7 @@ function DigitCounter({ label, value, time }: { label: string; value: number; ti
           <span
             key={i}
             aria-hidden
-            className="glass-inner grid aspect-[3/4] max-h-28 place-items-center rounded-[14px] font-display text-[52px] leading-none font-bold text-ink"
+            className="fill-soft grid aspect-[3/4] max-h-28 place-items-center rounded-[12px] font-display text-[52px] leading-none font-bold text-ink"
           >
             {digit}
           </span>

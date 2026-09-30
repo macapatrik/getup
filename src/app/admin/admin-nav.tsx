@@ -31,7 +31,7 @@ export function AdminNav({ email, openReports }: { email: string; openReports: n
   return (
     <>
       <aside className="no-print fixed inset-y-0 left-0 z-30 hidden w-72 p-4 lg:block">
-        <div className="glass flex h-full flex-col rounded-[20px] p-4">
+        <div className="surface flex h-full flex-col rounded-[16px] p-4">
           <Link href="/admin" className="px-2 pt-1">
             <Logo />
           </Link>
@@ -45,8 +45,8 @@ export function AdminNav({ email, openReports }: { email: string; openReports: n
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`flex items-center gap-3 rounded-[14px] px-3 py-2.5 text-[15px] font-semibold transition ${
-                    active ? "glass-inner text-ink" : "border border-transparent text-ink/70 hover:bg-black/[0.04] hover:text-ink"
+                  className={`flex items-center gap-3 rounded-[12px] px-3 py-2.5 text-[15px] font-semibold transition ${
+                    active ? "fill-soft text-ink" : "border border-transparent text-ink/70 hover:bg-black/[0.04] hover:text-ink"
                   }`}
                 >
                   <Icon name={item.icon} className="size-5" />
@@ -60,7 +60,7 @@ export function AdminNav({ email, openReports }: { email: string; openReports: n
           <div className="mt-auto space-y-2 border-t border-line pt-4">
             <Link
               href="/events"
-              className="flex items-center gap-3 rounded-[14px] px-3 py-2.5 text-[15px] font-semibold text-ink/70 transition hover:bg-black/[0.04] hover:text-ink"
+              className="flex items-center gap-3 rounded-[12px] px-3 py-2.5 text-[15px] font-semibold text-ink/70 transition hover:bg-black/[0.04] hover:text-ink"
             >
               <Icon name="back" className="size-5" /> Zpět do aplikace
             </Link>

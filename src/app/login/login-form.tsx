@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { btnPrimary, errorText, input, label } from "@/components/ui";
+import { IconField } from "@/components/field";
+import { btnPrimary, errorText, input, inputWithIcon, label } from "@/components/ui";
 import { createClient } from "@/lib/supabase/client";
 
 export function LoginForm({ next, linkError }: { next: string; linkError: boolean }) {
@@ -53,25 +54,27 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
 
   if (step === "email") {
     return (
-      <form onSubmit={sendCode} className="glass mt-10 space-y-4 rounded-[20px] p-5">
+      <form onSubmit={sendCode} className="mt-8 space-y-5">
         <div>
           <label htmlFor="email" className={label}>
             E-mail
           </label>
-          <input
-            id="email"
-            type="email"
-            required
-            autoComplete="email"
-            inputMode="email"
-            placeholder="ty@example.cz"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={input}
-          />
+          <IconField icon="mail">
+            <input
+              id="email"
+              type="email"
+              required
+              autoComplete="email"
+              inputMode="email"
+              placeholder="ty@example.cz"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={inputWithIcon}
+            />
+          </IconField>
         </div>
         {error && <p className={errorText}>{error}</p>}
-        <button type="submit" disabled={busy} className={`${btnPrimary} w-full py-4`}>
+        <button type="submit" disabled={busy} className={`${btnPrimary} w-full py-3.5`}>
           {busy ? "Posílám…" : "Poslat kód"}
         </button>
       </form>
@@ -79,10 +82,9 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
   }
 
   return (
-    <form onSubmit={verifyCode} className="glass mt-10 space-y-4 rounded-[20px] p-5">
+    <form onSubmit={verifyCode} className="mt-8 space-y-5">
       <p className="text-[15px] text-muted">
-        Kód jsme poslali na <span className="font-semibold text-ink">{email}</span>. Můžeš taky kliknout na odkaz
-        v e-mailu.
+        Kód jsme poslali na <span className="font-bold text-ink">{email}</span>. Můžeš taky kliknout na odkaz v e-mailu.
       </p>
       <div>
         <label htmlFor="code" className={label}>
@@ -99,11 +101,11 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
           placeholder="123456"
           value={code}
           onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
-          className={`${input} text-center text-2xl tracking-[0.4em]`}
+          className={`${input} text-center text-2xl font-bold tracking-[0.4em]`}
         />
       </div>
       {error && <p className={errorText}>{error}</p>}
-      <button type="submit" disabled={busy} className={`${btnPrimary} w-full py-4`}>
+      <button type="submit" disabled={busy} className={`${btnPrimary} w-full py-3.5`}>
         {busy ? "Ověřuji…" : "Přihlásit se"}
       </button>
       <button
@@ -113,7 +115,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
           setCode("");
           setError(null);
         }}
-        className="w-full py-1 text-[15px] font-semibold text-ink"
+        className="w-full py-1 text-center text-[15px] font-semibold text-accent"
       >
         Jiný e-mail / poslat znovu
       </button>

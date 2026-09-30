@@ -26,10 +26,11 @@ Na počítači má aplikace boční panel místo spodní lišty.
 ## Technologie
 
 - **Next.js 16** (App Router, TypeScript, Tailwind CSS 4) jako **PWA**: dá se „nainstalovat“ na plochu telefonu.
-- Design jako Apple (iOS „grouped“ styl): světle šedé pozadí, bílé karty s vlasovou linkou a měkkým stínem, černá hlavní
-  tlačítka, plovoucí rozmazaná lišta. Oranžová GetUp jen na srdíčku, logu a jedné tečce; žádné emoji v rozhraní. Utility
-  `glass` (karta), `glass-inner` (šedá výplň), `glass-bar` (lišta), `glass-photo`, `gloss` (oranžová), `gloss-ink` (černé
-  tlačítko) jsou v `src/app/globals.css`, sdílené třídy v `src/components/ui.ts`.
+- Design podle šablony Romio (Envato, „Multipurpose Dating Mobile App PWA HTML Template“): bílé pozadí, karty s 2px světle
+  šedou linkou, růžová (#f759f5) na hlavní tlačítka, aktivní záložku, srdíčko a logo, indigo (#3e36ed) jako přechod přes
+  spodek fotek na kartách. Písmo Urbanist, spodní lišta s pěti záložkami jen s ikonami, žádné emoji v rozhraní. Utility
+  `surface` (karta), `fill-soft` (šedá výplň), `fill-accent` (růžová), `fill-accent-soft` (světle růžová), `photo-fade`
+  (přechod přes fotku), `photo-chip` (štítek na fotce) jsou v `src/app/globals.css`, sdílené třídy v `src/components/ui.ts`.
 - **Supabase**: přihlášení (e-mailový kód), Postgres s Row Level Security, Storage na fotky, Realtime na chat.
 
 ## Spuštění lokálně

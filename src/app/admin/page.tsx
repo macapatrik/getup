@@ -62,7 +62,7 @@ export default async function AdminHomePage() {
                 return (
                   <li key={event.id}>
                     <Link href={`/admin/events/${event.id}`} className={row}>
-                      <span className="glass-inner flex size-12 shrink-0 flex-col items-center justify-center rounded-[14px]">
+                      <span className="fill-soft flex size-12 shrink-0 flex-col items-center justify-center rounded-[12px]">
                         <span className="text-[10px] font-bold text-muted uppercase">{month}</span>
                         <span className="font-display text-[19px] leading-none font-bold">{day}</span>
                       </span>

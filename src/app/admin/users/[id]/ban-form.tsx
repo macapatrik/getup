@@ -17,7 +17,7 @@ export function BanForm({ userId, ban }: { userId: string; ban: { reason: string
           <p className="text-[15px]">
             <span className="font-semibold text-danger">Zablokovaný</span> od {formatDateTime(ban.created_at)}
           </p>
-          {ban.reason && <p className="glass-inner rounded-[14px] px-4 py-3 text-[15px]">„{ban.reason}“</p>}
+          {ban.reason && <p className="fill-soft rounded-[12px] px-4 py-3 text-[15px]">„{ban.reason}“</p>}
           <p className="text-[13px] text-muted">Po odblokování se zase ukáže ostatním na svých akcích.</p>
         </>
       ) : (
