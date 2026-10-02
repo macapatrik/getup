@@ -63,11 +63,10 @@ const extraCss = `
 `;
 
 // ---- Obrázky: menší varianty pro mobil (srcset) a malé avatary; generují se jen jednou, pak se commitují.
-const VARIANTS = { hero: [800, 1200], title: [600, 900], crowd: [800, 1200], reaper: [540], poster: [540] };
+const VARIANTS = { hero: [800, 1200], title: [600, 900], reaper: [540], poster: [540] };
 const SIZES = {
   hero: "100vw",
   title: "(min-width: 1024px) 680px, 100vw",
-  crowd: "100vw",
   reaper: "(min-width: 768px) 360px, 80vw",
   poster: "300px",
 };
@@ -98,7 +97,7 @@ body = body.replace('<div class="hw ', '<div id="hw-page" class="alignfull hw ')
 const assetName = (url) => {
   const u = decodeURIComponent(url);
   const m = u.match(/_next\/static\/media\/([a-z0-9-]+)\.[a-z0-9-]+\.(webp|png|jpg)/i);
-  if (m) return `/halloween/${m[1]}.${m[2]}`;
+  if (m) return /^\d{3}$/.test(m[1]) ? `/halloween/gallery/${m[1]}.${m[2]}` : `/halloween/${m[1]}.${m[2]}`;
   const q = u.match(/_next\/image\?url=([^&]+)/);
   if (q) return q[1];
   return u;
@@ -117,6 +116,10 @@ body = body.replace(/<img\b([^>]*)>/g, (tag, attrs) => {
   if (!IMAGE_BASE && VARIANTS[name]) {
     const set = [...VARIANTS[name].map((w) => `${SITE}/halloween/${name}-${w}.webp ${w}w`), `${src} ${widthOf[name]}w`];
     extra = ` srcset="${set.join(", ")}" sizes="${SIZES[name]}"`;
+  }
+  const gallery = asset.match(/^\/halloween\/gallery\/(\d{3})\.webp$/);
+  if (!IMAGE_BASE && gallery) {
+    extra = ` srcset="${SITE}/halloween/gallery/${gallery[1]}-800.webp 800w, ${src} 1600w" sizes="${get("sizes") || "100vw"}"`;
   }
   if (name === "hero" || name === "title") extra += ' fetchpriority="high"';
   return `<img${rest}${extra} src="${src}">`;

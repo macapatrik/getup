@@ -7,7 +7,7 @@ import { OPERATOR } from "@/lib/legal";
 import { Countdown } from "./countdown";
 import { EVENT } from "./event";
 import { TicketBar } from "./ticket-bar";
-import crowd from "../../../public/halloween/crowd.webp";
+import crowd from "../../../public/halloween/gallery/215.webp";
 import hero from "../../../public/halloween/hero.webp";
 import poster from "../../../public/halloween/poster.webp";
 import reaper from "../../../public/halloween/reaper.webp";
@@ -38,6 +38,9 @@ const CONTEST_STEPS = [
 ];
 
 const CROWD = ["klara", "matej", "nikola", "tomas", "adela"];
+
+// Fotky z Halloweenu 2025 (public/halloween/gallery, vybrané ze složky na Drive)
+const GALLERY = ["058", "068", "092", "113", "121", "133", "146", "203", "207", "218", "256", "262"];
 
 const ticketLink = { href: EVENT.ticketsUrl, target: "_blank", rel: "noopener" } as const;
 
@@ -269,10 +272,27 @@ export default function HalloweenPage() {
               Jedna noc v roce, na kterou se čeká celý rok.
             </p>
             <p className="mt-4 max-w-xl text-[17px] leading-snug text-bone/80">
-              Halloween je naše největší a nejúspěšnější akce. Masky, dvě stage, soutěž o {EVENT.prize} a celé Budějce v jednom
-              klubu.
+              Halloween je naše největší akce. Loni masky, dvě stage a celé Budějce v jednom klubu. Letos navíc {EVENT.prize} pro
+              nejlepší kostým.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Fotky z loňského ročníku */}
+      <section className="py-14 sm:py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <SectionTitle kicker="Halloween 2025" title="Jak to vypadalo loni" />
+          <p className="mt-4 max-w-xl text-[17px] leading-snug text-ash">
+            Kostýmy, dva parkety a soutěž o nejlepší masku. Letos výhra roste na {EVENT.prize}.
+          </p>
+        </div>
+        <div className="no-scrollbar mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 sm:px-6 lg:mx-auto lg:grid lg:max-w-6xl lg:grid-cols-4 lg:gap-4 lg:overflow-visible">
+          {GALLERY.map((n) => (
+            <div key={n} className="relative aspect-[3/2] w-[78vw] shrink-0 snap-start overflow-hidden rounded-[16px] bg-coal sm:w-[360px] lg:w-auto">
+              <Image src={`/halloween/gallery/${n}.webp`} alt="Halloween by GetUp 2025 v Klubu K2" fill sizes="(min-width: 1024px) 280px, (min-width: 640px) 360px, 78vw" className="object-cover" />
+            </div>
+          ))}
         </div>
       </section>
 

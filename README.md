@@ -164,6 +164,10 @@ načítá z `public/halloween/embed.html`. Po změně textů spusť `npm run bui
 `node scripts/export-halloween-wordpress.mjs`, který embed přegeneruje (a do `out/halloween-wordpress/` dá i
 samostatný `halloween.html`); postup je v `scripts/halloween-wordpress-NAVOD.md`.
 
+Fotky z minulého ročníku (`public/halloween/gallery`) vybírá `scripts/halloween-photos/select.txt` ze složky na Drive
+(`files.tsv`); zpracovává je workflow `.github/workflows/halloween-photos.yml` při pushi do větve `tmp/halloween-photos`,
+protože z vývojového prostředí není Drive dostupný.
+
 ## Demo data
 
 V produkčním projektu jsou kvůli ukázkám demo data:

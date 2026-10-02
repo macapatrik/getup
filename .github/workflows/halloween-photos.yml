@@ -1,0 +1,39 @@
+# Dočasný workflow (větev tmp/halloween-photos): stáhne fotky z Drive a loga z webu, vyrobí náhledy
+# nebo vybrané fotky pro web a commitne je do větve.
+name: Halloween photos
+
+on:
+  push:
+    branches: [tmp/halloween-photos]
+
+permissions:
+  contents: write
+
+jobs:
+  photos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/cache@v4
+        with:
+          path: photos
+          key: halloween-photos-originals-v1
+      - run: npm ci --no-audit --no-fund
+      - name: Loga partnerů z webu
+        run: |
+          mkdir -p public/halloween
+          for n in getup hqd proud; do
+            curl -fsSL -A "Mozilla/5.0" -o "public/halloween/logo-$n.png" "https://www.get-up.fun/wp-content/uploads/2026/10/logo-$n.png" && file "public/halloween/logo-$n.png"
+          done
+      - run: node scripts/halloween-photos/process.mjs
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A scripts/halloween-photos public/halloween
+          git commit -m "Halloween: fotky z Drive a loga (workflow)" || echo "nothing to commit"
+          git push
