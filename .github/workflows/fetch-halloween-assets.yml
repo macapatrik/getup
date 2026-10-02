@@ -3,6 +3,11 @@ name: Fetch Halloween assets
 
 on:
   workflow_dispatch:
+  push:
+    branches: [claude/exciting-knuth-9lozvp]
+    paths:
+      - scripts/fetch-halloween-assets.mjs
+      - .github/workflows/fetch-halloween-assets.yml
 
 permissions:
   contents: write
