@@ -19,6 +19,13 @@
   --color-danger: #ff4444;
   --color-danger-strong: #ff4444;
   --color-info: #3e36ed;
+  /* Stránka /halloween (kampaň podle plakátu): noc, uhel, krev, žhavá, kost, popel */
+  --color-night: #07060a;
+  --color-coal: #121016;
+  --color-blood: #e0141c;
+  --color-ember: #ff3b3b;
+  --color-bone: #f3ede6;
+  --color-ash: #9a948e;
   --font-sans: var(--font-urbanist), system-ui, sans-serif;
   --font-display: var(--font-urbanist), system-ui, sans-serif;
 }
@@ -153,5 +160,85 @@ body {
   .print-full {
     padding: 0 !important;
     max-width: none !important;
+  }
+}
+
+/* ---- /halloween: tmavý kampaňový motiv (obalený třídou .hw) ---- */
+:root:has(.hw) {
+  background: var(--color-night);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+:root:has(.hw) body {
+  background: var(--color-night);
+  color: var(--color-bone);
+}
+
+/* Písmo titulků jako na plakátu (Metal Mania) */
+@utility font-metal {
+  font-family: var(--font-metal-mania), "Metal Mania", serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* Tmavá karta s jemnou linkou */
+@utility hw-surface {
+  background: rgb(255 255 255 / 0.04);
+  border: 1px solid rgb(255 255 255 / 0.09);
+}
+
+/* Červené hlavní tlačítko */
+@utility hw-red {
+  background: var(--color-blood);
+  color: white;
+  box-shadow: 0 18px 40px -16px rgb(224 20 28 / 0.8);
+}
+
+/* Obrysový štítek jako na plakátu („PŘEDPRODEJ NA EVENTLOOK.CZ“) */
+@utility hw-outline {
+  border: 2px solid rgb(224 20 28 / 0.9);
+  box-shadow: 0 0 18px rgb(224 20 28 / 0.35), inset 0 0 12px rgb(224 20 28 / 0.15);
+}
+
+@utility hw-glow {
+  text-shadow: 0 0 22px rgb(255 59 59 / 0.55), 0 0 2px rgb(255 59 59 / 0.9);
+}
+
+/* Mlha ze spodu / shora sekce do pozadí stránky */
+@utility hw-fog-bottom {
+  background: linear-gradient(180deg, rgb(7 6 10 / 0) 0%, rgb(7 6 10 / 0.6) 55%, var(--color-night) 100%);
+}
+
+@utility hw-fog-top {
+  background: linear-gradient(180deg, var(--color-night) 0%, rgb(7 6 10 / 0.55) 40%, rgb(7 6 10 / 0) 100%);
+}
+
+@keyframes hw-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes hw-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes hw-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
   }
 }

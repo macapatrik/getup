@@ -144,12 +144,20 @@ src/
     (app)/matches/        matche + chat
     (app)/profile/        Můj účet: přehled, úprava profilu, lajky, export dat, smazání účtu
     podminky/, soukromi/  podmínky užití a ochrana soukromí (údaje provozovatele v src/lib/legal.ts)
+    halloween/            veřejná kampaňová stránka k Halloweenu (fakta v event.ts, grafika v public/halloween)
     opengraph-image.tsx   náhled při sdílení odkazu; error.tsx / global-error.tsx chybové stránky
     admin/                administrace týmu GetUp: přehled, akce + QR, uživatelé, nahlášení, tým
     api/push/match/       webhook z databáze → rozeslání push upozornění
   lib/                    Supabase klienti, typy, formátování, chybové hlášky
   components/             sdílené UI
 ```
+
+## Kampaňová stránka /halloween
+
+Veřejná (bez přihlášení) stránka k akci Halloween by GetUp: odpočet, line-up, kostýmová soutěž, odkaz na předprodej
+a na připojení k akci v GetTogether. Všechna fakta (datum, místo, line-up, cena, odkaz na vstupenky, kód akce) jsou
+v `src/app/halloween/event.ts`. Grafika v `public/halloween` vychází z plakátu (hřbitov, smrtka, titulek a dav jsou
+vygenerované přes Higgsfield podle plakátu), náhled při sdílení je `src/app/halloween/opengraph-image.jpg`.
 
 ## Demo data
 
