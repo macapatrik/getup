@@ -14,6 +14,9 @@ const postcss = require("postcss");
 
 const SITE = (process.env.SITE_URL || "https://together.get-up.fun").replace(/\/$/, "");
 const OUT = process.env.OUT_DIR || "out/halloween-wordpress";
+// Volitelně: obrázky nahrané do Knihovny médií WordPressu (všechny v jedné složce), např.
+// IMAGE_BASE=https://get-up.fun/wp-content/uploads/2026/10/
+const IMAGE_BASE = process.env.IMAGE_BASE ? process.env.IMAGE_BASE.replace(/\/?$/, "/") : "";
 const pageFile = ".next/server/app/halloween.html";
 if (!existsSync(pageFile)) {
   console.error("Chybí build: nejdřív spusť `npm run build`.");
@@ -81,11 +84,13 @@ body = body.replace(/<img\b([^>]*)>/g, (tag, attrs) => {
   const source = get("srcSet") || get("src");
   const first = source ? source.split(",")[0].trim().split(/\s+/)[0] : null;
   const rest = attrs.replace(/\s(srcSet|sizes|src)="[^"]*"/g, "").replace(/\s*\/$/, "");
-  const src = first ? (first.startsWith("http") ? first : SITE + assetName(first)) : "";
+  const asset = first ? assetName(first) : "";
+  const src = !first ? "" : first.startsWith("http") ? first : IMAGE_BASE ? IMAGE_BASE + path.basename(asset) : SITE + asset;
   return `<img${rest} src="${src}">`;
 });
 // Odkazy do aplikace (připojení k akci, podmínky, plakát) absolutně
 body = body.replace(/href="\/(?!\/)([^"]*)"/g, (m, p) => `href="${SITE}/${p}"`);
+if (IMAGE_BASE) body = body.replaceAll(`${SITE}/halloween/poster.webp`, `${IMAGE_BASE}poster.webp`);
 // Háčky pro skript
 body = body.replace('role="timer"', `role="timer" data-target="${startsAt}"`);
 body = body.replace('<div class="fixed inset-x-0 bottom-0 z-30', '<div id="hw-ticket-bar" class="fixed inset-x-0 bottom-0 z-30');
@@ -181,4 +186,4 @@ cpSync("public/halloween", path.join(OUT, "images/halloween"), { recursive: true
 for (const p of [...body.matchAll(/\/people\/([a-z]+\.webp)/g)].map((m) => m[1])) {
   if (existsSync(`public/people/${p}`)) cpSync(`public/people/${p}`, path.join(OUT, "images/people", p));
 }
-console.log(`✓ ${OUT}/halloween.html (${Math.round(out.length / 1024)} kB) a snippet.html; embed v ${EMBED_DIR}; obrázky a odkazy vedou na ${SITE}`);
+console.log(`✓ ${OUT}/halloween.html (${Math.round(out.length / 1024)} kB) a snippet.html; embed v ${EMBED_DIR}; odkazy vedou na ${SITE}, obrázky na ${IMAGE_BASE || SITE}`);
