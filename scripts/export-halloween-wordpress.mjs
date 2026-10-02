@@ -192,9 +192,23 @@ const extraCss = `
 // Lekačka: stejný skript, který v aplikaci načítá <Script src="/halloween/scare.js">
 const scareJs = readFileSync("public/halloween/scare.js", "utf8").replace(/^\/\/.*\n/gm, "");
 const behaviorAll = behavior + "\n" + scareJs;
-// seraph-accel-crit="1": Seraphinite Accelerator na get-up.fun jinak odloží spuštění skriptu až po první interakci
-// (odpočet by na mobilu naskočil až po scrollu nebo po několika sekundách).
-const script = `<script seraph-accel-crit="1">\n(function () {${behaviorAll}})();\n</script>`;
+// Skript musí přežít cokoli, co s ním udělá cache plugin (Seraphinite Accelerator na get-up.fun): bez atributu
+// seraph-accel-crit="1" ho odloží až do první interakce (odpočet naskočil až po scrollu), s ním ho zase může přesunout
+// do hlavičky a spustit dřív, než existuje obsah bloku. Proto se blok hledá opakovaně, dokud se neobjeví.
+const boot = `
+  var tries = 0;
+  function boot() {
+    var page = document.getElementById("hw-page");
+    if (!page) { if (tries++ < 120) setTimeout(boot, 250); return; }
+    if (page.getAttribute("data-hw-ready")) return;
+    page.setAttribute("data-hw-ready", "1");
+    ${behaviorAll}
+  }
+  boot();
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  window.addEventListener("load", boot);
+`;
+const script = `<script seraph-accel-crit="1">\n(function () {${boot}})();\n</script>`;
 
 const out = `<!-- Halloween by GetUp – vygenerováno skriptem scripts/export-halloween-wordpress.mjs, neupravovat ručně -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
