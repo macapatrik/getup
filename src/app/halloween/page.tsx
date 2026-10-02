@@ -172,12 +172,12 @@ export default function HalloweenPage() {
               <a {...ticketLink} className="hw-red inline-flex items-center justify-center gap-2 rounded-[12px] px-7 py-3.5 text-[17px] font-bold transition active:scale-[0.97]">
                 <Icon name="ticket" className="size-5" /> Koupit vstupenku
               </a>
-              <Link
-                href={`/j/${EVENT.joinCode}`}
+              <a
+                href="#seznamka"
                 className="hw-surface inline-flex items-center justify-center gap-2 rounded-[12px] px-6 py-3.5 text-[17px] font-bold text-bone transition hover:bg-white/8 active:scale-[0.97]"
               >
                 <Icon name="users" className="size-5" /> Kdo tam jde se mnou?
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -330,37 +330,19 @@ export default function HalloweenPage() {
         </div>
       </section>
 
-      {/* GetTogether: seznamka pro návštěvníky akce */}
+      {/* GetTogether: seznamka pro návštěvníky akce (teaser, spouštíme před akcí) */}
       <section id="seznamka" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-14 sm:px-6 sm:py-20">
         <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-br from-[#2b0b3d] via-coal to-coal p-6 sm:p-10">
           <div className="absolute -top-24 -left-24 size-72 rounded-full bg-accent/25 blur-3xl" />
           <div className="absolute -right-24 -bottom-24 size-72 rounded-full bg-indigo/30 blur-3xl" />
           <div className="relative grid items-center gap-8 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-[10px] bg-white/10 px-3 py-1.5 text-[12px] font-bold tracking-[0.16em] text-accent uppercase">
-                <LogoMark className="size-4" /> GetTogether by GetUp
-              </span>
-              <h2 className="font-metal mt-4 text-[40px] leading-[0.95] text-bone sm:text-[56px]">Kdo tam bude s tebou?</h2>
-              <p className="mt-4 max-w-lg text-[17px] leading-snug text-bone/80">
-                Seznam se s lidmi z Halloweenu ještě před akcí. V GetTogether swipuješ jen návštěvníky téhle párty, při matchi si
-                napíšete a domluvíte, kde se v K2 potkáte.
-              </p>
-              <Link
-                href={`/j/${EVENT.joinCode}`}
-                className="fill-accent mt-6 inline-flex items-center justify-center gap-2 rounded-[12px] px-7 py-3.5 text-[17px] font-bold transition active:scale-[0.97]"
-              >
-                <Icon name="heart" className="size-5" /> Připojit se k akci
-              </Link>
-              <p className="mt-3 text-[12px] text-ash">Jen pro 18+. Přihlásíš se kódem z e-mailu, žádné heslo.</p>
-            </div>
-
-            <div className="flex flex-col items-center gap-4">
+            <div className="order-1 flex flex-col items-center md:order-2">
               <div className="flex">
                 {CROWD.map((photo, i) => (
-                  <Avatar key={photo} photo={photo} className={`size-16 sm:size-20 ${i > 0 ? "-ml-4" : ""}`} />
+                  <Avatar key={photo} photo={photo} className={`size-14 sm:size-20 ${i > 0 ? "-ml-4" : ""}`} />
                 ))}
               </div>
-              <div className="flex items-center gap-2 rounded-full bg-white py-1.5 pr-4 pl-1.5 text-ink shadow-[0_12px_30px_-14px_rgb(0_0_0/0.6)]">
+              <div className="-mt-4 flex items-center gap-2 rounded-full bg-white py-1.5 pr-4 pl-1.5 text-ink shadow-[0_12px_30px_-14px_rgb(0_0_0/0.6)]">
                 <span className="relative flex">
                   <Avatar photo="patrik" className="size-8 !border-white" />
                   <Avatar photo="tereza" className="-ml-2.5 size-8 !border-white" />
@@ -370,7 +352,31 @@ export default function HalloweenPage() {
                 </span>
                 <span className="text-[13px] font-bold">Je to match!</span>
               </div>
-              <p className="text-center text-[13px] text-ash">Lidi, kdo už jdou na Halloween, uvidíš hned po připojení.</p>
+            </div>
+
+            <div className="order-2 text-center md:order-1 md:text-left">
+              <div className="flex flex-wrap justify-center gap-2 md:justify-start">
+                <span className="inline-flex items-center gap-2 rounded-[10px] bg-white/10 px-3 py-1.5 text-[12px] font-bold tracking-[0.16em] text-accent uppercase">
+                  <LogoMark className="size-4" /> GetTogether by GetUp
+                </span>
+                <span className="hw-outline inline-flex items-center rounded-[10px] px-3 py-1.5 text-[12px] font-bold tracking-[0.16em] text-bone uppercase">
+                  Připravujeme
+                </span>
+              </div>
+              <h2 className="font-metal mt-4 text-[40px] leading-[0.95] text-bone sm:text-[56px]">Seznamka jen pro lidi z Halloweenu</h2>
+              <p className="mx-auto mt-4 max-w-lg text-[17px] leading-snug text-bone/80 md:mx-0">
+                Chystáme pro vás GetTogether: aplikaci, ve které uvidíš jen ty, kdo jdou na stejnou akci. Lajk, match, chat a
+                domluva, kde se v K2 potkáte. Spouštíme před Halloweenem.
+              </p>
+              <a
+                href={EVENT.instagram}
+                target="_blank"
+                rel="noopener"
+                className="fill-accent mt-6 inline-flex items-center justify-center gap-2 rounded-[12px] px-7 py-3.5 text-[17px] font-bold transition active:scale-[0.97]"
+              >
+                <Icon name="heart" className="size-5" /> Sledovat novinky
+              </a>
+              <p className="mt-3 text-[12px] text-ash">Jen pro 18+. Spuštění oznámíme na Instagramu {EVENT.instagramHandle}.</p>
             </div>
           </div>
         </div>
