@@ -5,9 +5,10 @@
 //   snippet.html    – dva řádky do HTML widgetu, obsah se načte z aplikace (public/halloween/embed.html + embed.js)
 //   NAVOD.md        – postup vložení
 // Obrázky a odkazy vedou na SITE_URL (výchozí https://together.get-up.fun).
-import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
+import sharp from "sharp";
 
 const require = createRequire(import.meta.url);
 const postcss = require("postcss");
@@ -61,6 +62,29 @@ const extraCss = `
 #hw-page :where(img){border:0;box-shadow:none;max-width:none;height:auto}
 `;
 
+// ---- Obrázky: menší varianty pro mobil (srcset) a malé avatary; generují se jen jednou, pak se commitují.
+const VARIANTS = { hero: [800, 1200], title: [600, 900], crowd: [800, 1200], reaper: [540], poster: [540] };
+const SIZES = {
+  hero: "100vw",
+  title: "(min-width: 1024px) 680px, 100vw",
+  crowd: "100vw",
+  reaper: "(min-width: 768px) 360px, 80vw",
+  poster: "300px",
+};
+const widthOf = {};
+for (const [name, widths] of Object.entries(VARIANTS)) {
+  const source = `public/halloween/${name}.webp`;
+  widthOf[name] = (await sharp(source).metadata()).width;
+  for (const w of widths) {
+    const target = `public/halloween/${name}-${w}.webp`;
+    if (!existsSync(target)) await sharp(source).resize({ width: w }).webp({ quality: 82, alphaQuality: 90 }).toFile(target);
+  }
+}
+for (const file of readdirSync("public/people").filter((f) => f.endsWith(".webp"))) {
+  const target = `public/halloween/avatar-${file}`;
+  if (!existsSync(target)) await sharp(`public/people/${file}`).resize({ width: 160, height: 160, fit: "cover" }).webp({ quality: 80 }).toFile(target);
+}
+
 // ---- HTML: jen obal .hw z těla stránky, bez skriptů Next.js
 let body = html.slice(html.indexOf("<body"), html.indexOf("</body>"));
 body = body.slice(body.indexOf(">") + 1);
@@ -84,9 +108,18 @@ body = body.replace(/<img\b([^>]*)>/g, (tag, attrs) => {
   const source = get("srcSet") || get("src");
   const first = source ? source.split(",")[0].trim().split(/\s+/)[0] : null;
   const rest = attrs.replace(/\s(srcSet|sizes|src)="[^"]*"/g, "").replace(/\s*\/$/, "");
-  const asset = first ? assetName(first) : "";
+  let asset = first ? assetName(first) : "";
+  const people = asset.match(/^\/people\/([a-z]+\.webp)$/);
+  if (people) asset = `/halloween/avatar-${people[1]}`;
+  const name = path.basename(asset, path.extname(asset));
   const src = !first ? "" : first.startsWith("http") ? first : IMAGE_BASE ? IMAGE_BASE + path.basename(asset) : SITE + asset;
-  return `<img${rest} src="${src}">`;
+  let extra = "";
+  if (!IMAGE_BASE && VARIANTS[name]) {
+    const set = [...VARIANTS[name].map((w) => `${SITE}/halloween/${name}-${w}.webp ${w}w`), `${src} ${widthOf[name]}w`];
+    extra = ` srcset="${set.join(", ")}" sizes="${SIZES[name]}"`;
+  }
+  if (name === "hero" || name === "title") extra += ' fetchpriority="high"';
+  return `<img${rest}${extra} src="${src}">`;
 });
 // Odkazy do aplikace (připojení k akci, podmínky, plakát) absolutně
 body = body.replace(/href="\/(?!\/)([^"]*)"/g, (m, p) => `href="${SITE}/${p}"`);
