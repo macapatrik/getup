@@ -53,5 +53,8 @@ Po nasazení aplikace se web aktualizuje sám, do WordPressu se nic znovu nevkl�
   (Accelerator) blokuje či přesouvá cizí skripty. Stránku vyjmi z optimalizace JavaScriptu.
 - Odpočet ukazuje pomlčky: skript se nespustil. Vkládej jako administrátor a stránku vyjmi z optimalizace
   JavaScriptu v cache pluginu.
+- Odpočet naskočí až po scrollu nebo po několika sekundách: Accelerator odkládá skripty do první interakce.
+  Skript v bloku má atribut `seraph-accel-crit="1"`, který ho z odkládání vyjímá; pokud to nestačí, v Accelerator →
+  Scripts → Lazy loading přidej do výjimek `hw-page`, nebo odkládání skriptů pro tuhle stránku vypni.
 - Písmo titulků je obyčejné: web blokuje Google Fonts (např. plugin na GDPR). Povol `fonts.googleapis.com`,
   nebo písma Urbanist a Metal Mania nahraj do webu a uprav `<link>` na začátku souboru.

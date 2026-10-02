@@ -150,7 +150,7 @@ root.walkAtRules("layer", (at) => (at.nodes ? at.replaceWith(at.nodes) : at.remo
 root.walkAtRules("font-face", (at) => at.remove());
 
 // Jen pravidla pro třídy, které stránka opravdu používá (plus třídy přepínané skriptem).
-const used = new Set(["translate-y-0", "translate-y-full", "font-metal", "text-[28px]", "text-blood", "hw-glow"]);
+const used = new Set(["translate-y-0", "translate-y-full", "font-metal", "text-[28px]", "text-blood", "hw-glow", "is-on", "hidden"]);
 for (const m of body.matchAll(/class="([^"]*)"/g)) for (const c of m[1].split(/\s+/)) if (c) used.add(c);
 const classesOf = (sel) => [...sel.matchAll(/\.((?:\\.|[A-Za-z0-9_-])+)/g)].map((m) => m[1].replace(/\\(.)/g, "$1"));
 root.walkRules((rule) => {
@@ -189,7 +189,12 @@ const extraCss = `
 `;
 
 
-const script = `<script>\n(function () {${behavior}})();\n</script>`;
+// Lekačka: stejný skript, který v aplikaci načítá <Script src="/halloween/scare.js">
+const scareJs = readFileSync("public/halloween/scare.js", "utf8").replace(/^\/\/.*\n/gm, "");
+const behaviorAll = behavior + "\n" + scareJs;
+// seraph-accel-crit="1": Seraphinite Accelerator na get-up.fun jinak odloží spuštění skriptu až po první interakci
+// (odpočet by na mobilu naskočil až po scrollu nebo po několika sekundách).
+const script = `<script seraph-accel-crit="1">\n(function () {${behaviorAll}})();\n</script>`;
 
 const out = `<!-- Halloween by GetUp – vygenerováno skriptem scripts/export-halloween-wordpress.mjs, neupravovat ručně -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -220,7 +225,7 @@ const embedJs = `// Halloween by GetUp – vloží stránku do <div id="hw-root"
     .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
     .then(function (html) { root.innerHTML = html; init(); })
     .catch(function (err) { console.error("Halloween embed:", err); });
-  function init() {${behavior}  }
+  function init() {${behaviorAll}  }
 })();
 `;
 const EMBED_DIR = process.env.EMBED_DIR || "public/halloween";
@@ -229,7 +234,7 @@ writeFileSync(path.join(EMBED_DIR, "embed.html"), embedHtml);
 writeFileSync(path.join(EMBED_DIR, "embed.js"), embedJs);
 writeFileSync(
   path.join(OUT, "snippet.html"),
-  `<div id="hw-root"></div>\n<script src="${SITE}/halloween/embed.js" async></script>\n`,
+  `<div id="hw-root"></div>\n<script src="${SITE}/halloween/embed.js" async seraph-accel-crit="1"></script>\n`,
 );
 mkdirSync(path.join(OUT, "images/halloween"), { recursive: true });
 mkdirSync(path.join(OUT, "images/people"), { recursive: true });

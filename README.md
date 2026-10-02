@@ -164,6 +164,12 @@ načítá z `public/halloween/embed.html`. Po změně textů spusť `npm run bui
 `node scripts/export-halloween-wordpress.mjs`, který embed přegeneruje (a do `out/halloween-wordpress/` dá i
 samostatný `halloween.html`); postup je v `scripts/halloween-wordpress-NAVOD.md`.
 
+Loga partnerů se berou přímo z knihovny médií na get-up.fun (adresy v `event.ts`), takže je stačí vyměnit tam.
+Lekačka (tlačítko „Nemačkat“ a jednou za návštěvu sama u sekce kostýmů) je v `public/halloween/scare.js`: zvuk se
+syntetizuje přes Web Audio, smrtka vyjede přes celou obrazovku; export ji vkládá do bloku pro WordPress a skript
+označuje `seraph-accel-crit="1"`, aby ho Seraphinite Accelerator na get-up.fun neodkládal až do první interakce
+(jinak by odpočet na mobilu naskočil až po scrollu).
+
 Fotky z minulého ročníku (`public/halloween/gallery`) vybírá `scripts/halloween-photos/select.txt` ze složky na Drive
 (`files.tsv`); zpracovává je workflow `.github/workflows/halloween-photos.yml` při pushi do větve `tmp/halloween-photos`,
 protože z vývojového prostředí není Drive dostupný.
