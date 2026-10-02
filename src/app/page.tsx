@@ -5,6 +5,8 @@ import { Icon, type IconName } from "@/components/icons";
 import { Logo } from "@/components/logo";
 import { btnPrimary, btnSecondary, photoBadge } from "@/components/ui";
 import { getUser } from "@/lib/auth";
+import { isComingSoon } from "@/lib/config";
+import { ComingSoon } from "./coming-soon";
 
 const STEPS: { icon: IconName; title: string; text: string }[] = [
   { icon: "qr", title: "Připoj se k akci", text: "Naskenuj QR kód u vstupu přímo v aplikaci, nebo klikni na odkaz ze vstupenky." },
@@ -34,6 +36,7 @@ function Avatar({ photo, className = "" }: { photo: string; className?: string }
 
 export default async function Home() {
   if (await getUser()) redirect("/events");
+  if (isComingSoon()) return <ComingSoon />;
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col px-4 pt-safe pb-8">

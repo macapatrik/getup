@@ -174,6 +174,13 @@ Fotky z minulého ročníku (`public/halloween/gallery`) vybírá `scripts/hallo
 (`files.tsv`); zpracovává je workflow `.github/workflows/halloween-photos.yml` při pushi do větve `tmp/halloween-photos`,
 protože z vývojového prostředí není Drive dostupný.
 
+## Režim „Připravujeme“
+
+Dokud seznamka nejde na veřejnost, nastav v prostředí `COMING_SOON=1` (na Vercelu je nastaveno pro production
+i preview): úvodní stránka `/` pak ukáže jen upoutávku (`src/app/coming-soon.tsx`) bez tlačítka přihlášení, odkaz na
+Halloween a Instagram. Všechno ostatní běží dál: tým se přihlásí přímo přes `/login`, fungují odkazy `/j/KÓD`,
+administrace i `/halloween`. Před spuštěním pro veřejnost proměnnou smaž a znovu nasaď.
+
 ## Demo data
 
 V produkčním projektu jsou kvůli ukázkám demo data:

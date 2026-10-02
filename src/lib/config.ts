@@ -12,3 +12,7 @@ export const MIN_AGE = 18;
 
 // Po skončení akce je "místnost" otevřená ještě 24 h (musí sedět s SQL event_is_open).
 export const EVENT_GRACE_HOURS = 24;
+
+// Režim „připravujeme“: úvodní stránka ukáže jen upoutávku bez přihlášení (tým se dál přihlásí přes /login).
+// Zapíná se proměnnou prostředí COMING_SOON=1 (na Vercelu v nastavení projektu, pak nový deploy).
+export const isComingSoon = () => process.env.COMING_SOON === "1";
