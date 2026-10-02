@@ -2,6 +2,7 @@
 // Vychází z hotového buildu (`npm run build`), výsledek je v out/halloween-wordpress/:
 //   halloween.html  – kompletní blok (fonty, CSS, HTML, skript odpočtu a spodní lišty)
 //   images/         – obrázky pro případ, že je chceš nahrát do Knihovny médií
+//   snippet.html    – dva řádky do HTML widgetu, obsah se načte z aplikace (public/halloween/embed.html + embed.js)
 //   NAVOD.md        – postup vložení
 // Obrázky a odkazy vedou na SITE_URL (výchozí https://together.get-up.fun).
 import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -89,9 +90,7 @@ body = body.replace(/href="\/(?!\/)([^"]*)"/g, (m, p) => `href="${SITE}/${p}"`);
 body = body.replace('role="timer"', `role="timer" data-target="${startsAt}"`);
 body = body.replace('<div class="fixed inset-x-0 bottom-0 z-30', '<div id="hw-ticket-bar" class="fixed inset-x-0 bottom-0 z-30');
 
-const script = `
-<script>
-(function () {
+const behavior = `
   var page = document.getElementById("hw-page");
   if (!page) return;
   // Odpočet do začátku akce
@@ -133,8 +132,8 @@ const script = `
       bar.querySelector("a").tabIndex = shown ? 0 : -1;
     }, { threshold: 0.12 }).observe(hero);
   }
-})();
-</script>`;
+`;
+const script = `<script>\n(function () {${behavior}})();\n</script>`;
 
 const out = `<!-- Halloween by GetUp – vygenerováno skriptem scripts/export-halloween-wordpress.mjs, neupravovat ručně -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -150,10 +149,36 @@ ${script}
 
 mkdirSync(OUT, { recursive: true });
 writeFileSync(path.join(OUT, "halloween.html"), out);
+
+const fonts = `<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">`;
+const embedHtml = `<!-- Halloween by GetUp – generuje scripts/export-halloween-wordpress.mjs -->\n${fonts}\n<style>\n${scopedCss}\n${extraCss}\n</style>\n${body}\n`;
+const embedJs = `// Halloween by GetUp – vloží stránku do <div id="hw-root"></div> (generuje scripts/export-halloween-wordpress.mjs)
+(function () {
+  var script = document.currentScript;
+  var base = script && script.src ? new URL(".", script.src).href : "${SITE}/halloween/";
+  var root = document.getElementById("hw-root");
+  if (!root) return;
+  fetch(base + "embed.html", { credentials: "omit" })
+    .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
+    .then(function (html) { root.innerHTML = html; init(); })
+    .catch(function (err) { console.error("Halloween embed:", err); });
+  function init() {${behavior}  }
+})();
+`;
+const EMBED_DIR = process.env.EMBED_DIR || "public/halloween";
+mkdirSync(EMBED_DIR, { recursive: true });
+writeFileSync(path.join(EMBED_DIR, "embed.html"), embedHtml);
+writeFileSync(path.join(EMBED_DIR, "embed.js"), embedJs);
+writeFileSync(
+  path.join(OUT, "snippet.html"),
+  `<div id="hw-root"></div>\n<script src="${SITE}/halloween/embed.js" async></script>\n`,
+);
 mkdirSync(path.join(OUT, "images/halloween"), { recursive: true });
 mkdirSync(path.join(OUT, "images/people"), { recursive: true });
 cpSync("public/halloween", path.join(OUT, "images/halloween"), { recursive: true });
 for (const p of [...body.matchAll(/\/people\/([a-z]+\.webp)/g)].map((m) => m[1])) {
   if (existsSync(`public/people/${p}`)) cpSync(`public/people/${p}`, path.join(OUT, "images/people", p));
 }
-console.log(`✓ ${OUT}/halloween.html (${Math.round(out.length / 1024)} kB), obrázky a odkazy vedou na ${SITE}`);
+console.log(`✓ ${OUT}/halloween.html (${Math.round(out.length / 1024)} kB) a snippet.html; embed v ${EMBED_DIR}; obrázky a odkazy vedou na ${SITE}`);

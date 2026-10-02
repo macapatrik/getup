@@ -159,9 +159,10 @@ a na připojení k akci v GetTogether. Všechna fakta (datum, místo, line-up, c
 v `src/app/halloween/event.ts`. Grafika v `public/halloween` vychází z plakátu (hřbitov, smrtka, titulek a dav jsou
 vygenerované přes Higgsfield podle plakátu), náhled při sdílení je `src/app/halloween/opengraph-image.jpg`.
 
-Pro web get-up.fun (WordPress + Elementor) ji `node scripts/export-halloween-wordpress.mjs` (po `npm run build`)
-vyexportuje do `out/halloween-wordpress/halloween.html` jako jeden blok k vložení do HTML widgetu; postup je
-v `scripts/halloween-wordpress-NAVOD.md`.
+Na webu get-up.fun (WordPress + Elementor) je vložená dvěma řádky (`<div id="hw-root">` + `embed.js`), obsah se
+načítá z `public/halloween/embed.html`. Po změně textů spusť `npm run build` a
+`node scripts/export-halloween-wordpress.mjs`, který embed přegeneruje (a do `out/halloween-wordpress/` dá i
+samostatný `halloween.html`); postup je v `scripts/halloween-wordpress-NAVOD.md`.
 
 ## Demo data
 

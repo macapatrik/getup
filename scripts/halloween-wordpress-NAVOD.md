@@ -1,16 +1,25 @@
 # Halloween by GetUp na webu get-up.fun
 
-Soubor `halloween.html` je celá stránka v jednom bloku: písma (Google Fonts), styly, obsah i skript odpočtu
-a spodní lišty se vstupenkami. Styly jsou omezené na vlastní obal, takže se netlučou se šablonou webu
-ani s Elementorem.
+Do webu se vkládají dva řádky ze souboru `snippet.html`:
 
-## Postup v Elementoru (10 minut)
+```html
+<div id="hw-root"></div>
+<script src="https://together.get-up.fun/halloween/embed.js" async></script>
+```
+
+Skript si stáhne stránku z aplikace GetTogether (soubory `public/halloween/embed.html` a `embed.js`),
+takže po každé změně textů stačí nasadit aplikaci a web se aktualizuje sám. Styly jsou omezené na vlastní
+obal, takže se netlučou se šablonou webu ani s Elementorem.
+
+Soubor `halloween.html` je totéž v jednom kuse (bez načítání z aplikace) pro případ, že chceš stránku
+mít úplně nezávislou. Vkládá se stejně, jen je ho 107 kB.
+
+## Postup v Elementoru (5 minut)
 
 1. **Stránky → Přidat stránku**, název „Halloween“, pak **Upravit pomocí Elementoru**.
 2. Vlevo dole ozubené kolo (**Nastavení stránky**) → **Rozvržení stránky: Elementor Canvas**.
    Stránka tak nemá hlavičku ani patičku webu, má vlastní.
-3. Z panelu widgetů přetáhni **HTML** (skupina Obecné). Do pole **HTML kód** vlož celý obsah souboru
-   `halloween.html` (otevři ho v TextEditu nebo Poznámkovém bloku, Cmd+A, Cmd+C, do pole Cmd+V).
+3. Z panelu widgetů přetáhni **HTML** (skupina Obecné). Do pole **HTML kód** vlož ty dva řádky výše.
 4. Klikni na kontejner kolem widgetu: **Rozvržení → Šířka obsahu: Plná šířka**, odsazení 0.
    Není to nutné, stránka si celou šířku vezme sama, ale je to čistší.
 5. **Publikovat** a zkontroluj na mobilu i na počítači.
@@ -23,8 +32,8 @@ blok **Vlastní HTML** a do něj obsah souboru.
 
 ## Obrázky a odkazy
 
-Obrázky a odkazy (připojení k akci, podmínky, plakát ke stažení) vedou na `https://together.get-up.fun`.
-Aplikace GetTogether tedy musí mít tuhle verzi nasazenou (větev sloučená do hlavní), jinak obrázky chybí.
+Obsah, obrázky i odkazy (připojení k akci, podmínky, plakát ke stažení) vedou na `https://together.get-up.fun`.
+Aplikace GetTogether tedy musí mít tuhle verzi nasazenou (větev sloučená do hlavní), jinak se stránka nenačte.
 
 Chceš mít obrázky raději ve WordPressu? Nahraj složku `images` do Knihovny médií a v `halloween.html`
 nahraď `https://together.get-up.fun/halloween/` adresou, kam se obrázky nahrály
@@ -32,16 +41,16 @@ nahraď `https://together.get-up.fun/halloween/` adresou, kam se obrázky nahrá
 
 ## Úpravy textů
 
-Datum, line-up, cenu, odkazy a texty neuprav v HTML, ale v projektu GetTogether v souboru
-`src/app/halloween/event.ts` (texty v `page.tsx`), pak `npm run build` a
-`node scripts/export-halloween-wordpress.mjs`. Vznikne nový `halloween.html`, který do widgetu vložíš znovu.
-Ruční úprava HTML jde taky, jen se při dalším exportu přepíše.
+Datum, line-up, cenu, odkazy a texty se upravují v projektu GetTogether v souboru
+`src/app/halloween/event.ts` (texty v `page.tsx`), pak `npm run build`,
+`node scripts/export-halloween-wordpress.mjs` a commit (vygeneruje se nový `public/halloween/embed.html`).
+Po nasazení aplikace se web aktualizuje sám, do WordPressu se nic znovu nevkládá.
 
 ## Když něco nesedí
 
 - Stránka je úzká uprostřed nebo má nahoře menu webu: nastav rozvržení Elementor Canvas (bod 2).
-- Elementor blok neuloží (hosting omezuje velikost požadavku): rozděl obsah do tří HTML widgetů pod sebou:
-  první `<link …>` a `<style>…</style>`, druhý zbytek HTML, třetí `<script>…</script>`.
+- Stránka je prázdná: aplikace na together.get-up.fun ještě nemá tuhle verzi nasazenou, nebo cache plugin
+  (Accelerator) blokuje či přesouvá cizí skripty. Stránku vyjmi z optimalizace JavaScriptu.
 - Odpočet ukazuje pomlčky: skript se nespustil. Vkládej jako administrátor a stránku vyjmi z optimalizace
   JavaScriptu v cache pluginu.
 - Písmo titulků je obyčejné: web blokuje Google Fonts (např. plugin na GDPR). Povol `fonts.googleapis.com`,
