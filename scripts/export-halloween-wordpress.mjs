@@ -27,41 +27,6 @@ if (!existsSync(pageFile)) {
 const html = readFileSync(pageFile, "utf8");
 const startsAt = readFileSync("src/app/halloween/event.ts", "utf8").match(/startsAt: "([^"]+)"/)[1];
 
-// ---- CSS: sloučit chunky, zrušit @layer (nevrstvené styly šablony by jinak vyhrály), vyhodit @font-face
-// (fonty jdou z Google Fonts) a všechny selektory omezit na #hw-page, ať se netlučou se šablonou WordPressu.
-const cssFiles = [...html.matchAll(/<link rel="stylesheet" href="\/_next\/static\/chunks\/([^"]+\.css)"/g)].map((m) => m[1]);
-let css = cssFiles.map((f) => readFileSync(path.join(".next/static/chunks", f), "utf8")).join("\n");
-css = css.replaceAll("var(--font-urbanist)", "'Urbanist'").replaceAll("var(--font-metal-mania)", "'Metal Mania'");
-
-const root = postcss.parse(css);
-root.walkAtRules("layer", (at) => (at.nodes ? at.replaceWith(at.nodes) : at.remove()));
-root.walkAtRules("font-face", (at) => at.remove());
-root.walkRules((rule) => {
-  if (rule.parent?.type === "atrule" && /keyframes$/.test(rule.parent.name)) return;
-  if (rule.selector.includes(":root:has(.hw)")) return rule.remove();
-  rule.selectors = rule.selectors.map((sel) => {
-    const s = sel.trim();
-    if (/^:root(,|$)|^:host(,|$)/.test(s)) return s;
-    if (s === ":root" || s === ":host") return s;
-    if (/^html\b/.test(s)) return s.replace(/^html/, "#hw-page");
-    if (/^body\b/.test(s)) return s.replace(/^body/, "#hw-page");
-    return `#hw-page ${s}`;
-  });
-});
-const scopedCss = root.toString();
-
-const extraCss = `
-/* Obal stránky: celá šířka i uvnitř obsahu šablony, písmo a tmavé pozadí */
-#hw-page{width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);overflow-x:clip;font-family:'Urbanist',system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;color:#f3ede6;background:#07060a}
-#hw-page,#hw-page *,#hw-page ::before,#hw-page ::after{box-sizing:border-box}
-#hw-page img{max-width:none}
-#hw-page a{text-decoration:none}
-#hw-page h1,#hw-page h2,#hw-page p,#hw-page ul,#hw-page ol{margin:0;padding:0}
-#hw-page ul,#hw-page ol{list-style:none}
-#hw-page :where(div,span,p,a,li,ol,ul,h1,h2,nav,header,footer,section,svg){color:inherit;font-family:inherit;font-size:inherit;font-weight:inherit;line-height:inherit;letter-spacing:inherit;text-transform:inherit;text-shadow:inherit;background:none;border:0;box-shadow:none;border-radius:0}
-#hw-page :where(img){border:0;box-shadow:none;max-width:none;height:auto}
-`;
-
 // ---- Obrázky: menší varianty pro mobil (srcset) a malé avatary; generují se jen jednou, pak se commitují.
 const VARIANTS = { hero: [800, 1200], title: [600, 900], reaper: [540], poster: [540] };
 const SIZES = {
@@ -96,7 +61,7 @@ body = body.replace('<div class="hw ', '<div id="hw-page" class="alignfull hw ')
 // Obrázky: místo optimalizovaných variant Next.js přímo soubory ze SITE
 const assetName = (url) => {
   const u = decodeURIComponent(url);
-  const m = u.match(/_next\/static\/media\/([a-z0-9-]+)\.[a-z0-9-]+\.(webp|png|jpg)/i);
+  const m = u.match(/_next\/static\/media\/([a-z0-9-]+)\.[a-z0-9_-]+\.(webp|png|jpg)/i);
   if (m) return /^\d{3}$/.test(m[1]) ? `/halloween/gallery/${m[1]}.${m[2]}` : `/halloween/${m[1]}.${m[2]}`;
   const q = u.match(/_next\/image\?url=([^&]+)/);
   if (q) return q[1];
@@ -174,12 +139,62 @@ const behavior = `
     }, { threshold: 0.12 }).observe(hero);
   }
 `;
+// ---- CSS: sloučit chunky, zrušit @layer (nevrstvené styly šablony by jinak vyhrály), vyhodit @font-face
+// (fonty jdou z Google Fonts) a všechny selektory omezit na #hw-page, ať se netlučou se šablonou WordPressu.
+const cssFiles = [...html.matchAll(/<link rel="stylesheet" href="\/_next\/static\/chunks\/([^"]+\.css)"/g)].map((m) => m[1]);
+let css = cssFiles.map((f) => readFileSync(path.join(".next/static/chunks", f), "utf8")).join("\n");
+css = css.replaceAll("var(--font-urbanist)", "'Urbanist'").replaceAll("var(--font-metal-mania)", "'Metal Mania'");
+
+const root = postcss.parse(css);
+root.walkAtRules("layer", (at) => (at.nodes ? at.replaceWith(at.nodes) : at.remove()));
+root.walkAtRules("font-face", (at) => at.remove());
+
+// Jen pravidla pro třídy, které stránka opravdu používá (plus třídy přepínané skriptem).
+const used = new Set(["translate-y-0", "translate-y-full", "font-metal", "text-[28px]", "text-blood", "hw-glow"]);
+for (const m of body.matchAll(/class="([^"]*)"/g)) for (const c of m[1].split(/\s+/)) if (c) used.add(c);
+const classesOf = (sel) => [...sel.matchAll(/\.((?:\\.|[A-Za-z0-9_-])+)/g)].map((m) => m[1].replace(/\\(.)/g, "$1"));
+root.walkRules((rule) => {
+  if (rule.parent?.type === "atrule" && /keyframes$/.test(rule.parent.name)) return;
+  const kept = rule.selectors.filter((sel) => classesOf(sel).every((c) => used.has(c)));
+  if (!kept.length) rule.remove();
+  else rule.selectors = kept;
+});
+root.walkAtRules((at) => {
+  if (at.nodes && !at.nodes.length) at.remove();
+});
+root.walkRules((rule) => {
+  if (rule.parent?.type === "atrule" && /keyframes$/.test(rule.parent.name)) return;
+  if (rule.selector.includes(":root:has(.hw)")) return rule.remove();
+  rule.selectors = rule.selectors.map((sel) => {
+    const s = sel.trim();
+    if (/^:root(,|$)|^:host(,|$)/.test(s)) return s;
+    if (s === ":root" || s === ":host") return s;
+    if (/^html\b/.test(s)) return s.replace(/^html/, "#hw-page");
+    if (/^body\b/.test(s)) return s.replace(/^body/, "#hw-page");
+    return `#hw-page ${s}`;
+  });
+});
+const scopedCss = root.toString();
+
+const extraCss = `
+/* Obal stránky: celá šířka i uvnitř obsahu šablony, písmo a tmavé pozadí */
+#hw-page{width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);overflow-x:clip;font-family:'Urbanist',system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;color:#f3ede6;background:#07060a}
+#hw-page,#hw-page *,#hw-page ::before,#hw-page ::after{box-sizing:border-box}
+#hw-page img{max-width:none}
+#hw-page a{text-decoration:none}
+#hw-page h1,#hw-page h2,#hw-page p,#hw-page ul,#hw-page ol{margin:0;padding:0}
+#hw-page ul,#hw-page ol{list-style:none}
+#hw-page :where(div,span,p,a,li,ol,ul,h1,h2,nav,header,footer,section,svg){color:inherit;font-family:inherit;font-size:inherit;font-weight:inherit;line-height:inherit;letter-spacing:inherit;text-transform:inherit;text-shadow:inherit;background:none;border:0;box-shadow:none;border-radius:0}
+#hw-page :where(img){border:0;box-shadow:none;max-width:none;height:auto}
+`;
+
+
 const script = `<script>\n(function () {${behavior}})();\n</script>`;
 
 const out = `<!-- Halloween by GetUp – vygenerováno skriptem scripts/export-halloween-wordpress.mjs, neupravovat ručně -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Metal+Mania&amp;family=Urbanist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <style>
 ${scopedCss}
 ${extraCss}
@@ -193,7 +208,7 @@ writeFileSync(path.join(OUT, "halloween.html"), out);
 
 const fonts = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">`;
+<link href="https://fonts.googleapis.com/css2?family=Metal+Mania&amp;family=Urbanist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">`;
 const embedHtml = `<!-- Halloween by GetUp – generuje scripts/export-halloween-wordpress.mjs -->\n${fonts}\n<style>\n${scopedCss}\n${extraCss}\n</style>\n${body}\n`;
 const embedJs = `// Halloween by GetUp – vloží stránku do <div id="hw-root"></div> (generuje scripts/export-halloween-wordpress.mjs)
 (function () {
