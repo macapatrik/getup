@@ -23,9 +23,6 @@ export const EVENT = {
     { label: "Stage 1", genre: "Mainstream / Rap", acts: ["DJ Raivox", "Hasy"] },
     { label: "Stage 2", genre: "Techno", acts: ["DJ Hugoteyy", "Winterz"] },
   ],
-  partners: [
-    { id: "proud", name: "Proud", width: 166, height: 76 },
-    { id: "getup", name: "GetUp", width: 146, height: 92 },
-    { id: "hqd", name: "HQD", width: 186, height: 66 },
-  ],
+  // Partneři zatím jen jako názvy; po dodání log (SVG/PNG na průhledném pozadí) doplnit soubory do public/halloween.
+  partners: ["Proud", "GetUp", "HQD"],
 } as const;

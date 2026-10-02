@@ -380,9 +380,11 @@ export default function HalloweenPage() {
       {/* Partneři */}
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
         <p className="text-center text-[12px] font-bold tracking-[0.22em] text-ash uppercase">Partneři akce</p>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-85">
-          {EVENT.partners.map((p) => (
-            <Image key={p.id} src={`/halloween/logo-${p.id}.png`} alt={p.name} width={p.width} height={p.height} className="h-9 w-auto sm:h-11" />
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 sm:gap-x-14">
+          {EVENT.partners.map((name) => (
+            <span key={name} className="text-[20px] font-extrabold tracking-[0.28em] text-bone/60 uppercase sm:text-[24px]">
+              {name}
+            </span>
           ))}
         </div>
       </section>
