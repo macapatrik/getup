@@ -8,7 +8,7 @@ function ContactButton({ link }: { link: ContactLink }) {
       href={link.href}
       target={link.external ? "_blank" : undefined}
       rel={link.external ? "noopener noreferrer" : undefined}
-      className="surface flex items-center gap-3 rounded-[16px] p-3 text-left transition active:scale-[0.97]"
+      className="surface flex w-[calc(50%-5px)] items-center gap-3 rounded-[16px] p-3 text-left transition active:scale-[0.97]"
     >
       <span className="fill-accent-soft grid size-11 shrink-0 place-items-center rounded-full">
         <Icon name={link.icon} className="size-6" />
@@ -32,7 +32,8 @@ export function ContactButtons({ person, name }: { person: Contacts; name: strin
     );
   }
   return (
-    <div className="grid grid-cols-2 gap-2.5">
+    // Dlaždice se centrují: jedna uprostřed, dvě vedle sebe, lichá poslední uprostřed.
+    <div className="flex flex-wrap justify-center gap-2.5">
       {links.map((link) => (
         <ContactButton key={link.kind} link={link} />
       ))}
