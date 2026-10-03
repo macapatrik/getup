@@ -21,7 +21,6 @@ type Stats = {
   swipes: number;
   likes: number;
   matches: number;
-  messages: number;
 };
 
 export default async function AdminEventPage(props: PageProps<"/admin/events/[id]">) {
@@ -48,7 +47,6 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
     ["Swipů", stats?.swipes],
     ["Lajků", stats?.likes],
     ["Matchů", stats?.matches],
-    ["Zpráv", stats?.messages],
     ["Viditelných", stats?.visible_attendees],
   ];
 
@@ -97,7 +95,7 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
             <h2 className={sectionTitle}>Nebezpečná zóna</h2>
             <form action={deleteEventAction.bind(null, event.id)} className={`${card} flex flex-wrap items-center justify-between gap-4`}>
               <p className="max-w-md text-[14px] text-muted">
-                Smazáním zmizí akce, QR kód i seznam účastníků. Matche a zprávy lidem zůstanou.
+                Smazáním zmizí akce, QR kód i seznam účastníků. Matche lidem zůstanou.
               </p>
               <ConfirmButton message={`Opravdu smazat akci „${event.name}“? Nejde to vrátit.`} className={btnDanger}>
                 Smazat akci

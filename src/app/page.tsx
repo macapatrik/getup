@@ -11,7 +11,11 @@ import { ComingSoon } from "./coming-soon";
 const STEPS: { icon: IconName; title: string; text: string }[] = [
   { icon: "qr", title: "Připoj se k akci", text: "Naskenuj QR kód u vstupu přímo v aplikaci, nebo klikni na odkaz ze vstupenky." },
   { icon: "heart", title: "Swipuj lidi z akce", text: "Uvidíš jen ty, kdo jdou na stejnou akci jako ty. Klidně už týdny předem." },
-  { icon: "chat", title: "Match = chat", text: "Lajknete se oba? Napište si a domluvte se, kde se na akci potkáte." },
+  {
+    icon: "instagram",
+    title: "Match = kontakt",
+    text: "Lajknete se oba? Uvidíte na sebe Instagram, Snapchat nebo telefon a domluvíte se, kde se na akci potkáte.",
+  },
 ];
 
 // Ilustrační fotky (vygenerované přes Higgsfield) stahuje do public/people skript
@@ -57,7 +61,7 @@ export default async function Home() {
           <span className="text-accent">z&nbsp;koncertu.</span>
         </h1>
         <p className="mx-auto mt-4 max-w-xs text-[16px] leading-snug text-muted">
-          Ta holka nebo kluk z první řady? Teď si můžete napsat.
+          Ta holka nebo kluk z první řady? Po matchi se jí nebo jemu můžeš ozvat.
         </p>
       </section>
 

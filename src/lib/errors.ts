@@ -12,6 +12,9 @@ const MESSAGES: Record<string, string> = {
   GU014: "Uživatel s tímto e-mailem neexistuje. Musí se nejdřív aspoň jednou přihlásit do aplikace.",
   GU015: "Sám sebe z týmu odebrat nemůžeš.",
   GU016: "Jsi v týmu GetUp, účet si smazat nemůžeš. Nejdřív se nech odebrat z týmu.",
+  GU017: "Instagram: zadej jen jméno účtu, třeba jmeno.prijmeni.",
+  GU018: "Snapchat: zadej jen jméno účtu (3 až 15 znaků).",
+  GU019: "Telefon: zadej číslo s předvolbou, třeba +420 777 123 456.",
   GU401: "Přihlas se prosím znovu.",
   GU403: "Na tohle nemáš oprávnění.",
 };

@@ -7,12 +7,11 @@ import { Logo } from "./logo";
 
 type NavItem = { href: string; label: string; icon: IconName; match: string[] };
 
-// Pět záložek jako u Romio: domů (akce), swipování, matche, zprávy, účet.
+// Čtyři záložky jako u Romio: domů (akce), swipování, matche, účet.
 const ITEMS: NavItem[] = [
   { href: "/events", label: "Akce", icon: "home", match: ["/events"] },
   { href: "/swipe", label: "Swipování", icon: "compass", match: ["/swipe", "/e/"] },
   { href: "/matches", label: "Matche", icon: "heartOutline", match: ["/matches"] },
-  { href: "/messages", label: "Zprávy", icon: "chat", match: ["/messages"] },
   { href: "/profile", label: "Můj účet", icon: "user", match: ["/profile"] },
 ];
 
@@ -24,9 +23,7 @@ function useNav() {
 
 /** Spodní lišta (telefon a tablet): jen ikony, aktivní je růžová s tečkou. */
 export function BottomNav() {
-  const { pathname, items, isActive } = useNav();
-  // V chatu lištu schováme, aby bylo víc místa pro zprávy.
-  if (/^\/matches\/[^/]+/.test(pathname)) return null;
+  const { items, isActive } = useNav();
 
   return (
     <nav className="no-print bar fixed inset-x-0 bottom-0 z-30 lg:hidden">

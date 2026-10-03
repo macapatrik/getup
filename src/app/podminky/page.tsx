@@ -24,14 +24,14 @@ export default function TermsPage() {
       <ul>
         <li>S respektem. Žádné obtěžování, výhrůžky, nenávistné nebo sexuálně explicitní zprávy, které si druhá strana nevyžádala.</li>
         <li>Žádné falešné profily, fotky jiných lidí, spam, reklama ani nabízení služeb.</li>
-        <li>Žádné sdílení cizích soukromých údajů a zpráv mimo aplikaci bez souhlasu.</li>
+        <li>Žádné sdílení cizích soukromých údajů a kontaktů mimo aplikaci bez souhlasu.</li>
         <li>Nic, co porušuje zákon nebo práva jiných.</li>
       </ul>
 
       <h2>Bezpečnost</h2>
       <p>
         Potkáváš se s lidmi, které neznáš. Buď opatrný/á: první setkání domluv na veřejném místě na akci, dej vědět kamarádům
-        a nikomu neposílej peníze. Když se ti něco nezdá, člověka nahlas (v chatu přes menu) nebo zruš match. Nahlášení řeší
+        a nikomu neposílej peníze. Když se ti něco nezdá, člověka nahlas (na stránce matche přes menu) nebo zruš match. Nahlášení řeší
         tým GetUp; účet, který porušuje pravidla, může být zablokován bez náhrady.
       </p>
 

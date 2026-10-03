@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { card, sectionTitle } from "@/components/ui";
 import { requireOrganizer } from "@/lib/auth";
 import { STATUS_LABELS, eventStatus, formatDateTime } from "@/lib/format";
+import { formatPhone } from "@/lib/contacts";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/server";
 import { GENDER_LABELS, INTEREST_LABELS, type AdminUserDetail } from "@/lib/types";
@@ -31,6 +32,9 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
       ? ([
           ["Pohlaví", GENDER_LABELS[profile.gender]],
           ["Chce potkat", profile.interested_in.map((g) => INTEREST_LABELS[g]).join(", ")],
+          ["Instagram", profile.instagram ? `@${profile.instagram}` : "–"],
+          ["Snapchat", profile.snapchat ?? "–"],
+          ["Telefon", profile.phone ? formatPhone(profile.phone) : "–"],
         ] as [string, string][])
       : []),
   ];
@@ -84,11 +88,10 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
         </div>
 
         <div className="space-y-8">
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <div className="grid grid-cols-3 gap-3">
             <StatTile label="Lajků dal/a" value={user.stats.likes_given} />
             <StatTile label="Lajků dostal/a" value={user.stats.likes_received} />
             <StatTile label="Matchů" value={user.stats.matches} />
-            <StatTile label="Zpráv" value={user.stats.messages} />
           </div>
 
           <section>

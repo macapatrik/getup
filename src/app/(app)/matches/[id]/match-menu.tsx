@@ -6,7 +6,8 @@ import { SubmitButton } from "@/components/submit-button";
 import { btnDanger, btnSecondary, errorText, input } from "@/components/ui";
 import { reportAction, type FormState } from "../../actions";
 
-export function ChatMenu({
+/** Menu na stránce matche: zrušit match, nahlásit. */
+export function MatchMenu({
   matchId,
   name,
   unmatch,
@@ -33,7 +34,7 @@ export function ChatMenu({
           <form
             action={unmatch}
             onSubmit={(e) => {
-              if (!confirm(`Opravdu zrušit match s ${name}? Chat se smaže.`)) e.preventDefault();
+              if (!confirm(`Opravdu zrušit match s ${name}? Už neuvidíte svoje kontakty.`)) e.preventDefault();
             }}
           >
             <button type="submit" className="w-full rounded-[12px] px-4 py-3 text-left text-[15px] font-semibold hover:bg-fill">

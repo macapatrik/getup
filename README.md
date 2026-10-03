@@ -4,8 +4,9 @@ Seznamka ve stylu Tinderu napojená na akce [GetUp](https://getup.cz): lidé se 
 
 1. Na akci visí QR kód (vstup, bar, vstupenka) → člověk ho naskenuje foťákem v mobilu.
 2. Přihlásí se kódem z e-mailu a vyplní profil (fotky, věk, koho hledá).
-3. Swipuje lidi ze stejné akce. Když se lajknou oba → **match** → chat v reálném čase.
-4. Místnost akce je otevřená ještě 24 h po jejím konci. Matche a chat zůstávají napořád.
+3. Swipuje lidi ze stejné akce. Když se lajknou oba → **match** → uvidí na sebe kontakty (Instagram, Snapchat,
+   telefon), které si každý nepovinně vyplnil v profilu, a ozvou se tam. Chat v aplikaci není.
+4. Místnost akce je otevřená ještě 24 h po jejím konci. Matche zůstávají napořád.
 
 Akce je otevřená od založení, takže se lidi připojují i týdny předem: odkaz `/j/KÓD` patří do e-mailu se vstupenkou
 a na sociální sítě, QR kód u vstupu je pro ty, kdo přijdou až na místě. V aplikaci vidí odpočet do začátku,
@@ -19,7 +20,6 @@ Dvě administrace:
 - **Administrace** (`/admin`, jen pro tým GetUp): webový portál s bočním panelem, na mobilu se záložkami nahoře.
   Přehled s čísly, akce (založení, úprava, smazání, QR kódy k tisku, statistiky), uživatelé (hledání, detail,
   blokace), nahlášení (vyřešit / zablokovat) a tým (přidání a odebrání organizátorů podle e-mailu).
-  Zprávy z chatů organizátoři nevidí.
 
 Na počítači má aplikace boční panel místo spodní lišty.
 
@@ -28,10 +28,10 @@ Na počítači má aplikace boční panel místo spodní lišty.
 - **Next.js 16** (App Router, TypeScript, Tailwind CSS 4) jako **PWA**: dá se „nainstalovat“ na plochu telefonu.
 - Design podle šablony Romio (Envato, „Multipurpose Dating Mobile App PWA HTML Template“): bílé pozadí, karty s 2px světle
   šedou linkou, růžová (#f759f5) na hlavní tlačítka, aktivní záložku, srdíčko a logo, indigo (#3e36ed) jako přechod přes
-  spodek fotek na kartách. Písmo Urbanist, spodní lišta s pěti záložkami jen s ikonami, žádné emoji v rozhraní. Utility
+  spodek fotek na kartách. Písmo Urbanist, spodní lišta se čtyřmi záložkami jen s ikonami, žádné emoji v rozhraní. Utility
   `surface` (karta), `fill-soft` (šedá výplň), `fill-accent` (růžová), `fill-accent-soft` (světle růžová), `photo-fade`
   (přechod přes fotku), `photo-chip` (štítek na fotce) jsou v `src/app/globals.css`, sdílené třídy v `src/components/ui.ts`.
-- **Supabase**: přihlášení (e-mailový kód), Postgres s Row Level Security, Storage na fotky, Realtime na chat.
+- **Supabase**: přihlášení (e-mailový kód), Postgres s Row Level Security, Storage na fotky, Realtime na nové matche.
 
 ## Spuštění lokálně
 
@@ -76,14 +76,21 @@ Administrace je pak na adrese `/admin` (v zákaznické aplikaci na ni nic neodka
 5. Na [Vercelu](https://vercel.com) importuj repozitář a nastav proměnné z `.env.example`
    (`NEXT_PUBLIC_SITE_URL` = veřejná adresa, ta se tiskne do QR kódů).
 
-## Realtime (chat a nové matche)
+## Kontakty místo chatu
+
+V profilu si každý nepovinně vyplní Instagram, Snapchat a telefon (sloupce `instagram`, `snapchat`, `phone` v `profiles`;
+trigger `profiles_validate` je srovná: z odkazu nebo `@jména` zůstane jen jméno účtu, české číslo dostane `+420`).
+Cizí kontakty vrací jen `get_matches`, tedy až po matchi; v balíčku (`get_deck`) nejsou. Na stránce matche a na obrazovce
+„Je to match!“ jsou pak tlačítka Instagram, Snapchat, Zavolat a SMS (`src/components/contact-buttons.tsx`,
+logika v `src/lib/contacts.ts`). Chat byl zrušen migrací `…_remove_chat.sql`; úklid starých objektů v databázi
+(tabulka `messages`, funkce `*_old`) je v `supabase/cleanup_chat.sql` a spouští se ručně v SQL Editoru.
+
+## Realtime (nové matche)
 
 Každý přihlášený má jeden soukromý realtime kanál `user:<id>` (policy na `realtime.messages` pustí jen vlastníka).
-Databáze do něj triggerem posílá nové zprávy v jeho matchích a nové matche (`realtime.send`). Klient tak nesleduje
-změny tabulek a Realtime nemusí při každé zprávě ověřovat RLS pro každé připojení – škáluje to na stovky lidí
-na akci. Po probuzení telefonu se zprávy dotáhnou dotazem. Fotky se ukládají jako WebP do 1080 px.
+Databáze do něj triggerem posílá nové matche (`realtime.send`), stránka se pak obnoví. Fotky se ukládají jako WebP do 1080 px.
 
-## Push upozornění (nový match, nová zpráva)
+## Push upozornění (nový match)
 
 Web Push přes service worker (`public/sw.js`). Na iPhonu fungují jen v aplikaci přidané na plochu (iOS 16.4+),
 v Androidu a na počítači i přímo v prohlížeči. Zapínají se v **Profilu** (přepínač + zkušební upozornění)
@@ -91,8 +98,7 @@ nebo z výzvy na stránce **Matche**.
 
 Jak to funguje: po vzniku matche trigger `matches_push` (migrace `…_push_notifications.sql`) pošle přes `pg_net`
 webhook na `/api/push/match` a ten upozornění zašifruje a rozešle. Dostane ho ten, kdo zrovna neswipoval.
-Nová zpráva jde stejně přes `messages_push` na `/api/push/message` (service worker ji neukáže, když má příjemce
-ten chat otevřený v popředí). Zařízení, která upozornění vypnula, se samy smažou.
+Zařízení, která upozornění vypnula, se samy smažou.
 
 Nastavení:
 
@@ -120,7 +126,8 @@ Před ostrým spuštěním (viz také [Nasazení](#nasazení-supabase-cloud--ver
 5. **Demo data**: spusť `supabase/demo/cleanup.sql` a v Storage smaž složky demo účtů.
 6. **Akce**: v administraci založ skutečné akce se správným datem a časem, vytiskni QR kódy, odkaz `/j/KÓD` dej do e-mailu se
    vstupenkou a na sociální sítě.
-7. **Zkouška**: dva telefony, dva účty: připojení QR kódem, swipe, match, push upozornění, chat, nahlášení, smazání účtu.
+7. **Zkouška**: dva telefony, dva účty: připojení QR kódem, swipe, match, push upozornění, tlačítka na kontakty, nahlášení,
+   smazání účtu.
 
 ## Struktura
 
@@ -130,6 +137,9 @@ supabase/
   migrations/…_push_notifications.sql  odběry push upozornění + webhook po matchi
   migrations/…_admin_and_account.sql   administrace (admin_*), blokace účtů, Můj účet (my_*, export)
   migrations/…_realtime_broadcast.sql  soukromé realtime kanály + triggery na zprávy a matche
+  migrations/…_profile_contacts.sql    kontakty v profilu (Instagram, Snapchat, telefon)
+  migrations/…_remove_chat.sql         zrušení chatu, get_matches vrací kontakty
+  cleanup_chat.sql        ruční úklid po zrušení chatu (tabulka messages, staré funkce)
   templates/login.html    e-mailová šablona s kódem
   seed.sql                demo akce DEMO26
 src/
@@ -141,7 +151,7 @@ src/
     j/[code]/             cíl QR kódu: připojí k akci
     (app)/events/         moje akce + zadání kódu
     (app)/e/[id]/         swipování (balíček karet)
-    (app)/matches/        matche + chat
+    (app)/matches/        matche + stránka matche s kontakty
     (app)/profile/        Můj účet: přehled, úprava profilu, lajky, export dat, smazání účtu
     podminky/, soukromi/  podmínky užití a ochrana soukromí (údaje provozovatele v src/lib/legal.ts)
     halloween/            veřejná kampaňová stránka k Halloweenu (fakta v event.ts, grafika v public/halloween)
@@ -189,8 +199,8 @@ administrace i `/halloween`. Před spuštěním pro veřejnost proměnnou smaž 
 V produkčním projektu jsou kvůli ukázkám demo data:
 
 - 3 akce GetUp v Klubu K2: `GU2509` (proběhlá), `HALLO26` a `XMAS26` (nadcházející), plus testovací `DEMO26`.
-- 10 demo uživatelů s e-maily `@demo.gettogether.test`, každý se třemi AI fotkami (portrét, klub, den), jejich lajky, matche a konverzace.
-- Trigger `supabase/demo/greeting.sql`: po matchi s demo účtem pošle demo účet první zprávu.
+- 10 demo uživatelů s e-maily `@demo.gettogether.test`, každý se třemi AI fotkami (portrét, klub, den), jejich lajky a matche;
+  část z nich má vyplněný smyšlený Instagram nebo Snapchat, ať jdou tlačítka po matchi vidět.
 - Trigger `supabase/demo/auto_like.sql`: nového návštěvníka akce rovnou lajknou až tři demo účty, ať má po swipnutí matche.
 
 Před ostrým spuštěním je smaž podle `supabase/demo/cleanup.sql`.
@@ -201,13 +211,13 @@ Před ostrým spuštěním je smaž podle `supabase/demo/cleanup.sql`.
   a jen lidi ze společné akce nebo matche.
 - Nikdo nevidí, kdo ho lajknul. Match vznikne až při vzájemném lajku (ošetřeno i pro současné lajky).
 - Aplikace je jen pro 18+ (hlídá to databáze). Obsahuje zrušení matche, nahlášení (řeší ho tým v administraci) a smazání účtu.
-- Zablokovaný účet zmizí z balíčků i z matchů ostatních a nemůže swipovat, psát ani se připojit k akci (triggery v databázi).
+- Zablokovaný účet zmizí z balíčků i z matchů ostatních a nemůže swipovat ani se připojit k akci (triggery v databázi).
+- Kontakty (Instagram, Snapchat, telefon) jsou nepovinné a vidí je jen člověk, se kterým máš match, dokud match trvá.
 - Každý si může stáhnout všechna svoje data (Můj účet → Stáhnout moje data).
 - Fotky jsou ve veřejném bucketu pod náhodnými názvy. Pro vyšší soukromí je lze přepnout na podepsané URL.
 
 ## Další kroky (nápady)
 
-- Push upozornění i na nové zprávy (stejný mechanismus jako u matchů).
 - Ověření přes vstupenku z prodejního systému GetUp místo QR kódu.
 - Moderace fotek (kontrola nových fotek před zveřejněním).
 - Ledolamy podle akce (např. „Na jakou písničku se nejvíc těšíš?“).

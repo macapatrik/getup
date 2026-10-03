@@ -29,8 +29,12 @@ export default function PrivacyPage() {
           a fotky, které nahraješ.
         </li>
         <li>
-          <strong>Používání aplikace:</strong> ke kterým akcím ses připojil/a, komu jsi dal/a lajk nebo ne, tvoje matche a zprávy
-          v chatu, nahlášení, která odešleš nebo obdržíš.
+          <strong>Kontakty (nepovinné):</strong> Instagram, Snapchat a telefonní číslo, pokud si je vyplníš. Ukazujeme je jen lidem,
+          se kterými máš match.
+        </li>
+        <li>
+          <strong>Používání aplikace:</strong> ke kterým akcím ses připojil/a, komu jsi dal/a lajk nebo ne, tvoje matche, nahlášení,
+          která odešleš nebo obdržíš.
         </li>
         <li>
           <strong>Upozornění:</strong> pokud si zapneš push upozornění, uložíme technický identifikátor tvého zařízení pro jejich
@@ -45,14 +49,14 @@ export default function PrivacyPage() {
       <ul>
         <li>
           <strong>Aby aplikace fungovala</strong> (plnění smlouvy): profil ukazujeme jen lidem ze stejné akce, kteří odpovídají
-          tvým preferencím; match vznikne jen při vzájemném lajku; chat vidí jen jeho dva účastníci.
+          tvým preferencím; match vznikne jen při vzájemném lajku; tvoje kontakty vidí jen lidi, se kterými máš match.
         </li>
         <li>
           <strong>Bezpečnost a férovost</strong> (oprávněný zájem): řešení nahlášení, blokace účtů, které porušují pravidla,
           ochrana před zneužitím.
         </li>
         <li>
-          <strong>Upozornění na match a zprávu</strong> (souhlas): jen když si je zapneš; kdykoli je vypneš v nastavení účtu
+          <strong>Upozornění na match</strong> (souhlas): jen když si je zapneš; kdykoli je vypneš v nastavení účtu
           nebo telefonu.
         </li>
       </ul>
@@ -61,11 +65,11 @@ export default function PrivacyPage() {
       <h2>Kdo tvoje údaje vidí</h2>
       <ul>
         <li>
-          <strong>Ostatní návštěvníci stejné akce</strong> vidí tvoje jméno, věk, text o tobě a fotky. Nikdo nevidí, komu jsi dal/a
-          lajk, dokud nevznikne match. Můžeš se před ostatními skrýt v nastavení akce.
+          <strong>Ostatní návštěvníci stejné akce</strong> vidí tvoje jméno, věk, text o tobě a fotky. Tvoje kontakty uvidí jen
+          člověk, se kterým máš match, a jen dokud match trvá. Nikdo nevidí, komu jsi dal/a lajk, dokud nevznikne match. Můžeš se před ostatními skrýt v nastavení akce.
         </li>
         <li>
-          <strong>Tým GetUp</strong> má přístup k profilům a nahlášením kvůli moderaci. Soukromé zprávy tým nečte.
+          <strong>Tým GetUp</strong> má přístup k profilům (včetně vyplněných kontaktů) a nahlášením kvůli moderaci.
         </li>
         <li>
           <strong>Zpracovatelé</strong>, kteří pro nás aplikaci provozují: Supabase (databáze a úložiště, datové centrum ve
@@ -76,7 +80,7 @@ export default function PrivacyPage() {
 
       <h2>Jak dlouho údaje držíme</h2>
       <p>
-        Dokud máš účet. Když si účet smažeš (Účet → Smazat účet), smažeme profil, fotky, lajky, matche i zprávy. Provozní záznamy
+        Dokud máš účet. Když si účet smažeš (Účet → Smazat účet), smažeme profil, fotky, kontakty, lajky i matche. Provozní záznamy
         serverů mažeme nejdéle po 30 dnech. Nahlášení a záznamy o blokaci můžeme uchovat po dobu nezbytnou k ochraně ostatních
         uživatelů.
       </p>

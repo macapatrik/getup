@@ -14,7 +14,7 @@ self.addEventListener("push", (event) => {
 
   event.waitUntil(
     (async () => {
-      // Když má člověk ten chat zrovna otevřený v popředí, upozornění neukazujeme (zprávu vidí).
+      // Když má člověk tu stránku zrovna otevřenou v popředí, upozornění neukazujeme (vidí ji).
       const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
       const reading = windows.some(
         (client) => client.focused && client.visibilityState === "visible" && new URL(client.url).pathname === url,
@@ -31,7 +31,7 @@ self.addEventListener("push", (event) => {
   );
 });
 
-// Klepnutí na upozornění otevře chat (nebo přepne už otevřenou aplikaci).
+// Klepnutí na upozornění otevře stránku matche (nebo přepne už otevřenou aplikaci).
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   const url = new URL(event.notification.data?.url || "/matches", self.location.origin).href;

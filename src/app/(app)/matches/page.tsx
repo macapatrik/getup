@@ -6,20 +6,27 @@ import { LiveRefresh } from "@/components/live-refresh";
 import { PushPrompt } from "@/components/push-settings";
 import { btnPrimary, card, photoBadge, sectionTitle } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
+import { hasContact } from "@/lib/contacts";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/server";
 import type { MatchRow } from "@/lib/types";
 
 export const metadata: Metadata = { title: "Matche" };
 
-/** Záložka „Matche“ jako u Romio: nové matche jako velké karty, pod tím mřížka všech. */
+const FRESH_DAYS = 3; // matche z posledních dní ukážeme nahoře jako velké karty
+
+function isFresh(matchedAt: string) {
+  return Date.now() - new Date(matchedAt).getTime() < FRESH_DAYS * 86_400_000;
+}
+
+/** Záložka „Matche“ jako u Romio: nové matche jako velké karty, pod tím mřížka všech. Klepnutím se otevře profil s kontakty. */
 export default async function MatchesPage() {
-  const { user } = await requireProfile();
+  const { user, profile } = await requireProfile();
   const supabase = await createClient();
   const { data } = await supabase.rpc("get_matches");
   const matches = (data ?? []) as MatchRow[];
 
-  const fresh = matches.filter((m) => !m.last_message);
+  const fresh = matches.filter((m) => isFresh(m.matched_at));
 
   return (
     <main className="mx-auto max-w-md pb-nav lg:pt-6">
@@ -42,14 +49,21 @@ export default async function MatchesPage() {
           </div>
         )}
 
+        {matches.length > 0 && !hasContact(profile) && (
+          <Link href="/profile/edit" className="fill-accent-soft mt-4 flex items-center gap-3 rounded-[16px] p-3.5 transition active:scale-[0.98]">
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white">
+              <Icon name="instagram" className="size-5" />
+            </span>
+            <span className="min-w-0 flex-1 text-[14px] leading-snug font-medium">
+              Doplň si Instagram, Snapchat nebo telefon, ať se ti matche můžou ozvat.
+            </span>
+            <Icon name="chevron" className="size-4 shrink-0" />
+          </Link>
+        )}
+
         {fresh.length > 0 && (
           <section className="mt-5">
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className={`${sectionTitle} mb-0`}>Nové matche</h2>
-              <Link href="/messages" className="inline-flex items-center gap-0.5 text-[15px] font-semibold text-muted">
-                Zprávy <Icon name="chevron" className="size-4" />
-              </Link>
-            </div>
+            <h2 className={sectionTitle}>Nové matche</h2>
             <ul className="no-scrollbar -mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-1">
               {fresh.map((m) => (
                 <li key={m.match_id} className="shrink-0 snap-start">
@@ -90,8 +104,13 @@ export default async function MatchesPage() {
                   <Link href={`/matches/${m.match_id}`} className="block transition active:scale-[0.97]">
                     <span className="relative block aspect-[120/170] overflow-hidden rounded-[32px] bg-fill">
                       <img src={photoUrl(m.photos[0])} alt="" className="size-full object-cover" />
-                      {m.last_message && m.last_sender_id !== user.id && (
-                        <span className="absolute top-2.5 right-2.5 size-3.5 rounded-full border-2 border-white bg-accent" aria-label="Nová zpráva" />
+                      {hasContact(m) && (
+                        <span
+                          className="fill-accent absolute top-2.5 right-2.5 grid size-7 place-items-center rounded-full border-2 border-white shadow-none"
+                          aria-label="Má vyplněný kontakt"
+                        >
+                          <Icon name="instagram" className="size-3.5" />
+                        </span>
                       )}
                     </span>
                     <span className="mt-2 block truncate text-center text-[14px] font-semibold">{m.display_name}</span>
