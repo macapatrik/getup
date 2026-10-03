@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { card, sectionTitle } from "@/components/ui";
+import { btnPrimary, card, sectionTitle } from "@/components/ui";
 import { requireOrganizer } from "@/lib/auth";
 import { STATUS_LABELS, eventStatus, formatDateTime } from "@/lib/format";
 import { formatPhone } from "@/lib/contacts";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/server";
-import { GENDER_LABELS, INTEREST_LABELS, type AdminEvent, type AdminUserDetail, type Profile } from "@/lib/types";
+import { GENDER_LABELS, INTEREST_LABELS, type AdminEvent, type AdminUserDetail } from "@/lib/types";
 import { removeAttendanceAction } from "../../actions";
 import { ConfirmButton } from "../../confirm-button";
 import { AttendanceForm } from "./attendance-form";
 import { DeleteUserForm } from "./delete-user-form";
 import { Avatar, Badge, Empty, PageHeader, StatTile, list, row } from "../../ui";
 import { BanForm } from "./ban-form";
-import { ProfileEditor } from "./profile-editor";
 
 export const metadata: Metadata = { title: "Uživatel" };
 
@@ -35,20 +34,6 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
     .sort((a, b) => a.starts_at.localeCompare(b.starts_at));
 
   const profile = user.profile;
-  const editable: Profile | null = profile
-    ? {
-        id: user.id,
-        display_name: profile.display_name,
-        birthdate: profile.birthdate,
-        gender: profile.gender,
-        interested_in: profile.interested_in,
-        bio: profile.bio,
-        photos: profile.photos,
-        instagram: profile.instagram,
-        snapchat: profile.snapchat,
-        phone: profile.phone,
-      }
-    : null;
   const info: [string, string][] = [
     ["E-mail", user.email],
     ["Registrace", formatDateTime(user.created_at)],
@@ -66,7 +51,15 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
 
   return (
     <>
-      <PageHeader title={profile ? `${profile.display_name}, ${profile.age}` : "Bez profilu"} back={{ href: "/admin/users", label: "Uživatelé" }} />
+      <PageHeader
+        title={profile ? `${profile.display_name}, ${profile.age}` : "Bez profilu"}
+        back={{ href: "/admin/users", label: "Uživatelé" }}
+        action={
+          <Link href={`/admin/users/${user.id}/edit`} className={`${btnPrimary} !px-5 !py-3 !text-[15px]`}>
+            {profile ? "Upravit profil a fotky" : "Vytvořit profil"}
+          </Link>
+        }
+      />
 
       <div className="-mt-3 mb-6 flex flex-wrap gap-1.5">
         {user.organizer && <Badge tone="info">Tým GetUp</Badge>}
@@ -170,11 +163,6 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
                 ))}
               </ul>
             )}
-          </section>
-
-          <section id="profil">
-            <h2 className={sectionTitle}>Profil</h2>
-            <ProfileEditor userId={user.id} profile={editable} />
           </section>
 
           <section id="moderace">

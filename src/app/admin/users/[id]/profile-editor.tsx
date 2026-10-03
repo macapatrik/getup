@@ -15,19 +15,5 @@ export function ProfileEditor({ userId, profile }: { userId: string; profile: Pr
     router.refresh();
   }
 
-  return (
-    <details className="surface group rounded-[16px]">
-      <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3.5 text-[15px] font-semibold [&::-webkit-details-marker]:hidden">
-        {profile ? "Upravit profil (fotky, texty, kontakty)" : "Vytvořit profil za uživatele"}
-        <span className="text-muted transition group-open:rotate-90">›</span>
-      </summary>
-      <div className="border-t-2 border-fill px-4 pb-5">
-        <p className="mt-3 text-[13px] leading-snug text-muted">
-          Fotky se nahrávají do složky uživatele, uložení projde stejnými kontrolami jako u něj. Zásah popisují podmínky
-          užití (Moderace a správa účtů).
-        </p>
-        <ProfileForm userId={userId} profile={profile} onSave={save} />
-      </div>
-    </details>
-  );
+  return <ProfileForm userId={userId} profile={profile} onSave={save} />;
 }
