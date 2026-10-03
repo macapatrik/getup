@@ -21,6 +21,13 @@ jobs:
           curl -sSL -A "$UA" -o fetch/media-logo.json "https://www.get-up.fun/wp-json/wp/v2/media?search=logo&per_page=100&_fields=id,date,slug,title,source_url,media_details,alt_text" || true
           curl -sSL -A "$UA" -o fetch/media-latest.json "https://www.get-up.fun/wp-json/wp/v2/media?per_page=100&orderby=date&order=desc&_fields=id,date,slug,title,source_url,media_details,alt_text" || true
           curl -sSL -A "$UA" -o fetch/media-2026-10.json "https://www.get-up.fun/wp-json/wp/v2/media?per_page=100&after=2026-09-25T00:00:00&_fields=id,date,slug,title,source_url,media_details,alt_text" || true
+          for u in 2026/04/cropped-Navrh-bez-nazvu-1.png 2026/04/cropped-Navrh-bez-nazvu.png 2026/04/Navrh-bez-nazvu.png; do
+            curl -sSL -A "$UA" -o "fetch/logos/$(basename "$u")" "https://www.get-up.fun/wp-content/uploads/$u" || true
+          done
+          curl -sSL -A "$UA" -o fetch/media-getup.json "https://www.get-up.fun/wp-json/wp/v2/media?search=getup&per_page=100&_fields=id,date,slug,title,source_url,media_details" || true
+          curl -sSL -A "$UA" -o fetch/media-svg.json "https://www.get-up.fun/wp-json/wp/v2/media?mime_type=image/svg%2Bxml&per_page=100&_fields=id,date,slug,title,source_url,media_details" || true
+          curl -sSL -A "$UA" -o fetch/page-kontakt.html "https://www.get-up.fun/kontakt/" || true
+          curl -sSL -A "$UA" -o fetch/page-akce.html "https://www.get-up.fun/akce/" || true
           for n in getup hqd proud; do
             curl -sSL -A "$UA" -D "fetch/logos/logo-$n.headers" -o "fetch/logos/logo-$n.png" "https://www.get-up.fun/wp-content/uploads/2026/10/logo-$n.png?nocache=$(date +%s)" || true
           done
