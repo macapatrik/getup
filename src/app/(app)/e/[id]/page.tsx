@@ -6,6 +6,7 @@ import { Icon } from "@/components/icons";
 import { ShareButton } from "@/components/share-button";
 import { btnSecondary, card } from "@/components/ui";
 import { getOrigin, requireProfile } from "@/lib/auth";
+import { APP_NAME } from "@/lib/config";
 import { STATUS_LABELS, eventCountdown, eventStatus, formatNumber } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import type { DeckCard, EventRow } from "@/lib/types";
@@ -52,7 +53,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
           <>
             <ShareButton
               title={event.name}
-              text={`Jsem na ${event.name} v GetTogether. Přidej se, ať se na akci najdeme.`}
+              text={`Jsem na ${event.name} v ${APP_NAME}. Přidej se, ať se na akci najdeme.`}
               url={joinUrl}
               iconOnly
               className="grid size-10 place-items-center text-ink transition active:scale-90"

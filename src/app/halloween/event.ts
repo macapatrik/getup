@@ -14,7 +14,7 @@ export const EVENT = {
   ticketsUrl: "https://www.eventlook.cz/udalosti/halloween-wjcfya/",
   ticketsLabel: "eventlook.cz",
   prize: "5\u00a0000\u00a0Kč", // pevné mezery, ať se částka nezalomí
-  // Kód akce v GetTogether – odkaz /j/KÓD připojí návštěvníka k akci. TODO: kód skutečné akce z administrace.
+  // Kód akce v GetCrush – odkaz /j/KÓD připojí návštěvníka k akci. TODO: kód skutečné akce z administrace.
   joinCode: "HALLO26",
   instagram: "https://www.instagram.com/getup.fun/",
   instagramHandle: "@getup.fun",

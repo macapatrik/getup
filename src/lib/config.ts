@@ -1,4 +1,4 @@
-export const APP_NAME = "GetTogether";
+export const APP_NAME = "GetCrush";
 export const APP_TAGLINE = "Seznam se s lidmi z akcí GetUp";
 
 // Veřejná adresa aplikace (odkazy v QR kódech, náhledy při sdílení). Na Vercelu nastav NEXT_PUBLIC_SITE_URL.

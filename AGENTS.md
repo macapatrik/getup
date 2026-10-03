@@ -8,7 +8,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-## Projekt GetTogether (dříve GetUp Match)
+## Projekt GetCrush (dříve GetTogether, původně GetUp Match)
 
 - Seznamka pro návštěvníky akcí GetUp: Next.js 16 (App Router) + Supabase. UI texty jsou česky.
 - Schéma a veškerá bezpečnostní logika je v `supabase/migrations/` (RLS + RPC funkce). Cizí profily čti jen přes security definer RPC (`get_deck`, `get_matches`, `my_likes`, `admin_*`), nikdy nepřidávej select policy na cizí řádky `profiles`.

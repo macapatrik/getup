@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { sendTestPushAction } from "@/app/(app)/actions";
+import { APP_NAME } from "@/lib/config";
 import {
   currentEndpoint,
   detectPushState,
@@ -68,7 +69,7 @@ function InstallHint() {
   return (
     <p className="text-[14px] leading-snug text-muted">
       Na iPhonu fungují upozornění jen z plochy: v Safari klepni na <span className="font-semibold text-ink">Sdílet</span> →{" "}
-      <span className="font-semibold text-ink">Přidat na plochu</span> a GetTogether otevři z ikony.
+      <span className="font-semibold text-ink">Přidat na plochu</span> a {APP_NAME} otevři z ikony.
     </p>
   );
 }
@@ -117,7 +118,7 @@ export function PushSettings() {
       {state === "install" && <InstallHint />}
       {state === "denied" && (
         <p className="text-[14px] leading-snug text-muted">
-          Povol je v <span className="font-semibold text-ink">Nastavení → Oznámení → GetTogether</span> (nebo v nastavení prohlížeče).
+          Povol je v <span className="font-semibold text-ink">Nastavení → Oznámení → {APP_NAME}</span> (nebo v nastavení prohlížeče).
         </p>
       )}
       {on && (

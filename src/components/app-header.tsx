@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { APP_NAME } from "@/lib/config";
 import { Icon } from "./icons";
 import { Logo } from "./logo";
 
@@ -7,7 +8,7 @@ import { Logo } from "./logo";
 export function AppHeader({ right }: { right?: ReactNode }) {
   return (
     <header className="no-print sticky top-0 z-20 flex items-center justify-between border-b-2 border-fill bg-white px-4 pt-safe pb-2.5 lg:hidden">
-      <Link href="/events" aria-label="GetTogether">
+      <Link href="/events" aria-label={APP_NAME}>
         <Logo />
       </Link>
       <div className="flex items-center gap-1">

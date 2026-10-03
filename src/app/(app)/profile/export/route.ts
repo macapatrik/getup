@@ -13,7 +13,7 @@ export async function GET() {
   return new Response(JSON.stringify(data, null, 2), {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      "Content-Disposition": `attachment; filename="gettogether-moje-data-${date}.json"`,
+      "Content-Disposition": `attachment; filename="getcrush-moje-data-${date}.json"`,
       "Cache-Control": "no-store",
     },
   });

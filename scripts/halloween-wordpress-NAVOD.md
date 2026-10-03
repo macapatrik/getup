@@ -7,7 +7,7 @@ Do webu se vkládají dva řádky ze souboru `snippet.html`:
 <script src="https://together.get-up.fun/halloween/embed.js" async></script>
 ```
 
-Skript si stáhne stránku z aplikace GetTogether (soubory `public/halloween/embed.html` a `embed.js`),
+Skript si stáhne stránku z aplikace GetCrush (soubory `public/halloween/embed.html` a `embed.js`),
 takže po každé změně textů stačí nasadit aplikaci a web se aktualizuje sám. Styly jsou omezené na vlastní
 obal, takže se netlučou se šablonou webu ani s Elementorem.
 
@@ -33,7 +33,7 @@ blok **Vlastní HTML** a do něj obsah souboru.
 ## Obrázky a odkazy
 
 Obsah, obrázky i odkazy (připojení k akci, podmínky, plakát ke stažení) vedou na `https://together.get-up.fun`.
-Aplikace GetTogether tedy musí mít tuhle verzi nasazenou (větev sloučená do hlavní), jinak se stránka nenačte.
+Aplikace GetCrush tedy musí mít tuhle verzi nasazenou (větev sloučená do hlavní), jinak se stránka nenačte.
 
 Chceš mít obrázky raději ve WordPressu? Nahraj složku `images` do Knihovny médií a v `halloween.html`
 nahraď `https://together.get-up.fun/halloween/` adresou, kam se obrázky nahrály
@@ -41,7 +41,7 @@ nahraď `https://together.get-up.fun/halloween/` adresou, kam se obrázky nahrá
 
 ## Úpravy textů
 
-Datum, line-up, cenu, odkazy a texty se upravují v projektu GetTogether v souboru
+Datum, line-up, cenu, odkazy a texty se upravují v projektu GetCrush v souboru
 `src/app/halloween/event.ts` (texty v `page.tsx`), pak `npm run build`,
 `node scripts/export-halloween-wordpress.mjs` a commit (vygeneruje se nový `public/halloween/embed.html`).
 Po nasazení aplikace se web aktualizuje sám, do WordPressu se nic znovu nevkládá.

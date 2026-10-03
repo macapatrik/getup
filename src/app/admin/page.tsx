@@ -3,12 +3,13 @@ import Link from "next/link";
 import { Icon } from "@/components/icons";
 import { btnPrimary } from "@/components/ui";
 import { requireOrganizer } from "@/lib/auth";
+import { APP_NAME } from "@/lib/config";
 import { dayAndMonth, eventStatus, formatDateTime, formatNumber } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import type { AdminEvent, AdminOverview, AdminReport } from "@/lib/types";
 import { Avatar, Empty, PageHeader, SectionTitle, StatTile, StatusBadge, list, row } from "./ui";
 
-export const metadata: Metadata = { title: { absolute: "Administrace · GetTogether" } };
+export const metadata: Metadata = { title: { absolute: `Administrace · ${APP_NAME}` } };
 
 export default async function AdminHomePage() {
   await requireOrganizer();
@@ -30,7 +31,7 @@ export default async function AdminHomePage() {
     <>
       <PageHeader
         title="Přehled"
-        subtitle="Co se děje na GetTogether"
+        subtitle={`Co se děje na ${APP_NAME}`}
         action={
           <Link href="/admin/events/new" className={`${btnPrimary} !px-5 !py-3 !text-[15px]`}>
             <Icon name="plus" className="size-5" /> Nová akce

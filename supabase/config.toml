@@ -12,9 +12,9 @@ otp_length = 6
 
 # Šablona obsahuje kód (pro instalovanou PWA) i odkaz.
 [auth.email.template.magic_link]
-subject = "Tvůj kód do GetTogether"
+subject = "Tvůj kód do GetCrush"
 content_path = "./supabase/templates/login.html"
 
 [auth.email.template.confirmation]
-subject = "Tvůj kód do GetTogether"
+subject = "Tvůj kód do GetCrush"
 content_path = "./supabase/templates/login.html"

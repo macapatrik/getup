@@ -1,4 +1,4 @@
-// Service worker GetTogether – jen push upozornění, žádná offline cache.
+// Service worker GetCrush – jen push upozornění, žádná offline cache.
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
 
@@ -21,7 +21,7 @@ self.addEventListener("push", (event) => {
       );
       if (reading) return;
 
-      await self.registration.showNotification(data.title || "GetTogether", {
+      await self.registration.showNotification(data.title || "GetCrush", {
         body: data.body || "",
         icon: data.icon || "/pwa-icon/192",
         tag: data.tag,

@@ -1,4 +1,4 @@
-# GetTogether (by GetUp)
+# GetCrush (by GetUp)
 
 Seznamka ve stylu Tinderu napojená na akce [GetUp](https://getup.cz): lidé se seznamují **jen s ostatními ze stejného koncertu nebo party**.
 
@@ -170,7 +170,7 @@ src/
 ## Kampaňová stránka /halloween
 
 Veřejná (bez přihlášení) stránka k akci Halloween by GetUp: odpočet, line-up, kostýmová soutěž, odkaz na předprodej
-a na připojení k akci v GetTogether. Všechna fakta (datum, místo, line-up, cena, odkaz na vstupenky, kód akce) jsou
+a na připojení k akci v GetCrush. Všechna fakta (datum, místo, line-up, cena, odkaz na vstupenky, kód akce) jsou
 v `src/app/halloween/event.ts`. Grafika v `public/halloween` vychází z plakátu (hřbitov, smrtka, titulek a dav jsou
 vygenerované přes Higgsfield podle plakátu), náhled při sdílení je `src/app/halloween/opengraph-image.jpg`.
 

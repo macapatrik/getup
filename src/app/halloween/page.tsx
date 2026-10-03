@@ -4,6 +4,7 @@ import Script from "next/script";
 import { FallbackImg } from "@/components/fallback-img";
 import { Icon, type IconName } from "@/components/icons";
 import { LogoMark } from "@/components/logo";
+import { APP_NAME } from "@/lib/config";
 import { OPERATOR } from "@/lib/legal";
 import { Countdown } from "./countdown";
 import { EVENT } from "./event";
@@ -366,7 +367,7 @@ export default function HalloweenPage() {
         </div>
       </section>
 
-      {/* GetTogether: seznamka pro návštěvníky akce (teaser, spouštíme před akcí) */}
+      {/* GetCrush: seznamka pro návštěvníky akce (teaser, spouštíme před akcí) */}
       <section id="seznamka" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-14 sm:px-6 sm:py-20">
         <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-br from-[#2b0b3d] via-coal to-coal p-6 sm:p-10">
           <div className="absolute -top-24 -left-24 size-72 rounded-full bg-accent/25 blur-3xl" />
@@ -393,7 +394,7 @@ export default function HalloweenPage() {
             <div className="order-2 text-center md:order-1 md:text-left">
               <div className="flex flex-wrap justify-center gap-2 md:justify-start">
                 <span className="inline-flex items-center gap-2 rounded-[10px] bg-white/10 px-3 py-1.5 text-[12px] font-bold tracking-[0.16em] text-accent uppercase">
-                  <LogoMark className="size-4" /> GetTogether by GetUp
+                  <LogoMark className="size-4" /> {APP_NAME} by GetUp
                 </span>
                 <span className="hw-outline inline-flex items-center rounded-[10px] px-3 py-1.5 text-[12px] font-bold tracking-[0.16em] text-bone uppercase">
                   Připravujeme
@@ -401,7 +402,7 @@ export default function HalloweenPage() {
               </div>
               <h2 className="font-metal mt-4 text-[40px] leading-[0.95] text-bone sm:text-[56px]">Seznamka jen pro lidi z Halloweenu</h2>
               <p className="mx-auto mt-4 max-w-lg text-[17px] leading-snug text-bone/80 md:mx-0">
-                Chystáme pro vás GetTogether: aplikaci, ve které uvidíš jen ty, kdo jdou na stejnou akci. Lajk, match, chat a
+                Chystáme pro vás {APP_NAME}: aplikaci, ve které uvidíš jen ty, kdo jdou na stejnou akci. Lajk, match, chat a
                 domluva, kde se v K2 potkáte. Spouštíme před Halloweenem.
               </p>
               <a
