@@ -200,9 +200,10 @@ administrace i `/halloween`. Před spuštěním pro veřejnost proměnnou smaž 
 V produkčním projektu jsou kvůli ukázkám demo data:
 
 - 3 akce GetUp v Klubu K2: `GU2509` (proběhlá), `HALLO26` a `XMAS26` (nadcházející), plus testovací `DEMO26`.
-- 12 demo uživatelů s e-maily `@demo.gettogether.test` s AI fotkami (portrét, klub, den; Natálie a Karolína pro pozvánky mají
-  dvě), jejich lajky a matche; část z nich má vyplněný smyšlený Instagram nebo Snapchat, ať jdou tlačítka po matchi vidět.
-- Trigger `supabase/demo/auto_like.sql`: nového návštěvníka akce rovnou lajknou demo účty (Natálie a Karolína vždy, k nim až tři
+- 17 demo uživatelů s e-maily `@demo.gettogether.test`: 10 s AI fotkami (portrét, klub, den), 7 promo profilů
+  (`raw_user_meta_data.promo`, Natalie a Karolina s AI fotkami, pět dalších s fotkou nahranou ručně do Storage jako
+  `<id>/1.jpg`), jejich lajky a matche; část z nich má vyplněný Instagram nebo Snapchat, ať jdou tlačítka po matchi vidět.
+- Trigger `supabase/demo/auto_like.sql`: nového návštěvníka akce rovnou lajknou demo účty (promo profily vždy, k nim náhodně
   další), ať má po swipnutí matche.
 
 Před ostrým spuštěním je smaž podle `supabase/demo/cleanup.sql`.
