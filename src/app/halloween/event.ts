@@ -11,8 +11,7 @@ export const EVENT = {
   venue: "Klub K2",
   venueStreet: "Sokolský ostrov 462",
   mapUrl: "https://www.google.com/maps/search/?api=1&query=Klub+K2+Sokolsk%C3%BD+ostrov+462+%C4%8Cesk%C3%A9+Bud%C4%9Bjovice",
-  // TODO: nahradit přesným odkazem na akci v předprodeji
-  ticketsUrl: "https://www.eventlook.cz/",
+  ticketsUrl: "https://www.eventlook.cz/udalosti/halloween-wjcfya/",
   ticketsLabel: "eventlook.cz",
   prize: "5\u00a0000\u00a0Kč", // pevné mezery, ať se částka nezalomí
   // Kód akce v GetTogether – odkaz /j/KÓD připojí návštěvníka k akci. TODO: kód skutečné akce z administrace.
