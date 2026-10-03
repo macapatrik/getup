@@ -390,7 +390,7 @@ function MatchModal({
       role="dialog"
       aria-modal="true"
     >
-      <div className="flex flex-1 flex-col items-center justify-center py-6">
+      <div className="flex w-full flex-1 flex-col items-center justify-center py-6">
         <span className="grid size-40 animate-[pop-in_0.4s_cubic-bezier(0.34,1.56,0.64,1)] place-items-center rounded-full bg-gradient-to-b from-[#ff9be9] to-accent shadow-[0_40px_70px_-30px_rgb(247_89_245/0.75)]">
           <Icon name="heart" className="size-20 text-white drop-shadow-[0_6px_12px_rgb(0_0_0/0.15)]" />
         </span>

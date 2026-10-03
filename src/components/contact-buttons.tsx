@@ -33,7 +33,7 @@ export function ContactButtons({ person, name }: { person: Contacts; name: strin
   }
   return (
     // Dlaždice se centrují: jedna uprostřed, dvě vedle sebe, lichá poslední uprostřed.
-    <div className="flex flex-wrap justify-center gap-2.5">
+    <div className="flex w-full flex-wrap justify-center gap-2.5">
       {links.map((link) => (
         <ContactButton key={link.kind} link={link} />
       ))}
