@@ -19,6 +19,8 @@ Dvě administrace:
   kódem z e-mailu; databáze pustí smazání jen se session mladší než 10 minut, funkce `delete_account`).
   Každý vidí jen svoje data.
 - **Administrace** (`/admin`, jen pro tým GetUp): webový portál s bočním panelem, na mobilu se záložkami nahoře.
+  Tým se přihlašuje e-mailem a heslem na `/admin/login` (heslo nastavuje tým v Supabase: Authentication → Users → Reset password,
+  nebo SQL `crypt(...)`); návštěvníci heslo nemají, ti se přihlašují kódem z e-mailu.
   Přehled s čísly, akce (založení, úprava, smazání, QR kódy k tisku, statistiky), uživatelé (hledání, detail,
   úprava celého profilu včetně fotek a kontaktů přes `admin_update_profile`, přidání na akci a odebrání z ní,
   blokace, úplné smazání účtu přes `admin_delete_user`), nahlášení (vyřešit / zablokovat)

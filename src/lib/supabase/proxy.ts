@@ -2,8 +2,8 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { supabaseEnv } from "./env";
 
-// Veřejné bez přihlášení: přihlášení, právní stránky, náhledy a kampaňová stránka /halloween.
-const PUBLIC_PATHS = ["/login", "/auth", "/podminky", "/soukromi", "/halloween", "/robots.txt", "/opengraph-image", "/twitter-image"];
+// Veřejné bez přihlášení: přihlášení (návštěvníci kódem, tým heslem), právní stránky, náhledy a kampaňová stránka /halloween.
+const PUBLIC_PATHS = ["/login", "/admin/login", "/auth", "/podminky", "/soukromi", "/halloween", "/robots.txt", "/opengraph-image", "/twitter-image"];
 
 function isPublic(pathname: string) {
   return pathname === "/" || PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
@@ -32,7 +32,8 @@ export async function updateSession(request: NextRequest) {
 
   if (!data?.claims && !isPublic(pathname)) {
     const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = "/login";
+    // Administrace má vlastní přihlášení e-mailem a heslem.
+    loginUrl.pathname = pathname.startsWith("/admin") ? "/admin/login" : "/login";
     loginUrl.search = "";
     loginUrl.searchParams.set("next", pathname + search);
     return NextResponse.redirect(loginUrl);
