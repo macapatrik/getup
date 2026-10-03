@@ -69,7 +69,8 @@ export default function PrivacyPage() {
           člověk, se kterým máš match, a jen dokud match trvá. Nikdo nevidí, komu jsi dal/a lajk, dokud nevznikne match. Můžeš se před ostatními skrýt v nastavení akce.
         </li>
         <li>
-          <strong>Tým GetUp</strong> má přístup k profilům (včetně vyplněných kontaktů) a nahlášením kvůli moderaci.
+          <strong>Tým GetUp</strong> má přístup k profilům (včetně data narození a vyplněných kontaktů) a nahlášením kvůli
+          moderaci a podpoře. Profil může upravit nebo odstranit při porušení pravidel nebo na tvou žádost.
         </li>
         <li>
           <strong>Zpracovatelé</strong>, kteří pro nás aplikaci provozují: Supabase (databáze a úložiště, datové centrum ve

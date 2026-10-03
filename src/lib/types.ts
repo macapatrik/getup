@@ -113,6 +113,7 @@ export interface AdminUserDetail {
   last_sign_in_at: string | null;
   profile: {
     display_name: string;
+    birthdate: string;
     age: number;
     gender: Gender;
     interested_in: Gender[];

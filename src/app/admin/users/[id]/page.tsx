@@ -7,9 +7,10 @@ import { STATUS_LABELS, eventStatus, formatDateTime } from "@/lib/format";
 import { formatPhone } from "@/lib/contacts";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/server";
-import { GENDER_LABELS, INTEREST_LABELS, type AdminUserDetail } from "@/lib/types";
+import { GENDER_LABELS, INTEREST_LABELS, type AdminUserDetail, type Profile } from "@/lib/types";
 import { Avatar, Badge, Empty, PageHeader, StatTile, list, row } from "../../ui";
 import { BanForm } from "./ban-form";
+import { ProfileEditor } from "./profile-editor";
 
 export const metadata: Metadata = { title: "Uživatel" };
 
@@ -24,6 +25,20 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
   if (!user) notFound();
 
   const profile = user.profile;
+  const editable: Profile | null = profile
+    ? {
+        id: user.id,
+        display_name: profile.display_name,
+        birthdate: profile.birthdate,
+        gender: profile.gender,
+        interested_in: profile.interested_in,
+        bio: profile.bio,
+        photos: profile.photos,
+        instagram: profile.instagram,
+        snapchat: profile.snapchat,
+        phone: profile.phone,
+      }
+    : null;
   const info: [string, string][] = [
     ["E-mail", user.email],
     ["Registrace", formatDateTime(user.created_at)],
@@ -134,6 +149,11 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
                 ))}
               </ul>
             )}
+          </section>
+
+          <section id="profil">
+            <h2 className={sectionTitle}>Profil</h2>
+            <ProfileEditor userId={user.id} profile={editable} />
           </section>
 
           <section id="moderace">

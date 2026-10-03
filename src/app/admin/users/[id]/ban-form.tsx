@@ -23,7 +23,7 @@ export function BanForm({ userId, ban }: { userId: string; ban: { reason: string
       ) : (
         <>
           <p className="text-[14px] text-muted">
-            Zablokovaný účet zmizí z balíčků i z matchů ostatních a nemůže swipovat, psát ani se připojit k akci.
+            Zablokovaný účet zmizí z balíčků i z matchů ostatních a nemůže swipovat ani se připojit k akci.
           </p>
           <div>
             <label htmlFor="reason" className={label}>

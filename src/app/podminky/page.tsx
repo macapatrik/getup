@@ -35,6 +35,14 @@ export default function TermsPage() {
         tým GetUp; účet, který porušuje pravidla, může být zablokován bez náhrady.
       </p>
 
+      <h2>Moderace a správa účtů</h2>
+      <p>
+        Tým GetUp může kdykoli upravit nebo odstranit část profilu (fotku, text, kontakty) nebo celý účet, pokud porušuje
+        tato pravidla nebo zákon. Profil ti může upravit i na tvou žádost, třeba když se ti něco nedaří opravit, a může tě
+        přidat na akci nebo z ní odebrat. O zásahu kvůli porušení pravidel se dozvíš v aplikaci nebo e-mailem; proti
+        zablokování se můžeš ozvat na kontakt níže.
+      </p>
+
       <h2>Co děláme my</h2>
       <ul>
         <li>Aplikaci poskytujeme zdarma návštěvníkům akcí GetUp. Můžeme ji kdykoli změnit, dočasně vypnout nebo ukončit.</li>

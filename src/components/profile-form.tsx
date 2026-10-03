@@ -22,6 +22,9 @@ import { btnPrimary, chip, errorText, input, inputWithIcon, label } from "./ui";
 
 type PhotoItem = { key: string; preview: string; path?: string; file?: File };
 
+/** Data profilu k uložení (bez id) */
+export type ProfileInput = Omit<Profile, "id">;
+
 function toItems(paths: string[]): PhotoItem[] {
   return paths.map((path) => ({ key: path, path, preview: photoUrl(path) }));
 }
@@ -30,11 +33,14 @@ export function ProfileForm({
   userId,
   profile,
   redirectTo,
+  onSave,
 }: {
   userId: string;
   profile: Profile | null;
   /** Kam po uložení (onboarding). Bez něj zůstaneme na stránce. */
   redirectTo?: string;
+  /** Vlastní uložení místo zápisu do vlastního řádku profiles (administrace ukládá přes RPC za uživatele). */
+  onSave?: (data: ProfileInput) => Promise<void>;
 }) {
   const router = useRouter();
   const fileInput = useRef<HTMLInputElement>(null);
@@ -128,17 +134,21 @@ export function ProfileForm({
         snapchat: normalizeSnapchat(snapchat),
         phone: normalizePhone(phone),
       };
-      const { error } = await supabase.from("profiles").upsert({
-        id: userId,
+      const data: ProfileInput = {
         display_name: name.trim(),
         birthdate,
-        gender,
+        gender: gender!,
         interested_in: interestedIn,
         bio: bio.trim(),
         photos: paths,
         ...contacts,
-      });
-      if (error) throw error;
+      };
+      if (onSave) {
+        await onSave(data);
+      } else {
+        const { error } = await supabase.from("profiles").upsert({ id: userId, ...data });
+        if (error) throw error;
+      }
 
       // Úklid fotek, které uživatel odebral.
       const removed = (profile?.photos ?? []).filter((p) => !paths.includes(p));

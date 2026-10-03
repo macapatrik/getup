@@ -20,7 +20,8 @@ Dvě administrace:
   Každý vidí jen svoje data.
 - **Administrace** (`/admin`, jen pro tým GetUp): webový portál s bočním panelem, na mobilu se záložkami nahoře.
   Přehled s čísly, akce (založení, úprava, smazání, QR kódy k tisku, statistiky), uživatelé (hledání, detail,
-  blokace), nahlášení (vyřešit / zablokovat) a tým (přidání a odebrání organizátorů podle e-mailu).
+  úprava celého profilu včetně fotek a kontaktů přes `admin_update_profile`, blokace), nahlášení (vyřešit / zablokovat)
+  a tým (přidání a odebrání organizátorů podle e-mailu). Podmínky užití tyto zásahy popisují v části „Moderace a správa účtů“.
 
 Na počítači má aplikace boční panel místo spodní lišty.
 
