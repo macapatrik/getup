@@ -439,25 +439,6 @@ export default function HalloweenPage() {
         </div>
       </section>
 
-      {/* Partneři */}
-      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-        <p className="text-center text-[12px] font-bold tracking-[0.22em] text-ash uppercase">Partneři akce</p>
-        <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 sm:gap-x-16">
-          {EVENT.partners.map((partner) => (
-            <li key={partner.name} className="flex items-center">
-              {/* Loga žijí na get-up.fun; prostý <img>, ať je export do WordPressu i aplikace odkazuje stejně. */}
-              <img
-                src={partner.logo}
-                alt={partner.name}
-                loading="lazy"
-                decoding="async"
-                className="h-11 w-auto max-w-[160px] object-contain opacity-85 transition hover:opacity-100 sm:h-14 sm:max-w-[200px]"
-              />
-            </li>
-          ))}
-        </ul>
-      </section>
-
       <footer className="border-t border-white/10 py-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 text-center text-[13px] text-ash sm:flex-row sm:justify-between sm:px-6 sm:text-left">
           <p>

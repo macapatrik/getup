@@ -23,10 +23,4 @@ export const EVENT = {
     { label: "Stage 1", genre: "Mainstream / Rap", acts: ["DJ Raivox", "Hasy"] },
     { label: "Stage 2", genre: "Techno", acts: ["DJ Hugoteyy", "Winterz"] },
   ],
-  // Loga partnerů (bílá na průhledném pozadí) v public/halloween; GetUp je z originálu v knihovně médií get-up.fun.
-  partners: [
-    { name: "Proud", logo: "/halloween/logo-proud.png" },
-    { name: "GetUp", logo: "/halloween/logo-getup.png" },
-    { name: "HQD", logo: "/halloween/logo-hqd.png" },
-  ],
 } as const;

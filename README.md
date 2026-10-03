@@ -164,7 +164,6 @@ načítá z `public/halloween/embed.html`. Po změně textů spusť `npm run bui
 `node scripts/export-halloween-wordpress.mjs`, který embed přegeneruje (a do `out/halloween-wordpress/` dá i
 samostatný `halloween.html`); postup je v `scripts/halloween-wordpress-NAVOD.md`.
 
-Loga partnerů se berou přímo z knihovny médií na get-up.fun (adresy v `event.ts`), takže je stačí vyměnit tam.
 Skript v bloku pro WordPress má atribut `seraph-accel-crit="1"`, aby ho Seraphinite Accelerator na get-up.fun
 neodkládal až do první interakce (jinak odpočet na mobilu naskočil až po scrollu); zároveň si svůj obsah hledá
 opakovaně, protože plugin kritické skripty přesouvá do hlavičky.
