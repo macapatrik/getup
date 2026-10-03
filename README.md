@@ -165,12 +165,12 @@ načítá z `public/halloween/embed.html`. Po změně textů spusť `npm run bui
 samostatný `halloween.html`); postup je v `scripts/halloween-wordpress-NAVOD.md`.
 
 Loga partnerů se berou přímo z knihovny médií na get-up.fun (adresy v `event.ts`), takže je stačí vyměnit tam.
-Lekačka (tlačítko „Nemačkat“ a jednou za návštěvu sama u sekce kostýmů) je v `public/halloween/scare.js`: zvuk se
-syntetizuje přes Web Audio, smrtka vyjede přes celou obrazovku; export ji vkládá do bloku pro WordPress a skript
-označuje `seraph-accel-crit="1"`, aby ho Seraphinite Accelerator na get-up.fun neodkládal až do první interakce
-(jinak by odpočet na mobilu naskočil až po scrollu).
+Skript v bloku pro WordPress má atribut `seraph-accel-crit="1"`, aby ho Seraphinite Accelerator na get-up.fun
+neodkládal až do první interakce (jinak odpočet na mobilu naskočil až po scrollu); zároveň si svůj obsah hledá
+opakovaně, protože plugin kritické skripty přesouvá do hlavičky.
 
-Galerie se po klepnutí otevře v překryvu s listováním (`public/halloween/gallery.js`, stejný princip jako lekačka).
+Galerie se po klepnutí otevře v překryvu s listováním (`public/halloween/gallery.js`, prostý skript sdílený
+s exportem).
 Vložený blok pro WordPress má skript zminifikovaný do jednoho řádku: soubor se kopíruje ručně a náhled ukazuje
 jen prvních ~100 řádků, takže delší soubor se jednou vložil uříznutý.
 

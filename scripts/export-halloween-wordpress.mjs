@@ -151,7 +151,7 @@ root.walkAtRules("layer", (at) => (at.nodes ? at.replaceWith(at.nodes) : at.remo
 root.walkAtRules("font-face", (at) => at.remove());
 
 // Jen pravidla pro třídy, které stránka opravdu používá (plus třídy přepínané skriptem).
-const used = new Set(["translate-y-0", "translate-y-full", "font-metal", "text-[28px]", "text-blood", "hw-glow", "is-on", "hidden", "hw-lock"]);
+const used = new Set(["translate-y-0", "translate-y-full", "font-metal", "text-[28px]", "text-blood", "hw-glow", "hidden", "hw-lock"]);
 for (const m of body.matchAll(/class="([^"]*)"/g)) for (const c of m[1].split(/\s+/)) if (c) used.add(c);
 const classesOf = (sel) => [...sel.matchAll(/\.((?:\\.|[A-Za-z0-9_-])+)/g)].map((m) => m[1].replace(/\\(.)/g, "$1"));
 root.walkRules((rule) => {
@@ -191,11 +191,9 @@ html.hw-lock,body.hw-lock{overflow:hidden}
 `;
 
 
-// Lekačka: stejný skript, který v aplikaci načítá <Script src="/halloween/scare.js">
-const scareJs = readFileSync("public/halloween/scare.js", "utf8").replace(/^\/\/.*\n/gm, "");
-// Galerie s překryvem: public/halloween/gallery.js
+// Galerie s překryvem: stejný skript, který v aplikaci načítá <Script src="/halloween/gallery.js">
 const galleryJs = readFileSync("public/halloween/gallery.js", "utf8").replace(/^\/\/.*\n/gm, "");
-const behaviorAll = behavior + "\n" + scareJs + "\n" + galleryJs;
+const behaviorAll = behavior + "\n" + galleryJs;
 // Skript musí přežít cokoli, co s ním udělá cache plugin (Seraphinite Accelerator na get-up.fun): bez atributu
 // seraph-accel-crit="1" ho odloží až do první interakce (odpočet naskočil až po scrollu), s ním ho zase může přesunout
 // do hlavičky a spustit dřív, než existuje obsah bloku. Proto se blok hledá opakovaně, dokud se neobjeví.

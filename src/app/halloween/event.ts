@@ -23,10 +23,10 @@ export const EVENT = {
     { label: "Stage 1", genre: "Mainstream / Rap", acts: ["DJ Raivox", "Hasy"] },
     { label: "Stage 2", genre: "Techno", acts: ["DJ Hugoteyy", "Winterz"] },
   ],
-  // Loga partnerů jsou nahraná v knihovně médií na get-up.fun (bílá na průhledném pozadí); výměna = přepsat soubor tamtéž.
+  // Loga partnerů (bílá na průhledném pozadí) v public/halloween; GetUp je z originálu v knihovně médií get-up.fun.
   partners: [
-    { name: "Proud", logo: "https://www.get-up.fun/wp-content/uploads/2026/10/logo-proud.png" },
-    { name: "GetUp", logo: "https://www.get-up.fun/wp-content/uploads/2026/10/logo-getup.png" },
-    { name: "HQD", logo: "https://www.get-up.fun/wp-content/uploads/2026/10/logo-hqd.png" },
+    { name: "Proud", logo: "/halloween/logo-proud.png" },
+    { name: "GetUp", logo: "/halloween/logo-getup.png" },
+    { name: "HQD", logo: "/halloween/logo-hqd.png" },
   ],
 } as const;

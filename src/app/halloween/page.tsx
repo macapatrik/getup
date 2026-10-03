@@ -258,16 +258,6 @@ export default function HalloweenPage() {
                 </li>
               ))}
             </ol>
-            <div className="mt-8 flex items-center gap-4">
-              <button
-                type="button"
-                id="hw-scare-btn"
-                className="hw-outline inline-flex items-center gap-2 rounded-[12px] px-5 py-3 text-[13px] font-bold tracking-[0.2em] text-ember uppercase transition active:scale-[0.97]"
-              >
-                Nemačkat
-              </button>
-              <span className="text-[13px] text-ash">Fakt ne.</span>
-            </div>
           </div>
         </div>
       </section>
@@ -493,12 +483,7 @@ export default function HalloweenPage() {
         </div>
       </footer>
 
-      {/* Lekačka: překryv přes celou obrazovku, ovládá public/halloween/scare.js */}
-      <div id="hw-scare" className="pointer-events-none fixed inset-0 z-[60] hidden items-center justify-center overflow-hidden bg-black" aria-hidden="true">
-        <div className="hw-scare-flash absolute inset-0 bg-blood opacity-0" />
-        <Image src={reaper} alt="" sizes="100vw" loading="eager" className="hw-scare-reaper relative w-[150vw] max-w-none opacity-0 sm:w-[80vh]" />
-      </div>
-      <Script src="/halloween/scare.js" strategy="afterInteractive" />
+      {/* Galerie v překryvu, ovládá public/halloween/gallery.js */}
       <Script src="/halloween/gallery.js" strategy="afterInteractive" />
 
       <TicketBar href={EVENT.ticketsUrl} label={`Koupit vstupenku · ${EVENT.dateLabel}`} watch="top" />
