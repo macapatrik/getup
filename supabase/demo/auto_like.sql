@@ -1,5 +1,5 @@
--- DEMO: když se k akci připojí skutečný návštěvník, až tři kompatibilní demo účty z té akce ho rovnou lajknou,
--- takže po swipnutí doprava vznikne match (a demo účet napíše první zprávu, viz greeting.sql).
+-- DEMO: když se k akci připojí skutečný návštěvník, kompatibilní demo účty z té akce ho rovnou lajknou
+-- (Natálie a Karolína vždy, k nim až tři další náhodně), takže po swipnutí doprava vznikne match.
 -- Jen pro ukázky – před ostrým spuštěním odstraň (viz cleanup.sql).
 create or replace function public.demo_auto_like()
 returns trigger
@@ -18,6 +18,7 @@ begin
     return new;
   end if;
 
+  -- Natálie a Karolína (profily na pozvánku) lajknou vždy, k nim až tři další demo účty náhodně.
   insert into public.swipes (swiper_id, swipee_id, event_id, liked)
   select p.id, new.user_id, new.event_id, true
   from public.event_attendees a
@@ -27,8 +28,8 @@ begin
     and u.email like '%@demo.gettogether.test'
     and p.gender = any (v_me.interested_in)
     and v_me.gender = any (p.interested_in)
-  order by random()
-  limit 3
+  order by (u.email in ('natalie@demo.gettogether.test', 'karolina@demo.gettogether.test')) desc, random()
+  limit 5
   on conflict do nothing;
   return new;
 end;
