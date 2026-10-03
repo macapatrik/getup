@@ -1,17 +1,15 @@
-export type Gender = "woman" | "man" | "nonbinary";
+export type Gender = "woman" | "man";
 
-export const GENDERS: Gender[] = ["woman", "man", "nonbinary"];
+export const GENDERS: Gender[] = ["woman", "man"];
 
 export const GENDER_LABELS: Record<Gender, string> = {
   woman: "Žena",
   man: "Muž",
-  nonbinary: "Nebinární",
 };
 
 export const INTEREST_LABELS: Record<Gender, string> = {
   woman: "Ženy",
   man: "Muže",
-  nonbinary: "Nebinární lidi",
 };
 
 /** Kontakty, které si člověk vyplní v profilu; cizí vidíš až po matchi (get_matches). */
@@ -51,6 +49,16 @@ export interface MatchRow extends Contacts {
   age: number;
   bio: string;
   photos: string[];
+}
+
+/** Výstup RPC past_events (historie akcí GetUp) */
+export interface PastEvent {
+  id: string;
+  name: string;
+  venue: string;
+  starts_at: string;
+  ends_at: string;
+  attended: boolean;
 }
 
 export interface EventRow {

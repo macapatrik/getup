@@ -11,6 +11,7 @@ import { errorMessage } from "@/lib/errors";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
 import type { DeckCard, MatchRow } from "@/lib/types";
+import { SwipeHint, useSwipeHint } from "./swipe-hint";
 
 const SWIPE_THRESHOLD = 110; // px, od kdy se karta "odhodí"
 const LEAVE_MS = 220;
@@ -40,6 +41,8 @@ export function Deck({
   const [loading, setLoading] = useState(false);
   const [exhausted, setExhausted] = useState(initialCards.length === 0);
   const seen = useRef(new Set(initialCards.map((c) => c.id)));
+  // Návod ke swipování jen poprvé na tomhle zařízení (a jen když je co swipovat).
+  const { show: hint, dismiss: closeHint } = useSwipeHint(initialCards.length > 0);
 
   const loadMore = useCallback(async () => {
     setLoading(true);
@@ -85,13 +88,13 @@ export function Deck({
   // Šipky na klávesnici (desktop)
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (match || profile) return;
+      if (match || profile || hint) return;
       if (e.key === "ArrowRight") decide(1);
       if (e.key === "ArrowLeft") decide(-1);
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [decide, match, profile]);
+  }, [decide, match, profile, hint]);
 
   // Hlavní fotky dalších karet stáhneme dopředu, ať swipování neseká ani na slabé síti.
   useEffect(() => {
@@ -166,6 +169,7 @@ export function Deck({
         />
       )}
 
+      {hint && <SwipeHint onClose={closeHint} />}
       {match && <MatchModal match={match} myPhoto={myPhoto} onClose={() => setMatch(null)} />}
     </div>
   );

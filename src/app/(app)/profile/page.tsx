@@ -210,7 +210,7 @@ export default async function AccountPage() {
                   <Icon name="logout" className="size-5" /> Odhlásit se
                 </SubmitButton>
               </form>
-              <DeleteAccount userId={user.id} organizer={organizer} />
+              <DeleteAccount userId={user.id} email={user.email ?? ""} organizer={organizer} />
             </section>
           </div>
         </div>

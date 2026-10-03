@@ -14,8 +14,9 @@ kolik lidí už na akci je, a odkaz můžou sdílet dál.
 
 Dvě administrace:
 
-- **Můj účet** (`/profile`, pro každého návštěvníka): profil a fotky, moje akce, matche, koho jsem lajknul/a
-  (lajk jde zrušit, dokud z něj není match), upozornění, stažení všech mých dat (JSON) a smazání účtu.
+- **Můj účet** (`/profile`, pro každého návštěvníka): profil a fotky (včetně kontaktů), moje akce, matche, koho jsem lajknul/a
+  (lajk jde zrušit, dokud z něj není match), upozornění, stažení všech mých dat (JSON) a smazání účtu (potvrzuje se
+  kódem z e-mailu; databáze pustí smazání jen se session mladší než 10 minut, funkce `delete_account`).
   Každý vidí jen svoje data.
 - **Administrace** (`/admin`, jen pro tým GetUp): webový portál s bočním panelem, na mobilu se záložkami nahoře.
   Přehled s čísly, akce (založení, úprava, smazání, QR kódy k tisku, statistiky), uživatelé (hledání, detail,
@@ -149,8 +150,8 @@ src/
     login/                přihlášení kódem z e-mailu
     onboarding/           vytvoření profilu
     j/[code]/             cíl QR kódu: připojí k akci
-    (app)/events/         moje akce + zadání kódu
-    (app)/e/[id]/         swipování (balíček karet)
+    (app)/events/         moje akce + zadání kódu, history/ = historie všech proběhlých akcí (RPC past_events)
+    (app)/e/[id]/         swipování (balíček karet), swipe-hint.tsx = návod při prvním swipování
     (app)/matches/        matche + stránka matche s kontakty
     (app)/profile/        Můj účet: přehled, úprava profilu, lajky, export dat, smazání účtu
     podminky/, soukromi/  podmínky užití a ochrana soukromí (údaje provozovatele v src/lib/legal.ts)

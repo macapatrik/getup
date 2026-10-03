@@ -251,3 +251,56 @@ body {
 .hw-lock {
   overflow: hidden;
 }
+
+/* Návod ke swipování: karta se houpe doprava (srdce) a doleva (křížek) */
+@keyframes swipe-demo {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0);
+  }
+  22% {
+    transform: translateX(44px) rotate(8deg);
+  }
+  44% {
+    transform: translateX(0) rotate(0);
+  }
+  66% {
+    transform: translateX(-44px) rotate(-8deg);
+  }
+  88% {
+    transform: translateX(0) rotate(0);
+  }
+}
+@keyframes swipe-demo-like {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(-50%) scale(1);
+  }
+  18%,
+  28% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.2);
+  }
+  44% {
+    opacity: 0.25;
+    transform: translateY(-50%) scale(1);
+  }
+}
+@keyframes swipe-demo-nope {
+  0%,
+  50%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(-50%) scale(1);
+  }
+  62%,
+  72% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.2);
+  }
+  88% {
+    opacity: 0.25;
+    transform: translateY(-50%) scale(1);
+  }
+}

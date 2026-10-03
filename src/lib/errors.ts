@@ -15,6 +15,7 @@ const MESSAGES: Record<string, string> = {
   GU017: "Instagram: zadej jen jméno účtu, třeba jmeno.prijmeni.",
   GU018: "Snapchat: zadej jen jméno účtu (3 až 15 znaků).",
   GU019: "Telefon: zadej číslo s předvolbou, třeba +420 777 123 456.",
+  GU020: "Smazání účtu potvrď kódem z e-mailu.",
   GU401: "Přihlas se prosím znovu.",
   GU403: "Na tohle nemáš oprávnění.",
 };

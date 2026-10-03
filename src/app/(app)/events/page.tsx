@@ -17,7 +17,7 @@ import {
   formatTime,
 } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
-import type { EventRow } from "@/lib/types";
+import type { EventRow, PastEvent } from "@/lib/types";
 import { JoinForm } from "./join-form";
 import { QrScanButton } from "./qr-scanner";
 
@@ -41,7 +41,11 @@ export default async function EventsPage(props: PageProps<"/events">) {
   const events = ((data ?? []) as unknown as { event: EventRow | null }[])
     .map((row) => row.event)
     .filter((e): e is EventRow => e !== null);
-  const { data: countRows } = await supabase.rpc("attendee_counts", { p_event_ids: events.map((e) => e.id) });
+  const [{ data: countRows }, { data: pastRows }] = await Promise.all([
+    supabase.rpc("attendee_counts", { p_event_ids: events.map((e) => e.id) }),
+    supabase.rpc("past_events"),
+  ]);
+  const pastCount = ((pastRows ?? []) as PastEvent[]).length;
   const counts = new Map(((countRows ?? []) as { event_id: string; attendees: number }[]).map((r) => [r.event_id, Number(r.attendees)]));
 
   // Nejbližší otevřená akce (probíhající má přednost) dostane velkou kartu nahoře, ostatní jsou v seznamu.
@@ -132,6 +136,22 @@ export default async function EventsPage(props: PageProps<"/events">) {
             })}
           </ul>
         )}
+
+        <Link
+          href="/events/history"
+          className="surface mt-8 flex items-center gap-3.5 rounded-[16px] p-3 pr-4 transition active:scale-[0.98]"
+        >
+          <span className="fill-accent-soft grid size-14 shrink-0 place-items-center rounded-[12px]">
+            <Icon name="clock" className="size-6" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[16px] font-bold">Historie akcí</span>
+            <span className="block text-[13px] text-muted">
+              {pastCount > 0 ? `${formatNumber(pastCount)} proběhlých párty GetUp` : "Všechny proběhlé párty GetUp"}
+            </span>
+          </span>
+          <Icon name="chevron" className="size-5 text-faint" />
+        </Link>
       </div>
     </main>
   );
@@ -146,7 +166,7 @@ function NextEventCard({ event, attendees }: { event: EventRow; attendees: numbe
     status === "live"
       ? "právě probíhá, lidi jsou tady"
       : status === "after"
-        ? "po akci, chat ještě běží"
+        ? "po akci, ještě můžeš swipovat"
         : days <= 1
           ? `začíná ve ${formatTime(event.starts_at)}`
           : days < 5
