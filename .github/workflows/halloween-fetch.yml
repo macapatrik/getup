@@ -14,31 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Média z webu
+      - name: Zvětšená loga z Higgsfieldu
         run: |
-          rm -rf fetch && mkdir -p fetch/logos
-          UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
-          curl -sSL -A "$UA" -o fetch/media-logo.json "https://www.get-up.fun/wp-json/wp/v2/media?search=logo&per_page=100&_fields=id,date,slug,title,source_url,media_details,alt_text" || true
-          curl -sSL -A "$UA" -o fetch/media-latest.json "https://www.get-up.fun/wp-json/wp/v2/media?per_page=100&orderby=date&order=desc&_fields=id,date,slug,title,source_url,media_details,alt_text" || true
-          curl -sSL -A "$UA" -o fetch/media-2026-10.json "https://www.get-up.fun/wp-json/wp/v2/media?per_page=100&after=2026-09-25T00:00:00&_fields=id,date,slug,title,source_url,media_details,alt_text" || true
-          for u in 2026/04/cropped-Navrh-bez-nazvu-1.png 2026/04/cropped-Navrh-bez-nazvu.png 2026/04/Navrh-bez-nazvu.png; do
-            curl -sSL -A "$UA" -o "fetch/logos/$(basename "$u")" "https://www.get-up.fun/wp-content/uploads/$u" || true
-          done
-          curl -sSL -A "$UA" -o fetch/media-getup.json "https://www.get-up.fun/wp-json/wp/v2/media?search=getup&per_page=100&_fields=id,date,slug,title,source_url,media_details" || true
-          curl -sSL -A "$UA" -o fetch/media-svg.json "https://www.get-up.fun/wp-json/wp/v2/media?mime_type=image/svg%2Bxml&per_page=100&_fields=id,date,slug,title,source_url,media_details" || true
-          curl -sSL -A "$UA" -o fetch/page-kontakt.html "https://www.get-up.fun/kontakt/" || true
-          curl -sSL -A "$UA" -o fetch/page-akce.html "https://www.get-up.fun/akce/" || true
-          for n in getup hqd proud; do
-            curl -sSL -A "$UA" -D "fetch/logos/logo-$n.headers" -o "fetch/logos/logo-$n.png" "https://www.get-up.fun/wp-content/uploads/2026/10/logo-$n.png?nocache=$(date +%s)" || true
-          done
-          # všechny soubory z médií, které mají v názvu logo (originály)
-          jq -r '.[]? | .source_url' fetch/media-logo.json fetch/media-latest.json fetch/media-2026-10.json 2>/dev/null | grep -i "logo" | sort -u > fetch/logo-urls.txt || true
-          while read -r u; do
-            f="fetch/logos/$(basename "$u")"
-            [ -f "$f" ] || curl -sSL -A "$UA" -o "$f" "$u" || true
-          done < fetch/logo-urls.txt
-          ls -la fetch fetch/logos
-          file fetch/logos/* || true
+          mkdir -p fetch/upscaled
+          curl -fsSL -o fetch/upscaled/proud.png "https://d8j0ntlcm91z4.cloudfront.net/user_3Byp0QuDRtgSsewOSg7DwvV38lR/hf_20261003_114612_281fda70-91f4-4c0d-a7e7-8ece52c3a28c.png"
+          curl -fsSL -o fetch/upscaled/hqd.png "https://d8j0ntlcm91z4.cloudfront.net/user_3Byp0QuDRtgSsewOSg7DwvV38lR/hf_20261003_114614_0910f9e8-c559-4b7b-8454-25413da90eab.png"
+          file fetch/upscaled/*
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
