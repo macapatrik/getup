@@ -41,7 +41,7 @@ export default async function AdminHomePage() {
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <StatTile label="Uživatelé" value={overview?.users} hint={overview ? `+${overview.new_users_7d} za 7 dní` : undefined} />
         <StatTile label="Matche" value={overview?.matches} hint={overview ? `+${overview.matches_24h} za 24 hodin` : undefined} />
-        <StatTile label="Zprávy" value={overview?.messages} hint={overview ? `${formatNumber(overview.events)} akcí celkem` : undefined} />
+        <StatTile label="S kontaktem" value={overview?.with_contact} hint={overview ? `z ${formatNumber(overview.profiles)} profilů` : undefined} />
         <StatTile
           label="Nahlášení"
           value={overview?.open_reports}

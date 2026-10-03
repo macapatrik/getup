@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { photoUrl } from "@/lib/photos";
 import { Icon } from "./icons";
+import { PhotoGallery } from "./photo-gallery";
+import { outlineChip } from "./ui";
 
 export type SheetPerson = {
   display_name: string;
@@ -13,9 +14,6 @@ export type SheetPerson = {
 };
 
 const CLOSE_DRAG = 110; // px tahu dolů, od kterých se list zavře
-
-const outlineChip =
-  "inline-flex items-center gap-1.5 rounded-[30px] border-2 border-fill px-3.5 py-1.5 text-[14px] font-medium text-ink whitespace-nowrap";
 
 /** Vysouvací profil člověka (rozložení jako Romio „Profile“). Zavře se tlačítkem, klepnutím vedle, tahem dolů nebo Esc. */
 export function ProfileSheet({
@@ -30,10 +28,8 @@ export function ProfileSheet({
   /** Tlačítka dole (např. ✕ / ♥ při swipování) */
   actions?: ReactNode;
 }) {
-  const [photoIndex, setPhotoIndex] = useState(0);
   const [dragY, setDragY] = useState(0);
   const dragStart = useRef<number | null>(null);
-  const gallery = useRef<HTMLDivElement>(null);
 
   // Zamknout scroll stránky pod listem + Esc
   useEffect(() => {
@@ -49,11 +45,6 @@ export function ProfileSheet({
       window.removeEventListener("keydown", onKey);
     };
   }, [onClose]);
-
-  function onGalleryScroll() {
-    const el = gallery.current;
-    if (el) setPhotoIndex(Math.round(el.scrollLeft / el.clientWidth));
-  }
 
   function onGrabDown(e: PointerEvent<HTMLDivElement>) {
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -105,29 +96,13 @@ export function ProfileSheet({
 
         <div className="overflow-y-auto overscroll-contain">
           {/* Fotky – posun do stran, zaoblený rám jako u Romio */}
-          <div className="relative px-3 pt-3">
-            <div
-              ref={gallery}
-              onScroll={onGalleryScroll}
-              className="no-scrollbar flex aspect-[4/5] max-h-[52dvh] w-full snap-x snap-mandatory overflow-x-auto rounded-[32px] bg-fill"
-            >
-              {person.photos.map((p) => (
-                <img
-                  key={p}
-                  src={photoUrl(p)}
-                  alt={person.display_name}
-                  className="size-full shrink-0 snap-center object-cover"
-                  draggable={false}
-                />
-              ))}
-            </div>
-            {person.photos.length > 1 && (
-              <div className="absolute top-6 right-16 left-7 flex gap-1">
-                {person.photos.map((p, i) => (
-                  <span key={p} className={`h-1 flex-1 rounded-full shadow-sm ${i === photoIndex ? "bg-white" : "bg-white/45"}`} />
-                ))}
-              </div>
-            )}
+          <div className="px-3 pt-3">
+            <PhotoGallery
+              photos={person.photos}
+              alt={person.display_name}
+              className="aspect-[4/5] max-h-[52dvh] w-full"
+              dotsClassName="top-3 right-14 left-4"
+            />
           </div>
 
           <div className="space-y-5 px-4 pt-4 pb-6">

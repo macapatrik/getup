@@ -36,6 +36,10 @@ export function chip(active: boolean) {
 export const photoBadge =
   "photo-chip inline-flex items-center gap-1.5 rounded-[30px] px-3.5 py-1.5 text-[13px] font-medium whitespace-nowrap";
 
+/** Štítek s linkou pod jménem v profilu (věk, akce) */
+export const outlineChip =
+  "inline-flex items-center gap-1.5 rounded-[30px] border-2 border-fill px-3.5 py-1.5 text-[14px] font-medium text-ink whitespace-nowrap";
+
 /** Malý světle růžový štítek (akce, stav) */
 export const pill = "fill-accent-soft inline-flex items-center gap-1 rounded-[10px] px-3 py-1 text-[12px] font-semibold";
 

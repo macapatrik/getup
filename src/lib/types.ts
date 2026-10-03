@@ -14,7 +14,14 @@ export const INTEREST_LABELS: Record<Gender, string> = {
   nonbinary: "Nebinární lidi",
 };
 
-export interface Profile {
+/** Kontakty, které si člověk vyplní v profilu; cizí vidíš až po matchi (get_matches). */
+export interface Contacts {
+  instagram: string | null;
+  snapchat: string | null;
+  phone: string | null;
+}
+
+export interface Profile extends Contacts {
   id: string;
   display_name: string;
   birthdate: string;
@@ -34,8 +41,8 @@ export interface DeckCard {
   photos: string[];
 }
 
-/** Výstup RPC get_matches */
-export interface MatchRow {
+/** Výstup RPC get_matches (kontakty protějšku jsou vidět jen tady, tedy po matchi) */
+export interface MatchRow extends Contacts {
   match_id: string;
   matched_at: string;
   event_name: string | null;
@@ -44,9 +51,6 @@ export interface MatchRow {
   age: number;
   bio: string;
   photos: string[];
-  last_message: string | null;
-  last_message_at: string | null;
-  last_sender_id: string | null;
 }
 
 export interface EventRow {
@@ -58,14 +62,6 @@ export interface EventRow {
   join_code?: string;
 }
 
-export interface Message {
-  id: number;
-  match_id: string;
-  sender_id: string;
-  body: string;
-  created_at: string;
-}
-
 // ---------- Administrace (RPC admin_*) ----------
 
 export interface AdminOverview {
@@ -75,7 +71,7 @@ export interface AdminOverview {
   events: number;
   matches: number;
   matches_24h: number;
-  messages: number;
+  with_contact: number;
   open_reports: number;
   banned: number;
 }
@@ -114,10 +110,13 @@ export interface AdminUserDetail {
     interested_in: Gender[];
     bio: string;
     photos: string[];
+    instagram: string | null;
+    snapchat: string | null;
+    phone: string | null;
   } | null;
   organizer: boolean;
   ban: { reason: string; created_at: string } | null;
-  stats: { likes_given: number; likes_received: number; matches: number; messages: number };
+  stats: { likes_given: number; likes_received: number; matches: number };
   events: { id: string; name: string; starts_at: string; ends_at: string; visible: boolean }[];
   reports: { id: number; reason: string; created_at: string; resolved_at: string | null; reporter: string | null }[];
 }
@@ -151,7 +150,6 @@ export interface MyStats {
   likes: number;
   passes: number;
   matches: number;
-  messages: number;
 }
 
 export interface MyLike {

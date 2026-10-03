@@ -117,7 +117,7 @@ export default function OpenGraphImage() {
           </div>
 
           <div style={{ display: "flex", marginTop: 28, fontSize: 28, lineHeight: 1.35, color: MUTED, fontWeight: 500, maxWidth: 580 }}>
-            Seznamka jen pro lidi ze stejné akce GetUp. Naskenuj QR kód, swipuj a piš si.
+            Seznamka jen pro lidi ze stejné akce GetUp. Naskenuj QR kód, swipuj a po matchi se ozvi.
           </div>
 
           <div style={{ display: "flex", marginTop: 40, alignItems: "center" }}>

@@ -53,21 +53,10 @@ export async function sendPush(targets: PushTarget[], message: PushMessage) {
 export function matchMessage(match: { match_id: string; name: string; photo: string | null; event: string | null }): PushMessage {
   return {
     title: "Je to match! 💘",
-    body: `Ty a ${match.name} se navzájem líbíte${match.event ? ` (${match.event})` : ""}. Napiš první zprávu 👋`,
+    body: `Ty a ${match.name} se navzájem líbíte${match.event ? ` (${match.event})` : ""}. Mrkni na kontakt a ozvi se 👋`,
     url: `/matches/${match.match_id}`,
     icon: match.photo ? photoUrl(match.photo) : undefined,
     tag: `match-${match.match_id}`,
-  };
-}
-
-/** Nová zpráva v chatu. Stejný `tag` pro jeden chat = upozornění se nahrazuje, nehromadí. */
-export function chatMessage(message: { match_id: string; name: string; photo: string | null; body: string }): PushMessage {
-  return {
-    title: message.name,
-    body: message.body,
-    url: `/matches/${message.match_id}`,
-    icon: message.photo ? photoUrl(message.photo) : undefined,
-    tag: `chat-${message.match_id}`,
   };
 }
 

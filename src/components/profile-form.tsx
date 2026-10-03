@@ -3,6 +3,14 @@
 import { useRouter } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import { MAX_PHOTOS, MIN_AGE } from "@/lib/config";
+import {
+  isValidInstagram,
+  isValidPhone,
+  isValidSnapchat,
+  normalizeInstagram,
+  normalizePhone,
+  normalizeSnapchat,
+} from "@/lib/contacts";
 import { errorMessage } from "@/lib/errors";
 import { ageFromBirthdate } from "@/lib/format";
 import { PHOTOS_BUCKET, photoExtension, photoUrl, randomId, resizeImage } from "@/lib/photos";
@@ -36,6 +44,9 @@ export function ProfileForm({
   const [gender, setGender] = useState<Gender | null>(profile?.gender ?? null);
   const [interestedIn, setInterestedIn] = useState<Gender[]>(profile?.interested_in ?? []);
   const [bio, setBio] = useState(profile?.bio ?? "");
+  const [instagram, setInstagram] = useState(profile?.instagram ?? "");
+  const [snapchat, setSnapchat] = useState(profile?.snapchat ?? "");
+  const [phone, setPhone] = useState(profile?.phone ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
@@ -76,6 +87,12 @@ export function ProfileForm({
     if (ageFromBirthdate(birthdate) < MIN_AGE) return `Musí ti být alespoň ${MIN_AGE} let.`;
     if (!gender) return "Vyber, kdo jsi.";
     if (interestedIn.length === 0) return "Vyber, koho hledáš.";
+    const ig = normalizeInstagram(instagram);
+    if (ig && !isValidInstagram(ig)) return "Instagram: zadej jen jméno účtu, třeba jmeno.prijmeni.";
+    const sc = normalizeSnapchat(snapchat);
+    if (sc && !isValidSnapchat(sc)) return "Snapchat: zadej jen jméno účtu (3 až 15 znaků).";
+    const tel = normalizePhone(phone);
+    if (tel && !isValidPhone(tel)) return "Telefon: zadej číslo s předvolbou, třeba +420 777 123 456.";
     return null;
   }
 
@@ -106,6 +123,11 @@ export function ProfileForm({
         paths.push(path);
       }
 
+      const contacts = {
+        instagram: normalizeInstagram(instagram),
+        snapchat: normalizeSnapchat(snapchat),
+        phone: normalizePhone(phone),
+      };
       const { error } = await supabase.from("profiles").upsert({
         id: userId,
         display_name: name.trim(),
@@ -114,6 +136,7 @@ export function ProfileForm({
         interested_in: interestedIn,
         bio: bio.trim(),
         photos: paths,
+        ...contacts,
       });
       if (error) throw error;
 
@@ -127,6 +150,9 @@ export function ProfileForm({
       }
       photos.forEach((p) => p.file && URL.revokeObjectURL(p.preview));
       setPhotos(toItems(paths));
+      setInstagram(contacts.instagram ?? "");
+      setSnapchat(contacts.snapchat ?? "");
+      setPhone(contacts.phone ?? "");
       setSaved(true);
       router.refresh();
     } catch (err) {
@@ -271,6 +297,63 @@ export function ProfileForm({
           ))}
         </div>
       </fieldset>
+
+      <section>
+        <span className={label}>
+          Kontakt pro matche <span className="text-faint normal-case">(nepovinné)</span>
+        </span>
+        <p className="-mt-1 mb-3 text-[14px] leading-snug text-muted">
+          Uvidí ho jen lidi, se kterými se matchneš. Vyplň aspoň jeden, ať se ti dá ozvat.
+        </p>
+        <div className="space-y-2.5">
+          <IconField icon="instagram">
+            <input
+              aria-label="Instagram"
+              value={instagram}
+              onChange={(e) => {
+                setInstagram(e.target.value);
+                setSaved(false);
+              }}
+              maxLength={80}
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              className={inputWithIcon}
+              placeholder="Instagram, třeba @jmeno.prijmeni"
+            />
+          </IconField>
+          <IconField icon="snapchat">
+            <input
+              aria-label="Snapchat"
+              value={snapchat}
+              onChange={(e) => {
+                setSnapchat(e.target.value);
+                setSaved(false);
+              }}
+              maxLength={80}
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              className={inputWithIcon}
+              placeholder="Snapchat"
+            />
+          </IconField>
+          <IconField icon="phone">
+            <input
+              aria-label="Telefon"
+              type="tel"
+              value={phone}
+              onChange={(e) => {
+                setPhone(e.target.value);
+                setSaved(false);
+              }}
+              maxLength={25}
+              className={inputWithIcon}
+              placeholder="Telefon, třeba +420 777 123 456"
+            />
+          </IconField>
+        </div>
+      </section>
 
       <div>
         <label htmlFor="bio" className={label}>

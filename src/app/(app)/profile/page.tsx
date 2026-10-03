@@ -6,6 +6,7 @@ import { PushSettings } from "@/components/push-settings";
 import { SubmitButton } from "@/components/submit-button";
 import { btnSecondary, card, pill, sectionTitle } from "@/components/ui";
 import { isOrganizer, requireProfile } from "@/lib/auth";
+import { contactLinks, hasContact } from "@/lib/contacts";
 import { STATUS_LABELS, ageFromBirthdate, eventStatus, formatDate, formatNumber } from "@/lib/format";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/server";
@@ -43,7 +44,6 @@ export default async function AccountPage() {
     ["Akcí", stats?.events],
     ["Lajků", stats?.likes],
     ["Matchů", stats?.matches],
-    ["Zpráv", stats?.messages],
   ];
 
   return (
@@ -80,7 +80,33 @@ export default async function AccountPage() {
 
         <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
           <div className="space-y-6">
-            <div className="grid grid-cols-4 gap-2">
+            <section>
+              <h2 className={sectionTitle}>Můj kontakt pro matche</h2>
+              {hasContact(profile) ? (
+                <Link href="/profile/edit" className="surface flex flex-wrap items-center gap-2 rounded-[16px] p-3.5">
+                  {contactLinks(profile)
+                    .filter((link) => link.kind !== "sms")
+                    .map((link) => (
+                      <span key={link.kind} className={pill}>
+                        <Icon name={link.icon} className="size-4" /> {link.detail}
+                      </span>
+                    ))}
+                  <Icon name="chevron" className="ml-auto size-4 text-faint" />
+                </Link>
+              ) : (
+                <Link href="/profile/edit" className="fill-accent-soft flex items-center gap-3 rounded-[16px] p-3.5 transition active:scale-[0.98]">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white">
+                    <Icon name="instagram" className="size-5" />
+                  </span>
+                  <span className="min-w-0 flex-1 text-[14px] leading-snug font-medium">
+                    Doplň Instagram, Snapchat nebo telefon, ať se ti matche můžou ozvat.
+                  </span>
+                  <Icon name="chevron" className="size-4 shrink-0" />
+                </Link>
+              )}
+            </section>
+
+            <div className="grid grid-cols-3 gap-2">
               {tiles.map(([label, value]) => (
                 <div key={label} className="surface rounded-[16px] px-1 py-3.5 text-center">
                   <p className="text-[22px] leading-none font-bold">{value === undefined ? "–" : formatNumber(value)}</p>
@@ -121,8 +147,8 @@ export default async function AccountPage() {
             <section>
               <div className="mb-3 flex items-center justify-between">
                 <h2 className={`${sectionTitle} mb-0`}>Moje matche</h2>
-                <Link href="/messages" className="inline-flex items-center gap-0.5 text-[15px] font-semibold text-muted">
-                  Zprávy <Icon name="chevron" className="size-4" />
+                <Link href="/matches" className="inline-flex items-center gap-0.5 text-[15px] font-semibold text-muted">
+                  Všechny <Icon name="chevron" className="size-4" />
                 </Link>
               </div>
               {matches.length === 0 ? (
