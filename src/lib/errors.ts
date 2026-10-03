@@ -17,6 +17,9 @@ const MESSAGES: Record<string, string> = {
   GU019: "Telefon: zadej číslo s předvolbou, třeba +420 777 123 456.",
   GU020: "Smazání účtu potvrď kódem z e-mailu.",
   GU021: "Uživatel neexistuje.",
+  GU022: "Organizátora nejde smazat, nejdřív ho odeber z týmu.",
+  GU023: "Uživatel nemá vyplněný profil, na akci ho nejde přidat.",
+  GU024: "Akce neexistuje.",
   GU401: "Přihlas se prosím znovu.",
   GU403: "Na tohle nemáš oprávnění.",
 };

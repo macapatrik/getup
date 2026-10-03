@@ -7,7 +7,11 @@ import { STATUS_LABELS, eventStatus, formatDateTime } from "@/lib/format";
 import { formatPhone } from "@/lib/contacts";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/server";
-import { GENDER_LABELS, INTEREST_LABELS, type AdminUserDetail, type Profile } from "@/lib/types";
+import { GENDER_LABELS, INTEREST_LABELS, type AdminEvent, type AdminUserDetail, type Profile } from "@/lib/types";
+import { removeAttendanceAction } from "../../actions";
+import { ConfirmButton } from "../../confirm-button";
+import { AttendanceForm } from "./attendance-form";
+import { DeleteUserForm } from "./delete-user-form";
 import { Avatar, Badge, Empty, PageHeader, StatTile, list, row } from "../../ui";
 import { BanForm } from "./ban-form";
 import { ProfileEditor } from "./profile-editor";
@@ -20,9 +24,15 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
   if (!/^[0-9a-f-]{36}$/i.test(id)) notFound();
 
   const supabase = await createClient();
-  const { data } = await supabase.rpc("admin_user", { p_user_id: id });
+  const [{ data }, { data: eventRows }] = await Promise.all([supabase.rpc("admin_user", { p_user_id: id }), supabase.rpc("admin_events")]);
   const user = data as AdminUserDetail | null;
   if (!user) notFound();
+
+  // Akce, na které jde uživatele ručně přidat: ještě neskončily a ještě na nich není.
+  const attending = new Set(user.events.map((e) => e.id));
+  const addable = ((eventRows ?? []) as AdminEvent[])
+    .filter((e) => !attending.has(e.id) && eventStatus(e) !== "closed")
+    .sort((a, b) => a.starts_at.localeCompare(b.starts_at));
 
   const profile = user.profile;
   const editable: Profile | null = profile
@@ -116,19 +126,30 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
             ) : (
               <ul className={list}>
                 {user.events.map((event) => (
-                  <li key={event.id}>
-                    <Link href={`/admin/events/${event.id}`} className={row}>
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate text-[15px] font-semibold">{event.name}</span>
-                        <span className="block text-[13px] text-muted">
-                          {formatDateTime(event.starts_at)} · {STATUS_LABELS[eventStatus(event)]}
-                        </span>
+                  <li key={event.id} className={row}>
+                    <Link href={`/admin/events/${event.id}`} className="min-w-0 flex-1">
+                      <span className="block truncate text-[15px] font-semibold">{event.name}</span>
+                      <span className="block text-[13px] text-muted">
+                        {formatDateTime(event.starts_at)} · {STATUS_LABELS[eventStatus(event)]}
                       </span>
-                      {!event.visible && <Badge>Skrytý/á</Badge>}
                     </Link>
+                    {!event.visible && <Badge>Skrytý/á</Badge>}
+                    <form action={removeAttendanceAction.bind(null, user.id, event.id)}>
+                      <ConfirmButton
+                        message={`Odebrat z akce „${event.name}“? Jeho/její swipy a matche z této akce zůstanou.`}
+                        className="rounded-[10px] px-2.5 py-1.5 text-[13px] font-semibold text-danger hover:bg-danger/10"
+                      >
+                        Odebrat
+                      </ConfirmButton>
+                    </form>
                   </li>
                 ))}
               </ul>
+            )}
+            {profile ? (
+              <AttendanceForm userId={user.id} events={addable} />
+            ) : (
+              <p className="mt-3 text-[13px] text-muted">Na akci jde přidat až uživatele s profilem.</p>
             )}
           </section>
 
@@ -165,6 +186,16 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
                 <BanForm key={user.ban ? "banned" : "active"} userId={user.id} ban={user.ban} />
               )}
             </div>
+            {!user.organizer && (
+              <div className={`${card} mt-4`}>
+                <p className="text-[15px] font-bold">Smazat účet</p>
+                <p className="mt-1 text-[14px] text-muted">
+                  Smaže účet, profil, fotky, lajky, matche i účast na akcích. Nejde to vrátit. Blokace je většinou lepší, člověk
+                  si pak nemůže založit nový účet se stejným e-mailem.
+                </p>
+                <DeleteUserForm userId={user.id} name={profile?.display_name ?? user.email} />
+              </div>
+            )}
           </section>
         </div>
       </div>

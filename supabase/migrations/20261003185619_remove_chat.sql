@@ -1,6 +1,6 @@
 -- Konec chatu: po matchi si lidé vymění kontakty (Instagram, Snapchat, telefon).
 -- Staré verze funkcí se tu jen přejmenují na *_old a triggery chatu vypnou;
--- samotné odstranění tabulky zpráv a starých funkcí je v supabase/cleanup_chat.sql
+-- samotné odstranění tabulky zpráv a starých funkcí je v supabase/run_manually.sql
 -- (nástroj, kterým migrace aplikujeme, neumí spouštět DROP bez potvrzení v dashboardu).
 alter table public.matches disable trigger matches_demo_greeting;
 alter table public.messages disable trigger messages_push;

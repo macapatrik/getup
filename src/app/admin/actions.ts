@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { requireOrganizer } from "@/lib/auth";
 import { TIME_ZONE } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
+import { PHOTOS_BUCKET } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/server";
 
 export type AdminFormState = { error: string | null; ok?: string | null };
@@ -89,6 +90,44 @@ export async function setBanAction(
 
   revalidatePath("/admin", "layout");
   return { error: null, ok: banned ? "Účet je zablokovaný." : "Účet je zase aktivní." };
+}
+
+/** Úplné smazání cizího účtu: fotky přes Storage API, zbytek zmizí kaskádou v databázi (admin_delete_user). */
+export async function deleteUserAction(userId: string, _prev: AdminFormState): Promise<AdminFormState> {
+  await requireOrganizer();
+  const supabase = await createClient();
+
+  const storage = supabase.storage.from(PHOTOS_BUCKET);
+  const { data: files } = await storage.list(userId, { limit: 100 });
+  if (files?.length) await storage.remove(files.map((f) => `${userId}/${f.name}`));
+
+  const { error } = await supabase.rpc("admin_delete_user", { p_user_id: userId });
+  if (error) return { error: errorMessage(error) };
+
+  revalidatePath("/admin", "layout");
+  redirect("/admin/users");
+}
+
+// ---------- Účast na akcích ----------
+
+export async function addAttendanceAction(userId: string, _prev: AdminFormState, formData: FormData): Promise<AdminFormState> {
+  await requireOrganizer();
+  const eventId = String(formData.get("event_id") ?? "");
+  if (!eventId) return { error: "Vyber akci." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("admin_set_attendance", { p_user_id: userId, p_event_id: eventId, p_present: true });
+  if (error) return { error: errorMessage(error) };
+
+  revalidatePath("/admin", "layout");
+  return { error: null, ok: "Přidáno na akci." };
+}
+
+export async function removeAttendanceAction(userId: string, eventId: string) {
+  await requireOrganizer();
+  const supabase = await createClient();
+  await supabase.rpc("admin_set_attendance", { p_user_id: userId, p_event_id: eventId, p_present: false });
+  revalidatePath("/admin", "layout");
 }
 
 /** Rychlá blokace přímo z nahlášení – důvodem je text nahlášení. */

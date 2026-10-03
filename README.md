@@ -20,7 +20,8 @@ Dvě administrace:
   Každý vidí jen svoje data.
 - **Administrace** (`/admin`, jen pro tým GetUp): webový portál s bočním panelem, na mobilu se záložkami nahoře.
   Přehled s čísly, akce (založení, úprava, smazání, QR kódy k tisku, statistiky), uživatelé (hledání, detail,
-  úprava celého profilu včetně fotek a kontaktů přes `admin_update_profile`, blokace), nahlášení (vyřešit / zablokovat)
+  úprava celého profilu včetně fotek a kontaktů přes `admin_update_profile`, přidání na akci a odebrání z ní,
+  blokace, úplné smazání účtu přes `admin_delete_user`), nahlášení (vyřešit / zablokovat)
   a tým (přidání a odebrání organizátorů podle e-mailu). Podmínky užití tyto zásahy popisují v části „Moderace a správa účtů“.
 
 Na počítači má aplikace boční panel místo spodní lišty.
@@ -85,7 +86,7 @@ trigger `profiles_validate` je srovná: z odkazu nebo `@jména` zůstane jen jm�
 Cizí kontakty vrací jen `get_matches`, tedy až po matchi; v balíčku (`get_deck`) nejsou. Na stránce matche a na obrazovce
 „Je to match!“ jsou pak tlačítka Instagram, Snapchat, Zavolat a SMS (`src/components/contact-buttons.tsx`,
 logika v `src/lib/contacts.ts`). Chat byl zrušen migrací `…_remove_chat.sql`; úklid starých objektů v databázi
-(tabulka `messages`, funkce `*_old`) je v `supabase/cleanup_chat.sql` a spouští se ručně v SQL Editoru.
+(tabulka `messages`, funkce `*_old`) je v `supabase/run_manually.sql` a spouští se ručně v SQL Editoru.
 
 ## Realtime (nové matche)
 
@@ -141,7 +142,7 @@ supabase/
   migrations/…_realtime_broadcast.sql  soukromé realtime kanály + triggery na zprávy a matche
   migrations/…_profile_contacts.sql    kontakty v profilu (Instagram, Snapchat, telefon)
   migrations/…_remove_chat.sql         zrušení chatu, get_matches vrací kontakty
-  cleanup_chat.sql        ruční úklid po zrušení chatu (tabulka messages, staré funkce)
+  run_manually.sql        ruční část: úklid po chatu + migrace admin_delete_user (spustit v SQL Editoru)
   templates/login.html    e-mailová šablona s kódem
   seed.sql                demo akce DEMO26
 src/
