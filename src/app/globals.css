@@ -293,3 +293,11 @@ body {
     opacity: 0;
   }
 }
+
+/* Překryv galerie (public/halloween/gallery.js): otevřený je sloupcový flex, stránka pod ním se neposouvá */
+#hw-lightbox:not(.hidden) {
+  display: flex;
+}
+.hw-lock {
+  overflow: hidden;
+}

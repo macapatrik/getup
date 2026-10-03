@@ -48,6 +48,10 @@ Po nasazení aplikace se web aktualizuje sám, do WordPressu se nic znovu nevkl�
 
 ## Když něco nesedí
 
+- Nejčastější chyba: do widgetu se dostal jen začátek souboru. Náhled souboru v aplikaci ukazuje jen prvních
+  zhruba 100 řádků, proto soubor vždy stáhni, otevři v editoru (TextEdit, VS Code) a zkopíruj celý (Ctrl/Cmd+A).
+  Soubor má schválně jen pár desítek řádků; po vložení zkontroluj, že blok končí značkou `</script>`.
+
 - Stránka je úzká uprostřed nebo má nahoře menu webu: nastav rozvržení Elementor Canvas (bod 2).
 - Stránka je prázdná: aplikace na together.get-up.fun ještě nemá tuhle verzi nasazenou, nebo cache plugin
   (Accelerator) blokuje či přesouvá cizí skripty. Stránku vyjmi z optimalizace JavaScriptu.

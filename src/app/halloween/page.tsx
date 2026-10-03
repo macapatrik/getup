@@ -275,6 +275,7 @@ export default function HalloweenPage() {
       {/* Atmosféra */}
       <section className="relative h-[72vh] min-h-[480px] overflow-hidden">
         <Image src={crowd} alt={`${EVENT.name} v ${EVENT.venue}`} fill sizes="100vw" className="object-cover" />
+        <div className="absolute inset-0 bg-night/45" />
         <div className="hw-fog-top absolute inset-x-0 top-0 h-40" />
         <div className="hw-fog-bottom absolute inset-x-0 bottom-0 h-72" />
         <div className="absolute inset-0 flex items-end">
@@ -299,11 +300,45 @@ export default function HalloweenPage() {
           </p>
         </div>
         <div className="no-scrollbar mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 sm:px-6 lg:mx-auto lg:grid lg:max-w-6xl lg:grid-cols-4 lg:gap-4 lg:overflow-visible">
-          {GALLERY.map((n) => (
-            <div key={n} className="relative aspect-[3/2] w-[78vw] shrink-0 snap-start overflow-hidden rounded-[16px] bg-coal sm:w-[360px] lg:w-auto">
-              <Image src={`/halloween/gallery/${n}.webp`} alt="Halloween by GetUp 2025 v Klubu K2" fill sizes="(min-width: 1024px) 280px, (min-width: 640px) 360px, 78vw" className="object-cover" />
-            </div>
+          {GALLERY.map((n, i) => (
+            <button
+              key={n}
+              type="button"
+              data-hw-photo={i}
+              aria-label={`Zvětšit fotku ${i + 1} z ${GALLERY.length}`}
+              className="group relative aspect-[3/2] w-[78vw] shrink-0 snap-start overflow-hidden rounded-[16px] bg-coal sm:w-[360px] lg:w-auto"
+            >
+              <Image src={`/halloween/gallery/${n}.webp`} alt="Halloween by GetUp 2025 v Klubu K2" fill sizes="(min-width: 1024px) 280px, (min-width: 640px) 360px, 78vw" className="object-cover transition duration-300 group-hover:scale-105" />
+            </button>
           ))}
+        </div>
+        <p className="mt-4 text-center text-[13px] text-ash">Klepni na fotku, listuje se tažením nebo šipkami.</p>
+
+        {/* Překryv s velkými fotkami (ovládá public/halloween/gallery.js) */}
+        <div id="hw-lightbox" className="fixed inset-0 z-[55] hidden flex-col bg-black/95" role="dialog" aria-modal="true" aria-label="Fotky z Halloweenu 2025" aria-hidden="true">
+          <div className="flex items-center justify-between px-4 py-3 sm:px-6">
+            <span data-hw-count className="text-[14px] font-bold tracking-[0.2em] text-ash">
+              1 / {GALLERY.length}
+            </span>
+            <button type="button" data-hw-close aria-label="Zavřít" className="hw-surface grid size-11 place-items-center rounded-full text-bone transition hover:bg-white/10">
+              <Icon name="x" className="size-5" />
+            </button>
+          </div>
+          <div data-hw-strip className="no-scrollbar flex min-h-0 flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-hidden">
+            {GALLERY.map((n, i) => (
+              <div key={n} data-hw-slide className="relative h-full w-full shrink-0 snap-center">
+                <Image src={`/halloween/gallery/${n}.webp`} alt={`Halloween by GetUp 2025, fotka ${i + 1}`} fill sizes="100vw" className="pointer-events-none object-contain p-2 sm:p-6" />
+              </div>
+            ))}
+          </div>
+          <div className="hidden items-center justify-center gap-4 px-4 py-4 sm:flex">
+            <button type="button" data-hw-prev aria-label="Předchozí fotka" className="hw-surface grid size-12 place-items-center rounded-full text-bone transition hover:bg-white/10">
+              <Icon name="back" className="size-5" />
+            </button>
+            <button type="button" data-hw-next aria-label="Další fotka" className="hw-surface grid size-12 place-items-center rounded-full text-bone transition hover:bg-white/10">
+              <Icon name="chevron" className="size-5" />
+            </button>
+          </div>
         </div>
       </section>
 
@@ -464,6 +499,7 @@ export default function HalloweenPage() {
         <Image src={reaper} alt="" sizes="100vw" loading="eager" className="hw-scare-reaper relative w-[150vw] max-w-none opacity-0 sm:w-[80vh]" />
       </div>
       <Script src="/halloween/scare.js" strategy="afterInteractive" />
+      <Script src="/halloween/gallery.js" strategy="afterInteractive" />
 
       <TicketBar href={EVENT.ticketsUrl} label={`Koupit vstupenku · ${EVENT.dateLabel}`} watch="top" />
     </div>

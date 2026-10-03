@@ -170,6 +170,10 @@ syntetizuje přes Web Audio, smrtka vyjede přes celou obrazovku; export ji vkl�
 označuje `seraph-accel-crit="1"`, aby ho Seraphinite Accelerator na get-up.fun neodkládal až do první interakce
 (jinak by odpočet na mobilu naskočil až po scrollu).
 
+Galerie se po klepnutí otevře v překryvu s listováním (`public/halloween/gallery.js`, stejný princip jako lekačka).
+Vložený blok pro WordPress má skript zminifikovaný do jednoho řádku: soubor se kopíruje ručně a náhled ukazuje
+jen prvních ~100 řádků, takže delší soubor se jednou vložil uříznutý.
+
 Fotky z minulého ročníku (`public/halloween/gallery`) vybírá `scripts/halloween-photos/select.txt` ze složky na Drive
 (`files.tsv`); zpracovává je workflow `.github/workflows/halloween-photos.yml` při pushi do větve `tmp/halloween-photos`,
 protože z vývojového prostředí není Drive dostupný.

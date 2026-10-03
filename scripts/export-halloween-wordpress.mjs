@@ -11,6 +11,7 @@ import path from "node:path";
 import sharp from "sharp";
 
 const require = createRequire(import.meta.url);
+const terser = require("next/dist/compiled/terser");
 const postcss = require("postcss");
 
 const SITE = (process.env.SITE_URL || "https://together.get-up.fun").replace(/\/$/, "");
@@ -150,7 +151,7 @@ root.walkAtRules("layer", (at) => (at.nodes ? at.replaceWith(at.nodes) : at.remo
 root.walkAtRules("font-face", (at) => at.remove());
 
 // Jen pravidla pro třídy, které stránka opravdu používá (plus třídy přepínané skriptem).
-const used = new Set(["translate-y-0", "translate-y-full", "font-metal", "text-[28px]", "text-blood", "hw-glow", "is-on", "hidden"]);
+const used = new Set(["translate-y-0", "translate-y-full", "font-metal", "text-[28px]", "text-blood", "hw-glow", "is-on", "hidden", "hw-lock"]);
 for (const m of body.matchAll(/class="([^"]*)"/g)) for (const c of m[1].split(/\s+/)) if (c) used.add(c);
 const classesOf = (sel) => [...sel.matchAll(/\.((?:\\.|[A-Za-z0-9_-])+)/g)].map((m) => m[1].replace(/\\(.)/g, "$1"));
 root.walkRules((rule) => {
@@ -186,12 +187,15 @@ const extraCss = `
 #hw-page ul,#hw-page ol{list-style:none}
 #hw-page :where(div,span,p,a,li,ol,ul,h1,h2,nav,header,footer,section,svg){color:inherit;font-family:inherit;font-size:inherit;font-weight:inherit;line-height:inherit;letter-spacing:inherit;text-transform:inherit;text-shadow:inherit;background:none;border:0;box-shadow:none;border-radius:0}
 #hw-page :where(img){border:0;box-shadow:none;max-width:none;height:auto}
+html.hw-lock,body.hw-lock{overflow:hidden}
 `;
 
 
 // Lekačka: stejný skript, který v aplikaci načítá <Script src="/halloween/scare.js">
 const scareJs = readFileSync("public/halloween/scare.js", "utf8").replace(/^\/\/.*\n/gm, "");
-const behaviorAll = behavior + "\n" + scareJs;
+// Galerie s překryvem: public/halloween/gallery.js
+const galleryJs = readFileSync("public/halloween/gallery.js", "utf8").replace(/^\/\/.*\n/gm, "");
+const behaviorAll = behavior + "\n" + scareJs + "\n" + galleryJs;
 // Skript musí přežít cokoli, co s ním udělá cache plugin (Seraphinite Accelerator na get-up.fun): bez atributu
 // seraph-accel-crit="1" ho odloží až do první interakce (odpočet naskočil až po scrollu), s ním ho zase může přesunout
 // do hlavičky a spustit dřív, než existuje obsah bloku. Proto se blok hledá opakovaně, dokud se neobjeví.
@@ -208,7 +212,10 @@ const boot = `
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   window.addEventListener("load", boot);
 `;
-const script = `<script seraph-accel-crit="1">\n(function () {${boot}})();\n</script>`;
+// Minifikace: blok se vkládá kopírováním a náhled souboru ukazuje jen prvních ~100 řádků, takže celý soubor
+// musí mít řádků co nejméně (jednou se zkopíroval uříznutý a rozbitý skript nic nespustil).
+const minify = async (code) => (await terser.minify(code, { compress: { passes: 2 }, mangle: true, format: { comments: false } })).code;
+const script = `<script seraph-accel-crit="1">${await minify(`(function () {${boot}})();`)}</script>`;
 
 const out = `<!-- Halloween by GetUp – vygenerováno skriptem scripts/export-halloween-wordpress.mjs, neupravovat ručně -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -239,7 +246,7 @@ const embedJs = `// Halloween by GetUp – vloží stránku do <div id="hw-root"
     .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
     .then(function (html) { root.innerHTML = html; init(); })
     .catch(function (err) { console.error("Halloween embed:", err); });
-  function init() {${behaviorAll}  }
+  function init() {${await minify(`(function () {${behaviorAll}})();`)}}
 })();
 `;
 const EMBED_DIR = process.env.EMBED_DIR || "public/halloween";
