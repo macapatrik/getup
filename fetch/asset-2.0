@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />		<title>Stránka nebyla nalezena &#8211; GETUP</title>
+<meta name='robots' content='max-image-preview:large' />
+<link rel='dns-prefetch' href='//cdn.elementor.com' />
+<link rel='dns-prefetch' href='//stats.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="GETUP &raquo; RSS zdroj" href="https://www.get-up.fun/feed/" />
+<link rel="alternate" type="application/rss+xml" title="GETUP &raquo; RSS komentářů" href="https://www.get-up.fun/comments/feed/" />
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<link rel='stylesheet' id='font-awesome-css' href='https://www.get-up.fun/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=5.15.3' media='all' />
+<link rel='stylesheet' id='pxl-main-css-css' href='https://www.get-up.fun/wp-content/plugins/bravis-addons/assets/css/main.css?ver=1.0.0' media='all' />
+<link rel='stylesheet' id='fluentform-elementor-widget-css' href='https://www.get-up.fun/wp-content/plugins/fluentform/assets/css/fluent-forms-elementor-widget.css?ver=6.2.5' media='all' />
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='https://www.get-up.fun/wp-includes/css/dist/block-library/style.min.css?ver=7.1.2' media='all' />
+<style id="wp-block-library-theme-inline-css">
+.wp-block-audio :where(figcaption){color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-audio :where(figcaption){color:hsla(0,0%,100%,.65)}.wp-block-audio{margin:0 0 1em}.wp-block-code{border:1px solid #ccc;border-radius:4px;font-family:Menlo,Consolas,monaco,monospace;padding:.8em 1em}.wp-block-embed :where(figcaption){color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-embed :where(figcaption){color:hsla(0,0%,100%,.65)}.wp-block-embed{margin:0 0 1em}.blocks-gallery-caption{color:#555;font-size:13px;text-align:center}.is-dark-theme .blocks-gallery-caption{color:hsla(0,0%,100%,.65)}:root :where(.wp-block-image figcaption){color:#555;font-size:13px;text-align:center}.is-dark-theme :root :where(.wp-block-image figcaption){color:hsla(0,0%,100%,.65)}.wp-block-image{margin:0 0 1em}.wp-block-pullquote{border-bottom:4px solid;border-top:4px solid;color:currentColor;margin-bottom:1.75em}.wp-block-pullquote :where(cite),.wp-block-pullquote :where(footer),.wp-block-pullquote__citation{color:currentColor;font-size:.8125em;font-style:normal;text-transform:uppercase}.wp-block-quote{border-left:.25em solid;margin:0 0 1.75em;padding-left:1em}.wp-block-quote cite,.wp-block-quote footer{color:currentColor;font-size:.8125em;font-style:normal;position:relative}.wp-block-quote:where(.has-text-align-right){border-left:none;border-right:.25em solid;padding-left:0;padding-right:1em}.wp-block-quote:where(.has-text-align-center){border:none;padding-left:0}.wp-block-quote.is-large,.wp-block-quote.is-style-large,.wp-block-quote:where(.is-style-plain){border:none}.wp-block-search .wp-block-search__label{font-weight:700}.wp-block-search__button{border:1px solid #ccc;padding:.375em .625em}:where(.wp-block-group.has-background){padding:1.25em 2.375em}.wp-block-separator.has-css-opacity{opacity:.4}.wp-block-separator{border:none;border-bottom:2px solid;margin-left:auto;margin-right:auto}.wp-block-separator.has-alpha-channel-opacity{opacity:1}.wp-block-separator:not(.is-style-wide):not(.is-style-dots){width:100px}.wp-block-separator.has-background:not(.is-style-dots){border-bottom:none;height:1px}.wp-block-separator.has-background:not(.is-style-wide):not(.is-style-dots){height:2px}.wp-block-table{margin:0 0 1em}.wp-block-table td,.wp-block-table th{word-break:normal}.wp-block-table :where(figcaption){color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-table :where(figcaption){color:hsla(0,0%,100%,.65)}.wp-block-video :where(figcaption){color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-video :where(figcaption){color:hsla(0,0%,100%,.65)}.wp-block-video{margin:0 0 1em}:root :where(.wp-block-template-part.has-background){margin-bottom:0;margin-top:0;padding:1.25em 2.375em}
+/*# sourceURL=/wp-includes/css/dist/block-library/theme.min.css */
+</style>
+<style id="classic-theme-styles-inline-css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<link rel='stylesheet' id='jetpack-forms-layout-css' href='https://www.get-up.fun/wp-content/plugins/jetpack/jetpack_vendor/automattic/jetpack-forms/src/../dist/contact-form/css/jetpack-forms-layout.css?ver=15.9.2' media='all' />
+<link rel='stylesheet' id='wp-theme-css' href='https://www.get-up.fun/wp-includes/css/dist/theme/design-tokens.min.css?ver=7.1.2' media='all' />
+<link rel='stylesheet' id='wp-components-css' href='https://www.get-up.fun/wp-includes/css/dist/components/style.min.css?ver=7.1.2' media='all' />
+<link rel='stylesheet' id='wp-preferences-css' href='https://www.get-up.fun/wp-includes/css/dist/preferences/style.min.css?ver=7.1.2' media='all' />
+<link rel='stylesheet' id='wp-block-editor-css' href='https://www.get-up.fun/wp-includes/css/dist/block-editor/style.min.css?ver=7.1.2' media='all' />
+<link rel='stylesheet' id='popup-maker-block-library-style-css' href='https://www.get-up.fun/wp-content/plugins/popup-maker/dist/packages/block-library-style.css?ver=7424eb959f91acb8bbb2' media='all' />
+<link rel='stylesheet' id='mediaelement-css' href='https://www.get-up.fun/wp-includes/js/mediaelement/mediaelementplayer-legacy.min.css?ver=4.2.17' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css' href='https://www.get-up.fun/wp-includes/js/mediaelement/wp-mediaelement.min.css?ver=7.1.2' media='all' />
+<style id="jetpack-sharing-buttons-style-inline-css">
+.jetpack-sharing-buttons__services-list{display:flex;flex-direction:row;flex-wrap:wrap;gap:0;list-style-type:none;margin:5px;padding:0}.jetpack-sharing-buttons__services-list.has-small-icon-size{font-size:12px}.jetpack-sharing-buttons__services-list.has-normal-icon-size{font-size:16px}.jetpack-sharing-buttons__services-list.has-large-icon-size{font-size:24px}.jetpack-sharing-buttons__services-list.has-huge-icon-size{font-size:36px}@media print{.jetpack-sharing-buttons__services-list{display:none!important}}.editor-styles-wrapper .wp-block-jetpack-sharing-buttons{gap:0;padding-inline-start:0}ul.jetpack-sharing-buttons__services-list.has-background{padding:1.25em 2.375em}
+/*# sourceURL=https://www.get-up.fun/wp-content/plugins/jetpack/_inc/blocks/sharing-buttons/view.css */
+</style>
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}.wp-block-button{--wp--preset--dimension--25: 25%;--wp--preset--dimension--50: 50%;--wp--preset--dimension--75: 75%;--wp--preset--dimension--100: 100%;}:where(body) { margin: 0; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:root :where(.wp-block-icon svg){width: 24px;}
+:where(.wp-block-gallery.is-layout-flex){gap: var( --wp--style--gallery-gap-default, var( --gallery-block--gutter-size, var( --wp--style--block-gap, 0.5em ) ) );}:where(.wp-block-gallery.is-layout-grid){gap: var( --wp--style--gallery-gap-default, var( --gallery-block--gutter-size, var( --wp--style--block-gap, 0.5em ) ) );}
+:where(.wp-block-latest-posts.is-layout-flex){gap: 1.25em;}:where(.wp-block-latest-posts.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-term-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-term-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+<link rel='stylesheet' id='elementor-icons-css' href='https://www.get-up.fun/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css?ver=5.54.0' media='all' />
+<link rel='stylesheet' id='elementor-frontend-css' href='https://www.get-up.fun/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=4.3.3' media='all' />
+<link rel='stylesheet' id='elementor-post-14717-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-14717.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-10397-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-10397.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-10414-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-10414.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-10606-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-10606.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-12078-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-12078.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-12082-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-12082.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-12086-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-12086.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-12090-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-12090.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-12094-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-12094.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-12953-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-12953.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-13017-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-13017.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-13021-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-13021.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-13024-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-13024.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-6268-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-6268.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-6286-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-6286.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-7009-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-7009.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-7056-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-7056.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-7059-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-7059.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-10212-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-10212.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-10226-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-10226.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='ea11y-widget-fonts-css' href='https://www.get-up.fun/wp-content/plugins/pojo-accessibility/assets/build/fonts.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='ea11y-skip-link-css' href='https://www.get-up.fun/wp-content/plugins/pojo-accessibility/assets/build/skip-link.css?ver=4.1.4' media='all' />
+<link rel='stylesheet' id='magnific-popup-css' href='https://www.get-up.fun/wp-content/themes/dreamslab/assets/css/libs/magnific-popup.css?ver=1.1.0' media='all' />
+<link rel='stylesheet' id='wow-animate-css' href='https://www.get-up.fun/wp-content/themes/dreamslab/assets/css/libs/animate.min.css?ver=1.1.0' media='all' />
+<link rel='stylesheet' id='bootstrap-icons-css' href='https://www.get-up.fun/wp-content/themes/dreamslab/assets/fonts/bootstrap-icons/css/bootstrap-icons.css?ver=7.1.2' media='all' />
+<link rel='stylesheet' id='pxl-grid-css' href='https://www.get-up.fun/wp-content/themes/dreamslab/assets/css/grid.css?ver=7.1.2' media='all' />
+<link rel='stylesheet' id='pxl-style-css' href='https://www.get-up.fun/wp-content/themes/dreamslab/assets/css/style.css?ver=7.1.2' media='all' />
+<style id="pxl-style-inline-css">
+:root{--primary-color: #121c27;--secondary-color: #030303;--third-color: #c2c2c2;--four-color: #fff;--body_bg-color: #030303;--primary-color-rgb: 18,28,39;--secondary-color-rgb: 3,3,3;--third-color-rgb: 194,194,194;--four-color-rgb: 255,255,255;--body_bg-color-rgb: 3,3,3;--link-color: #fff;--link-color-hover: #fff;--link-color-active: #fff;}
+        @media screen and (min-width: 1201px) {
+                }
+        
+/*# sourceURL=pxl-style-inline-css */
+</style>
+<link rel='stylesheet' id='pxl-base-css' href='https://www.get-up.fun/wp-content/themes/dreamslab/style.css?ver=7.1.2' media='all' />
+<link rel='stylesheet' id='pxl-google-fonts-css' href='//fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&#038;display=swap&#038;family=Six+Caps&#038;display=swap&#038;subset=latin%2Clatin-ext' media='all' />
+<link rel='stylesheet' id='e-motion-fx-css' href='https://www.get-up.fun/wp-content/plugins/elementor-pro/assets/css/modules/motion-fx.min.css?ver=4.3.1' media='all' />
+<link rel='stylesheet' id='widget-icon-list-css' href='https://www.get-up.fun/wp-content/plugins/elementor/assets/css/widget-icon-list.min.css?ver=4.3.3' media='all' />
+<link rel='stylesheet' id='elementor-post-15207-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-15207.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-15211-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-15211.css?ver=1790946418' media='all' />
+<link rel='stylesheet' id='elementor-post-15188-css' href='https://www.get-up.fun/wp-content/uploads/elementor/css/post-15188.css?ver=1790946423' media='all' />
+<link rel='stylesheet' id='fluent-form-styles-css' href='https://www.get-up.fun/wp-content/plugins/fluentform/assets/css/fluent-forms-public.css?ver=6.2.5' media='all' />
+<link rel='stylesheet' id='fluentform-public-default-css' href='https://www.get-up.fun/wp-content/plugins/fluentform/assets/css/fluentform-public-default.css?ver=6.2.5' media='all' />
+<link rel='stylesheet' id='popup-maker-site-css' href='//www.get-up.fun/wp-content/uploads/pum/pum-site-styles.css?generated=1767828671&#038;ver=1.22.0' media='all' />
+<link rel='stylesheet' id='elementor-gf-roboto-css' href='https://fonts.googleapis.com/css?family=Roboto:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic&#038;display=swap&#038;subset=latin-ext' media='all' />
+<link rel='stylesheet' id='elementor-gf-robotoslab-css' href='https://fonts.googleapis.com/css?family=Roboto+Slab:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic&#038;display=swap&#038;subset=latin-ext' media='all' />
+<link rel='stylesheet' id='elementor-gf-dmsans-css' href='https://fonts.googleapis.com/css?family=DM+Sans:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic&#038;display=swap&#038;subset=latin-ext' media='all' />
+<script id="jquery-core-js" src="https://www.get-up.fun/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
+<script id="jquery-migrate-js" src="https://www.get-up.fun/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
+<script id="waypoints-js" src="https://www.get-up.fun/wp-content/plugins/bravis-addons/assets/js/libs/waypoints.min.js?ver=2.0.5"></script>
+<script id="pxl-jarallax-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/assets/js/libs/jarallax.min.js?ver=1.1.0"></script>
+<link rel="https://api.w.org/" href="https://www.get-up.fun/wp-json/" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.get-up.fun/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 7.1.2" />
+<meta name="generator" content="Redux 4.5.15" />	<style>img#wpstats{display:none}</style>
+		<link rel="icon" type="image/png" sizes="32x32" href="https://www.get-up.fun/wp-content/uploads/2026/04/cropped-Navrh-bez-nazvu-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="https://www.get-up.fun/wp-content/uploads/2026/04/cropped-Navrh-bez-nazvu-16x16.png"/><meta name="generator" content="Elementor 4.3.3; features: additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-swap">
+			<style>
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload),
+				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload) * {
+					background-image: none !important;
+				}
+				@media screen and (max-height: 1024px) {
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+				@media screen and (max-height: 640px) {
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload),
+					.e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload) * {
+						background-image: none !important;
+					}
+				}
+			</style>
+			<style id="custom-background-css">
+body.custom-background { background-color: #000000; }
+</style>
+<link rel="icon" href="https://www.get-up.fun/wp-content/uploads/2026/04/cropped-Navrh-bez-nazvu-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://www.get-up.fun/wp-content/uploads/2026/04/cropped-Navrh-bez-nazvu-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.get-up.fun/wp-content/uploads/2026/04/cropped-Navrh-bez-nazvu-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.get-up.fun/wp-content/uploads/2026/04/cropped-Navrh-bez-nazvu-270x270.png" />
+</head>
+<body class="error404 custom-background wp-custom-logo wp-embed-responsive wp-theme-dreamslab ally-default   pxl-redux-page  body-default-font   heading-default-font   woocommerce-layout-grid elementor-default elementor-template-full-width elementor-kit-14717 elementor-page-15188">
+		<script>
+			const onSkipLinkClick = () => {
+				const htmlElement = document.querySelector('html');
+
+				htmlElement.style['scroll-behavior'] = 'smooth';
+
+				setTimeout( () => htmlElement.style['scroll-behavior'] = null, 1000 );
+			}
+			document.addEventListener("DOMContentLoaded", () => {
+				if (!document.querySelector('#content')) {
+					document.querySelector('.ea11y-skip-to-content-link').remove();
+				}
+			});
+		</script>
+		<nav aria-label="Skip to content navigation">
+			<a class="ea11y-skip-to-content-link"
+				href="#content"
+				tabindex="-1"
+				onclick="onSkipLinkClick()"
+			>
+				Skip to content
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" role="presentation">
+					<path d="M18 6V12C18 12.7956 17.6839 13.5587 17.1213 14.1213C16.5587 14.6839 15.7956 15 15 15H5M5 15L9 11M5 15L9 19"
+								stroke="black"
+								stroke-width="1.5"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+					/>
+				</svg>
+			</a>
+			<div class="ea11y-skip-to-content-backdrop"></div>
+		</nav>
+
+				<header data-elementor-type="header" data-elementor-id="15207" class="elementor elementor-15207 elementor-location-header" data-elementor-post-type="elementor_library">
+			<div class="elementor-element elementor-element-fa4230e e-flex e-con-boxed pxl-row-scroll-none pxl-column-none pxl-full-content-with-space-none e-con e-parent " data-id="fa4230e" data-element_type="container" data-e-type="container">			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-37bfb1e elementor-widget elementor-widget-html" data-id="37bfb1e" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
+					<style>
+/* =========================================
+   GET UP HEADER — LIQUID GLASS
+   ========================================= */
+:root {
+    --getup-orange: #FF6A15;
+    --getup-orange-light: #FF853D;
+}
+
+.header-glass {
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99999;
+    max-width: 1100px;
+    width: 90%;
+    padding: 24px 40px;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    border-radius: 44px;
+    overflow: hidden;
+    isolation: isolate;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    /* Fallback pozadí (kdyby filtr nejel) */
+    background: rgba(18, 18, 24, 0.35);
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.4),
+        0 10px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* VRSTVA 1 — tekuté sklo (lom pozadí přes SVG filtr) */
+.header-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    border-radius: inherit;
+    backdrop-filter: blur(2px) saturate(160%);
+    -webkit-backdrop-filter: blur(2px) saturate(160%);
+    filter: url(#liquid-distortion);
+    -webkit-filter: url(#liquid-distortion);
+}
+
+/* VRSTVA 2 — barevný tón + hloubka skla */
+.header-glass::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.02) 40%, rgba(18,18,24,0.25) 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), inset 1px 0 0 rgba(255,255,255,0.12);
+}
+
+/* 3D skleněné okraje */
+.header-glass {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Pohyblivý lesk (specular highlight) */
+.header-glass .glass-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.18) 48%, rgba(255,255,255,0.05) 52%, transparent 70%);
+    transform: translateX(-60%);
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    pointer-events: none;
+}
+.header-glass:hover .glass-shine {
+    transform: translateX(-15%);
+}
+
+/* Scroll efekt */
+.header-glass.scrolled {
+    top: 14px;
+    padding: 16px 40px;
+    border-radius: 38px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.header-glass.scrolled .header-logo img {
+    height: 44px;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Logo */
+.header-logo img {
+    height: 56px;
+    width: auto;
+    display: block;
+    transition: transform 0.3s ease, height 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.header-logo:hover img { transform: scale(1.05); }
+
+/* =========================================
+   DESKTOP NAVIGACE
+   ========================================= */
+.header-nav-desktop { display: flex; gap: 35px; }
+.header-nav-desktop a {
+    color: #f1f1f1;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+.header-nav-desktop a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0%; height: 2px;
+    background: var(--getup-orange);
+    border-radius: 2px;
+    box-shadow: 0 0 10px var(--getup-orange);
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.header-nav-desktop a:hover { color: #ffffff; }
+.header-nav-desktop a:hover::after { width: 100%; }
+
+/* =========================================
+   CTA TLAČÍTKO
+   ========================================= */
+.btn-cta {
+    padding: 11px 26px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, var(--getup-orange-light) 0%, var(--getup-orange) 100%);
+    border: 1px solid var(--getup-orange-light);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    box-shadow: 0 6px 20px rgba(255, 106, 21, 0.35);
+    display: inline-block;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.btn-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(255, 106, 21, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* =========================================
+   MOBILNÍ PRVKY & MENU
+   ========================================= */
+.mobile-menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 100000;
+    transition: transform 0.3s ease;
+}
+.mobile-menu-toggle:active { transform: scale(0.9); }
+.mobile-menu-toggle svg { pointer-events: none; }
+
+.mobile-menu-dropdown {
+    display: none;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+.mobile-menu-dropdown.force-open {
+    display: block !important;
+    animation: slideDownFade 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+.mobile-menu-dropdown a {
+    display: block;
+    padding: 16px 0;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+}
+.mobile-menu-dropdown a:active { background: rgba(255,255,255,0.05); color: var(--getup-orange); }
+.mobile-cta-wrap { margin-top: 25px; margin-bottom: 10px; }
+
+/* =========================================
+   RESPONZIVITA
+   ========================================= */
+@media (max-width: 1024px) {
+    .header-nav-desktop, .header-cta-desktop { display: none !important; }
+    .mobile-menu-toggle { display: block; }
+    .header-glass { padding: 14px 25px; border-radius: 30px; width: 94%; top: 15px; }
+    .header-logo img { height: 40px; }
+    .header-glass.scrolled .header-logo img { height: 34px; }
+    .header-glass.menu-open {
+        background: rgba(15, 15, 20, 0.85) !important;
+        border-radius: 28px;
+    }
+    /* Na mobilu vypneme drahý lom kvůli plynulosti */
+    .header-glass::before { filter: none; -webkit-filter: none; backdrop-filter: blur(20px) saturate(140%); -webkit-backdrop-filter: blur(20px) saturate(140%); }
+}
+
+@keyframes slideDownFade {
+    0% { opacity: 0; transform: translateY(-15px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<!-- SVG filtr pro lom světla (Liquid Glass) -->
+<svg width="0" height="0" style="position:absolute">
+    <filter id="liquid-distortion" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="4" result="noise"/>
+        <feGaussianBlur in="noise" stdDeviation="2" result="blurred"/>
+        <feDisplacementMap in="SourceGraphic" in2="blurred" scale="40" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+</svg>
+
+<header class="header-glass" id="main-header">
+    <span class="glass-shine"></span>
+    <div class="header-inner">
+
+        <div class="header-logo">
+            <a href="https://www.get-up.fun">
+                <img src="https://www.get-up.fun/wp-content/uploads/2025/12/Bile-1-e1765232781649.png" alt="Get Up Logo">
+            </a>
+        </div>
+
+        <nav class="header-nav-desktop">
+            <a href="/domov">Domů</a>
+            <a href="#o-nas">O nás</a>
+            <a href="#faq">FAQ</a>
+            <a href="/kontakt">Kontakt</a>
+        </nav>
+
+        <div class="header-cta-desktop">
+            <a href="#" class="btn-cta popmake-15097">SLEVA</a>
+        </div>
+
+        <button class="mobile-menu-toggle" onclick="superToggleMenu()" type="button" aria-label="Menu">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+
+    <div class="mobile-menu-dropdown" id="my-mobile-menu">
+        <a href="/domov" onclick="superToggleMenu()">Domů</a>
+        <a href="#o-nas" onclick="superToggleMenu()">O nás</a>
+        <a href="#faq" onclick="superToggleMenu()">FAQ</a>
+        <a href="/kontakt" onclick="superToggleMenu()">Kontakt</a>
+        <div class="mobile-cta-wrap">
+            <a href="#" class="btn-cta mobile-btn popmake-15097" onclick="superToggleMenu()">SLEVA</a>
+        </div>
+    </div>
+</header>
+
+<script>
+    window.superToggleMenu = function() {
+        const menu = document.getElementById('my-mobile-menu');
+        const header = document.getElementById('main-header');
+        if (menu.style.display === 'block') {
+            menu.style.display = 'none';
+            menu.classList.remove('force-open');
+            header.classList.remove('menu-open');
+        } else {
+            menu.style.display = 'block';
+            menu.classList.add('force-open');
+            header.classList.add('menu-open');
+        }
+    };
+
+    window.addEventListener('scroll', function() {
+        const header = document.getElementById('main-header');
+        if (window.scrollY > 50) { header.classList.add('scrolled'); }
+        else { header.classList.remove('scrolled'); }
+    });
+</script>				</div>
+					</div>
+				</div>
+				</header>
+				<div data-elementor-type="error-404" data-elementor-id="15188" class="elementor elementor-15188 elementor-location-single" data-elementor-post-type="elementor_library">
+			<div class="elementor-element elementor-element-21695418 e-con-full e-flex pxl-row-scroll-none pxl-column-none pxl-full-content-with-space-none e-con e-parent " data-id="21695418" data-element_type="container" data-e-type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">		<div class="elementor-element elementor-element-2e090238 elementor-icon-list--layout-inline elementor-align-center e-transform e-transform elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id="2e090238" data-element_type="widget" data-e-type="widget" data-settings="{&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;_transform_translateX_effect&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:-476,&quot;sizes&quot;:[]},&quot;_transform_translateX_effect_hover&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:256,&quot;sizes&quot;:[]},&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;_transform_translateX_effect_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateX_effect_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateX_effect_hover_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateX_effect_hover_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_hover&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_hover_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;_transform_translateY_effect_hover_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="icon-list.default">
+							<ul class="elementor-icon-list-items elementor-inline-items">
+							<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+								<li class="elementor-icon-list-item elementor-inline-item">
+										<span class="elementor-icon-list-text">Error - 404 -</span>
+									</li>
+						</ul>
+						</div>
+				</div>
+		<div class="elementor-element elementor-element-71e191e e-flex e-con-boxed pxl-row-scroll-none pxl-column-none pxl-full-content-with-space-none e-con e-parent " data-id="71e191e" data-element_type="container" data-e-type="container">			<div class="e-con-inner">
+				<div class="elementor-element elementor-element-945b189 elementor-widget elementor-widget-html" data-id="945b189" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
+					<div class="error-container-glass">
+    <div class="bg-404">404</div>
+    
+    <h1>sorry, ale tato stránka není k dispozici:(</h1>
+    
+    <a href="https://www.get-up.fun" class="btn-glass-home">
+        VRÁTIT SE DOMŮ
+    </a>
+</div>				</div>
+					</div>
+				</div>
+				</div>
+				<footer data-elementor-type="footer" data-elementor-id="15211" class="elementor elementor-15211 elementor-location-footer" data-elementor-post-type="elementor_library">
+			<div class="elementor-element elementor-element-4658ea7 e-con-full e-flex pxl-row-scroll-none pxl-column-none pxl-full-content-with-space-none e-con e-parent " data-id="4658ea7" data-element_type="container" data-e-type="container">		<div class="elementor-element elementor-element-78dc8a9 elementor-widget__width-inherit elementor-widget elementor-widget-html" data-id="78dc8a9" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
+					<style>
+/* =========================================
+   GET UP FOOTER — LIQUID GLASS (sladěný s headerem)
+   ========================================= */
+.footer-glass {
+    position: relative;
+    margin: 60px auto 20px auto;
+    max-width: 1300px;
+    width: 92%;
+    padding: 40px 50px;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    border-radius: 40px;
+    overflow: hidden;
+    isolation: isolate;
+    color: #ffffff;
+
+    /* Fallback pozadí */
+    background: rgba(18, 18, 24, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* Tekuté sklo — lom pozadí */
+.footer-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    border-radius: inherit;
+    backdrop-filter: blur(3px) saturate(150%);
+    -webkit-backdrop-filter: blur(3px) saturate(150%);
+    filter: url(#liquid-distortion-footer);
+    -webkit-filter: url(#liquid-distortion-footer);
+}
+
+/* Barevný tón + jemný oranžový nádech značky */
+.footer-glass::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(110deg,
+        rgba(10,10,14,0.6) 0%,
+        rgba(255,106,21,0.10) 50%,
+        rgba(10,10,14,0.6) 100%);
+}
+
+/* Rozložení */
+.footer-row.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+.f-col { flex: 1; }
+.f-col.brand img { max-width: 120px; }
+.f-col.contact { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+.f-col.nav { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+
+.f-col a, .f-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+.f-col a:hover, .f-link:hover { color: #FF6A15; }
+
+/* Social ikony */
+.f-socials { margin-top: 15px; display: flex; gap: 15px; }
+.f-socials a { display: flex; align-items: center; justify-content: center; }
+.f-socials svg {
+    width: 22px; height: 22px;
+    stroke: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+}
+.f-socials a:hover svg { stroke: #FF6A15; transform: scale(1.15); }
+
+/* Spodní řádek */
+.footer-row.bottom {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    position: relative;
+    z-index: 1;
+}
+.footer-row.bottom a { color: rgba(255, 255, 255, 0.4); text-decoration: none; transition: color 0.3s; }
+.footer-row.bottom a:hover { color: #FF6A15; }
+.footer-row.bottom strong { color: #fff; }
+
+/* Responzivita */
+@media (max-width: 900px) {
+    .footer-glass { padding: 30px 20px; width: 95%; border-radius: 25px; }
+    .footer-glass::before { filter: none; -webkit-filter: none; backdrop-filter: blur(22px) saturate(140%); -webkit-backdrop-filter: blur(22px) saturate(140%); }
+    .footer-row.top { flex-direction: column; align-items: center; text-align: center; gap: 30px; }
+    .f-col.contact { align-items: center; text-align: center; }
+    .footer-row.bottom { flex-direction: column; align-items: center; gap: 10px; }
+}
+</style>
+
+<!-- SVG filtr pro footer (vlastní ID, ať se nepere s headerem) -->
+<svg width="0" height="0" style="position:absolute">
+    <filter id="liquid-distortion-footer" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7" result="noise"/>
+        <feGaussianBlur in="noise" stdDeviation="2" result="blurred"/>
+        <feDisplacementMap in="SourceGraphic" in2="blurred" scale="35" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+</svg>
+
+<footer class="footer-glass">
+    <div class="footer-row top">
+        <div class="f-col brand">
+            <img src="https://www.get-up.fun/wp-content/uploads/2025/12/Bile-1-e1765232781649.png" alt="Logo">
+        </div>
+        <div class="f-col nav">
+            <a href="/kontakt">Kontakt</a>
+            <a href="#faq">FAQ</a>
+            <a href="/galerie">Galerie</a>
+            <a href="/podminky">Podmínky</a>
+        </div>
+        <div class="f-col contact">
+            <a href="tel:+420736433633" class="f-link">+420 736 433 633</a>
+            <a href="mailto:info@get-up.fun" class="f-link">info@get-up.fun</a>
+
+            <div class="f-socials">
+                <a href="https://instagram.com/getup.fun" target="_blank" rel="noopener" aria-label="Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="https://www.facebook.com/61578927578481" target="_blank" rel="noopener" aria-label="Facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
+                <a href="https://www.tiktok.com/@getup.fun" target="_blank" rel="noopener" aria-label="TikTok">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17.5a3.5 3.5 0 1 1-3.5-3.5c.4 0 .79.07 1.15.2V9.5"></path><path d="M9 9.5V3h3a5 5 0 0 0 5 5"></path></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-row bottom">
+        <span>© 2026 GETUP. Všechna práva vyhrazena.</span>
+        <a href="https://growe.cz" target="_blank" rel="noopener">Created by <strong>GROWE</strong></a>
+    </div>
+</footer>				</div>
+				</div>
+				</footer>
+		
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/dreamslab/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<div 
+	id="pum-15097" 
+	role="dialog" 
+	aria-modal="false"
+	aria-labelledby="pum_popup_title_15097"
+	class="pum pum-overlay pum-theme-15090 pum-theme-enterprise-blue popmake-overlay pum-click-to-close click_open" 
+	data-popmake="{&quot;id&quot;:15097,&quot;slug&quot;:&quot;sleva&quot;,&quot;theme_id&quot;:15090,&quot;cookies&quot;:[],&quot;triggers&quot;:[{&quot;type&quot;:&quot;click_open&quot;,&quot;settings&quot;:{&quot;cookie_name&quot;:&quot;&quot;,&quot;extra_selectors&quot;:&quot;&quot;}}],&quot;mobile_disabled&quot;:null,&quot;tablet_disabled&quot;:null,&quot;meta&quot;:{&quot;display&quot;:{&quot;stackable&quot;:false,&quot;overlay_disabled&quot;:false,&quot;scrollable_content&quot;:false,&quot;disable_reposition&quot;:false,&quot;size&quot;:&quot;medium&quot;,&quot;responsive_min_width&quot;:&quot;0%&quot;,&quot;responsive_min_width_unit&quot;:false,&quot;responsive_max_width&quot;:&quot;100%&quot;,&quot;responsive_max_width_unit&quot;:false,&quot;custom_width&quot;:&quot;640px&quot;,&quot;custom_width_unit&quot;:false,&quot;custom_height&quot;:&quot;380px&quot;,&quot;custom_height_unit&quot;:false,&quot;custom_height_auto&quot;:false,&quot;location&quot;:&quot;center&quot;,&quot;position_from_trigger&quot;:false,&quot;position_top&quot;:&quot;100&quot;,&quot;position_left&quot;:&quot;0&quot;,&quot;position_bottom&quot;:&quot;0&quot;,&quot;position_right&quot;:&quot;0&quot;,&quot;position_fixed&quot;:false,&quot;animation_type&quot;:&quot;fade&quot;,&quot;animation_speed&quot;:&quot;350&quot;,&quot;animation_origin&quot;:&quot;center top&quot;,&quot;overlay_zindex&quot;:false,&quot;zindex&quot;:&quot;1999999999&quot;},&quot;close&quot;:{&quot;text&quot;:&quot;x&quot;,&quot;button_delay&quot;:&quot;0&quot;,&quot;overlay_click&quot;:&quot;1&quot;,&quot;esc_press&quot;:&quot;1&quot;,&quot;f4_press&quot;:&quot;1&quot;},&quot;click_open&quot;:[]}}">
+
+	<div id="popmake-15097" class="pum-container popmake theme-15090 pum-responsive pum-responsive-medium responsive size-medium">
+
+				
+							<div id="pum_popup_title_15097" class="pum-title popmake-title">
+				CHYŤ SI SVOU SLEVU			</div>
+		
+		
+				<div class="pum-content popmake-content" tabindex="0">
+			<div style="text-align: center; width: 100%;">
+<p style="margin-bottom: 20px; font-size: 1.1em; font-weight: 500;">Stačí vyplnit a my se ti ozveme.</p>
+<div class='fluentform ff-default fluentform_wrapper_1 ffs_default_wrap'><form data-form_id="1" id="fluentform_1" class="frm-fluent-form fluent_form_1 ff-el-form-top ff_form_instance_1_1 ff-form-loading ffs_default" data-form_instance="ff_form_instance_1_1" method="POST" ><fieldset  style="border: none!important;margin: 0!important;padding: 0!important;background-color: transparent!important;box-shadow: none!important;outline: none!important; min-inline-size: 100%;">
+                    <legend class="ff_screen_reader_title" style="display: block; margin: 0!important;padding: 0!important;height: 0!important;text-indent: -999999px;width: 0!important;overflow:hidden;">SLEVA FORM</legend><input type='hidden' name='__fluent_form_embded_post_id' value='' /><input type="hidden" id="_fluentform_1_fluentformnonce" name="_fluentform_1_fluentformnonce" value="9057ad2fec" /><input type="hidden" name="_wp_http_referer" value="/www.get-up.fun/wp-content/uploads/pum/pum-site-scripts.js?defer&#038;generated=1767828671&#038;ver=1.22.0" /><div data-type="name-element" data-name="names" class=" ff-field_container ff-name-field-wrapper" ><div class='ff-t-container'><div class='ff-t-cell '><div class='ff-el-group'><div class="ff-el-input--label asterisk-right"><label for='ff_1_names_first_name_' id='label_ff_1_names_first_name_' >Tvé Jméno</label></div><div class='ff-el-input--content'><input type="text" name="names[first_name]" id="ff_1_names_first_name_" class="ff-el-form-control" placeholder="Jméno" aria-invalid="false" aria-required=false></div></div></div><div class='ff-t-cell '><div class='ff-el-group'><div class="ff-el-input--label asterisk-right"><label for='ff_1_names_last_name_' id='label_ff_1_names_last_name_' >Tvé Příjmení</label></div><div class='ff-el-input--content'><input type="text" name="names[last_name]" id="ff_1_names_last_name_" class="ff-el-form-control" placeholder="Příjmení" aria-invalid="false" aria-required=false></div></div></div></div></div><div class='ff-el-group'><div class="ff-el-input--label ff-el-is-required asterisk-right"><label for='ff_1_email' id='label_ff_1_email' aria-label="Email">Email</label></div><div class='ff-el-input--content'><input type="email" name="email" id="ff_1_email" class="ff-el-form-control" placeholder="Tvůj Email" data-name="email"  aria-invalid="false" aria-required=true></div></div><div class='ff-el-group'><div class="ff-el-input--label ff-el-is-required asterisk-right"><label for='ff_1_subject_1' id='label_ff_1_subject_1' aria-label="Instagram">Instagram</label></div><div class='ff-el-input--content'><input type="text" name="subject_1" class="ff-el-form-control" placeholder="Tvů Instagram" data-name="subject_1" id="ff_1_subject_1"  aria-invalid="false" aria-required=true></div></div><div class='ff-el-group ff-text-left ff_submit_btn_wrapper'><button type="submit" class="ff-btn ff-btn-submit ff-btn-md ff_btn_style wpf_has_custom_css"  aria-label="ODESLAT">ODESLAT</button></div></fieldset></form><div id='fluentform_1_errors' class='ff-errors-in-stack ff_form_instance_1_1 ff-form-loading_errors ff_form_instance_1_1_errors'></div></div>            <script type="text/javascript">
+                window.fluent_form_ff_form_instance_1_1 = {"id":"1","ajaxUrl":"https:\/\/www.get-up.fun\/wp-admin\/admin-ajax.php","settings":{"layout":{"labelPlacement":"top","helpMessagePlacement":"with_label","errorMessagePlacement":"inline","cssClassName":"","asteriskPlacement":"asterisk-right"},"restrictions":{"denyEmptySubmission":{"enabled":false}}},"form_instance":"ff_form_instance_1_1","form_id_selector":"fluentform_1","rules":{"names[first_name]":{"required":{"value":false,"message":"This field is required","global":false,"global_message":"This field is required"}},"names[middle_name]":{"required":{"value":false,"message":"This field is required","global":false,"global_message":"This field is required"}},"names[last_name]":{"required":{"value":false,"message":"This field is required","global":false,"global_message":"This field is required"}},"email":{"required":{"value":true,"message":"Tohle pole je povinn\u00e9.","global":false,"global_message":"This field is required"},"email":{"value":true,"message":"Vypl\u0148 platn\u00fd email pros\u00edm. ","global":false,"global_message":"This field must contain a valid email"}},"subject_1":{"required":{"value":true,"message":"Tohle je povinn\u00e9. ","global":false,"global_message":"This field is required"}}},"debounce_time":300,"file_upload_settings":[]};
+                            </script>
+            
+</div>
+		</div>
+
+				
+							<button type="button" class="pum-close popmake-close" aria-label="Close">
+			x			</button>
+		
+	</div>
+
+</div>
+			<script>
+				const registerAllyAction = () => {
+					if ( ! window?.ElementorProFrontendConfig || ! window?.elementorFrontend?.utils?.urlActions ) {
+						return;
+					}
+
+					elementorFrontend.utils.urlActions.addAction( 'allyWidget:open', () => {
+						if (window?.ea11yWidget?.widget?.open) {
+							return window.ea11yWidget.widget.isOpen()
+								? window.ea11yWidget.widget.close()
+								: window.ea11yWidget.widget.open();
+						}
+					} );
+				};
+
+				const waitingLimit = 30;
+				let retryCounter = 0;
+
+				const waitForElementorPro = () => {
+					return new Promise( ( resolve ) => {
+						const intervalId = setInterval( () => {
+							if ( retryCounter === waitingLimit ) {
+								resolve( null );
+							}
+
+							retryCounter++;
+
+							if ( window.elementorFrontend && window?.elementorFrontend?.utils?.urlActions ) {
+								clearInterval( intervalId );
+								resolve( window.elementorFrontend );
+							}
+								}, 100 ); // Check every 100 milliseconds for availability of elementorFrontend
+					});
+				};
+
+				waitForElementorPro().then( () => { registerAllyAction(); });
+			</script>
+			    <script type="text/javascript">
+        jQuery( function($) {
+            if ( typeof wc_add_to_cart_params === 'undefined' ) {
+                return false;
+            }
+
+            $(document.body).on( 'added_to_cart', function( event, fragments, cart_hash, $button ) {
+                var $pid = $button.data('product_id');
+
+                $.ajax({
+                    type: 'POST',
+                    url: wc_add_to_cart_params.ajax_url,
+                    data: {
+                        'action': 'item_added',
+                        'id'    : $pid
+                    },
+                    success: function (response) {
+                        $('#pxl-cart-sidebar').addClass('active');
+                        $("body").addClass('body-overflow');
+
+                        if (fragments && fragments['span.pxl_cart_counter']) {
+                            $('.pxl_cart_counter').html($(fragments['span.pxl_cart_counter']).html());
+                        }
+
+                        $("#pxl-cart-sidebar .pxl-item--close").on('click', function () {
+                            $('body').removeClass('body-overflow');
+                            $('#pxl-cart-sidebar').removeClass('active');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    			<script>
+				( () => {
+					const lazyloadRunObserver = () => {
+						const lazyloadBackgrounds = document.querySelectorAll( `.e-con.e-parent:not(.e-lazyloaded)` );
+						const lazyloadBackgroundObserver = new IntersectionObserver( ( entries ) => {
+							entries.forEach( ( entry ) => {
+								if ( entry.isIntersecting ) {
+									let lazyloadBackground = entry.target;
+									if( lazyloadBackground ) {
+										lazyloadBackground.classList.add( 'e-lazyloaded' );
+									}
+									lazyloadBackgroundObserver.unobserve( entry.target );
+								}
+							});
+						}, { rootMargin: '200px 0px 200px 0px' } );
+						lazyloadBackgrounds.forEach( ( lazyloadBackground ) => {
+							lazyloadBackgroundObserver.observe( lazyloadBackground );
+						} );
+					};
+					const events = [
+						'DOMContentLoaded',
+						'elementor/lazyload/observe',
+					];
+					events.forEach( ( event ) => {
+						document.addEventListener( event, lazyloadRunObserver );
+					} );
+				} )();
+			</script>
+			<style>form.fluent_form_1 .wpf_has_custom_css.ff-btn-submit { background-color:rgba(200, 55, 5, 1);border-color:rgba(200, 55, 5, 1);color:rgba(0, 0, 0, 1); }form.fluent_form_1 .wpf_has_custom_css.ff-btn-submit:hover { background-color:rgba(0, 0, 0, 1);border-color:rgba(200, 55, 5, 1);color:rgba(200, 55, 5, 1); } </style><script id="pxl-core-main-js" src="https://www.get-up.fun/wp-content/plugins/bravis-addons/assets/js/main.js?ver=1.0.0"></script>
+<script id="fluentform-elementor-js-extra">
+var fluentformElementor = {"adminUrl":"https://www.get-up.fun/wp-admin/admin.php"};
+//# sourceURL=fluentform-elementor-js-extra
+</script>
+<script id="fluentform-elementor-js" src="https://www.get-up.fun/wp-content/plugins/fluentform/assets/js/fluent-forms-elementor-widget.js?ver=6.2.5"></script>
+<script id="dreamslab-imagesloaded-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/assets/js/libs/imagesloaded.js?ver=1.0.0"></script>
+<script id="dreamslab-distortion-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/assets/js/libs/distortion.js?ver=1.0.0"></script>
+<script id="Snap.svg-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/elements/widgets/js/Snap.svg.js?ver=0.4.1"></script>
+<script id="ea11y-widget-js-extra">
+var ea11yWidget = {"iconSettings":{"style":{"icon":"person","size":"medium","color":"#2563eb"},"position":{"desktop":{"hidden":false,"enableExactPosition":false,"exactPosition":{"horizontal":{"direction":"right","value":10,"unit":"px"},"vertical":{"direction":"bottom","value":10,"unit":"px"}},"position":"bottom-right"},"mobile":{"hidden":false,"enableExactPosition":false,"exactPosition":{"horizontal":{"direction":"right","value":10,"unit":"px"},"vertical":{"direction":"bottom","value":10,"unit":"px"}},"position":"bottom-right"}}},"toolsSettings":{"bigger-text":{"enabled":true},"bigger-line-height":{"enabled":true},"text-align":{"enabled":true},"readable-font":{"enabled":true},"grayscale":{"enabled":true},"contrast":{"enabled":true},"page-structure":{"enabled":true},"sitemap":{"enabled":false,"url":"https://www.get-up.fun/wp-sitemap.xml"},"reading-mask":{"enabled":true},"hide-images":{"enabled":true},"pause-animations":{"enabled":true},"highlight-links":{"enabled":true},"focus-outline":{"enabled":true},"screen-reader":{"enabled":false},"remove-elementor-label":{"enabled":false}},"accessibilityStatementURL":"","analytics":{"enabled":false,"url":null}};
+//# sourceURL=ea11y-widget-js-extra
+</script>
+<script id="ea11y-widget-js" src="https://cdn.elementor.com/a11y/widget.js?api_key=ea11y-a6539516-72ab-4f5b-8eb5-11344c7ad8c6&#038;ver=4.1.4"referrerPolicy="origin"></script>
+<script id="ea11y-remediation-module-chunk-lib-postcss-js" src="https://www.get-up.fun/wp-content/plugins/pojo-accessibility/assets/build/lib-postcss.js?ver=dd3d6ae95e727956a431"></script>
+<script id="wp-hooks-js" src="https://www.get-up.fun/wp-includes/js/dist/hooks.min.js?ver=f0f188028580e8dc1255"></script>
+<script id="wp-i18n-js" src="https://www.get-up.fun/wp-includes/js/dist/i18n.min.js?ver=1dfe7db3940c23ea9216"></script>
+<script id="wp-i18n-js-after">
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+//# sourceURL=wp-i18n-js-after
+</script>
+<script id="remediation-module-js" src="https://www.get-up.fun/wp-content/plugins/pojo-accessibility/assets/build/remediation-module.js?ver=dd3d6ae95e727956a431"></script>
+<script id="magnific-popup-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/assets/js/libs/magnific-popup.min.js?ver=1.1.0"></script>
+<script id="wow-animate-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/assets/js/libs/wow.min.js?ver=1.0.0"></script>
+<script id="nice-select-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/assets/js/libs/nice-select.min.js?ver=all"></script>
+<script id="modernizr-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/assets/js/libs/modernizr.min.js?ver=all"></script>
+<script id="pxl-parallax-background-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/assets/js/libs/parallax-background.js?ver=7.1.2"></script>
+<script id="pxl-parallax-scroll-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/assets/js/libs/parallax-scroll.js?ver=7.1.2"></script>
+<script id="three-lib-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/assets/js/libs/three.min.js?ver=1.0.0"></script>
+<script id="pxl-woocommerce-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/woocommerce/js/woocommerce.js?ver=7.1.2"></script>
+<script id="dreamslab-elementor-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/elements/widgets/js/elementor.js?ver=7.1.2"></script>
+<script id="pxl-main-js-extra">
+var main_data = {"ajax_url":"https://www.get-up.fun/wp-admin/admin-ajax.php"};
+//# sourceURL=pxl-main-js-extra
+</script>
+<script id="pxl-main-js" src="https://www.get-up.fun/wp-content/themes/dreamslab/assets/js/theme.js?ver=7.1.2"></script>
+<script id="elementor-webpack-runtime-js" src="https://www.get-up.fun/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=4.3.3"></script>
+<script id="elementor-frontend-modules-js" src="https://www.get-up.fun/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=4.3.3"></script>
+<script id="jquery-ui-core-js-before">
+jQuery.uiBackCompat = true;
+//# sourceURL=jquery-ui-core-js-before
+</script>
+<script id="jquery-ui-core-js" src="https://www.get-up.fun/wp-includes/js/jquery/ui/core.min.js?ver=1.14.2"></script>
+<script id="elementor-frontend-js-before">
+var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"Sd\u00edlet na Facebooku","shareOnX":"Share on X","pinIt":"P\u0159ipnout na Pintereset","download":"St\u00e1hnout","downloadImage":"St\u00e1hnout obr\u00e1zek","fullscreen":"Cel\u00e1 obrazovka","zoom":"P\u0159ibl\u00ed\u017een\u00ed","share":"Sd\u00edlet","playVideo":"P\u0159ehr\u00e1t video","previous":"P\u0159edchoz\u00ed","next":"Dal\u0161\u00ed","close":"Zav\u0159\u00edt","a11yCarouselPrevSlideMessage":"P\u0159edchoz\u00ed sn\u00edmek","a11yCarouselNextSlideMessage":"Dal\u0161\u00ed sn\u00edmek","a11yCarouselFirstSlideMessage":"Toto je prvn\u00ed sn\u00edmek","a11yCarouselLastSlideMessage":"Toto je posledn\u00ed sn\u00edmek","a11yCarouselPaginationBulletMessage":"P\u0159ej\u00edt na sn\u00edmek"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":768,"lg":1025,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"Mobil na v\u00fd\u0161ku","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"Mobil na \u0161\u00ed\u0159ku","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"Tablet na v\u00fd\u0161ku","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"Tablet na \u0161\u00ed\u0159ku","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"Notebook","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"\u0160iroko\u00fahl\u00fd","value":2400,"default_value":2400,"direction":"min","is_enabled":false}},"hasCustomBreakpoints":false},"version":"4.3.3","is_static":false,"experimentalFeatures":{"additional_custom_breakpoints":true,"container":true,"e_optimized_markup":true,"theme_builder_v2":true,"nested-elements":true,"import-export-customization":true,"e_pro_atomic_form":true,"e_pro_collection_loop":true,"mega-menu":true},"urls":{"assets":"https:\/\/www.get-up.fun\/wp-content\/plugins\/elementor\/assets\/","ajaxurl":"https:\/\/www.get-up.fun\/wp-admin\/admin-ajax.php","uploadUrl":"https:\/\/www.get-up.fun\/wp-content\/uploads"},"nonces":{"floatingButtonsClickTracking":"b3ccb31aa7","atomicFormsSendForm":"c8ce3d8abd"},"swiperClass":"swiper","settings":{"editorPreferences":[]},"kit":{"active_breakpoints":["viewport_mobile","viewport_tablet"],"global_image_lightbox":"yes","lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description"},"post":{"id":0,"title":"Str\u00e1nka nebyla nalezena &#8211; GETUP","excerpt":""}};
+//# sourceURL=elementor-frontend-js-before
+</script>
+<script id="elementor-frontend-js" src="https://www.get-up.fun/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=4.3.3"></script>
+<script id="fluent-form-submission-js-extra">
+var fluentFormVars = {"ajaxUrl":"https://www.get-up.fun/wp-admin/admin-ajax.php","forms":[],"step_text":"Step %activeStep% of %totalStep% - %stepTitle%","step_completed_text":"Completed","is_rtl":"","date_i18n":{"previousMonth":"Previous Month","nextMonth":"Next Month","months":{"shorthand":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"longhand":["January","February","March","April","May","June","July","August","September","October","November","December"]},"weekdays":{"longhand":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"shorthand":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]},"daysInMonth":[31,28,31,30,31,30,31,31,30,31,30,31],"rangeSeparator":" to ","weekAbbreviation":"Wk","scrollTitle":"Scroll to increment","toggleTitle":"Click to toggle","amPM":["AM","PM"],"yearAriaLabel":"Year","firstDayOfWeek":1},"pro_version":"","fluentform_version":"6.2.5","force_init":"","stepAnimationDuration":"350","upload_completed_txt":"100% Completed","upload_start_txt":"0% Completed","uploading_txt":"Uploading","choice_js_vars":{"noResultsText":"No results found","loadingText":"Loading...","noChoicesText":"No choices to choose from","itemSelectText":"Press to select","maxItemTextSingular":"Only %%maxItemCount%% option can be added","maxItemTextPlural":"Only %%maxItemCount%% options can be added"},"input_mask_vars":{"clearIfNotMatch":false},"nonce":"32d44ed303","file_delete_nonce":"06233deaeb","form_id":"1","step_change_focus":"1","has_cleantalk":"","pro_payment_script_compatible":""};
+var fluentform_submission_messages_1 = {"file_upload_in_progress":"File upload in progress. Please wait...","javascript_handler_failed":"Javascript handler could not be loaded. Form submission has been failed. Reload the page and try again"};
+var fluentform_payment_messages_1 = {"stock_out_message":"This Item is Stock Out","item_label":"Item","price_label":"Price","qty_label":"Qty","line_total_label":"Line Total","sub_total_label":"Sub Total","discount_label":"Discount","total_label":"Total","signup_fee_label":"Signup Fee","trial_label":"Trial","processing_text":"Processing...","confirming_text":"Confirming..."};
+var fluentform_save_progress_messages_1 = {"copy_button":"Copy","email_button":"Email","email_placeholder":"Your Email Here","copy_success":"Copied"};
+var fluentform_address_messages_1 = {"please_wait":"Please wait ...","location_not_determined":"Could not determine address from location.","address_fetch_failed":"Failed to fetch address from coordinates.","geolocation_failed":"Geolocation failed or was denied.","geolocation_not_supported":"Geolocation is not supported by this browser."};
+var fluentform_gateway_messages_1 = {"request_failed":"Request failed. Please try again","payment_failed":"Payment process failed!","no_method_found":"No method found","processing_text":"Processing..."};
+var fluentform_submission_messages_global = {"javascript_handler_failed":"Javascript handler could not be loaded. Form submission has been failed. Reload the page and try again"};
+var fluentform_address_messages_global = {"please_wait":"Please wait ...","location_not_determined":"Could not determine address from location.","address_fetch_failed":"Failed to fetch address from coordinates.","geolocation_failed":"Geolocation failed or was denied.","geolocation_not_supported":"Geolocation is not supported by this browser."};
+//# sourceURL=fluent-form-submission-js-extra
+</script>
+<script id="fluent-form-submission-js" src="https://www.get-up.fun/wp-content/plugins/fluentform/assets/js/form-submission.js?ver=6.2.5"></script>
+<script id="popup-maker-site-js-extra">
+var pum_vars = {"version":"1.22.0","pm_dir_url":"https://www.get-up.fun/wp-content/plugins/popup-maker/","ajaxurl":"https://www.get-up.fun/wp-admin/admin-ajax.php","restapi":"https://www.get-up.fun/wp-json/pum/v1","rest_nonce":null,"default_theme":"15088","debug_mode":"","disable_tracking":"","home_url":"/","message_position":"top","core_sub_forms_enabled":"1","popups":[],"cookie_domain":"","paramNames":{"popup_id":"pid","cta":"cta","notrack":"notrack"},"analytics_enabled":"1","analytics_route":"analytics","analytics_api":"https://www.get-up.fun/wp-json/pum/v1"};
+var pum_sub_vars = {"ajaxurl":"https://www.get-up.fun/wp-admin/admin-ajax.php","message_position":"top"};
+var pum_popups = {"pum-15097":{"triggers":[{"type":"click_open","settings":{"cookie_name":"","extra_selectors":""}}],"cookies":[],"disable_on_mobile":false,"disable_on_tablet":false,"atc_promotion":null,"explain":null,"type_section":null,"theme_id":"15090","size":"medium","responsive_min_width":"0%","responsive_max_width":"100%","custom_width":"640px","custom_height_auto":false,"custom_height":"380px","scrollable_content":false,"animation_type":"fade","animation_speed":"350","animation_origin":"center top","open_sound":"beep.mp3","custom_sound":"","location":"center","position_top":"100","position_bottom":"0","position_left":"0","position_right":"0","position_from_trigger":false,"position_fixed":false,"overlay_disabled":false,"stackable":false,"disable_reposition":false,"zindex":"1999999999","close_button_delay":"0","fi_promotion":null,"close_on_form_submission":true,"close_on_form_submission_delay":"200","close_on_overlay_click":true,"close_on_esc_press":true,"close_on_f4_press":true,"disable_form_reopen":true,"disable_accessibility":false,"theme_slug":"enterprise-blue","id":15097,"slug":"sleva"}};
+//# sourceURL=popup-maker-site-js-extra
+</script>
+<script id="popup-maker-site-js" src="//www.get-up.fun/wp-content/uploads/pum/pum-site-scripts.js?defer&#038;generated=1767828671&#038;ver=1.22.0"></script>
+<script id="jetpack-stats-js-before">
+_stq = window._stq || [];
+_stq.push([ "view", {"v":"ext","blog":"250202010","post":"0","tz":"0","srv":"www.get-up.fun","arch_err":"/www.get-up.fun/wp-content/uploads/pum/pum-site-scripts.js?defer\u0026amp;generated=1767828671\u0026amp;ver=1.22.0","j":"1:15.9.2"} ]);
+_stq.push([ "clickTrackerInit", "250202010", "0" ]);
+//# sourceURL=jetpack-stats-js-before
+</script>
+<script data-wp-strategy="defer" defer id="jetpack-stats-js" src="https://stats.wp.com/e-202640.js"></script>
+<script id="elementor-pro-frontend-js-before">
+var ElementorProFrontendConfig = {"ajaxurl":"https:\/\/www.get-up.fun\/wp-admin\/admin-ajax.php","nonce":"dfc2043892","urls":{"assets":"https:\/\/www.get-up.fun\/wp-content\/plugins\/elementor-pro\/assets\/","rest":"https:\/\/www.get-up.fun\/wp-json\/"},"settings":{"lazy_load_background_images":true},"popup":{"hasPopUps":false},"shareButtonsNetworks":{"facebook":{"title":"Facebook","has_counter":true},"twitter":{"title":"Twitter"},"linkedin":{"title":"LinkedIn","has_counter":true},"pinterest":{"title":"Pinterest","has_counter":true},"reddit":{"title":"Reddit","has_counter":true},"vk":{"title":"VK","has_counter":true},"odnoklassniki":{"title":"OK","has_counter":true},"tumblr":{"title":"Tumblr"},"digg":{"title":"Digg"},"skype":{"title":"Skype"},"stumbleupon":{"title":"StumbleUpon","has_counter":true},"mix":{"title":"Mix"},"telegram":{"title":"Telegram"},"pocket":{"title":"Pocket","has_counter":true},"xing":{"title":"XING","has_counter":true},"whatsapp":{"title":"WhatsApp"},"email":{"title":"Email"},"print":{"title":"Print"},"x-twitter":{"title":"X"},"threads":{"title":"Threads"}},"facebook_sdk":{"lang":"cs_CZ","app_id":""},"lottie":{"defaultAnimationUrl":"https:\/\/www.get-up.fun\/wp-content\/plugins\/elementor-pro\/modules\/lottie\/assets\/animations\/default.json"}};
+//# sourceURL=elementor-pro-frontend-js-before
+</script>
+<script id="elementor-pro-frontend-js" src="https://www.get-up.fun/wp-content/plugins/elementor-pro/assets/js/frontend.min.js?ver=4.3.1"></script>
+<script id="pro-elements-handlers-js" src="https://www.get-up.fun/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min.js?ver=4.3.1"></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://www.get-up.fun/wp-includes/js/wp-emoji-release.min.js?ver=7.1.2"}}
+</script>
+<script type="module">
+/*! This file is auto-generated */
+var e="script#wp-emoji-settings",t=document.querySelector(e);if(!(t instanceof HTMLScriptElement))throw new Error("Element missing: "+e);const r=JSON.parse(t.text),s=(window._wpemojiSettings=r,"wpEmojiSettingsSupports"),o=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(s,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const r=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===r[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,r){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!r(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,r){let a;const s=(a="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),o=(s.textBaseline="top",s.font="600 32px Arial",{});return e.forEach(e=>{o[e]=t(s,e,n,r)}),o}function a(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}r.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(s));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(o),u.toString(),c.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"});const a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=e=>{i(n=e.data),a.terminate(),t(n)})}catch(e){}i(n=f(o,u,c,p))}t(n)}).then(e=>{for(const n in e)r.supports[n]=e[n],r.supports.everything=r.supports.everything&&r.supports[n],"flag"!==n&&(r.supports.everythingExceptFlag=r.supports.everythingExceptFlag&&r.supports[n]);var t;r.supports.everythingExceptFlag=r.supports.everythingExceptFlag&&!r.supports.flag,r.supports.everything||((t=r.source||{}).concatemoji?a(t.concatemoji):t.wpemoji&&t.twemoji&&(a(t.twemoji),a(t.wpemoji)))});
+//# sourceURL=https://www.get-up.fun/wp-includes/js/wp-emoji-loader.min.js
+</script>
+            <script type="text/javascript">
+                
+                window.addEventListener('elementor/popup/show', function (e) {
+                    var ffForms = jQuery('#elementor-popup-modal-' + e.detail.id).find('form.frm-fluent-form');
+
+                    /**
+                     * Support conversation form in elementor popup
+                     * No regular form found, check for conversational form
+                     */
+                    if (!ffForms.length) {
+                        const elements = document.getElementsByClassName('ffc_conv_form');
+                        if (elements.length) {
+                            let jsEvent = new CustomEvent('ff-elm-conv-form-event', {
+                                detail: elements
+                            });
+                            document.dispatchEvent(jsEvent);
+                        }
+                    }
+                    if (ffForms.length) {
+                        jQuery.each(ffForms, function(index, ffForm) {
+                            jQuery(ffForm).trigger('reInitExtras');
+                            jQuery(document).trigger('ff_reinit', [ffForm]);
+                        });
+                    }
+                });
+                            </script>
+            
+</body>
+</html>

@@ -1,0 +1,11 @@
+HTTP/2 200 
+server: aruba-proxy
+date: Sat, 03 Oct 2026 11:01:37 GMT
+content-type: text/html; charset=UTF-8
+vary: Accept-Encoding
+cache-control: public, max-age=3600, s-maxage=3600
+expires: Wed, 11 Jan 1984 05:00:00 GMT
+vary: Accept-Encoding,User-Agent
+x-servername: ipvsproxy002
+alt-svc: h3=":443"; ma=86400
+

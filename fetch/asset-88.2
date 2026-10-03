@@ -1,0 +1,3115 @@
+(function ($) {
+
+    // Performance optimization utilities
+    function throttle(func, limit) {
+        let inThrottle;
+        return function () {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        }
+    }
+
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // Cache commonly used selectors
+    const $document = $(document);
+    const $window = $(window);
+
+    //animation
+    function dreamslab_animation_handler($scope) {
+        elementorFrontend.waypoint($(document).find('.pxl-animate'), function () {
+            var $animate_el = $(this),
+                data = $animate_el.data('settings');
+            if (typeof data != 'undefined' && typeof data['animation'] != 'undefined') {
+                setTimeout(function () {
+                    $animate_el.removeClass('pxl-invisible').addClass('animated ' + data['animation']);
+                }, data['animation_delay']);
+            } else {
+                setTimeout(function () {
+                    $animate_el.removeClass('pxl-invisible').addClass('animated fadeInUp');
+                }, 300);
+            }
+        });
+
+        elementorFrontend.waypoint($scope.find('.pxl-border-animated'), function () {
+            $(this).addClass('pxl-animated');
+        });
+
+        elementorFrontend.waypoint($scope.find('.pxl-image-single.circle'), function () {
+            $(this).addClass('pxl-animated');
+        });
+
+        elementorFrontend.waypoint($scope.find('.pxl-animate-shadow'), function () {
+            $(this).addClass('pxl-animated');
+        });
+
+        elementorFrontend.waypoint($scope.find('.pxl-divider.animated'), function () {
+            $(this).addClass('pxl-animated');
+        });
+
+        elementorFrontend.waypoint($scope.find('.pxl-item--image.move-from-left'), function () {
+            $(this).addClass('pxl-animated');
+        });
+        elementorFrontend.waypoint($scope.find('.pxl-item--image.move-from-right'), function () {
+            $(this).addClass('pxl-animated');
+        });
+
+        elementorFrontend.waypoint($scope.find('.pxl-divider.skewInBottom'), function () {
+            $(this).addClass('pxl-animated');
+        });
+        elementorFrontend.waypoint($scope.find('.pxl-divider.skewInTop'), function () {
+            $(this).addClass('pxl-animated');
+        });
+        elementorFrontend.waypoint($scope.find('.pxl-zoom-section'), function () {
+            $(this).addClass('pxl-animated');
+        });
+
+    }
+
+    function dreamslab_section_start_render() {
+        var _elementor = typeof elementor != 'undefined' ? elementor : elementorFrontend;
+
+        _elementor.hooks.addFilter('pxl_section_start_render', function (html, settings, el) {
+
+            if (typeof settings.pxl_parallax_bg_img != 'undefined' && settings.pxl_parallax_bg_img.url != '') {
+                html += '<div class="pxl-section-bg-parallax"></div>';
+            }
+
+            if (typeof settings.pxl_color_offset != 'undefined' && settings.pxl_color_offset != 'none') {
+                html += '<div class="pxl-section-overlay-color"></div>';
+            }
+
+            if (typeof settings.pxl_overlay_img != 'undefined' && settings.pxl_overlay_img.url != '') {
+                html += '<div class="pxl-overlay--image pxl-overlay--imageLeft"><div class="bg-image"></div></div>';
+            }
+
+            if (typeof settings.pxl_overlay_img2 != 'undefined' && settings.pxl_overlay_img2.url != '') {
+                html += '<div class="pxl-overlay--image pxl-overlay--imageRight"><div class="bg-image"></div></div>';
+            }
+
+            return html;
+        });
+
+        $('.pxl-section-bg-parallax').parent('.elementor-element').addClass('pxl-section-parallax-overflow');
+    }
+
+    function dreamslab_column_before_render() {
+        var _elementor = typeof elementor != 'undefined' ? elementor : elementorFrontend;
+        _elementor.hooks.addFilter('pxl-custom-column/before-render', function (html, settings, el) {
+            if (typeof settings.pxl_column_parallax_bg_img != 'undefined' && settings.pxl_column_parallax_bg_img.url != '') {
+                html += '<div class="pxl-column-bg-parallax"></div>';
+            }
+            return html;
+        });
+    }
+
+    var pxl_widget_image_handler = function ($scope, $) {
+        /* Ink Transition Effect */
+        const inkTriggers = [...document.querySelectorAll('.pxl-image-ink')];
+        const pxl_controller = new ScrollMagic.Controller();
+        inkTriggers.map(ink => {
+            const sceneInk = new ScrollMagic.Scene({
+                triggerElement: ink,
+                triggerHook: 'onEnter',
+            })
+                .setClassToggle(ink, 'is-active')
+                .reverse(false)
+                .addTo(pxl_controller);
+        });
+    };
+
+    function dreamslab_parallax_effect() {
+        const $parallaxElements = $('.pxl-parallax-effect.mouse-move');
+        if (!$parallaxElements.length) return;
+
+        // Use throttled setTimeout for better performance
+        setTimeout(function () {
+            $parallaxElements.each(function (index, el) {
+                const $this = $(this);
+                let $bound = null;
+
+                if ($this.closest('.mouse-move-bound').length > 0) {
+                    $bound = $this.closest('.mouse-move-bound');
+                }
+                if ($(this).hasClass('bound-section')) {
+                    $bound = $this.closest('.elementor-section');
+                }
+                if ($(this).hasClass('bound-column')) {
+                    $bound = $this.closest('.elementor-column');
+                }
+                if ($(this).hasClass('mouse-move-scope')) {
+                    $bound = $this.parents('.mouse-move-scope');
+                }
+
+                if ($bound && $bound.length > 0) {
+                    dreamslab_parallax_effect_mousemove($this, $bound);
+                }
+            });
+        }, 600);
+    }
+
+    function dreamslab_triger_tabs($scope) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const processSection = $scope.find('.pxl-tabs-slip1.style-1');
+        if (!processSection.length) return;
+
+        const trigger = $scope.find('.pxl-tabs-slip1.style-1 .pxl-tabs--content');
+        const cardWrappers = $scope.find('.pxl-tabs-slip1.style-1 .pxl-item--content');
+        if (!trigger.length || cardWrappers.length === 0) return;
+
+        const cardWrappersArray = cardWrappers.get();
+        const itemCount = cardWrappersArray.length;
+        const blockHeight = $(cardWrappers[0]).outerHeight() || 295;
+
+        const scrollDistance = blockHeight * itemCount;
+        const time = 1;
+
+        cardWrappersArray.forEach(el => {
+            el.style.willChange = 'transform, opacity';
+        });
+
+        gsap.set(cardWrappersArray, {
+            height: blockHeight
+        });
+
+        gsap.set(cardWrappersArray, {
+            y: (index) => 20 * index,
+            transformOrigin: "center top",
+            opacity: 1
+        });
+
+        const tl = gsap.timeline({
+            defaults: { ease: "power2.out" },
+            scrollTrigger: {
+                trigger: trigger[0],
+                start: "top top",
+                end: `${scrollDistance} top`,
+                scrub: 0.6
+            }
+        });
+
+        tl.to(cardWrappersArray.slice(1), {
+            yPercent: (i) => -100 * (i + 1),
+            duration: time,
+            stagger: time * 0.6,
+            ease: "power2.inOut"
+        });
+
+        tl.to(cardWrappersArray.slice(0, -1), {
+            rotationX: -4,
+            scale: (index) => gsap.utils.mapRange(1, itemCount - 1, 0.9, 1)(index),
+            stagger: { each: time * 0.6 },
+            ease: "power1.inOut"
+        }, "<");
+
+        const totalDuration = tl.duration();
+
+        cardWrappersArray.slice(0, -1).forEach((card, i) => {
+            const itemStartTime = 1.2 + i * (time * 0.6);
+            const itemEndTime = itemStartTime + time;
+
+            const startScroll = (itemStartTime / totalDuration) * scrollDistance;
+            const endScroll = (itemEndTime / totalDuration) * scrollDistance;
+
+            ScrollTrigger.create({
+                trigger: trigger[0],
+                start: `top+=${startScroll} top`,
+                end: `top+=${endScroll} top`,
+                scrub: true,
+            });
+        });
+
+        ScrollTrigger.create({
+            trigger: processSection[0],
+            start: "top top+=100px",
+            end: `${scrollDistance} top`,
+            pin: true
+        });
+
+        ScrollTrigger.refresh(true);
+    }
+
+    function dreamslab_triger_tabs_image($scope) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const $items = $scope.find('.pxl-images-slip1.style-1 .pxl-item--content');
+        const $inners_img = $scope.find('.pxl-images-slip1.style-1 .pxl-item--content .pxl-item--image');
+        const $endTrigger_img = $scope.find('.pxl-images-slip1.style-1 .pxl-images--content');
+
+        if ($items.length > 0) {
+            $items.each(function (index, item) {
+                gsap.to(item, {
+                    opacity: 0,
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "center top",
+                        end: "bottom top",
+                        scrub: true,
+                    }
+                });
+
+                if (index < $items.length - 1) {
+                    gsap.to(item, {
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top top",
+                            end: "bottom bottom+=150",
+                            endTrigger: $endTrigger_img[0],
+                            scrub: true,
+                            pin: true,
+                            pinSpacing: false,
+                        }
+                    });
+                }
+            });
+        }
+
+        $inners_img.each(function (index_m, inner_m) {
+            if (index_m < $inners_img.length - 1) {
+                gsap.to(inner_m, {
+                    yPercent: 0,
+                    scale: 1,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: inner_m,
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true,
+                    }
+                });
+            }
+        });
+    }
+
+    function dreamslab_triger_tabs_image1($scope) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const $gallery = $('.pxl-images-slip2');
+        if (!$gallery.length) return;
+
+        const $items = $gallery.find('.pxl-item--content');
+        const $galleryContent = $gallery.find('.pxl-images--content');
+        const totalItems = $items.length;
+
+        $gallery.css('--gallery-items', totalItems);
+
+        const settings = $gallery.data('settings');
+        if (!settings || typeof settings.width === "undefined") return;
+
+        const { width: initialWidth, height: initialHeight, radius: initialRadius } = settings;
+        const finalWidth = window.innerWidth;
+        const finalHeight = window.innerHeight;
+        const finalRadius = 0;
+
+        const scrollLength = totalItems * window.innerHeight;
+        $gallery.css('height', scrollLength + 'px');
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: $gallery[0],
+                start: "top center",
+                end: "+=" + scrollLength,
+                scrub: true,
+                pin: false,
+                onEnter: () => ScrollTrigger.refresh()
+            }
+        });
+
+        tl.to($gallery, {
+            duration: 1,
+            ease: "none",
+            "--gallery-width": finalWidth + "px",
+            "--gallery-height": finalHeight + "px",
+            "--gallery-border-radius": finalRadius + "px"
+        }, 0);
+
+        $items.each(function (index) {
+            const start = (index / totalItems);
+            const end = ((index + 1) / totalItems);
+
+            tl.add(() => {
+                $items.removeClass("active").eq(index).addClass("active");
+                $galleryContent.toggleClass("gallery-fix", index === totalItems - 1);
+            }, start);
+        });
+    }
+
+    function dreamslab_triger($scope) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const windowWidth = $(window).width();
+        const $panels = $scope.find(".pxl-tabs-slip1.style-2 .pxl-item--content");
+        const $currentPage = $(".current-page");
+        const $totalPages = $(".total-pages");
+
+        $panels.each(function () {
+            const $panel = $(this);
+            const $slides = $panel.find(".pxl-list-item");
+            const totalSlides = $slides.length;
+
+            const updateTotalPages = () => $totalPages.text(formatNumber(totalSlides));
+            const updateCurrentPage = (index) => $currentPage.text(formatNumber(index + 1));
+
+            const setActiveSlide = (index) => {
+                $slides.removeClass("active");
+                $slides.eq(index).addClass("active");
+            };
+
+            if (totalSlides > 1) {
+                const slideWidth = $slides[0].offsetWidth;
+                const totalWidth = slideWidth * totalSlides;
+
+                gsap.to($slides, {
+                    x: -(slideWidth * (totalSlides - 1)),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: $panel[0],
+                        pin: true,
+                        start: "top top",
+                        scrub: 1,
+                        end: `+=${(totalWidth - slideWidth)}`,
+                        onUpdate: (self) => {
+                            const index = Math.round(self.progress * (totalSlides - 1));
+                            updateCurrentPage(index);
+                            setActiveSlide(index);
+                        },
+                        onEnter: () => {
+                            updateTotalPages();
+                            setActiveSlide(0);
+                        },
+                        onEnterBack: () => {
+                            updateTotalPages();
+                            setActiveSlide(totalSlides - 1);
+                        }
+                    }
+                });
+            } else {
+                ScrollTrigger.create({
+                    trigger: $panel[0],
+                    pin: true,
+                    start: "top top",
+                    end: "+=100%",
+                    onEnter: () => {
+                        updateTotalPages();
+                        updateCurrentPage(0);
+                        setActiveSlide(0);
+                    },
+                    onEnterBack: () => {
+                        updateTotalPages();
+                        updateCurrentPage(0);
+                        setActiveSlide(0);
+                    }
+                });
+            }
+        });
+
+        function formatNumber(num) {
+            return num < 10 ? `0${num}` : num;
+        }
+    }
+
+    function dreamslab_triger_vertical($scope) {
+        gsap.registerPlugin(SplitText, ScrollTrigger);
+
+        const scopeElement = $scope[0] || $scope;
+        const targets = scopeElement.querySelectorAll(".pxl-texts-slip .pxl-item--text");
+        if (!targets.length) return;
+
+        ScrollTrigger.saveStyles(".pxl-texts-slip .pxl-item--text");
+
+        targets.forEach((target, i) => {
+            const split = new SplitText(target, { type: "chars" });
+            const totalTexts = targets.length;
+            const sectionDuration = 1 / totalTexts;
+
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: target,
+                    scrub: 1,
+                    start: `top 50%`,
+                    end: "+=" + (totalTexts * 300),
+                    pin: true,
+                }
+            })
+                .from(split.chars, {
+                    opacity: 0,
+                    rotateX: -90,
+                    stagger: 0.01,
+                    ease: "power2.out",
+                    duration: 0.1,
+                })
+                .to(split.chars, {
+                    opacity: 0,
+                    stagger: 0.01,
+                    ease: "power2.in",
+                    duration: 0.1,
+                });
+        });
+
+    }
+
+    function dreamslab_animation_btn($scope) {
+        const $section = $scope.find('.pxl-section-scale .pxl-sticky-mask, .pxl-video-player.pxl-video-style-outline .pxl-video--inner');
+        const cursor = $section.find('.btn-balloon,.btn-video-wrap')[0];
+        if (!cursor) return;
+
+        const cursorWidth = cursor.offsetWidth / 2;
+        const cursorHeight = cursor.offsetHeight / 2;
+
+        let mouseX = 0;
+        let mouseY = 0;
+        let isMouseOver = false;
+
+        $section.on('mousemove', function (e) {
+            mouseX = e.pageX;
+            mouseY = e.pageY;
+        });
+
+        $section.on('mouseenter', function () {
+            isMouseOver = true;
+        });
+
+        function render() {
+            if (isMouseOver) {
+                const sectionOffset = $section.offset();
+
+                if (mouseX >= sectionOffset.left && mouseX <= sectionOffset.left + $section.width() &&
+                    mouseY >= sectionOffset.top && mouseY <= sectionOffset.top + $section.height()) {
+
+                    gsap.to(cursor, {
+                        x: mouseX - sectionOffset.left - cursorWidth,
+                        y: mouseY - sectionOffset.top - cursorHeight,
+                        ease: "none",
+                        duration: 0.1
+                    });
+                }
+            }
+            requestAnimationFrame(render);
+        }
+
+        requestAnimationFrame(render);
+
+        $section.on('mouseleave', function () {
+            isMouseOver = false;
+            const sectionCenterX = ($section.width() / 2) - cursorWidth;
+            const sectionCenterY = ($section.height() / 2) - cursorHeight;
+
+            gsap.to(cursor, {
+                x: sectionCenterX,
+                y: sectionCenterY,
+                ease: "power1.inOut",
+                duration: 0.5
+            });
+        });
+
+        const sectionCenterX = ($section.width() / 2) - cursorWidth;
+        const sectionCenterY = ($section.height() / 2) - cursorHeight;
+
+        gsap.set(cursor, {
+            x: sectionCenterX,
+            y: sectionCenterY
+        });
+    }
+
+    function dreamslab_text_hover_image($scope) {
+        const selectors = {
+            section: '.pxl-awards-list, .pxl-portfolio-grid-layout3, .layout-post-list-3, .layout-service-list-4',
+            group: '.content-inner, .pxl-grid-inner, .pxl-list-inner',
+            item: '.pxl-awards-list .pxl--item, .pxl-portfolio-grid-layout3 .pxl-grid-item, .layout-post-list-3 .list-item, .layout-service-list-4 .pxl-grid-item',
+            fadeIn: '.pxl-awards-list .fade-in-up, .pxl-portfolio-grid-layout3 .fade-in-up, .layout-post-list-3 .fade-in-up, .layout-service-list-4 .fade-in-up',
+            mouseTarget: '.pxl-awards-list .content-inner, .pxl-portfolio-grid-layout3 .pxl-grid-inner, .layout-post-list-3 .pxl-list-inner, .layout-service-list-4 .pxl-grid-inner',
+            hoverReadMore: '.layout-service-list-4 .pxl-post--readmore,.layout-service-list-4 .pxl-post--holder'
+        };
+
+        if ($scope.find(selectors.section).length <= 0) return;
+
+        let mouseX = 0, mouseY = 0;
+
+        const $mouseTargets = $scope.find(selectors.mouseTarget);
+
+        $mouseTargets.on('mousemove', function (e) {
+            const rect = this.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+        });
+
+        gsap.utils.toArray($scope.find(selectors.fadeIn)).forEach((el) => {
+            gsap.from(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                duration: 1,
+                opacity: 0,
+                y: 80,
+                ease: "power4.out"
+            });
+        });
+
+        $scope.find(selectors.item).on("mouseenter", function () {
+            const $this = $(this);
+            const $group = $this.closest(selectors.group);
+            const target = $this.attr('data-target');
+
+            $group.find('[data-target]').addClass('deactive').removeClass('active');
+            $this.removeClass('deactive').addClass('active');
+            $group.find(target).removeClass('deactive').addClass('active');
+
+        }).on("mouseleave", function () {
+            const $this = $(this);
+            const $group = $this.closest(selectors.group);
+            const target = $this.attr('data-target');
+
+            $this.removeClass('active').addClass('deactive');
+            $group.find(target).removeClass('active').addClass('deactive');
+        });
+
+        $scope.find(selectors.hoverReadMore)
+            .on("mouseenter", function () {
+                const $itemActive = $(this).closest(`${selectors.item}.active`);
+                if (!$itemActive.length) return;
+                const target = $itemActive.attr('data-target');
+                $itemActive.closest(selectors.group).find(target)
+                    .removeClass('active').addClass('deactive');
+            })
+            .on("mouseleave", function () {
+                const $itemActive = $(this).closest(`${selectors.item}.active`);
+                if (!$itemActive.length) return;
+                const target = $itemActive.attr('data-target');
+                $itemActive.closest(selectors.group).find(target)
+                    .removeClass('deactive').addClass('active');
+            });
+
+        let rect = $mouseTargets[0]?.getBoundingClientRect() || { width: window.innerWidth, height: window.innerHeight };
+        const s = { x: rect.width / 2, y: rect.height / 2 };
+        const setMouseX = gsap.quickSetter($mouseTargets, "--pxl-mouse-x", "px");
+        const setMouseY = gsap.quickSetter($mouseTargets, "--pxl-mouse-y", "px");
+
+        gsap.ticker.add(() => {
+            const i = 1 - Math.pow(0.85, gsap.ticker.deltaRatio());
+            s.x += (mouseX - s.x) * i;
+            s.y += (mouseY - s.y) * i;
+            setMouseX(s.x);
+            setMouseY(s.y);
+        });
+    }
+
+    function dreamslab_text_hover_image_grid($scope) {
+        if ($scope.find('.pxl-portfolio-grid-layout6').length <= 0) return;
+
+        gsap.utils.toArray(".pxl-portfolio-grid-layout6 .fade-in-up").forEach((element) => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 100%",
+                    toggleActions: "play none none none"
+                },
+                duration: 1,
+                opacity: 0,
+                y: 80,
+                ease: "power4.out"
+            });
+        });
+
+        $scope.find('.pxl-portfolio-grid-layout6 .pxl-grid-item').on("mouseenter", function () {
+            $scope.find('.pxl-portfolio-grid-layout6 .pxl-grid-item').removeClass('active').addClass('deactive');
+            $scope.find('.pxl-post-container-hover .img-item').removeClass('active').addClass('deactive');
+            $(this).removeClass('deactive').addClass('active');
+            var target = $(this).attr('data-target');
+            $(this).closest('.pxl-post-container-hover').find(target).removeClass('deactive').addClass('active');
+        });
+
+        var $firstItem = $scope.find('.pxl-portfolio-grid-layout6 .pxl-grid-item').first();
+        $firstItem.removeClass('deactive').addClass('active');
+        var target = $firstItem.attr('data-target');
+        $firstItem.closest('.pxl-post-container-hover').find(target).removeClass('deactive').addClass('active');
+    }
+
+
+    function dreamslab_parallax_effect_mousemove($this, $bound) {
+        let rect = $bound[0].getBoundingClientRect();
+        const mouse = { x: 0, y: 0, moved: false };
+
+        $bound.hover(
+            function (e) {
+                mouse.moved = true;
+            }, function (e) {
+                mouse.moved = false;
+                gsap.to($this[0], {
+                    duration: 0.5,
+                    x: 0,
+                    y: 0
+                });
+            }
+        );
+
+        // Throttle mousemove for better performance
+        $bound.mousemove(throttle(function (e) {
+            mouse.moved = true;
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+
+            // Use requestAnimationFrame for smoother animations
+            requestAnimationFrame(() => {
+                gsap.to($this[0], {
+                    duration: 0.5,
+                    x: (mouse.x - rect.width / 2) / rect.width * -100,
+                    y: (mouse.y - rect.height / 2) / rect.height * -100
+                });
+            });
+        }, 16)); // 60fps throttle
+
+        // Throttle resize and scroll events
+        $window.on('resize scroll', throttle(function () {
+            rect = $bound[0].getBoundingClientRect();
+        }, 100));
+    }
+
+    function dreamslab_css_inline_js() {
+        const $inlineCssElements = $document.find('.pxl-inline-css');
+        if (!$inlineCssElements.length) return;
+
+        let inlineCss = "<style>";
+        $inlineCssElements.each(function () {
+            const $this = $(this);
+            inlineCss += $this.attr("data-css") + " ";
+            $this.remove();
+        });
+        inlineCss += "</style>";
+        $('head').append(inlineCss);
+    }
+
+    function dreamslab_parallax_bg() {
+        // Cache selectors for better performance
+        const $parallaxBackground = $document.find('.pxl-parallax-background');
+        const $pllBasic = $document.find('.pxl-pll-basic');
+        const $pllRotate = $document.find('.pxl-pll-rotate');
+        const $pllMouseMove = $document.find('.pxl-pll-mouse-move');
+        const $pllMouseMoveRotate = $document.find('.pxl-pll-mouse-move-rotate');
+        const $bgPrxEffectPinnedZoomClipped = $document.find('.pxl-bg-prx-effect-pinned-zoom-clipped');
+
+        if ($parallaxBackground.length) {
+            $parallaxBackground.parallaxBackground({
+                event: 'mouse_move',
+                animation_type: 'shift',
+                animate_duration: 2
+            });
+        }
+
+        if ($pllBasic.length) {
+            $pllBasic.parallaxBackground();
+        }
+
+        if ($pllRotate.length) {
+            $pllRotate.parallaxBackground({
+                animation_type: 'rotate',
+                zoom: 50,
+                rotate_perspective: 500
+            });
+        }
+
+        if ($pllMouseMove.length) {
+            $pllMouseMove.parallaxBackground({
+                event: 'mouse_move',
+                animation_type: 'shift',
+                animate_duration: 2
+            });
+        }
+
+        if ($pllMouseMoveRotate.length) {
+            $pllMouseMoveRotate.parallaxBackground({
+                event: 'mouse_move',
+                animation_type: 'rotate',
+                animate_duration: 1,
+                zoom: 70,
+                rotate_perspective: 1000
+            });
+        }
+
+        if ($bgPrxEffectPinnedZoomClipped.length) {
+            $bgPrxEffectPinnedZoomClipped.each(function (index, el) {
+                const $el = $(el);
+                const clippedBgPinned = $el.find('.clipped-bg-pinned');
+                const clippedBg = $el.find('.clipped-bg');
+
+                if (!clippedBgPinned.length || !clippedBg.length) return;
+
+                const clippedBgAnimation = gsap.to(clippedBg, {
+                    clipPath: 'inset(0% 0% 0%)',
+                    scale: 1,
+                    duration: 1,
+                    ease: 'Linear.easeNone'
+                });
+
+                const clippedBgScene = ScrollTrigger.create({
+                    trigger: clippedBgPinned[0],
+                    start: function () {
+                        const startPin = 350;
+                        return "top +=" + startPin;
+                    },
+                    end: function () {
+                        const endPin = 0;
+                        return "+=" + endPin;
+                    },
+                    animation: clippedBgAnimation,
+                    scrub: 1,
+                    pin: true,
+                    pinSpacing: false,
+                });
+
+                function set_clipped_bg_wrapper_height() {
+                    gsap.set(clippedBg, { height: window.innerHeight });
+                }
+                window.addEventListener('resize', set_clipped_bg_wrapper_height);
+            });
+        }
+
+        // Handle circle zoom clipped elements
+        const $bgPrxEffectPinnedCircleZoomClipped = $document.find('.pxl-bg-prx-effect-pinned-circle-zoom-clipped');
+        if ($bgPrxEffectPinnedCircleZoomClipped.length) {
+            $bgPrxEffectPinnedCircleZoomClipped.each(function (index, el) {
+                const $el = $(el);
+                const svg = $el.find('.circle-zoom-mask-svg');
+                const img = $el.find('.clipped-bg-circle-pinned');
+                const circle = $el.find('.circle-zoom');
+
+                if (!svg.length || !img.length || !circle.length) return;
+
+                let radius = +circle[0].getAttribute("r");
+                if (!radius) return;
+
+                gsap.set(img[0], { scale: 2 });
+
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "50% 90%",
+                        end: "80% 100%",
+                        scrub: 2,
+                    },
+                    defaults: { duration: 2 }
+                })
+                    .to(circle[0], {
+                        attr: { r: () => radius }
+                    }, 0)
+                    .to(img[0], {
+                        scale: 1,
+                    }, 0)
+                    .to(".circle-inner-layer", {
+                        alpha: 0,
+                        ease: "power1.in",
+                        duration: 1 - 0.25
+                    }, 0.25);
+
+                // Throttle resize events
+                const dreamslab_circle_resize = throttle(function () {
+                    tl.progress(0);
+                    const rect = el.getBoundingClientRect();
+                    const rectWidth = rect.width;
+                    const rectHeight = rect.height;
+                    const dx = rectWidth / 2;
+                    const dy = rectHeight / 2;
+                    radius = Math.sqrt(dx * dx + dy * dy);
+                    tl.invalidate();
+                    ScrollTrigger.refresh();
+                }, 100);
+
+                // Initialize and handle resize
+                dreamslab_circle_resize();
+                $window.on('resize', dreamslab_circle_resize);
+            });
+        }
+    }
+
+    function dreamslab_section_before_render() {
+        var _elementor = typeof elementor != 'undefined' ? elementor : elementorFrontend;
+        _elementor.hooks.addFilter('pxl-custom-section/before-render', function (html, settings, el) {
+            if (typeof settings['row_divider'] !== 'undefined') {
+                if (settings['row_divider'] == 'angle-top' || settings['row_divider'] == 'angle-bottom' || settings['row_divider'] == 'angle-top-right' || settings['row_divider'] == 'angle-bottom-left') {
+                    html = '<svg class="pxl-row-angle" style="fill:#ffffff" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 100 100" version="1.1" preserveAspectRatio="none" height="130px"><path stroke="" stroke-width="0" d="M0 100 L100 0 L200 100"></path></svg>';
+                    return html;
+                }
+                if (settings['row_divider'] == 'angle-top-bottom' || settings['row_divider'] == 'angle-top-bottom-left') {
+                    html = '<svg class="pxl-row-angle pxl-row-angle-top" style="fill:#ffffff" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 100 100" version="1.1" preserveAspectRatio="none" height="130px"><path stroke="" stroke-width="0" d="M0 100 L100 0 L200 100"></path></svg><svg class="pxl-row-angle pxl-row-angle-bottom" style="fill:#ffffff" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 100 100" version="1.1" preserveAspectRatio="none" height="130px"><path stroke="" stroke-width="0" d="M0 100 L100 0 L200 100"></path></svg>';
+                    return html;
+                }
+                if (settings['row_divider'] == 'wave-animation-top' || settings['row_divider'] == 'wave-animation-bottom') {
+                    html = '<svg class="pxl-row-angle" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1440 150" fill="#fff"><path d="M 0 26.1978 C 275.76 83.8152 430.707 65.0509 716.279 25.6386 C 930.422 -3.86123 1210.32 -3.98357 1439 9.18045 C 2072.34 45.9691 2201.93 62.4429 2560 26.198 V 172.199 L 0 172.199 V 26.1978 Z"><animate repeatCount="indefinite" fill="freeze" attributeName="d" dur="10s" values="M0 25.9086C277 84.5821 433 65.736 720 25.9086C934.818 -3.9019 1214.06 -5.23669 1442 8.06597C2079 45.2421 2208 63.5007 2560 25.9088V171.91L0 171.91V25.9086Z; M0 86.3149C316 86.315 444 159.155 884 51.1554C1324 -56.8446 1320.29 34.1214 1538 70.4063C1814 116.407 2156 188.408 2560 86.315V232.317L0 232.316V86.3149Z; M0 53.6584C158 11.0001 213 0 363 0C513 0 855.555 115.001 1154 115.001C1440 115.001 1626 -38.0004 2560 53.6585V199.66L0 199.66V53.6584Z; M0 25.9086C277 84.5821 433 65.736 720 25.9086C934.818 -3.9019 1214.06 -5.23669 1442 8.06597C2079 45.2421 2208 63.5007 2560 25.9088V171.91L0 171.91V25.9086Z"></animate></path></svg>';
+                    return html;
+                }
+                if (settings['row_divider'] == 'curved-top' || settings['row_divider'] == 'curved-bottom') {
+                    html = '<svg class="pxl-row-angle" xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 1920 128" version="1.1" preserveAspectRatio="none" style="fill:#ffffff"><path stroke-width="0" d="M-1,126a3693.886,3693.886,0,0,1,1921,2.125V-192H-7Z"></path></svg>';
+                    return html;
+                }
+            }
+        });
+    }
+
+    function dreamslab_svg_color($scope) {
+        "use strict";
+
+        jQuery($scope).find('.pxl-grid .pxl-post--icon img').each(function () {
+            var $img = jQuery(this);
+            var imgID = $img.attr('id');
+            var imgClass = $img.attr('class');
+            var imgURL = $img.attr('src');
+
+            jQuery.get(imgURL, function (data) {
+                var $svg = jQuery(data).find('svg');
+                if (imgID) {
+                    $svg.attr('id', imgID);
+                }
+                if (imgClass) {
+                    $svg.attr('class', imgClass + ' replaced-svg');
+                }
+                $svg.removeAttr('xmlns:a');
+                if (!$svg.attr('viewBox') && $svg.attr('height') && $svg.attr('width')) {
+                    $svg.attr('viewBox', '0 0 24 24');
+                }
+                $img.replaceWith($svg);
+            }, 'xml');
+        });
+    }
+    var PXL_Icon_Contact_Form = function ($scope, $) {
+
+        setTimeout(function () {
+            $('.pxl--item').each(function () {
+                var icon_input = $(this).find(".pxl--form-icon"),
+                    control_wrap = $(this).find('.wpcf7-form-control');
+                control_wrap.before(icon_input.clone());
+                icon_input.remove();
+            });
+        }, 10);
+
+    };
+
+    function dreamslab_effect_element($scope) {
+        const $pxlEffectElement = $scope.find('.pxl-effect');
+
+        if ($pxlEffectElement.length > 0) {
+            const settingsData = $pxlEffectElement.attr('data-settings');
+
+            if (settingsData) {
+                try {
+                    const settings = JSON.parse(settingsData);
+
+                    const animationType = settings["wcf-animation"] || 'fade';
+                    const fadeFrom = settings["fade-from"] || 'left';
+                    const delay = settings["delay"] || 0;
+                    const duration = settings["data-duration"] || 1;
+                    const ease = settings["ease"] || 'power2.out';
+                    const offset = settings["fade-offset"] || 50;
+
+                    if (animationType === 'fade') {
+                        gsap.from($pxlEffectElement, {
+                            x: fadeFrom === 'left' ? -offset : fadeFrom === 'right' ? offset : 0,
+                            opacity: 0,
+                            delay: delay,
+                            duration: duration,
+                            ease: ease,
+                            scrollTrigger: {
+                                trigger: $pxlEffectElement[0],
+                                start: "top 80%",
+                                toggleActions: "play none none none",
+                                once: true,
+                            }
+                        });
+                    }
+                } catch (e) {
+                }
+            }
+        }
+    }
+
+    function dreamslab_scroll_text($scope) {
+        $scope.find(".pxl-item--title.style-scroll-bg").each(function () {
+            var $container = $(this);
+
+            var text = new SplitText($container[0], { type: 'words, chars' });
+
+            $(text.words).children().first().addClass("first-char");
+
+            gsap.fromTo(text.chars,
+                {
+                    position: 'relative',
+                    display: 'inline-block',
+                    opacity: 0.2,
+                    x: -5,
+                },
+                {
+                    opacity: 1,
+                    x: 0,
+                    stagger: 0.1,
+                    scrollTrigger: {
+                        trigger: $container[0],
+                        toggleActions: "play pause reverse pause",
+                        start: "top 70%",
+                        end: "top 40%",
+                        scrub: 0.7,
+                    }
+                }
+            );
+        });
+    }
+
+    function dreamslab_dot_svg($scope) {
+        const st = $scope.find("#animated-svg");
+        if (st.length === 0) return;
+        gsap.registerPlugin(MotionPathPlugin);
+        gsap.set(["#dot1", "#dot2", "#dot3"], {
+            xPercent: -50,
+            yPercent: -50,
+            transformOrigin: "50% 50%"
+        });
+
+        gsap.to("#dot1", {
+            duration: 5,
+            repeat: -1,
+            ease: "power1.inOut",
+            motionPath: {
+                path: "#ellipse1",
+                align: "#ellipse1",
+                autoRotate: false
+            }
+        });
+
+        gsap.to("#dot2", {
+            duration: 6,
+            repeat: -1,
+            delay: 1,
+            ease: "power1.inOut",
+            motionPath: {
+                path: "#ellipse2",
+                align: "#ellipse2",
+                autoRotate: false
+            }
+        });
+
+        gsap.to("#dot3", {
+            duration: 7,
+            repeat: -1,
+            delay: 2,
+            ease: "power1.inOut",
+            motionPath: {
+                path: "#ellipse3",
+                align: "#ellipse3",
+                autoRotate: false
+            }
+        });
+    }
+
+    function dreamslab_split_text($scope) {
+        const st = $scope.find(".pxl-split-text");
+        if (st.length === 0 || window.innerWidth <= 767) return;
+
+        gsap.registerPlugin(SplitText, ScrollTrigger);
+
+        st.each(function (_, el) {
+            const $el = $(el);
+            if ($el.data("splitted")) return; // chống split nhiều lần
+            $el.data("splitted", true);
+
+            const target = $el.find('p').length > 0 ? $el.find('p')[0] : el;
+
+            let pxl_split = new SplitText(target, {
+                type: "lines, words, chars",
+                lineThreshold: 0.5,
+                linesClass: "split-line"
+            });
+
+            gsap.set(target, { perspective: 400 });
+
+            const baseTrigger = {
+                trigger: target,
+                start: "top 86%",
+                toggleActions: "play none none none",
+                once: true
+            };
+
+            let settings = {
+                duration: 0.8,
+                stagger: 0.05,
+                ease: "power3.out",
+                scrollTrigger: baseTrigger
+            };
+
+            // ================== EFFECT MAPPING ==================
+            const effects = {
+                "split-flyin": () => {
+                    const chars = pxl_split.chars;
+                    const randomXY = chars.map(() => ({
+                        x: (Math.random() - 0.5) * 400,
+                        y: (Math.random() - 0.5) * 300
+                    }));
+                    return gsap.fromTo(
+                        chars,
+                        i => ({ ...randomXY[i], opacity: 0 }),
+                        { x: 0, y: 0, opacity: 1, ...settings }
+                    );
+                },
+
+                "split-glitch": () => {
+                    pxl_split.revert();
+                    pxl_split = new SplitText(target, { type: "chars" });
+
+                    return gsap.fromTo(
+                        pxl_split.chars,
+                        {
+                            x: (i) => (i % 2 === 0 ? -30 : 30),
+                            y: (i) => ((i % 3) - 1) * 6,
+                            opacity: 0,
+                            filter: "blur(2px)",
+                            force3D: true
+                        },
+                        {
+                            x: 0,
+                            y: 0,
+                            opacity: 1,
+                            filter: "blur(0px)",
+                            duration: 0.6,
+                            stagger: 0.03,
+                            ease: "power2.out",
+                            scrollTrigger: baseTrigger
+                        }
+                    );
+                },
+
+                "split-up": () => {
+                    pxl_split.revert();
+                    pxl_split.split({ type: "words" });
+                    const words = pxl_split.words;
+                    const duration_st = parseFloat($el.data('setting')) || 0.15;
+                    return gsap.from(words, {
+                        y: 80, opacity: 0,
+                        ease: "power4.out", duration: 1.2,
+                        stagger: { each: duration_st },
+                        delay: 0.15,
+                        scrollTrigger: baseTrigger
+                    });
+                },
+
+                "split-hero": () => {
+                    pxl_split.revert();
+                    pxl_split.split({ type: "chars" });
+                    const chars = pxl_split.chars;
+                    gsap.set(chars, { autoAlpha: 1, y: 0 });
+                    return gsap.from(chars, {
+                        y: "101%", autoAlpha: 0,
+                        stagger: { each: parseFloat($el.data('setting')) || 0.03, from: "random" },
+                        scrollTrigger: baseTrigger
+                    });
+                },
+
+                "split-words-scale": () => {
+                    pxl_split.revert();
+                    pxl_split.split({ type: "words" });
+                    const words = pxl_split.words;
+                    words.forEach((elw, i) => {
+                        gsap.set(elw, { opacity: 0, scale: i % 2 === 0 ? 0 : 2, force3D: true });
+                    });
+                    return gsap.to(words, {
+                        opacity: 1, scale: 1,
+                        duration: 0.8,
+                        ease: "power3.out",
+                        stagger: 0.08,
+                        scrollTrigger: baseTrigger
+                    });
+                },
+
+                "split-lines-transform": () => {
+                    pxl_split.revert();
+                    pxl_split.split({ type: "lines", lineThreshold: 0.5, linesClass: "split-line" });
+                    return gsap.from(pxl_split.lines, {
+                        opacity: 0, autoAlpha: 0, yPercent: 100,
+                        stagger: 0.1, ...settings
+                    });
+                },
+
+                "split-lines-transform-down": () => {
+                    pxl_split.revert();
+                    pxl_split.split({ type: "lines", lineThreshold: 0.5, linesClass: "split-line" });
+                    return gsap.from(pxl_split.lines, {
+                        opacity: 0, autoAlpha: 0, yPercent: -100,
+                        stagger: 0.1, ...settings
+                    });
+                },
+
+                "split-lines-rotation-x": () => {
+                    pxl_split.revert();
+                    pxl_split.split({ type: "lines", lineThreshold: 0.5, linesClass: "split-line" });
+                    return gsap.from(pxl_split.lines, {
+                        opacity: 0, autoAlpha: 0,
+                        rotationX: -120,
+                        transformOrigin: "top center -50",
+                        stagger: 0.1, ...settings
+                    });
+                },
+
+                "default": () => {
+                    if ($el.hasClass('split-in-fade')) settings.opacity = 0;
+                    if ($el.hasClass('split-in-right')) Object.assign(settings, { opacity: 0, x: 50 });
+                    if ($el.hasClass('split-in-left')) Object.assign(settings, { opacity: 0, x: -50 });
+                    if ($el.hasClass('split-in-up')) Object.assign(settings, { opacity: 0, y: 80 });
+                    if ($el.hasClass('split-in-down')) Object.assign(settings, { opacity: 0, y: -80 });
+                    if ($el.hasClass('split-in-rotate')) Object.assign(settings, { opacity: 0, rotateX: 50 });
+                    if ($el.hasClass('split-in-scale')) Object.assign(settings, { opacity: 0, scale: 0.5 });
+
+                    return gsap.from(pxl_split.chars, settings);
+                }
+            };
+            // ================== END MAPPING ==================
+
+            // chọn hiệu ứng theo class
+            const effectClass = Object.keys(effects).find(cls => $el.hasClass(cls));
+            const pxl_anim = (effectClass ? effects[effectClass]() : effects.default());
+
+            // Hover trigger (nếu có class hover)
+            if ($el.hasClass('hover-split-text')) {
+                $el.on("mouseenter", () => {
+                    pxl_anim.pause(0).restart();
+                });
+            }
+        });
+    }
+
+    function dreamslab_zoom_point() {
+        elementorFrontend.waypoint($(document).find('.pxl-zoom-point'), function () {
+            var offset = $(this).offset();
+            var offset_top = offset.top;
+            var scroll_top = $(window).scrollTop();
+        }, {
+            offset: -100,
+            triggerOnce: true
+        });
+    }
+
+    function dreamslab_logo_marquee($scope) {
+        const logos = $scope.find('.pxl-logo-marquee1:not(.style-4) .pxl-item--marquee');
+        if (!logos.length) return;
+
+        gsap.set(logos, { autoAlpha: 1 });
+
+        logos.each(function (index, el) {
+            gsap.set(el, { xPercent: 100 * index });
+        });
+
+        if (logos.length > 2) {
+            // Lấy dữ liệu từ phần tử đầu tiên
+            const durationNumber = parseFloat($(logos[0]).data('duration')) || 30; // mặc định 30s
+            const slipType = $(logos[0]).data('slip-type') || 'left';
+
+            // Xác định hướng trượt
+            let slipResult = `-=${logos.length * 100}`;
+            if (slipType === 'right') {
+                slipResult = `+=${logos.length * 100}`;
+            }
+
+            // Tạo hàm wrap để giới hạn phạm vi xPercent
+            const logosWrap = gsap.utils.wrap(-100, (logos.length - 1) * 100);
+
+            // Animate với gsap
+            const tween = gsap.to(logos, {
+                xPercent: slipResult,
+                duration: durationNumber,
+                repeat: -1,
+                ease: 'none',
+                modifiers: {
+                    xPercent: x => logosWrap(parseFloat(x))
+                }
+            });
+
+            // Cho phép hover để tạm dừng
+            $scope.on('mouseenter', () => tween.pause());
+            $scope.on('mouseleave', () => tween.play());
+        }
+    }
+
+
+    function dreamslab_text_marquee($scope) {
+
+        const text_marquee = $scope.find('.pxl-text--marquee');
+
+        const boxes = gsap.utils.toArray(text_marquee);
+
+        const loop = text_horizontalLoop(boxes, { paused: false, repeat: -1, });
+
+        function text_horizontalLoop(items, config) {
+            items = gsap.utils.toArray(items);
+            config = config || {};
+            let tl = gsap.timeline({ repeat: config.repeat, paused: config.paused, defaults: { ease: "none" }, onReverseComplete: () => tl.totalTime(tl.rawTime() + tl.duration() * 100) }),
+                length = items.length,
+                startX = items[0].offsetLeft,
+                times = [],
+                widths = [],
+                xPercents = [],
+                curIndex = 0,
+                pixelsPerSecond = (config.speed || 1) * 100,
+                snap = config.snap === false ? v => v : gsap.utils.snap(config.snap || 1),
+                totalWidth, curX, distanceToStart, distanceToLoop, item, i;
+            gsap.set(items, {
+                xPercent: (i, el) => {
+                    let w = widths[i] = parseFloat(gsap.getProperty(el, "width", "px"));
+                    xPercents[i] = snap(parseFloat(gsap.getProperty(el, "x", "px")) / w * 100 + gsap.getProperty(el, "xPercent"));
+                    return xPercents[i];
+                }
+            });
+            gsap.set(items, { x: 0 });
+            totalWidth = items[length - 1].offsetLeft + xPercents[length - 1] / 100 * widths[length - 1] - startX + items[length - 1].offsetWidth * gsap.getProperty(items[length - 1], "scaleX") + (parseFloat(config.paddingRight) || 0);
+            for (i = 0; i < length; i++) {
+                item = items[i];
+                curX = xPercents[i] / 100 * widths[i];
+                distanceToStart = item.offsetLeft + curX - startX;
+                distanceToLoop = distanceToStart + widths[i] * gsap.getProperty(item, "scaleX");
+                tl.to(item, { xPercent: snap((curX - distanceToLoop) / widths[i] * 100), duration: distanceToLoop / pixelsPerSecond }, 0)
+                    .fromTo(item, { xPercent: snap((curX - distanceToLoop + totalWidth) / widths[i] * 100) }, { xPercent: xPercents[i], duration: (curX - distanceToLoop + totalWidth - curX) / pixelsPerSecond, immediateRender: false }, distanceToLoop / pixelsPerSecond)
+                    .add("label" + i, distanceToStart / pixelsPerSecond);
+                times[i] = distanceToStart / pixelsPerSecond;
+            }
+            function toIndex(index, vars) {
+                vars = vars || {};
+                (Math.abs(index - curIndex) > length / 2) && (index += index > curIndex ? -length : length);
+                let newIndex = gsap.utils.wrap(0, length, index),
+                    time = times[newIndex];
+                if (time > tl.time() !== index > curIndex) {
+                    vars.modifiers = { time: gsap.utils.wrap(0, tl.duration()) };
+                    time += tl.duration() * (index > curIndex ? 1 : -1);
+                }
+                curIndex = newIndex;
+                vars.overwrite = true;
+                return tl.tweenTo(time, vars);
+            }
+            tl.next = vars => toIndex(curIndex + 1, vars);
+            tl.previous = vars => toIndex(curIndex - 1, vars);
+            tl.current = () => curIndex;
+            tl.toIndex = (index, vars) => toIndex(index, vars);
+            tl.times = times;
+            tl.progress(1, true).progress(0, true);
+            if (config.reversed) {
+                tl.vars.onReverseComplete();
+                tl.reverse();
+            }
+            return tl;
+        }
+    }
+
+    function dreamslab_scroll_fixed_section() {
+        const fixed_section_top = $('.pxl-section-fix-top');
+        if (fixed_section_top.length > 0) {
+            ScrollTrigger.matchMedia({
+                "(min-width: 991px)": function () {
+                    const pinnedSections = ['.pxl-section-fix-top'];
+                    pinnedSections.forEach(className => {
+                        gsap.to(".pxl-section-fix-bottom", {
+                            scrollTrigger: {
+                                trigger: ".pxl-section-fix-bottom",
+                                scrub: true,
+                                pin: className,
+                                pinSpacing: false,
+                                start: 'top bottom',
+                                end: "bottom top",
+                            },
+                        });
+                        gsap.to(".pxl-section-fix-bottom .pxl-section-overlay-color", {
+                            scrollTrigger: {
+                                trigger: ".pxl-section-fix-bottom",
+                                scrub: true,
+                                pin: className,
+                                pinSpacing: false,
+                                start: 'top bottom',
+                                end: "bottom top",
+                            },
+                        });
+                    });
+                }
+            });
+        }
+
+        const section_overlay_color = $('.pxl-section-overlay-color');
+        if (section_overlay_color.length > 0) {
+            const space_top = section_overlay_color.data('space-top');
+            const space_left = section_overlay_color.data('space-left');
+            const space_right = section_overlay_color.data('space-right');
+            const space_bottom = section_overlay_color.data('space-bottom');
+
+            const radius_top = section_overlay_color.data('radius-top');
+            const radius_left = section_overlay_color.data('radius-left');
+            const radius_right = section_overlay_color.data('radius-right');
+            const radius_bottom = section_overlay_color.data('radius-bottom');
+
+            const overlay_radius = radius_top + 'px ' + radius_right + 'px ' + radius_bottom + 'px ' + radius_left + 'px ';
+
+            ScrollTrigger.matchMedia({
+                "(min-width: 991px)": function () {
+                    const pinnedSections = ['.pxl-bg-color-scroll'];
+                    pinnedSections.forEach(className => {
+                        gsap.to(".overlay-type-scroll", {
+                            scrollTrigger: {
+                                trigger: ".pxl-bg-color-scroll",
+                                scrub: true,
+                                pinSpacing: false,
+                                start: 'top bottom',
+                                end: "bottom top",
+                            },
+                            left: space_left + "px",
+                            right: space_right + "px",
+                            top: space_top + "px",
+                            bottom: space_bottom + "px",
+                            borderRadius: overlay_radius,
+                        });
+                    });
+                }
+            });
+        }
+    }
+    function dreamslab_scroll_checkp($scope) {
+        $scope.find('.pxl-el-divider').each(function () {
+            var wcont1 = $(this);
+
+
+            function checkScrollPosition() {
+                var pxl_scroll_top = $(window).scrollTop(),
+                    viewportBottom = pxl_scroll_top + $(window).height(),
+                    elementTop = wcont1.offset().top,
+                    elementBottom = elementTop + wcont1.outerHeight();
+
+                if (elementTop < viewportBottom && elementBottom > pxl_scroll_top) {
+                    wcont1.addClass('visible');
+                }
+            }
+
+            checkScrollPosition();
+
+            $(window).on('scroll', function () {
+                checkScrollPosition();
+            });
+
+        });
+    }
+    function dreamslab_section_start_render2() {
+
+        var _elementor = typeof elementor != 'undefined' ? elementor : elementorFrontend;
+
+        _elementor.hooks.addFilter('pxl_section_start_render', function (html, settings, el) {
+
+            if (typeof settings.pxl_parallax_bg_img != 'undefined' && settings.pxl_parallax_bg_img.url != '') {
+
+                html += '<div class="pxl-section-bg-parallax"></div>';
+
+            }
+
+            return html;
+
+        });
+
+    }
+
+    function wglPhysicsButton($scope) {
+        // Matter.js module aliases
+        const {
+            Engine,
+            Render,
+            Runner,
+            Bodies,
+            Composite,
+            MouseConstraint,
+            Events,
+            Body
+        } = Matter;
+
+        const logoArea = $scope[0].querySelector(".pxl-button_physics");
+        if (!logoArea) return;
+
+        // Parse settings safely
+        let settings = [];
+        try {
+            const dataAttr = logoArea.getAttribute("data-settings");
+            settings = dataAttr ? JSON.parse(dataAttr.replace(/&quot;/g, '"')) : [];
+        } catch (e) {
+            console.error("Invalid data-settings:", e);
+            return;
+        }
+
+        let w = logoArea.offsetWidth;
+        let h = logoArea.offsetHeight;
+
+        // Tạo engine & renderer
+        const engine = Engine.create();
+        engine.world.gravity.x = 0;
+        engine.world.gravity.y = 0.7;
+
+        const render = Render.create({
+            element: logoArea,
+            engine: engine,
+            options: {
+                width: w,
+                height: h,
+                background: "rgba(0,0,0,0)",
+                wireframes: false,
+                pixelRatio: window.devicePixelRatio
+            }
+        });
+
+        // Tường bao
+        const wallOptions = { isStatic: true, render: { visible: false } };
+        const ceiling = Bodies.rectangle(w / 2, -10, w, 10, wallOptions);
+        const ground = Bodies.rectangle(w / 2, h + 10, w, 10, wallOptions);
+        const leftWall = Bodies.rectangle(-10, h / 2, 10, h, wallOptions);
+        const rightWall = Bodies.rectangle(w + 10, h / 2, 10, h, wallOptions);
+
+        // Mảng shapes lưu vật thể & element HTML
+        const shapes = [];
+
+        settings.forEach((value, index) => {
+            const rectWidth = 173;
+            const rectHeight = 44;
+            const x = Math.random() * w;
+            const y = 70;
+
+            const body = Bodies.rectangle(x, y, rectWidth, rectHeight, {
+                restitution: 0.2,
+                render: { visible: false }
+            });
+
+            // Element hiển thị text
+            const textElement = document.createElement("p");
+            textElement.className = "pxl-throwable-element";
+            Object.assign(textElement.style, {
+                opacity: "1",
+                position: "absolute",
+                borderRadius: "20px",
+                fontSize: "13px",
+                fontWeight: "400",
+                textAlign: "center",
+                color: "white",
+                padding: "11px 30px",
+                pointerEvents: "none",
+                whiteSpace: "nowrap"
+            });
+
+            const checkIcon = document.createElement("i");
+            checkIcon.className = "fas fa-check";
+            checkIcon.style.marginRight = "5px";
+            checkIcon.style.fontSize = "13px";
+
+            const spanElement = document.createElement("span");
+            spanElement.className = "span-element-rot";
+            spanElement.textContent = value;
+
+            textElement.appendChild(checkIcon);
+            textElement.appendChild(spanElement);
+            logoArea.appendChild(textElement);
+
+            // Random lực ban đầu đa hướng
+            const delay = Math.random() * 1000;
+            setTimeout(() => {
+                const angle = Math.random() * Math.PI * 2;
+                const forceMagnitude = 0.05 + Math.random() * 0.05;
+                Body.applyForce(body, body.position, {
+                    x: Math.cos(angle) * forceMagnitude,
+                    y: Math.sin(angle) * forceMagnitude
+                });
+            }, delay);
+
+            shapes.push({ body, element: textElement });
+        });
+
+        // Mouse control
+        const mouseControl = MouseConstraint.create(engine, {
+            element: logoArea,
+            constraint: { render: { visible: false } }
+        });
+
+        Composite.add(engine.world, [
+            ground, ceiling, rightWall, leftWall,
+            mouseControl, ...shapes.map(s => s.body)
+        ]);
+
+        Render.run(render);
+        const runner = Runner.create();
+        Runner.run(runner, engine);
+
+        // Update vị trí element sau mỗi physics step
+        Events.on(engine, "afterUpdate", () => {
+            shapes.forEach(({ body, element }) => {
+                const isOutOfBounds =
+                    body.position.x < 0 ||
+                    body.position.x > w ||
+                    body.position.y > h;
+
+                element.style.display = isOutOfBounds ? "none" : "block";
+                element.style.left = `${body.position.x}px`;
+                element.style.top = `${body.position.y}px`;
+                element.style.transform = `translate(-50%, -50%) rotate(${body.angle}rad)`;
+            });
+        });
+
+        // Resize handler
+        const resizeHandler = () => {
+            w = logoArea.offsetWidth;
+            h = logoArea.offsetHeight;
+            render.canvas.width = w;
+            render.canvas.height = h;
+            render.options.pixelRatio = window.devicePixelRatio;
+
+            Body.setPosition(ceiling, { x: w / 2, y: -10 });
+            Body.setPosition(ground, { x: w / 2, y: h + 10 });
+            Body.setPosition(leftWall, { x: -10, y: h / 2 });
+            Body.setPosition(rightWall, { x: w + 10, y: h / 2 });
+        };
+        window.addEventListener("resize", resizeHandler);
+
+        // Cleanup function
+        logoArea.destroyPhysics = function () {
+            Render.stop(render);
+            Runner.stop(runner);
+            Composite.clear(engine.world);
+            Engine.clear(engine);
+            render.canvas.remove();
+            render.textures = {};
+            shapes.forEach(({ element }) => {
+                if (element && element.parentNode) {
+                    element.parentNode.removeChild(element);
+                }
+            });
+            window.removeEventListener("resize", resizeHandler);
+        };
+    }
+
+    function image_slider($scope) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const $images = $scope.find('.pxl-image-carousel3 .pxl-item--image');
+        if (!$images.length) return;
+
+        const total = $images.length;
+
+        let widths = [];
+        let offsets = [];
+        let progress = 0;
+        let lastProgress = 0;
+        let lastArrowUpdate = 0;
+
+        const sliderTrack = $scope.find('.slider-track')[0];
+        const thumb = $scope.find('.slider-thumb')[0];
+        const fill = $scope.find('.slider-fill')[0];
+        const arrow = $scope.find('.slider-arrow')[0];
+
+        const iconRight = '<svg xmlns="http://www.w3.org/2000/svg" height="512" viewBox="0 0 20 20"><path d="m12 2-1.4 1.4 5.6 5.6h-16.2v2h16.2l-5.6 5.6 1.4 1.4 8-8z" fill="#fff"/></svg>';
+        const iconLeft = '<svg style="transform: scaleX(-1)" xmlns="http://www.w3.org/2000/svg" height="512" viewBox="0 0 20 20"><path d="m12 2-1.4 1.4 5.6 5.6h-16.2v2h16.2l-5.6 5.6 1.4 1.4 8-8z" fill="#fff"/></svg>';
+
+        // Tính toán offset ban đầu
+        function calculateOffsets() {
+            widths = $images.toArray().map(el => el.offsetWidth);
+            offsets = widths.map((w, i) => widths.slice(0, i).reduce((a, b) => a + b, 0) + i * 50);
+        }
+        calculateOffsets();
+
+        // Cập nhật UI thumb + mũi tên
+        function updateSliderUI(p) {
+            const percent = p * 100;
+            fill.style.width = percent + '%';
+            thumb.style.left = percent + '%';
+
+            const now = Date.now();
+            if (now - lastArrowUpdate > 100) {
+                arrow.innerHTML = (p > lastProgress) ? iconRight : iconLeft;
+                lastArrowUpdate = now;
+            }
+
+            lastProgress = progress;
+            progress = p;
+        }
+
+        // Cập nhật vị trí ảnh
+        function updateImages(p, animate = true) {
+            const maxOffset = total - 1;
+            $images.each((i, img) => {
+                const rotateValue = (p - 0.5) * 10;
+                gsap.to(img, {
+                    x: offsets[i] - (offsets[maxOffset] * p),
+                    scale: 1,
+                    rotation: rotateValue,
+                    duration: animate ? 0.3 : 0,
+                    ease: "power2.out"
+                });
+            });
+        }
+
+        // Drag event
+        function handleSliderDrag(e) {
+            const rect = sliderTrack.getBoundingClientRect();
+            const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+            const percent = Math.max(0, Math.min(1, x / rect.width));
+            updateSliderUI(percent);
+            updateImages(percent);
+        }
+
+        function onDragStart(e) {
+            e.preventDefault();
+            document.body.style.userSelect = 'none';
+            thumb.classList.add('clicker');
+            window.addEventListener('mousemove', handleSliderDrag);
+            window.addEventListener('mouseup', onDragEnd);
+            window.addEventListener('touchmove', handleSliderDrag);
+            window.addEventListener('touchend', onDragEnd);
+        }
+
+        function onDragEnd() {
+            thumb.classList.remove('clicker');
+            document.body.style.userSelect = '';
+            window.removeEventListener('mousemove', handleSliderDrag);
+            window.removeEventListener('mouseup', onDragEnd);
+            window.removeEventListener('touchmove', handleSliderDrag);
+            window.removeEventListener('touchend', onDragEnd);
+            // Reset rotation khi thả chuột
+            gsap.to($images.toArray(), { rotation: 0, duration: 0.3, ease: 'power2.out' });
+        }
+
+        // Event gắn cho thumb
+        thumb.addEventListener('mousedown', onDragStart);
+        thumb.addEventListener('touchstart', onDragStart, { passive: false });
+
+        // Click vào track để nhảy
+        sliderTrack.addEventListener('click', function (e) {
+            const rect = sliderTrack.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percent = Math.max(0, Math.min(1, x / rect.width));
+            updateSliderUI(percent);
+            updateImages(percent);
+        });
+
+        // Set trạng thái ban đầu
+        gsap.set($images.toArray(), {
+            x: -10,
+            rotation: (i) => i * 5,
+            scale: (i) => 1 - i * 0.05,
+            zIndex: (i) => total - i
+        });
+
+        const scrollTl = gsap.timeline({ paused: true });
+        $images.each((i, img) => {
+            scrollTl.to(img, { x: offsets[i], scale: 1, rotation: 0 }, 0);
+        });
+
+        ScrollTrigger.create({
+            trigger: $scope.find('.slider-wrapper')[0],
+            start: 'top top+=100',
+            end: 'bottom top',
+            onEnter: () => scrollTl.play(),
+            onLeaveBack: () => scrollTl.reverse()
+        });
+
+        window.addEventListener('resize', () => {
+            calculateOffsets();
+            updateImages(progress, false);
+        });
+    }
+
+
+    function pxl_parallax_text($scope) {
+        gsap.registerPlugin(ScrollTrigger);
+        const $text = $scope.find('.pxl-heading.pxl-heading-parallax,.pxl-button.pxl-button-parallax');
+        if (!$text.length) return;
+
+        $scope.find('[data-pxl-parallax]').each(function () {
+            var $el = $(this);
+            if (!$el.length) return;
+
+            var parallaxData = $el.data('pxl-parallax') || {};
+
+            var isXPercent = typeof parallaxData.x === 'string' && parallaxData.x.includes('%');
+            var isYPercent = typeof parallaxData.y === 'string' && parallaxData.y.includes('%');
+
+            var xVal = parallaxData.x ? parseFloat(parallaxData.x) : 0;
+            var yVal = parallaxData.y ? parseFloat(parallaxData.y) : 0;
+            var zVal = parallaxData.z ? parseFloat(parallaxData.z) : 0;
+
+            $el.css({
+                'will-change': 'transform',
+                'transform-style': 'preserve-3d'
+            });
+
+            gsap.to({ progress: 0 }, {
+                progress: 1,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: $el[0],
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true,
+                    onUpdate: function (self) {
+                        var progress = self.progress;
+                        var tx = xVal * progress;
+                        var ty = yVal * progress;
+                        var scale = 1 + (zVal * progress);
+
+                        var transform = `translate3d(${isXPercent ? tx + '%' : tx + 'px'}, ${isYPercent ? ty + '%' : ty + 'px'}, 0px) scale(${scale})`;
+                        $el.css('transform', transform);
+                    }
+                }
+            });
+        });
+    }
+
+    function pxl_parallax_image($scope) {
+        gsap.registerPlugin(ScrollTrigger);
+        const windowWidth = window.innerWidth;
+
+        const $text = $scope.find('.pxl-image-single.pxl-parallax-scroll-scale');
+        if (!$text.length) return;
+
+        if (windowWidth > 1200) {
+            $scope.find('[data-parallax-scale]').each(function () {
+                var $el = $(this);
+                if (!$el.length) return;
+
+                var parallaxData = $el.data('parallax-scale') || {};
+
+                var isXPercent = typeof parallaxData.x === 'string' && parallaxData.x.includes('%');
+                var isYPercent = typeof parallaxData.y === 'string' && parallaxData.y.includes('%');
+
+                var xStart = parallaxData.x ? parseFloat(parallaxData.x) : 0;
+                var yStart = parallaxData.y ? parseFloat(parallaxData.y) : 0;
+                var scaleTarget = parallaxData.scale ? parseFloat(parallaxData.scale) : 1;
+                var scaleStart = 0.578;
+
+                $el.css({
+                    'will-change': 'transform'
+                });
+
+                var transformStart = `translate(${isXPercent ? xStart + '%' : xStart + 'px'}, ${isYPercent ? yStart + '%' : yStart + 'px'}) scale(${scaleStart})`;
+                $el.css('transform', transformStart);
+
+                gsap.to({ progress: 0 }, {
+                    progress: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: $scope[0],
+                        start: "top 60px",
+                        end: "bottom+=100% top",
+                        scrub: true,
+                        pin: true,
+                        pinSpacing: true,
+                        onUpdate: function (self) {
+                            var progress = self.progress;
+
+                            var tx = xStart * (1 - progress);
+                            var ty = yStart * (1 - progress);
+                            var currentScale = scaleStart + (scaleTarget - scaleStart) * progress;
+
+                            var transform = `translate(${isXPercent ? tx + '%' : tx + 'px'}, ${isYPercent ? ty + '%' : ty + 'px'}) scale(${currentScale})`;
+                            $el.css('transform', transform);
+                        }
+                    }
+                });
+            });
+        }
+    }
+
+    function pxl_parallax_history($scope) {
+        let ctx = gsap.context(() => {
+            const $els = $scope[0].querySelectorAll(".pxl-history-l2 .entry-body");
+
+            $els.forEach($el => {
+                gsap.fromTo($el,
+                    {
+                        yPercent: 100,
+                        scale: 0.85,
+                        opacity: 0.45
+                    },
+                    {
+                        yPercent: 0,
+                        scale: 1,
+                        opacity: 1,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: $el,
+                            start: "top 100%",
+                            end: "bottom 65%",
+                            scrub: true
+                        }
+                    }
+                );
+            });
+        }, $scope[0]);
+
+        return () => ctx.revert();
+    }
+
+    function pxl_parallax_service_list($scope) {
+        const ctx = gsap.context(() => {
+            const $items = $scope.find(".layout-service-list-3 .pxl-grid-item");
+
+            $items.each((_, el) => {
+                const img = $(el).find(".pxl-post--featured")[0];
+                const btn = $(el).find(".pxl-post--featured .pxl-post--readmore")[0];
+                if (!img) return;
+
+                gsap.fromTo(img,
+                    { width: "36.15%", height: "26.15vw", willChange: "width, height" },
+                    {
+                        width: "100%",
+                        height: "26.15vw",
+                        ease: "none",
+                        willChange: "auto",
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 100%",
+                            end: "bottom 85%",
+                            scrub: true
+                        }
+                    }
+                );
+
+                if (btn) {
+                    gsap.fromTo(btn,
+                        { scale: 0.1, opacity: 0, transformOrigin: "center" },
+                        { scale: 1, opacity: 1, ease: "power2.out", duration: 0.4 },
+                        {
+                            scrollTrigger: {
+                                trigger: el,
+                                start: "top 70%",
+                                toggleActions: "play none none reverse"
+                            }
+                        }
+                    );
+                }
+            });
+            ScrollTrigger.refresh();
+        }, $scope[0]);
+        return () => ctx.revert();
+    }
+
+
+    function pxl_progesbar_counter($scope) {
+        const $items = $scope.find('.pxl-progressbar-2 .pxl--item');
+        if (!$items.length) return;
+
+        $items.each((_, el) => {
+            const $wrapper = $(el);
+            const value = parseInt($wrapper.data('value')) || 0;
+            const $box = $wrapper.find('.stat-box');
+
+            $box.css('height', `${value}px`);
+            gsap.set($box[0], { scaleY: 0, opacity: 0, transformOrigin: "bottom" });
+        });
+
+        ScrollTrigger.batch($items.toArray(), {
+            start: "top 80%",
+            once: true,
+            onEnter: batch => {
+                batch.forEach(el => {
+                    const $wrapper = $(el);
+                    const value = parseInt($wrapper.data('value')) || 0;
+                    const isPercentage = $wrapper.data('is-percentage') === true || $wrapper.data('is-percentage') === "true";
+
+                    const $box = $wrapper.find('.stat-box');
+                    const $numberEl = $wrapper.find('.number');
+                    const obj = { count: 0 };
+
+                    gsap.to($box[0], {
+                        scaleY: 1,
+                        opacity: 1,
+                        duration: 1.2,
+                        ease: "power2.out"
+                    });
+
+                    gsap.to(obj, {
+                        count: value,
+                        duration: 1.2,
+                        ease: "power2.out",
+                        roundProps: "count",
+                        onUpdate: () => {
+                            $numberEl.text(isPercentage ? `${obj.count}%` : `${obj.count}`);
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    function pxl_parallax_prosess($scope) {
+        const $process_block_e = $('#process-block');
+        const $process_block = $scope.find('.pxl-process5 .pxl-item--inner');
+        const windowWidth = window.innerWidth;
+
+        if ($process_block.length && windowWidth >= 1024) {
+            const $processes = $scope.find('.pxl--item');
+            const space_accord_process = parseInt($('.pxl-item--left').css('width'));
+            const targetBlock = $process_block_e.length ? $process_block_e[0] : $process_block[0];
+
+            gsap.set(targetBlock, {
+                height: ($processes.length / 1) * window.innerHeight
+            });
+
+            var tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: targetBlock,
+                    scrub: true,
+                    ease: "none",
+                    start: 'top -5%',
+                    end: 'bottom bottom'
+                }
+            });
+
+            $processes.each(function (index) {
+                const $process = $(this);
+                const $description = $process.find('.pxl-item--description');
+                const $title = $process.find('.pxl-item--title');
+                const $image = $process.find('.pxl-item--image');
+
+                if (index < $processes.length - 1) {
+                    tl.to($process[0], {
+                        width: space_accord_process,
+                        ease: 'power3.inOut',
+                        duration: 0.6,
+                        onStart: () => {
+                            $process.addClass('active');
+                        },
+                        onReverseComplete: () => {
+                            $process.removeClass('active');
+                        }
+                    }, index * 1.5);
+                    tl.to([$description[0], $title[0], $image[0]], {
+                        autoAlpha: 0,
+                        ease: 'power3.inOut',
+                        duration: 0.7
+                    });
+                }
+            });
+        }
+    }
+
+    function initStepCardsLoop($scope) {
+        const $process_block_e = $('#process-block2');
+        const $process_block = $scope.find('.pxl-process6 .pxl-item--inner');
+        const windowWidth = window.innerWidth;
+
+        if ($process_block.length && windowWidth >= 1024) {
+            const $processes = $scope.find('.pxl--item');
+            const total = $processes.length;
+            const targetBlock = $process_block_e.length ? $process_block_e[0] : $process_block[0];
+
+            // Set chiều cao scroll
+            gsap.set(targetBlock, {
+                height: (total + 1) * window.innerHeight
+            });
+
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: targetBlock,
+                    scrub: true,
+                    start: 'top top',
+                    end: 'bottom bottom'
+                }
+            });
+
+            $processes.each(function (index) {
+                const $process = $(this);
+
+                let xValue;
+                if (windowWidth >= 1440) {
+                    xValue = (total - index - 1) * 88;
+                } else if (windowWidth >= 1200) {
+                    xValue = (total - index - 1) * 20;
+                } else if (windowWidth >= 1024) {
+                    xValue = (total - index - 1) * 10;
+                } else {
+                    xValue = (total - index - 1) * 0;
+                }
+
+                tl.to($process, {
+                    x: xValue,
+                    yPercent: -100 * index,
+                    duration: 1,
+                    ease: 'power2.inOut',
+                    onStart: () => $process.addClass('active'),
+                    onReverseComplete: () => $process.removeClass('active')
+                }, index);
+            });
+        }
+    }
+
+    function pxl_text_carousel11($scope) {
+        const $slides = $scope.find('.pxl-text-carousel11 .text-slide');
+        const totalSlides = $slides.length;
+        let current = 0;
+        let isAnimating = false;
+
+        if (totalSlides === 0) return;
+
+        function splitText() {
+            $slides.each(function () {
+                const $text = $(this).find('.text-slide-text');
+                const textContent = $text.text().trim();
+                if (!textContent) return;
+
+                const words = textContent.split(' ');
+                $text.empty();
+
+                words.forEach((word, i) => {
+                    const $word = $('<span class="word"></span>').text(word);
+                    $word.css({
+                        opacity: 0,
+                        transform: `scale(${i % 2 === 0 ? 0 : 2})`
+                    });
+                    $text.append($word).append(' ');
+                });
+            });
+        }
+
+        function animateWords($words, opts) {
+            const tl = gsap.timeline();
+            $words.each(function (i) {
+                tl.to($(this), {
+                    opacity: opts.opacity,
+                    scale: opts.scale instanceof Function ? opts.scale(i) : opts.scale,
+                    duration: opts.duration,
+                    ease: opts.ease
+                }, i * opts.delay);
+            });
+            return tl;
+        }
+
+        function animateIn($slide) {
+            const $words = $slide.find('.word');
+            animateWords($words, {
+                opacity: 1,
+                scale: 1,
+                duration: 0.3,
+                ease: 'power2.out',
+                delay: 0.05
+            });
+        }
+
+        function animateOut($slide) {
+            const $words = $slide.find('.word');
+            animateWords($words, {
+                opacity: 0,
+                scale: (i) => (i % 2 === 0 ? 0 : 2),
+                duration: 0.2,
+                ease: 'power1.in',
+                delay: 0.03
+            });
+        }
+
+        function resetChars($slide) {
+            $slide.find('.word').each(function (i) {
+                $(this).css({
+                    opacity: 0,
+                    transform: `scale(${i % 2 === 0 ? 0 : 2})`
+                });
+            });
+        }
+
+        function goToSlide(index) {
+            if (isAnimating || index === current) return;
+            isAnimating = true;
+
+            const $current = $slides.eq(current);
+            const $next = $slides.eq(index);
+
+            animateOut($current);
+
+            setTimeout(() => {
+                $current.removeClass('active');
+                resetChars($current);
+
+                current = index;
+                $next.addClass('active');
+                animateIn($next);
+
+                isAnimating = false;
+            }, 400);
+        }
+
+        function nextSlide() {
+            goToSlide((current + 1) % totalSlides);
+        }
+
+        function prevSlide() {
+            goToSlide((current - 1 + totalSlides) % totalSlides);
+        }
+
+        function initEvents() {
+            $('#prevBtn').off('click').on('click', prevSlide);
+            $('#nextBtn').off('click').on('click', nextSlide);
+
+            let startX = 0, endX = 0;
+            $('#textSlider')
+                .off('touchstart touchend')
+                .on('touchstart', e => {
+                    startX = e.originalEvent.touches[0].clientX;
+                })
+                .on('touchend', e => {
+                    endX = e.originalEvent.changedTouches[0].clientX;
+                    const diff = startX - endX;
+                    if (Math.abs(diff) > 50) {
+                        diff > 0 ? nextSlide() : prevSlide();
+                    }
+                });
+        }
+
+        function init() {
+            splitText();
+            $slides.eq(current).addClass('active');
+            animateIn($slides.eq(current));
+            initEvents();
+        }
+
+        init();
+    }
+
+    function dreamslab_card_carousel($scope) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        const $section = $scope.closest('#cardSection');
+        const $wrapper = $scope.find('.layout-portfolio-list-2 .pxl-grid-inner');
+        const $cards = $scope.find('.pxl-grid-item');
+        const isDesktop = window.innerWidth >= 0;
+
+        if (!$wrapper.length || !isDesktop) return;
+
+        const container = $section.length ? $section.get(0) : $wrapper.get(0);
+        const cards = gsap.utils.toArray($cards);
+
+        gsap.set(container, {
+            height: (cards.length) * window.innerHeight
+        });
+
+        const $currentCardNum = $('.current-card').empty();
+        cards.forEach((_, i) => {
+            $currentCardNum.append(`<span>${String(i + 1).padStart(2, '0')}</span>`);
+        });
+        $('.total-card').text(`/ ${String(cards.length).padStart(2, '0')}`);
+
+        const updateCards = (self) => {
+            const progress = self.progress;
+            const activeIndex = Math.floor(progress * (cards.length - 1));
+
+            cards.forEach((card, i) => {
+                const order = i - activeIndex;
+
+                if (i < activeIndex) {
+                    gsap.set(card, { z: 0 });
+                } else {
+                    gsap.set(card, { z: -50 * order });
+                }
+
+                card.classList.toggle('active', i < activeIndex);
+            });
+
+            gsap.set('.current-card', {
+                y: `-${activeIndex * 30}px`
+            });
+        };
+
+        const trigger = ScrollTrigger.create({
+            trigger: container,
+            start: "top top",
+            end: "bottom bottom+=1200px",
+            scrub: true,
+            snap: {
+                snapTo: 1 / (cards.length + 1),
+                duration: 0.1,
+                ease: "none"
+            },
+            onUpdate: updateCards
+        });
+
+        updateCards(trigger);
+    }
+
+
+    function dreamslab_scroll_item($scope) {
+        const items = $scope.find('.scroll-item-run').toArray();
+        if (items.length === 0 || window.innerWidth <= 767) return;
+        items.forEach(el => {
+            const triggerOffset = 150;
+
+            let initialX = 0;
+            if (el.classList.contains("scroll-item-left")) {
+                initialX = 100;
+            } else if (el.classList.contains("scroll-item-right")) {
+                initialX = -100;
+            }
+
+            gsap.set(el, {
+                xPercent: initialX,
+                willChange: "transform"
+            });
+
+            gsap.to(el, {
+                xPercent: 0,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: el,
+                    start: `top+=${triggerOffset} bottom`,
+                    end: `top+=${triggerOffset} 66%`,
+                    scrub: 1,
+                    invalidateOnRefresh: true
+                },
+                onComplete: () => {
+                    el.style.willChange = "auto";
+                }
+            });
+        });
+    }
+
+
+
+    function initEllipseCanvasEffect($scope) {
+        const $canvas = $scope.find("#pxl-ellipse-canvas");
+        const canvas = $canvas[0];
+        if (!canvas) return;
+
+        $canvas.css({
+            'visibility': 'visible',
+            'opacity': '1',
+            'display': 'block'
+        });
+
+        const ctx = canvas.getContext("2d");
+        canvas.width = 396;
+        canvas.height = 470;
+
+        const ellipseSize = 52;
+        const gap = 4;
+        const radius = ellipseSize / 2;
+        const cellSize = ellipseSize + gap;
+        const cols = Math.floor(canvas.width / cellSize);
+        const rows = Math.floor(canvas.height / cellSize);
+        const maxDist = 400;
+
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
+        let targetX = mouseX;
+        let targetY = mouseY;
+
+        const ellipses = [];
+
+        for (let y = 0; y < rows; y++) {
+            for (let x = 0; x < cols; x++) {
+                ellipses.push({
+                    x: x * cellSize + radius,
+                    y: y * cellSize + radius
+                });
+            }
+        }
+
+        $canvas.on("mousemove", function (e) {
+            const rect = canvas.getBoundingClientRect();
+            targetX = e.clientX - rect.left;
+            targetY = e.clientY - rect.top;
+        });
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            $.each(ellipses, function (_, ellipse) {
+                const dx = mouseX - ellipse.x;
+                const dy = mouseY - ellipse.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const ratio = Math.min(1, dist / maxDist);
+
+                const tiltX = -1 * ratio * (dy / maxDist);
+                const tiltY = -1 * ratio * (dx / maxDist);
+
+                ctx.save();
+                ctx.translate(ellipse.x, ellipse.y);
+                ctx.transform(1, tiltX, tiltY, 1, 0, 0);
+                ctx.beginPath();
+                ctx.ellipse(0, 0, radius, radius, 0, 0, Math.PI * 2);
+                ctx.fillStyle = "#111";
+                ctx.fill();
+                ctx.restore();
+            });
+        }
+
+        function animate() {
+            mouseX += (targetX - mouseX) * 0.1;
+            mouseY += (targetY - mouseY) * 0.1;
+
+            draw();
+            requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+
+        setTimeout(() => {
+            if (!$canvas.is(':visible')) {
+                $canvas.css({
+                    'visibility': 'visible',
+                    'opacity': '1',
+                    'display': 'block'
+                });
+            }
+        }, 100);
+    }
+
+    function ShowcaseSnapSlider($scope = $(document)) {
+        const $snapSliderHolder = $scope.find('.snap-slider-holder');
+        if (!$snapSliderHolder.length) return;
+
+        const $snapSlides = $scope.find('.snap-slide');
+        const $snapSlidesImgMask = $scope.find('.snap-slide .img-mask');
+        const $snapCaptionWrapper = $scope.find('.snap-slider-captions');
+        const $snapCaptions = $scope.find('.snap-slide-caption');
+        const $snapThumbsWrapper = $scope.find('.snap-slider-thumbs');
+        const $snapThumbs = $scope.find('.thumb-slide');
+        const $snapThumbImg = $scope.find('.thumb-slide img');
+        const $pagination = $scope.find('.snap-slider-pagination');
+        const $currentEl = $pagination.find('.number-slide.current');
+        const $totalEl = $pagination.find('.total');
+
+        if (window.innerWidth <= 767) {
+            const swiper = new Swiper('.snap-slider-images', {
+                slidesPerView: 1,
+                spaceBetween: 0,
+                wrapperClass: 'snap-slider-images-wrapper',
+                slideClass: 'snap-slide',
+                pagination: {
+                    el: '.slider-pagination-fraction',
+                    type: 'fraction',
+                },
+            });
+        } else {
+
+            // Fade in/out .img-mask
+            gsap.fromTo($snapSlidesImgMask, { opacity: 0.1 }, {
+                opacity: 1,
+                duration: 1,
+                ease: "sine.out",
+                scrollTrigger: {
+                    trigger: $snapSliderHolder[0],
+                    start: 'top 100%',
+                    end: '+=100%',
+                    scrub: true,
+                }
+            });
+
+            gsap.fromTo($snapSlidesImgMask, { opacity: 1 }, {
+                opacity: 0.1,
+                duration: 1,
+                ease: "sine.out",
+                scrollTrigger: {
+                    trigger: $snapSliderHolder[0],
+                    start: 'bottom 100%',
+                    end: '+=100%',
+                    scrub: true,
+                }
+            });
+
+            function toggleVideo($slide, play) {
+                $slide.find('video').each(function () {
+                    const video = this;
+                    play ? video.play() : video.pause();
+                });
+            }
+
+            $snapSlides.each(function (i) {
+                const $this = $(this);
+                const $caption = $snapCaptionWrapper.find('.snap-slide-caption').eq(i);
+                const isLast = i === $snapSlides.length - 1;
+
+                gsap.to($this, {
+                    scrollTrigger: {
+                        trigger: this,
+                        start: "top 50%",
+                        end: "+=" + window.innerHeight,
+                        onEnter: () => {
+                            $caption.addClass("in-view");
+                            toggleVideo($this, true);
+                        },
+                        onLeave: () => {
+                            if (!isLast) {
+                                $caption.removeClass("in-view");
+                                toggleVideo($this, false);
+                            }
+                        },
+                        onEnterBack: () => {
+                            $caption.addClass("in-view");
+                            toggleVideo($this, true);
+                        },
+                        onLeaveBack: () => {
+                            $caption.removeClass("in-view");
+                            toggleVideo($this, false);
+                        },
+                    },
+                });
+            });
+
+            // Pin thumbnails
+            ScrollTrigger.create({
+                trigger: $snapSlides[0],
+                start: "top top",
+                end: "+=" + window.innerHeight * ($snapSlides.length - 1),
+                pin: $snapThumbsWrapper[0],
+                scrub: true,
+            });
+
+            // Scroll thumbnail effect
+            gsap.fromTo($snapThumbs, { y: 0 }, {
+                y: -$snapThumbs.eq(0).outerHeight() * ($snapThumbs.length - 1),
+                scrollTrigger: {
+                    trigger: $snapSliderHolder[0],
+                    start: "top top",
+                    end: "+=" + window.innerHeight * ($snapSlides.length - 1),
+                    scrub: true,
+                },
+                ease: "none"
+            });
+
+            // Pin caption wrapper
+            ScrollTrigger.create({
+                trigger: $snapCaptionWrapper[0],
+                start: "top top",
+                end: "+=" + window.innerHeight * ($snapSlides.length - 1),
+                pin: true,
+                scrub: true,
+            });
+
+            // Snap section
+            const snapPoints = gsap.utils.snap(1 / ($snapSlides.length - 1));
+            ScrollTrigger.create({
+                trigger: $snapSlides[0],
+                start: "top top",
+                end: "+=" + window.innerHeight * ($snapSlides.length - 1),
+                snap: {
+                    snapTo: snapPoints,
+                    duration: { min: 0.2, max: 0.7 },
+                    delay: 0,
+                    ease: "power4.inOut",
+                },
+            });
+
+            // Mask and thumb effects
+            $snapSlides.each(function (i) {
+                const isLast = i === $snapSlides.length - 1;
+                const isFirst = i === 0;
+                const $slide = $(this);
+                const $mask = $slide.find('.img-mask');
+                const thumbImg = $snapThumbImg[i];
+
+                gsap.fromTo($mask, { y: isFirst ? 0 : -window.innerHeight }, {
+                    y: isLast ? 0 : window.innerHeight,
+                    scrollTrigger: {
+                        trigger: this,
+                        scrub: true,
+                        start: isFirst ? "top top" : "top bottom",
+                        end: isLast ? "top top" : undefined,
+                    },
+                    ease: "none",
+                });
+
+                if (thumbImg) {
+                    gsap.fromTo(thumbImg, {
+                        y: isFirst ? 0 : -thumbImg.offsetHeight / 2
+                    }, {
+                        y: isLast ? 0 : thumbImg.offsetHeight / 2,
+                        scrollTrigger: {
+                            trigger: this,
+                            scrub: true,
+                            start: isFirst ? "top top" : "top bottom",
+                            end: isLast ? "top top" : undefined,
+                        },
+                        ease: "none",
+                    });
+                }
+            });
+
+            // Pagination
+            if ($pagination.length && $currentEl.length && $totalEl.length) {
+                const totalSlides = $snapSlides.length;
+                $totalEl.text(String(totalSlides).padStart(2, '0'));
+
+                for (let i = 1; i <= totalSlides; i++) {
+                    $('<div>').text(String(i).padStart(2, '0')).appendTo($currentEl);
+                }
+
+                const itemHeight = $currentEl.children('div').eq(0).outerHeight() || 20;
+
+                function updatePagination(index) {
+                    gsap.to($currentEl, {
+                        y: -index * itemHeight,
+                        duration: 0.4,
+                        ease: "power2.inOut",
+                    });
+                }
+
+                $snapSlides.each(function (i) {
+                    ScrollTrigger.create({
+                        trigger: this,
+                        start: "top 60%",
+                        end: "bottom 60%",
+                        onEnter: () => updatePagination(i),
+                        onEnterBack: () => updatePagination(i),
+                    });
+                });
+            }
+        }
+    }
+
+    function dreamslab_image_slide_card($scope) {
+        let index = 0, transform = [], zIndex = [];
+        const slides = $('.pxl-image-carousel9 .pxl-swiper-slide');
+        slides.each(function (i) {
+            transform.push(`translate3d(${i * 28}px, 0, -${i * 40}px)`);
+            zIndex.push(-i);
+        });
+
+        function showSlide(toIndex) {
+            if (toIndex >= slides.length) index = 0;
+            if (toIndex < 0) index = slides.length - 1;
+            slides.each(function (i) {
+                $(this).css({
+                    transform: transform[i],
+                    zIndex: zIndex[i]
+                });
+            });
+        }
+
+        function onChange(dir) {
+            if (dir === 1) {
+                transform.unshift(transform.pop());
+                zIndex.unshift(zIndex.pop());
+            } else {
+                transform.push(transform.shift());
+                zIndex.push(zIndex.shift());
+            }
+            index += dir;
+            showSlide(index);
+        }
+
+        showSlide(index);
+
+        let startX = 0;
+        $('.pxl-image-carousel9 .pxl-carousel-inner').on('mousedown touchstart', function (e) {
+            startX = e.pageX || e.originalEvent.touches[0].pageX;
+        });
+        $('.pxl-image-carousel9 .pxl-carousel-inner').on('mouseup touchend', function (e) {
+            const endX = e.pageX || e.originalEvent.changedTouches[0].pageX;
+            const diff = endX - startX;
+            if (Math.abs(diff) > 50) {
+                onChange(diff < 0 ? 1 : -1);
+            }
+        });
+    }
+
+    function dreamslab_image_slide_card_2($scope) {
+        const $cards = $scope.find('.pxl-testimonial-carousel6 .pxl-card-slide');
+        let current = 0;
+
+        function addScrollEffect() {
+            $cards.each(function (index) {
+                const $card = $(this);
+                const delay = index * 0.1;
+
+                gsap.set($card, {
+                    opacity: 0,
+                    y: 30,
+                    scale: 0.95
+                });
+
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: $card,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+
+                tl.to($card, {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.6,
+                    ease: "power2.out",
+                    delay: delay
+                });
+            });
+        }
+
+        if (typeof ScrollTrigger !== 'undefined') {
+            addScrollEffect();
+        } else {
+            $cards.each(function (index) {
+                const $card = $(this);
+                gsap.fromTo($card,
+                    {
+                        opacity: 0,
+                        y: 20,
+                        scale: 0.95
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.5,
+                        delay: index * 0.1,
+                        ease: "power2.out"
+                    }
+                );
+            });
+        }
+
+        function update() {
+            $cards.each(function (i) {
+                const $c = $(this);
+                gsap.killTweensOf($c)
+                const pos = (i - current + $cards.length) % $cards.length;
+
+                if (pos === 0) {
+                    gsap.set($c, {
+                        rotation: 0,
+                        xPercent: -50,
+                        yPercent: -50,
+                        x: 0,
+                        zIndex: 5,
+                        opacity: 1,
+                        force3D: true,
+                        transformOrigin: "center center"
+                    });
+
+                    const tl = gsap.timeline({ smoothChildTiming: true });
+                    tl.to($c, {
+                        rotation: 5,
+                        x: 300,
+                        opacity: 1,
+                        duration: 0.6,
+                        ease: "power2.out",
+                        force3D: true
+                    })
+
+                        .add(() => gsap.set($c, { zIndex: 1 }), ">-0.3")
+                        .to($c, {
+                            rotation: -5,
+                            x: 0,
+                            opacity: 0.5,
+                            duration: 0.6,
+                            ease: "power2.inOut",
+                            force3D: true
+                        });
+                } else if (pos === 1) {
+                    gsap.set($c, {
+                        rotation: 0,
+                        xPercent: -50,
+                        yPercent: -50,
+                        x: 0,
+                        zIndex: 3,
+                        opacity: 1,
+                        force3D: true,
+                        transformOrigin: "center center"
+                    });
+                    gsap.timeline({ smoothChildTiming: true })
+                        .to($c, {
+                            rotation: 0,
+                            x: -300,
+                            duration: 0.6,
+                            ease: "power2.out",
+                            force3D: true,
+                        })
+                        .to($c, {
+                            rotation: 0,
+                            x: 0,
+                            duration: 0.6,
+                            ease: "power3.out",
+                            force3D: true
+                        });
+
+                } else if (pos === $cards.length - 1) {
+                    gsap.set($c, {
+                        rotation: 0,
+                        xPercent: -50,
+                        yPercent: -50,
+                        x: 0,
+                        zIndex: 1,
+                        opacity: 1,
+                        force3D: true,
+                        transformOrigin: "center center"
+                    });
+                    gsap.timeline({ smoothChildTiming: true })
+                        .to($c, {
+                            rotation: -5,
+                            x: -300,
+                            duration: 0.6,
+                            ease: "power3.out",
+                            force3D: true
+                        })
+                        .to($c, {
+                            rotation: 0,
+                            x: 0,
+                            duration: 0.6,
+                            ease: "power3.out",
+                            force3D: true
+                        });
+
+                } else {
+                    gsap.set($c, {
+                        zIndex: 0,
+                        force3D: true,
+                        transformOrigin: "center center"
+                    });
+                    gsap.to($c, {
+                        xPercent: -50,
+                        yPercent: -50,
+                        rotation: -5,
+                        opacity: 0,
+                        duration: 0.6,
+                        ease: "power3.out",
+                        force3D: true
+                    });
+                }
+            });
+        }
+
+        update();
+
+        $scope.find('.nav.right').on('click', function () {
+            current = (current + 1) % $cards.length;
+            update();
+        });
+
+        $scope.find('.nav.left').on('click', function () {
+            current = (current - 1 + $cards.length) % $cards.length;
+            update();
+        });
+    }
+    //     let current = 0;
+
+    //     function update() {
+    //         $cards.each(function (i) {
+    //             const $c = $(this);
+    //             gsap.killTweensOf($c);
+    //             const pos = (i - current + $cards.length) % $cards.length;
+
+    //             if (pos === 0) {
+    //                 gsap.set($c, { 
+    //                     rotation: 0, 
+    //                     xPercent: -50, 
+    //                     yPercent: -50, 
+    //                     x: 0, 
+    //                     zIndex: 1, 
+    //                     opacity: 1,
+    //                     force3D: true,
+    //                     transformOrigin: "center center"
+    //                 });
+    //                 gsap.timeline({ smoothChildTiming: true })
+    //                     .to($c, {
+    //                         rotation: 5, 
+    //                         x: 300, 
+    //                         duration: 0.6, 
+    //                         ease: "power2.out",
+    //                         force3D: true,
+    //                         onUpdate(time) {
+    //                             if (time > 0.1) gsap.set($c, { zIndex: 1 });
+    //                         }
+    //                     })
+    //                     .to($c, { 
+    //                         rotation: -5, 
+    //                         x: 0,
+    //                         opacity: 0.5, 
+    //                         duration: 0.6, 
+    //                         ease: "power2.out",
+    //                         force3D: true
+    //                     });
+    //             } else if (pos === 1) {
+    //                 gsap.set($c, { 
+    //                     rotation: 0, 
+    //                     xPercent: -50, 
+    //                     yPercent: -50, 
+    //                     x: 0, 
+    //                     zIndex: 3, 
+    //                     opacity: 1,
+    //                     force3D: true,
+    //                     transformOrigin: "center center"
+    //                 });
+    //                 gsap.timeline({ smoothChildTiming: true })
+    //                     .to($c, {
+    //                         rotation: 0, 
+    //                         x: -300, 
+    //                         duration: 0.6, 
+    //                         ease: "power2.out",
+    //                         force3D: true,
+    //                         onUpdate(time) {
+    //                             if (time > 0.1) gsap.set($c, { zIndex: 3 });
+    //                         }
+    //                     })
+    //                     .to($c, { 
+    //                         rotation: 0, 
+    //                         x: 0, 
+    //                         duration: 0.6, 
+    //                         ease: "power2.out",
+    //                         force3D: true
+    //                     });
+
+    //             } else if (pos === $cards.length - 1) {
+    //                 gsap.set($c, { 
+    //                     rotation: 0, 
+    //                     xPercent: -50, 
+    //                     yPercent: -50, 
+    //                     x: 0, 
+    //                     zIndex: 1, 
+    //                     opacity: 1,
+    //                     force3D: true,
+    //                     transformOrigin: "center center"
+    //                 });
+    //                 gsap.timeline({ smoothChildTiming: true })
+    //                     .to($c, { 
+    //                         rotation: -5, 
+    //                         x: -300, 
+    //                         duration: 0.6, 
+    //                         ease: "power2.out",
+    //                         force3D: true
+    //                     })
+    //                     .to($c, { 
+    //                         rotation: 0, 
+    //                         x: 0, 
+    //                         duration: 0.6, 
+    //                         ease: "power2.out",
+    //                         force3D: true
+    //                     });
+
+    //             } else {
+    //                 gsap.set($c, { 
+    //                     zIndex: 0,
+    //                     force3D: true,
+    //                     transformOrigin: "center center"
+    //                 });
+    //                 gsap.to($c, { 
+    //                     xPercent: -50, 
+    //                     yPercent: -50, 
+    //                     rotation: -5, 
+    //                     opacity: 0, 
+    //                     duration: 0.6, 
+    //                     ease: "power2.out",
+    //                     force3D: true
+    //                 });
+    //             }
+    //         });
+    //     }
+
+    //     update();
+
+    //     $scope.find('.nav.right').on('click', function () {
+    //         current = (current + 1) % $cards.length;
+    //         update();
+    //     });
+
+    //     $scope.find('.nav.left').on('click', function () {
+    //         current = (current - 1 + $cards.length) % $cards.length;
+    //         update();
+    //     });
+    // }    
+
+    $(window).on('elementor/frontend/init', function () {
+        elementorFrontend.hooks.addAction('frontend/element_ready/global', function ($scope) {
+            dreamslab_animation_handler($scope);
+            if ($(window).width() > 1200) {
+                pxl_parallax_text($scope);
+            }
+            dreamslab_svg_color($scope);
+            dreamslab_scroll_checkp($scope);
+            dreamslab_animation_btn($scope);
+            dreamslab_effect_element($scope);
+            dreamslab_scroll_item($scope);
+        });
+        dreamslab_parallax_bg();
+        dreamslab_section_start_render();
+        dreamslab_section_start_render2();
+        dreamslab_column_before_render();
+        dreamslab_css_inline_js();
+        dreamslab_parallax_effect();
+        dreamslab_section_before_render();
+        dreamslab_zoom_point();
+        dreamslab_scroll_fixed_section();
+
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_contact_form.default', PXL_Icon_Contact_Form);
+
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_heading.default', function ($scope) {
+            if ($(window).width() > 767) {
+                dreamslab_split_text($scope);
+                dreamslab_scroll_text($scope);
+            }
+            if ($(window).width() > 1200) {
+                pxl_parallax_text($scope);
+            }
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_history.default', function ($scope) {
+            if ($(window).width() > 767) {
+                pxl_parallax_history($scope);
+            }
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_ellipse_cursor.default', function ($scope) {
+            initEllipseCanvasEffect($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_process.default', function ($scope) {
+            pxl_parallax_prosess($scope);
+            if ($(window).width() > 767) {
+                initStepCardsLoop($scope);
+            }
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_progressbar.default', function ($scope) {
+            pxl_progesbar_counter($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_text_editor.default', function ($scope) {
+            if ($(window).width() > 767) {
+                dreamslab_split_text($scope);
+            }
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_button.default', function ($scope) {
+            if ($(window).width() > 1200) {
+                pxl_parallax_text($scope);
+            }
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_image.default', function ($scope) {
+            pxl_widget_image_handler($scope);
+            pxl_parallax_image($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_image_carousel.default', function ($scope) {
+            image_slider($scope);
+            dreamslab_image_slide_card($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_post_slip.default', function ($scope) {
+            if ($(window).width() > 767) {
+                dreamslab_split_text($scope);
+            }
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_post_carousel.default', function ($scope) {
+            ShowcaseSnapSlider($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_text_carousel.default', function ($scope) {
+            pxl_text_carousel11($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_post_list.default', function ($scope) {
+            if ($(window).width() > 767) {
+                pxl_parallax_service_list($scope);
+                dreamslab_text_hover_image($scope);
+            }
+            dreamslab_card_carousel($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_logo_marquee.default', function ($scope) {
+            dreamslab_logo_marquee($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_text_marquee.default', function ($scope) {
+            dreamslab_text_marquee($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_awards_list.default', function ($scope) {
+            dreamslab_text_hover_image($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/physics_item.default', function ($scope) {
+            wglPhysicsButton($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_tabs_slip.default', function ($scope) {
+            if ($(window).width() > 767) {
+                dreamslab_triger_tabs($scope);
+            }
+            dreamslab_triger($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_text_slip.default', function ($scope) {
+            dreamslab_triger_vertical($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_testimonial_carousel.default', function ($scope) {
+            dreamslab_image_slide_card_2($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_icon.default', function ($scope) {
+            dreamslab_dot_svg($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_images_slip.default', function ($scope) {
+            dreamslab_triger_tabs_image($scope);
+            dreamslab_triger_tabs_image1($scope);
+        });
+        elementorFrontend.hooks.addAction('frontend/element_ready/pxl_post_grid.default', function ($scope) {
+            dreamslab_text_hover_image($scope);
+            dreamslab_text_hover_image_grid($scope);
+        });
+    });
+
+    function dreamslab_parallax_effect_3d() {
+        const $parallax3dElements = $document.find('.pxl-parallax-effect-3d');
+        if (!$parallax3dElements.length) return;
+
+        $parallax3dElements.each(function (index, el) {
+            const $this = $(this);
+            const $bound = $this.closest('.mouse-move-bound');
+
+            if (!$bound.length) return;
+
+            let rect = $bound[0].getBoundingClientRect();
+            const mouse = { x: 0, y: 0, moved: false };
+
+            $bound.hover(
+                function (e) {
+                    mouse.moved = true;
+                }, function (e) {
+                    mouse.moved = false;
+                    gsap.to($this[0], {
+                        duration: 0.5,
+                        x: 0,
+                        y: 0,
+                        rotateX: 0,
+                        rotateY: 0
+                    });
+                }
+            );
+
+            $bound.mousemove(throttle(function (e) {
+                mouse.moved = true;
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+
+                requestAnimationFrame(() => {
+                    gsap.to($this[0], {
+                        duration: 0.5,
+                        x: (mouse.x - rect.width / 2) / rect.width * -100,
+                        y: (mouse.y - rect.height / 2) / rect.height * -100,
+                        rotateX: (mouse.y - rect.height / 2) / rect.height * -20,
+                        rotateY: (mouse.x - rect.width / 2) / rect.width * 20
+                    });
+                });
+            }, 16));
+
+            $window.on('resize scroll', throttle(function () {
+                rect = $bound[0].getBoundingClientRect();
+            }, 100));
+        });
+    }
+
+    function cleanupElementor() {
+        if (window.elementorTimers && Array.isArray(window.elementorTimers)) {
+            window.elementorTimers.forEach(timer => {
+                if (timer) clearTimeout(timer);
+            });
+            window.elementorTimers = [];
+        }
+
+        if (typeof gsap !== 'undefined') {
+            gsap.killTweensOf('*');
+        }
+
+        $window.off('resize.elementor');
+        $window.off('scroll.elementor');
+
+        $document.find('.pxl-parallax-effect, .pxl-parallax-effect-3d').off('mousemove');
+    }
+
+    $window.on('beforeunload', cleanupElementor);
+})(jQuery);
