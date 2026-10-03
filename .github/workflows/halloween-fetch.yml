@@ -1,5 +1,5 @@
-# Dočasný workflow (větev tmp/halloween-fetch): stáhne živou stránku get-up.fun a její skripty,
-# aby šlo zjistit, co s vloženým blokem dělá cache plugin. Z vývojového prostředí je web nedostupný.
+# Dočasný workflow (větev tmp/halloween-fetch): stáhne z get-up.fun seznam médií a obrázky log,
+# aby šlo najít správné soubory. Z vývojového prostředí je web nedostupný.
 name: Halloween fetch
 
 on:
@@ -14,27 +14,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Stáhnout stránku
+      - name: Média z webu
         run: |
-          mkdir -p fetch
-          UA_D="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
-          UA_M="Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1"
-          curl -sSL -A "$UA_D" -D fetch/desktop.headers -o fetch/desktop.html "https://www.get-up.fun/" || true
-          curl -sSL -A "$UA_M" -D fetch/mobile.headers -o fetch/mobile.html "https://www.get-up.fun/" || true
-          sleep 8
-          curl -sSL -A "$UA_D" -D fetch/desktop2.headers -o fetch/desktop2.html "https://www.get-up.fun/" || true
-          curl -sSL -A "$UA_D" -D fetch/nocache.headers -o fetch/nocache.html "https://www.get-up.fun/?nocache=$(date +%s)" || true
-          grep -oE '(src|href)="[^"]+\.(js|css)(\?[^"]*)?"' fetch/desktop.html | sed -E 's/^(src|href)="//;s/"$//' | sort -u > fetch/assets.txt || true
-          i=0
+          rm -rf fetch && mkdir -p fetch/logos
+          UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+          curl -sSL -A "$UA" -o fetch/media-logo.json "https://www.get-up.fun/wp-json/wp/v2/media?search=logo&per_page=100&_fields=id,date,slug,title,source_url,media_details,alt_text" || true
+          curl -sSL -A "$UA" -o fetch/media-latest.json "https://www.get-up.fun/wp-json/wp/v2/media?per_page=100&orderby=date&order=desc&_fields=id,date,slug,title,source_url,media_details,alt_text" || true
+          curl -sSL -A "$UA" -o fetch/media-2026-10.json "https://www.get-up.fun/wp-json/wp/v2/media?per_page=100&after=2026-09-25T00:00:00&_fields=id,date,slug,title,source_url,media_details,alt_text" || true
+          for n in getup hqd proud; do
+            curl -sSL -A "$UA" -D "fetch/logos/logo-$n.headers" -o "fetch/logos/logo-$n.png" "https://www.get-up.fun/wp-content/uploads/2026/10/logo-$n.png?nocache=$(date +%s)" || true
+          done
+          # všechny soubory z médií, které mají v názvu logo (originály)
+          jq -r '.[]? | .source_url' fetch/media-logo.json fetch/media-latest.json fetch/media-2026-10.json 2>/dev/null | grep -i "logo" | sort -u > fetch/logo-urls.txt || true
           while read -r u; do
-            case "$u" in /*) u="https://www.get-up.fun$u";; esac
-            case "$u" in *get-up.fun*) i=$((i+1)); ext="${u##*.}"; ext="${ext%%\?*}"; curl -sSL -A "$UA_D" -o "fetch/asset-$i.$ext" "$u" && echo "$i $u" >> fetch/asset-index.txt;; esac
-          done < fetch/assets.txt
-          ls -la fetch
+            f="fetch/logos/$(basename "$u")"
+            [ -f "$f" ] || curl -sSL -A "$UA" -o "$f" "$u" || true
+          done < fetch/logo-urls.txt
+          ls -la fetch fetch/logos
+          file fetch/logos/* || true
       - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A fetch
-          git commit -m "Halloween: stažená živá stránka (workflow)" || echo "nothing to commit"
+          git commit -m "Halloween: média a loga z webu (workflow)" || echo "nothing to commit"
           git push
