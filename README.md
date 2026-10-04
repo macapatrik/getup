@@ -198,10 +198,10 @@ protože z vývojového prostředí není Drive dostupný.
 
 ## Režim „Připravujeme“
 
-Dokud seznamka nejde na veřejnost, nastav v prostředí `COMING_SOON=1` (na Vercelu je nastaveno pro production
-i preview): úvodní stránka `/` (`src/app/landing.tsx`) pak nemá tlačítko přihlášení a místo „Začít“ vede na
-Halloween a Instagram. Všechno ostatní běží dál: tým se přihlásí přímo přes `/login`, fungují odkazy `/j/KÓD`,
-administrace i `/halloween`. Před spuštěním pro veřejnost proměnnou smaž a znovu nasaď.
+Dokud seznamka nejde na veřejnost, nastav v prostředí `COMING_SOON=1` (na Vercelu je proměnná pro production
+i preview, od 4. 10. 2026 s hodnotou `0` = spuštěno): úvodní stránka `/` (`src/app/landing.tsx`) pak nemá tlačítko
+přihlášení a místo „Začít“ vede na Halloween a Instagram. Všechno ostatní běží dál: tým se přihlásí přímo přes `/login`, fungují odkazy `/j/KÓD`,
+administrace i `/halloween`. Změna hodnoty platí až po novém nasazení.
 
 ## Demo data
 
