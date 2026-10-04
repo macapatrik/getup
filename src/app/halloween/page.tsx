@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
-import { FallbackImg } from "@/components/fallback-img";
 import { Icon, type IconName } from "@/components/icons";
 import { LogoMark } from "@/components/logo";
 import { APP_NAME } from "@/lib/config";
@@ -38,8 +37,6 @@ const CONTEST_STEPS = [
   { title: "Užij si noc", text: "Porota chodí mezi lidmi na obou stagích, nemusíš se nikde hlásit." },
   { title: "Vyhlášení na hlavní stagi", text: `Nejlepší kostým večera si odnáší ${EVENT.prize}.` },
 ];
-
-const CROWD = ["klara", "matej", "nikola", "tomas", "adela"];
 
 // Fotky z Halloweenu 2025 (public/halloween/gallery, vybrané ze složky na Drive)
 const GALLERY = ["058", "068", "092", "113", "121", "133", "146", "203", "207", "218", "256", "262"];
@@ -100,10 +97,15 @@ function InfoTile({
   );
 }
 
-function Avatar({ photo, className = "" }: { photo: string; className?: string }) {
+/** Avatar jen s iniciálou – fotky lidí z aplikace tu neukazujeme. */
+function Initial({ letter, flip = false, className = "" }: { letter: string; flip?: boolean; className?: string }) {
   return (
-    <span className={`relative block shrink-0 overflow-hidden rounded-full border-2 border-coal bg-gradient-to-br from-accent-soft to-[#d9d6ff] ${className}`}>
-      <FallbackImg src={`/people/${photo}.webp`} className="absolute inset-0 size-full object-cover" />
+    <span
+      className={`grid shrink-0 place-items-center rounded-full border-2 border-white text-[13px] font-bold text-accent ${
+        flip ? "bg-gradient-to-tl" : "bg-gradient-to-br"
+      } from-accent-soft to-[#d9d6ff] ${className}`}
+    >
+      {letter}
     </span>
   );
 }
@@ -367,22 +369,20 @@ export default function HalloweenPage() {
         </div>
       </section>
 
-      {/* GetCrush: seznamka pro návštěvníky akce (teaser, spouštíme před akcí) */}
+      {/* GetCrush: seznamka pro návštěvníky akce, tlačítko připojí rovnou k Halloweenu (/j/KÓD), bez QR kódu */}
       <section id="seznamka" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-14 sm:px-6 sm:py-20">
         <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-br from-[#2b0b3d] via-coal to-coal p-6 sm:p-10">
           <div className="absolute -top-24 -left-24 size-72 rounded-full bg-accent/25 blur-3xl" />
           <div className="absolute -right-24 -bottom-24 size-72 rounded-full bg-indigo/30 blur-3xl" />
           <div className="relative grid items-center gap-8 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
             <div className="order-1 flex flex-col items-center md:order-2">
-              <div className="flex">
-                {CROWD.map((photo, i) => (
-                  <Avatar key={photo} photo={photo} className={`size-14 sm:size-20 ${i > 0 ? "-ml-4" : ""}`} />
-                ))}
-              </div>
-              <div className="-mt-4 flex items-center gap-2 rounded-full bg-white py-1.5 pr-4 pl-1.5 text-ink shadow-[0_12px_30px_-14px_rgb(0_0_0/0.6)]">
+              <span className="grid size-28 place-items-center rounded-full bg-gradient-to-b from-[#ff9be9] to-accent shadow-[0_30px_60px_-24px_rgb(247_89_245/0.8)] sm:size-36">
+                <Icon name="heart" className="size-14 text-white sm:size-16" />
+              </span>
+              <div className="-mt-5 flex items-center gap-2 rounded-full bg-white py-1.5 pr-4 pl-1.5 text-ink shadow-[0_12px_30px_-14px_rgb(0_0_0/0.6)]">
                 <span className="relative flex">
-                  <Avatar photo="patrik" className="size-8 !border-white" />
-                  <Avatar photo="tereza" className="-ml-2.5 size-8 !border-white" />
+                  <Initial letter="P" className="size-8" />
+                  <Initial letter="T" flip className="-ml-2.5 size-8" />
                   <span className="fill-accent absolute -bottom-1 left-1/2 grid size-4 -translate-x-1/2 place-items-center rounded-full border border-white shadow-none">
                     <Icon name="heart" className="size-2.5" />
                   </span>
@@ -397,23 +397,21 @@ export default function HalloweenPage() {
                   <LogoMark className="size-4" /> {APP_NAME} by GetUp
                 </span>
                 <span className="hw-outline inline-flex items-center rounded-[10px] px-3 py-1.5 text-[12px] font-bold tracking-[0.16em] text-bone uppercase">
-                  Připravujeme
+                  Už jede
                 </span>
               </div>
               <h2 className="font-metal mt-4 text-[40px] leading-[0.95] text-bone sm:text-[56px]">Seznamka jen pro lidi z Halloweenu</h2>
               <p className="mx-auto mt-4 max-w-lg text-[17px] leading-snug text-bone/80 md:mx-0">
-                Chystáme pro vás {APP_NAME}: aplikaci, ve které uvidíš jen ty, kdo jdou na stejnou akci. Lajk, match, chat a
-                domluva, kde se v K2 potkáte. Spouštíme před Halloweenem.
+                V {APP_NAME} uvidíš jen lidi, kteří jdou na Halloween do K2. Lajkuj už teď, a když se lajknete oba, ukážou se
+                vám kontakty a domluvíte se, kde se potkáte.
               </p>
               <a
-                href={EVENT.instagram}
-                target="_blank"
-                rel="noopener"
+                href={`/j/${EVENT.joinCode}`}
                 className="fill-accent mt-6 inline-flex items-center justify-center gap-2 rounded-[12px] px-7 py-3.5 text-[17px] font-bold transition active:scale-[0.97]"
               >
-                <Icon name="heart" className="size-5" /> Sledovat novinky
+                <Icon name="heart" className="size-5" /> Připojit se k Halloweenu
               </a>
-              <p className="mt-3 text-[12px] text-ash">Jen pro 18+. Spuštění oznámíme na Instagramu {EVENT.instagramHandle}.</p>
+              <p className="mt-3 text-[12px] text-ash">Zdarma, jen 18+. Nic neskenuješ: po registraci jsi rovnou v akci.</p>
             </div>
           </div>
         </div>

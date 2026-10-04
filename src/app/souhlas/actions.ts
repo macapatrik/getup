@@ -1,13 +1,12 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { errorMessage } from "@/lib/errors";
 import { TERMS_VERSION } from "@/lib/legal";
 import { safeNext } from "@/lib/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-export type ConsentState = { error: string | null };
+export type ConsentState = { error: string | null; next?: string };
 
 export async function acceptTermsAction(next: string, _prev: ConsentState, formData: FormData): Promise<ConsentState> {
   await requireUser();
@@ -20,6 +19,6 @@ export async function acceptTermsAction(next: string, _prev: ConsentState, formD
   });
   if (error) return { error: errorMessage(error) };
 
-  // Plná navigace přes redirect: `next` může být route handler /j/KOD (připojení k akci).
-  redirect(safeNext(next));
+  // Dál naviguje formulář plným načtením: `next` může být route handler /j/KOD (připojení k akci).
+  return { error: null, next: safeNext(next) };
 }

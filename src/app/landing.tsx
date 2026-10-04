@@ -11,11 +11,16 @@ import { EVENT } from "./halloween/event";
 // Skutečné fotky z akcí GetUp (stejné jako na /halloween). Konkrétní lidi z aplikace tu neukazujeme.
 const GALLERY = ["215", "113", "146", "068", "203", "256"];
 
-const STEPS: { icon: IconName; title: string; text: string }[] = [
+// Odkaz /j/KÓD připojí k akci hned po přihlášení a vyplnění profilu, bez skenování QR kódu.
+const JOIN_HREF = `/j/${EVENT.joinCode}`;
+
+const steps = (joinable: boolean): { icon: IconName; title: string; text: string }[] => [
   {
     icon: "qr",
     title: "Připoj se k akci",
-    text: "Naskenuj QR kód u vstupu nebo klikni na odkaz ze vstupenky. Účet založíš e-mailem za minutu, bez hesla.",
+    text: joinable
+      ? `Na ${EVENT.name} tě připojíme rovnou po registraci, nic neskenuješ. Účet založíš e-mailem za minutu, bez hesla.`
+      : "Naskenuj QR kód u vstupu nebo klikni na odkaz ze vstupenky. Účet založíš e-mailem za minutu, bez hesla.",
   },
   {
     icon: "heart",
@@ -46,7 +51,7 @@ const FEATURES: { icon: IconName; title: string; text: string }[] = [
   { icon: "bell", title: "Upozornění na match", text: "Když se lajknete, hned ti to pípne. Nic ti neuteče." },
 ];
 
-const FAQ: { q: string; a: string }[] = [
+const faq = (joinable: boolean): { q: string; a: string }[] => [
   { q: "Kolik to stojí?", a: `Nic. Pro návštěvníky akcí GetUp je ${APP_NAME} zdarma.` },
   {
     q: "Kdo uvidí můj profil?",
@@ -58,7 +63,9 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Jak se připojím k akci?",
-    a: "Naskenuj QR kód u vstupu, klikni na odkaz ze vstupenky, nebo v aplikaci zadej kód akce.",
+    a: joinable
+      ? `Na ${EVENT.name} stačí kliknout na Začít, připojíme tě hned po registraci. Na další akce naskenuješ QR kód u vstupu, klikneš na odkaz ze vstupenky, nebo v aplikaci zadáš kód akce.`
+      : "Naskenuj QR kód u vstupu, klikni na odkaz ze vstupenky, nebo v aplikaci zadej kód akce.",
   },
   {
     q: "Proč tu není chat?",
@@ -93,8 +100,8 @@ function SectionHead({ badge, title, text, center = false }: { badge: string; ti
   );
 }
 
-/** Akční tlačítka: v režimu „připravujeme“ vedou na akci a Instagram, jinak na přihlášení. */
-function Ctas({ comingSoon, secondary }: { comingSoon: boolean; secondary: "how" | "instagram" }) {
+/** Akční tlačítka: v režimu „připravujeme“ vedou na akci a Instagram, jinak na přihlášení (případně rovnou na akci). */
+function Ctas({ comingSoon, startHref, secondary }: { comingSoon: boolean; startHref: string; secondary: "how" | "instagram" }) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
       {comingSoon ? (
@@ -102,9 +109,9 @@ function Ctas({ comingSoon, secondary }: { comingSoon: boolean; secondary: "how"
           {EVENT.name}
         </Link>
       ) : (
-        <Link href="/login" className={`${btnPrimary} py-3.5 sm:px-10`}>
+        <a href={startHref} className={`${btnPrimary} py-3.5 sm:px-10`}>
           Začít
-        </Link>
+        </a>
       )}
       {comingSoon || secondary === "instagram" ? (
         <a href={EVENT.instagram} target="_blank" rel="noopener" className={`${btnSecondary} py-3.5`}>
@@ -232,14 +239,15 @@ function MatchMock() {
   );
 }
 
-/** Sekce s nejbližší akcí zmizí, jakmile akce začne. */
-function isUpcoming(startsAt: string) {
-  return new Date(startsAt).getTime() > Date.now();
+/** K akci se dá připojit ještě během ní; den po začátku sekce s akcí zmizí a „Začít“ vede jen na přihlášení. */
+function isJoinable(startsAt: string) {
+  return Date.now() < new Date(startsAt).getTime() + 24 * 60 * 60 * 1000;
 }
 
 /** Úvodní stránka pro nepřihlášené. V režimu „připravujeme“ (COMING_SOON=1) bez přihlášení, jen s odkazy na akci. */
 export function Landing({ comingSoon }: { comingSoon: boolean }) {
-  const eventUpcoming = isUpcoming(EVENT.startsAt);
+  const joinable = isJoinable(EVENT.startsAt);
+  const startHref = joinable ? JOIN_HREF : "/login";
 
   return (
     <main className="mx-auto max-w-md px-4 pt-safe pb-10 lg:max-w-5xl lg:px-8">
@@ -272,12 +280,14 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
             kontakty a potkáte se na místě.
           </p>
           <div className="mx-auto mt-7 max-w-sm lg:mx-0 lg:max-w-none">
-            <Ctas comingSoon={comingSoon} secondary="how" />
+            <Ctas comingSoon={comingSoon} startHref={startHref} secondary="how" />
           </div>
           <p className="mt-4 text-[13px] font-medium text-muted">
             {comingSoon
               ? `Spouštíme na Halloweenu ${EVENT.dateLabel.replace(/ /g, " ")} v Klubu K2.`
-              : "Zdarma · jen 18+ · bez instalace"}
+              : joinable
+                ? `Zdarma · jen 18+ · rovnou tě připojíme na ${EVENT.name}`
+                : "Zdarma · jen 18+ · bez instalace"}
           </p>
         </div>
 
@@ -304,7 +314,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
       <section id="jak" className="mt-20 scroll-mt-6 lg:mt-28">
         <SectionHead badge="Jak to funguje" title="Tři kroky k rande na akci" center />
         <ol className="mt-8 grid gap-3 lg:grid-cols-3 lg:gap-5">
-          {STEPS.map((step, i) => (
+          {steps(joinable).map((step, i) => (
             <li key={step.title} className="surface relative rounded-[16px] p-5">
               <span className="absolute top-4 right-5 text-[40px] leading-none font-bold text-accent-soft">{i + 1}</span>
               <span className="fill-accent-soft grid size-12 place-items-center rounded-[12px]">
@@ -352,7 +362,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
       </section>
 
       {/* Nejbližší akce */}
-      {eventUpcoming && (
+      {joinable && (
         <section className="mt-20 lg:mt-28">
           <SectionHead badge="Nejbližší akce" title={`Poprvé na ${EVENT.name}`} center />
           <div className="surface mx-auto mt-8 grid max-w-3xl overflow-hidden rounded-[32px] sm:grid-cols-[220px_1fr]">
@@ -376,13 +386,25 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
                 </li>
               </ul>
               <p className="mt-4 text-[14px] leading-snug">
-                Na akci uvidíš v {APP_NAME} všechny, kdo tam jdou. Připojíš se QR kódem u vstupu nebo odkazem ze vstupenky.
+                {comingSoon
+                  ? `Na akci uvidíš v ${APP_NAME} všechny, kdo tam jdou.`
+                  : `V ${APP_NAME} uvidíš všechny, kdo tam jdou. Klikni na Připojit se a po registraci jsi rovnou v akci, nic neskenuješ.`}
               </p>
               <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
-                <a href={EVENT.ticketsUrl} target="_blank" rel="noopener" className={`${btnPrimary} !py-3 !text-[16px]`}>
+                {!comingSoon && (
+                  <a href={JOIN_HREF} className={`${btnPrimary} !py-3 !text-[16px]`}>
+                    <Icon name="heart" className="size-5" /> Připojit se
+                  </a>
+                )}
+                <a
+                  href={EVENT.ticketsUrl}
+                  target="_blank"
+                  rel="noopener"
+                  className={`${comingSoon ? btnPrimary : btnSecondary} !py-3 !text-[16px]`}
+                >
                   <Icon name="ticket" className="size-5" /> Vstupenky
                 </a>
-                <Link href="/halloween" className={`${btnSecondary} !py-3 !text-[15px]`}>
+                <Link href="/halloween" className="inline-flex items-center justify-center px-2 py-3 text-[15px] font-bold text-accent">
                   Víc o akci
                 </Link>
               </div>
@@ -395,7 +417,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
       <section className="mt-20 lg:mt-28">
         <SectionHead badge="Otázky" title="Na co se lidi ptají" center />
         <div className="mx-auto mt-8 max-w-3xl space-y-2.5">
-          {FAQ.map((item) => (
+          {faq(joinable).map((item) => (
             <details key={item.q} className="surface group rounded-[16px] px-4 [&_summary::-webkit-details-marker]:hidden">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-4 text-[16px] font-bold">
                 {item.q}
@@ -421,7 +443,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
             : "Založ si profil, připoj se k akci a začni swipovat."}
         </p>
         <div className="mx-auto mt-7 max-w-sm sm:max-w-none sm:[&>div]:justify-center">
-          <Ctas comingSoon={comingSoon} secondary="instagram" />
+          <Ctas comingSoon={comingSoon} startHref={startHref} secondary="instagram" />
         </div>
       </section>
 

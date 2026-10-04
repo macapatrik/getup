@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useState, type ReactNode } from "react";
+import { useActionState, useEffect, useState, type ReactNode } from "react";
 import { Icon } from "@/components/icons";
 import { SubmitButton } from "@/components/submit-button";
 import { btnPrimary, errorText } from "@/components/ui";
@@ -34,6 +34,11 @@ export function ConsentForm({ next, marketing }: { next: string; marketing: bool
   const [state, formAction] = useActionState<ConsentState, FormData>(acceptTermsAction.bind(null, next), { error: null });
   const [terms, setTerms] = useState(false);
 
+  // Plná navigace: `next` může být route handler /j/KOD, který připojí k akci.
+  useEffect(() => {
+    if (state.next) window.location.assign(state.next);
+  }, [state.next]);
+
   return (
     <form action={formAction} className="mt-6 space-y-3">
       <Checkbox name="terms" onChange={setTerms}>
@@ -53,7 +58,7 @@ export function ConsentForm({ next, marketing }: { next: string; marketing: bool
       </Checkbox>
       {state.error && <p className={errorText}>{state.error}</p>}
       <div className="pt-3">
-        <SubmitButton disabled={!terms} className={`${btnPrimary} w-full py-3.5`} pendingText="Ukládám…">
+        <SubmitButton disabled={!terms || Boolean(state.next)} className={`${btnPrimary} w-full py-3.5`} pendingText="Ukládám…">
           Pokračovat
         </SubmitButton>
       </div>
