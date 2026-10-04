@@ -60,6 +60,11 @@ export function daysUntilStart(startsAt: string, now = new Date()) {
   return Math.round((Date.parse(dayKey(new Date(startsAt))) - Date.parse(dayKey(now))) / 86_400_000);
 }
 
+/** „1 člověk“, „3 lidi“, „12 lidí“ (počet lidí na akci). */
+export function peopleLabel(count: number) {
+  return `${formatNumber(count)} ${count === 1 ? "člověk" : count < 5 ? "lidi" : "lidí"}`;
+}
+
 /** Krátký odpočet do začátku (a stav během akce) – „za 12 dní“, „zítra“, „dnes ve 21:00“. */
 export function eventCountdown(event: { starts_at: string; ends_at: string }, now = new Date()): string {
   const status = eventStatus(event, now.getTime());

@@ -15,19 +15,16 @@ import {
   formatDateTime,
   formatNumber,
   formatTime,
+  peopleLabel,
 } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow, PastEvent } from "@/lib/types";
 import { EVENT } from "../../halloween/event";
-import { InviteCard } from "./invite-card";
+import { HalloweenCard } from "./halloween-card";
 import { JoinForm } from "./join-form";
 import { QrScanButton } from "./qr-scanner";
 
 export const metadata: Metadata = { title: "Akce" };
-
-function peopleLabel(count: number) {
-  return `${formatNumber(count)} ${count === 1 ? "člověk" : count < 5 ? "lidi" : "lidí"}`;
-}
 
 export default async function EventsPage(props: PageProps<"/events">) {
   const { user, profile } = await requireProfile();
@@ -68,13 +65,17 @@ export default async function EventsPage(props: PageProps<"/events">) {
 
         {invite && (
           <section className="mt-5">
-            <InviteCard />
+            <HalloweenCard />
           </section>
         )}
 
         {featured && (
           <section className="mt-5">
-            <NextEventCard event={featured} attendees={counts.get(featured.id) ?? 0} />
+            {featured.join_code === EVENT.joinCode ? (
+              <HalloweenCard event={featured} attendees={counts.get(featured.id) ?? 0} />
+            ) : (
+              <NextEventCard event={featured} attendees={counts.get(featured.id) ?? 0} />
+            )}
           </section>
         )}
 
