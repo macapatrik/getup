@@ -8,4 +8,8 @@ export const OPERATOR = {
   web: "https://get-up.fun",
 };
 
-export const LEGAL_UPDATED = "30. 9. 2026";
+export const LEGAL_UPDATED = "4. 10. 2026";
+
+// Verze podmínek, se kterou uživatel souhlasí na obrazovce /souhlas (ukládá se do public.consents).
+// Zvyš ji jen při podstatné změně podmínek – všem se pak souhlas ukáže znovu.
+export const TERMS_VERSION = "2026-10-04";

@@ -19,6 +19,12 @@ export interface Contacts {
   phone: string | null;
 }
 
+/** Souhlasy z obrazovky /souhlas (public.consents). */
+export interface Consent {
+  terms_version: string;
+  marketing: boolean;
+}
+
 export interface Profile extends Contacts {
   id: string;
   display_name: string;

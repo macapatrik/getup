@@ -12,6 +12,7 @@ import {
   type PushState,
 } from "@/lib/push-client";
 import { Icon } from "./icons";
+import { Switch } from "./switch";
 import { btnSecondary, card } from "./ui";
 
 const DISMISS_KEY = "gt-push-prompt-dismissed";
@@ -99,19 +100,7 @@ export function PushSettings() {
           <p className="text-[13px] text-muted">{STATUS[state]}</p>
         </div>
         {(state === "on" || state === "off") && (
-          <button
-            type="button"
-            role="switch"
-            aria-checked={on}
-            aria-label="Upozornění na matche"
-            disabled={busy}
-            onClick={on ? disable : enable}
-            className={`relative h-[31px] w-[51px] shrink-0 rounded-full transition-colors disabled:opacity-60 ${on ? "bg-accent" : "bg-fill"}`}
-          >
-            <span
-              className={`absolute top-[2px] left-[2px] size-[27px] rounded-full bg-white shadow-[0_2px_6px_rgb(0_0_0/0.2)] transition-transform ${on ? "translate-x-5" : ""}`}
-            />
-          </button>
+          <Switch checked={on} label="Upozornění na matche" disabled={busy} onChange={(next) => (next ? enable() : disable())} />
         )}
       </div>
 

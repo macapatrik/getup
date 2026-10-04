@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FallbackImg } from "@/components/fallback-img";
 import { Icon } from "@/components/icons";
 import { Logo } from "@/components/logo";
+import { MadeBy } from "@/components/made-by";
 import { btnPrimary, btnSecondary, pill } from "@/components/ui";
 import { EVENT } from "./halloween/event";
 
@@ -66,6 +67,7 @@ export function ComingSoon() {
           Soukromí
         </Link>
       </p>
+      <MadeBy className="mt-3" />
     </main>
   );
 }

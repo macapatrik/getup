@@ -144,6 +144,7 @@ supabase/
   migrations/…_realtime_broadcast.sql  soukromé realtime kanály + triggery na zprávy a matche
   migrations/…_profile_contacts.sql    kontakty v profilu (Instagram, Snapchat, telefon)
   migrations/…_remove_chat.sql         zrušení chatu, get_matches vrací kontakty
+  migrations/…_consents.sql            souhlasy po prvním přihlášení: podmínky (verze) a novinky e-mailem
   run_manually.sql        ruční část: úklid po chatu + migrace admin_delete_user (spustit v SQL Editoru)
   templates/login.html    e-mailová šablona s kódem
   seed.sql                demo akce DEMO26
@@ -152,6 +153,7 @@ src/
   app/
     page.tsx              úvodní stránka
     login/                přihlášení kódem z e-mailu
+    souhlas/              souhlas s podmínkami (moderace, blokace) a s novinkami e-mailem, před vytvořením profilu
     onboarding/           vytvoření profilu
     j/[code]/             cíl QR kódu: připojí k akci
     (app)/events/         moje akce + zadání kódu, history/ = historie všech proběhlých akcí (RPC past_events)

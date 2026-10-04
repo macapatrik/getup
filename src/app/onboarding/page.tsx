@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { ProfileForm } from "@/components/profile-form";
-import { getProfile, requireUser } from "@/lib/auth";
+import { getProfile, hasAcceptedTerms, requireUser } from "@/lib/auth";
 import { safeNext } from "@/lib/navigation";
 
 export const metadata: Metadata = { title: "Tvůj profil" };
@@ -11,6 +11,7 @@ export default async function OnboardingPage(props: PageProps<"/onboarding">) {
   const user = await requireUser();
   const { next } = await props.searchParams;
   const nextPath = safeNext(typeof next === "string" ? next : null);
+  if (!(await hasAcceptedTerms())) redirect(`/souhlas?next=${encodeURIComponent(nextPath)}`);
   if (await getProfile()) redirect(nextPath);
 
   return (

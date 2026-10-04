@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AppHeader } from "@/components/app-header";
 import { Icon } from "@/components/icons";
+import { MadeBy } from "@/components/made-by";
 import { PushSettings } from "@/components/push-settings";
 import { SubmitButton } from "@/components/submit-button";
 import { btnSecondary, card, pill, sectionTitle } from "@/components/ui";
-import { isOrganizer, requireProfile } from "@/lib/auth";
+import { getConsent, isOrganizer, requireProfile } from "@/lib/auth";
 import { contactLinks, hasContact } from "@/lib/contacts";
 import { STATUS_LABELS, ageFromBirthdate, eventStatus, formatDate, formatNumber } from "@/lib/format";
 import { photoUrl } from "@/lib/photos";
@@ -13,6 +14,7 @@ import { createClient } from "@/lib/supabase/server";
 import type { EventRow, MatchRow, MyLike, MyStats } from "@/lib/types";
 import { signOutAction } from "../actions";
 import { DeleteAccount } from "./delete-account";
+import { MarketingSettings } from "./marketing-settings";
 
 export const metadata: Metadata = { title: "Můj účet" };
 
@@ -21,8 +23,9 @@ const linkRow = "flex items-center gap-3 px-4 py-3 transition hover:bg-fill/60 a
 export default async function AccountPage() {
   const { user, profile } = await requireProfile();
   const supabase = await createClient();
-  const [organizer, { data: statsRows }, { data: likeRows }, { data: matchRows }, { data: attendance }] = await Promise.all([
+  const [organizer, consent, { data: statsRows }, { data: likeRows }, { data: matchRows }, { data: attendance }] = await Promise.all([
     isOrganizer(),
+    getConsent(),
     supabase.rpc("my_stats"),
     supabase.rpc("my_likes"),
     supabase.rpc("get_matches"),
@@ -199,6 +202,7 @@ export default async function AccountPage() {
             </section>
 
             <PushSettings />
+            <MarketingSettings initial={consent?.marketing ?? false} />
 
             <section className={`${card} space-y-3`}>
               <p className="text-[17px] font-bold">Soukromí a účet</p>
@@ -214,6 +218,7 @@ export default async function AccountPage() {
             </section>
           </div>
         </div>
+        <MadeBy className="mt-8" />
       </div>
     </main>
   );

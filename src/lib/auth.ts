@@ -1,8 +1,9 @@
 import { cache } from "react";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+import { TERMS_VERSION } from "@/lib/legal";
 import { createClient } from "@/lib/supabase/server";
-import type { Profile } from "@/lib/types";
+import type { Consent, Profile } from "@/lib/types";
 
 export const getUser = cache(async () => {
   const supabase = await createClient();
@@ -30,10 +31,24 @@ export const getProfile = cache(async (): Promise<Profile | null> => {
   return data as Profile | null;
 });
 
-/** Přihlášený uživatel s vyplněným profilem, jinak přesměrování. */
+export const getConsent = cache(async (): Promise<Consent | null> => {
+  const user = await getUser();
+  if (!user) return null;
+  const supabase = await createClient();
+  const { data } = await supabase.from("consents").select("terms_version, marketing").eq("user_id", user.id).maybeSingle();
+  return data as Consent | null;
+});
+
+/** Souhlasil s aktuální verzí podmínek? Jinak ho čeká obrazovka /souhlas. */
+export async function hasAcceptedTerms() {
+  return (await getConsent())?.terms_version === TERMS_VERSION;
+}
+
+/** Přihlášený uživatel se souhlasem s podmínkami a vyplněným profilem, jinak přesměrování. */
 export async function requireProfile() {
   const user = await requireUser();
-  const profile = await getProfile();
+  const [accepted, profile] = await Promise.all([hasAcceptedTerms(), getProfile()]);
+  if (!accepted) redirect("/souhlas");
   if (!profile) redirect("/onboarding");
   return { user, profile };
 }

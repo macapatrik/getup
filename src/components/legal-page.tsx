@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Logo } from "./logo";
+import { MadeBy } from "./made-by";
 import { btnSecondary, largeTitle } from "./ui";
 
 /** Obal právních stránek: logo, nadpis, prostý text v kartě. */
@@ -29,6 +30,7 @@ export function LegalPage({ title, updated, children }: { title: string; updated
           Ochrana soukromí
         </Link>
       </p>
+      <MadeBy className="mt-3" />
     </main>
   );
 }

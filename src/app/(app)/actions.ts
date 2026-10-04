@@ -84,6 +84,16 @@ export async function unlikeAction(userId: string) {
   revalidatePath("/profile", "layout");
 }
 
+/** Souhlas s novinkami e-mailem – zapnutí i odvolání. */
+export async function setMarketingAction(marketing: boolean): Promise<FormState> {
+  await requireUser();
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("set_marketing_consent", { p_marketing: marketing });
+  if (error) return { error: errorMessage(error) };
+  revalidatePath("/profile");
+  return { error: null };
+}
+
 // ---------- Upozornění ----------
 
 /** Zkušební push na tohle zařízení (endpoint jeho odběru). */

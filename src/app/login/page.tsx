@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Icon } from "@/components/icons";
+import { MadeBy } from "@/components/made-by";
 import { getUser } from "@/lib/auth";
 import { safeNext } from "@/lib/navigation";
 import { LoginForm } from "./login-form";
@@ -32,6 +33,7 @@ export default async function LoginPage(props: PageProps<"/login">) {
         </Link>
         .
       </p>
+      <MadeBy className="mt-3" />
     </main>
   );
 }

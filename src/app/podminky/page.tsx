@@ -9,8 +9,8 @@ export default function TermsPage() {
   return (
     <LegalPage title="Podmínky užití" updated={LEGAL_UPDATED}>
       <p>
-        {APP_NAME} provozuje {OPERATOR.name}, IČO {OPERATOR.id}, {OPERATOR.address}, {OPERATOR.vat}. Používáním aplikace souhlasíš s těmito
-        podmínkami. Jsou krátké, přečti si je.
+        {APP_NAME} provozuje {OPERATOR.name}, IČO {OPERATOR.id}, {OPERATOR.address}, {OPERATOR.vat}. Souhlas s těmito podmínkami potvrzuješ
+        po prvním přihlášení a bez něj aplikaci používat nejde. Jsou krátké, přečti si je.
       </p>
 
       <h2>Kdo může aplikaci používat</h2>
@@ -38,9 +38,16 @@ export default function TermsPage() {
       <h2>Moderace a správa účtů</h2>
       <p>
         Tým GetUp může kdykoli upravit nebo odstranit část profilu (fotku, text, kontakty) nebo celý účet, pokud porušuje
-        tato pravidla nebo zákon. Profil ti může upravit i na tvou žádost, třeba když se ti něco nedaří opravit, a může tě
-        přidat na akci nebo z ní odebrat. O zásahu kvůli porušení pravidel se dozvíš v aplikaci nebo e-mailem; proti
+        tato pravidla nebo zákon. Takový účet může také zablokovat: zablokovaný účet nemůže swipovat ani se připojit k akci
+        a ostatní ho v aplikaci neuvidí. Profil ti může upravit i na tvou žádost, třeba když se ti něco nedaří opravit, a může
+        tě přidat na akci nebo z ní odebrat. O zásahu kvůli porušení pravidel se dozvíš v aplikaci nebo e-mailem; proti
         zablokování se můžeš ozvat na kontakt níže.
+      </p>
+
+      <h2>Novinky e-mailem</h2>
+      <p>
+        Když k tomu dáš souhlas (po prvním přihlášení nebo v Můj účet), pošleme ti na e-mail z účtu pozvánky na akce GetUp
+        a novinky. Souhlas je dobrovolný, aplikaci používáš stejně i bez něj a kdykoli ho vypneš v Můj účet.
       </p>
 
       <h2>Co děláme my</h2>

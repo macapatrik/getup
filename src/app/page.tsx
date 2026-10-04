@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { FallbackImg } from "@/components/fallback-img";
 import { Icon, type IconName } from "@/components/icons";
 import { Logo } from "@/components/logo";
+import { MadeBy } from "@/components/made-by";
 import { btnPrimary, btnSecondary, photoBadge } from "@/components/ui";
 import { getUser } from "@/lib/auth";
 import { isComingSoon } from "@/lib/config";
@@ -141,6 +142,7 @@ export default async function Home() {
         </Link>
         .
       </p>
+      <MadeBy className="mt-6" />
     </main>
   );
 }

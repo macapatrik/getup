@@ -37,6 +37,9 @@ export default function PrivacyPage() {
           která odešleš nebo obdržíš.
         </li>
         <li>
+          <strong>Souhlasy:</strong> kdy jsi odsouhlasil/a podmínky užití a jestli chceš dostávat novinky e-mailem.
+        </li>
+        <li>
           <strong>Upozornění:</strong> pokud si zapneš push upozornění, uložíme technický identifikátor tvého zařízení pro jejich
           doručování.
         </li>
@@ -59,8 +62,15 @@ export default function PrivacyPage() {
           <strong>Upozornění na match</strong> (souhlas): jen když si je zapneš; kdykoli je vypneš v nastavení účtu
           nebo telefonu.
         </li>
+        <li>
+          <strong>Novinky a pozvánky e-mailem</strong> (souhlas): jen když to zaškrtneš po prvním přihlášení nebo zapneš
+          v Můj účet. Posíláme je na e-mail z účtu a kdykoli je vypneš v Můj účet.
+        </li>
       </ul>
-      <p>Údaje nepoužíváme k reklamě, neprodáváme je a neprofilujeme tě pro jiné účely.</p>
+      <p>
+        Údaje neprodáváme a neprofilujeme tě. E-maily s novinkami posíláme jen se souhlasem, jinak ti píšeme jen přihlašovací
+        kódy a důležité informace o účtu.
+      </p>
 
       <h2>Kdo tvoje údaje vidí</h2>
       <ul>
@@ -75,7 +85,7 @@ export default function PrivacyPage() {
         <li>
           <strong>Zpracovatelé</strong>, kteří pro nás aplikaci provozují: Supabase (databáze a úložiště, datové centrum ve
           Frankfurtu, EU), Vercel (hosting aplikace, region Frankfurt, EU), poskytovatel e-mailů pro zasílání přihlašovacích
-          kódů a Apple/Google/Mozilla pro doručování push upozornění. Se zpracovateli máme uzavřené smlouvy o zpracování údajů.
+          kódů a novinek a Apple/Google/Mozilla pro doručování push upozornění. Se zpracovateli máme uzavřené smlouvy o zpracování údajů.
         </li>
       </ul>
 
@@ -83,7 +93,7 @@ export default function PrivacyPage() {
       <p>
         Dokud máš účet. Když si účet smažeš (Účet → Smazat účet), smažeme profil, fotky, kontakty, lajky i matche. Provozní záznamy
         serverů mažeme nejdéle po 30 dnech. Nahlášení a záznamy o blokaci můžeme uchovat po dobu nezbytnou k ochraně ostatních
-        uživatelů.
+        uživatelů. Souhlas s novinkami platí, dokud ho neodvoláš nebo nesmažeš účet.
       </p>
 
       <h2>Tvoje práva</h2>
@@ -92,6 +102,7 @@ export default function PrivacyPage() {
         <li>Oprava: profil si kdykoli upravíš sám/sama.</li>
         <li>Výmaz: Účet → Smazat účet, nebo nám napiš.</li>
         <li>Odvolání souhlasu s upozorněními: vypnutím v nastavení účtu nebo telefonu.</li>
+        <li>Odvolání souhlasu s novinkami e-mailem: vypínačem v Můj účet, nebo nám napiš.</li>
         <li>Námitka proti zpracování z oprávněného zájmu a právo podat stížnost u Úřadu pro ochranu osobních údajů (uoou.gov.cz).</li>
       </ul>
 
