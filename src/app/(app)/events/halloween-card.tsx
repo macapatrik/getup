@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { FallbackImg } from "@/components/fallback-img";
 import { Icon } from "@/components/icons";
-import { btnPrimary } from "@/components/ui";
 import { daysUntilStart, eventStatus, formatTime, peopleLabel } from "@/lib/format";
 import type { EventRow } from "@/lib/types";
 import { EVENT } from "../../halloween/event";
+
+// Tlačítko v červené jako na stránce /halloween (Koupit vstupenku).
+const hwButton =
+  "hw-red mt-4 inline-flex w-full items-center justify-center gap-2 rounded-[12px] py-3.5 text-[17px] font-bold transition active:scale-[0.97]";
 
 /**
  * Halloween ve stylu plakátu. Bez `event` je to pozvánka (jedno klepnutí na /j/KÓD, bez QR kódu),
@@ -57,12 +60,12 @@ export function HalloweenCard({ event, attendees = 0 }: { event?: EventRow; atte
         </div>
         <p className="mt-4 text-[14px] leading-snug text-white/85">{text}</p>
         {event ? (
-          <Link href={`/e/${event.id}`} className={`${btnPrimary} mt-4 w-full py-3.5`}>
+          <Link href={`/e/${event.id}`} className={hwButton}>
             <Icon name="heart" className="size-5" /> Swipovat
           </Link>
         ) : (
           // Plná navigace: /j/KÓD je route handler, který připojí a přesměruje na swipování.
-          <a href={`/j/${EVENT.joinCode}`} className={`${btnPrimary} mt-4 w-full py-3.5`}>
+          <a href={`/j/${EVENT.joinCode}`} className={hwButton}>
             <Icon name="heart" className="size-5" /> Připojit se
           </a>
         )}
