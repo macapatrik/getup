@@ -6,6 +6,7 @@ import { Logo } from "@/components/logo";
 import { MadeBy } from "@/components/made-by";
 import { btnPrimary, btnSecondary, photoBadge, pill } from "@/components/ui";
 import { APP_NAME } from "@/lib/config";
+import { isJoinable } from "@/lib/events";
 import { EVENT } from "./halloween/event";
 
 // Skutečné fotky z akcí GetUp (stejné jako na /halloween). Konkrétní lidi z aplikace tu neukazujeme.
@@ -237,11 +238,6 @@ function MatchMock() {
       </div>
     </div>
   );
-}
-
-/** K akci se dá připojit ještě během ní; den po začátku sekce s akcí zmizí a „Začít“ vede jen na přihlášení. */
-function isJoinable(startsAt: string) {
-  return Date.now() < new Date(startsAt).getTime() + 24 * 60 * 60 * 1000;
 }
 
 /** Úvodní stránka pro nepřihlášené. V režimu „připravujeme“ (COMING_SOON=1) bez přihlášení, jen s odkazy na akci. */

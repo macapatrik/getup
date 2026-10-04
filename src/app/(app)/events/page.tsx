@@ -5,7 +5,7 @@ import { Icon } from "@/components/icons";
 import { card, largeTitle, pill, sectionTitle } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
 import { errorMessage } from "@/lib/errors";
-import { pickFeatured } from "@/lib/events";
+import { isJoinable, pickFeatured } from "@/lib/events";
 import {
   STATUS_LABELS,
   dayAndMonth,
@@ -18,6 +18,8 @@ import {
 } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow, PastEvent } from "@/lib/types";
+import { EVENT } from "../../halloween/event";
+import { InviteCard } from "./invite-card";
 import { JoinForm } from "./join-form";
 import { QrScanButton } from "./qr-scanner";
 
@@ -34,7 +36,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
   const supabase = await createClient();
   const { data } = await supabase
     .from("event_attendees")
-    .select("joined_at, event:events(id, name, venue, starts_at, ends_at)")
+    .select("joined_at, event:events(id, name, venue, starts_at, ends_at, join_code)")
     .eq("user_id", user.id)
     .order("joined_at", { ascending: false });
 
@@ -51,6 +53,8 @@ export default async function EventsPage(props: PageProps<"/events">) {
   // Nejbližší otevřená akce (probíhající má přednost) dostane velkou kartu nahoře, ostatní jsou v seznamu.
   const featured = pickFeatured(events);
   const rest = events.filter((e) => e.id !== featured?.id);
+  // Pozvánka na Halloween, dokud se k němu člověk nepřipojí – bez skenování QR kódu (odkaz /j/KÓD).
+  const invite = isJoinable(EVENT.startsAt) && !events.some((e) => e.join_code === EVENT.joinCode);
 
   return (
     <main className="mx-auto max-w-md pb-nav lg:pt-6">
@@ -61,6 +65,12 @@ export default async function EventsPage(props: PageProps<"/events">) {
           <p className="text-[15px] font-semibold text-muted">Čau {profile.display_name}</p>
           <h1 className={largeTitle}>Kam vyrazíš?</h1>
         </header>
+
+        {invite && (
+          <section className="mt-5">
+            <InviteCard />
+          </section>
+        )}
 
         {featured && (
           <section className="mt-5">
@@ -91,7 +101,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
 
         {rest.length > 0 && <h2 className={`${sectionTitle} mt-8`}>{featured ? "Další akce" : "Tvoje akce"}</h2>}
         {events.length === 0 ? (
-          <p className="mt-6 text-center text-[15px] text-muted">Zatím žádná akce. Jakmile se připojíš, objeví se tady.</p>
+          !invite && <p className="mt-6 text-center text-[15px] text-muted">Zatím žádná akce. Jakmile se připojíš, objeví se tady.</p>
         ) : (
           <ul className="space-y-3">
             {rest.map((event) => {

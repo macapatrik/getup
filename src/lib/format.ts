@@ -64,13 +64,13 @@ export function daysUntilStart(startsAt: string, now = new Date()) {
 export function eventCountdown(event: { starts_at: string; ends_at: string }, now = new Date()): string {
   const status = eventStatus(event, now.getTime());
   if (status === "live") return "právě probíhá";
-  if (status === "after") return "skončila, chat běží dál";
+  if (status === "after") return "skončila, ještě můžeš swipovat";
   if (status === "closed") return "skončila";
 
   const days = daysUntilStart(event.starts_at, now);
   if (days <= 0) return `dnes ve ${formatTime(event.starts_at)}`;
   if (days === 1) return `zítra ve ${formatTime(event.starts_at)}`;
-  if (days < 7) return `za ${days} dny`;
+  if (days < 5) return `za ${days} dny`;
   return `za ${days} dní`;
 }
 
