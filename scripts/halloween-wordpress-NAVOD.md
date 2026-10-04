@@ -4,7 +4,7 @@ Do webu se vkládají dva řádky ze souboru `snippet.html`:
 
 ```html
 <div id="hw-root"></div>
-<script src="https://together.get-up.fun/halloween/embed.js" async></script>
+<script src="https://getcrush.get-up.fun/halloween/embed.js" async></script>
 ```
 
 Skript si stáhne stránku z aplikace GetCrush (soubory `public/halloween/embed.html` a `embed.js`),
@@ -32,11 +32,11 @@ blok **Vlastní HTML** a do něj obsah souboru.
 
 ## Obrázky a odkazy
 
-Obsah, obrázky i odkazy (připojení k akci, podmínky, plakát ke stažení) vedou na `https://together.get-up.fun`.
+Obsah, obrázky i odkazy (připojení k akci, podmínky, plakát ke stažení) vedou na `https://getcrush.get-up.fun`.
 Aplikace GetCrush tedy musí mít tuhle verzi nasazenou (větev sloučená do hlavní), jinak se stránka nenačte.
 
 Chceš mít obrázky raději ve WordPressu? Nahraj složku `images` do Knihovny médií a v `halloween.html`
-nahraď `https://together.get-up.fun/halloween/` adresou, kam se obrázky nahrály
+nahraď `https://getcrush.get-up.fun/halloween/` adresou, kam se obrázky nahrály
 (například `https://www.get-up.fun/wp-content/uploads/2026/10/`). Totéž pro `/people/`.
 
 ## Úpravy textů
@@ -53,7 +53,7 @@ Po nasazení aplikace se web aktualizuje sám, do WordPressu se nic znovu nevkl�
   Soubor má schválně jen pár desítek řádků; po vložení zkontroluj, že blok končí značkou `</script>`.
 
 - Stránka je úzká uprostřed nebo má nahoře menu webu: nastav rozvržení Elementor Canvas (bod 2).
-- Stránka je prázdná: aplikace na together.get-up.fun ještě nemá tuhle verzi nasazenou, nebo cache plugin
+- Stránka je prázdná: aplikace na getcrush.get-up.fun ještě nemá tuhle verzi nasazenou, nebo cache plugin
   (Accelerator) blokuje či přesouvá cizí skripty. Stránku vyjmi z optimalizace JavaScriptu.
 - Odpočet ukazuje pomlčky: skript se nespustil. Vkládej jako administrátor a stránku vyjmi z optimalizace
   JavaScriptu v cache pluginu.

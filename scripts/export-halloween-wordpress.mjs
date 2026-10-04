@@ -4,7 +4,7 @@
 //   images/         – obrázky pro případ, že je chceš nahrát do Knihovny médií
 //   snippet.html    – dva řádky do HTML widgetu, obsah se načte z aplikace (public/halloween/embed.html + embed.js)
 //   NAVOD.md        – postup vložení
-// Obrázky a odkazy vedou na SITE_URL (výchozí https://together.get-up.fun).
+// Obrázky a odkazy vedou na SITE_URL (výchozí https://getcrush.get-up.fun).
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
@@ -14,7 +14,7 @@ const require = createRequire(import.meta.url);
 const terser = require("next/dist/compiled/terser");
 const postcss = require("postcss");
 
-const SITE = (process.env.SITE_URL || "https://together.get-up.fun").replace(/\/$/, "");
+const SITE = (process.env.SITE_URL || "https://getcrush.get-up.fun").replace(/\/$/, "");
 const OUT = process.env.OUT_DIR || "out/halloween-wordpress";
 // Volitelně: obrázky nahrané do Knihovny médií WordPressu (všechny v jedné složce), např.
 // IMAGE_BASE=https://get-up.fun/wp-content/uploads/2026/10/

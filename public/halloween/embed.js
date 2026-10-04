@@ -1,7 +1,7 @@
 // Halloween by GetUp – vloží stránku do <div id="hw-root"></div> (generuje scripts/export-halloween-wordpress.mjs)
 (function () {
   var script = document.currentScript;
-  var base = script && script.src ? new URL(".", script.src).href : "https://together.get-up.fun/halloween/";
+  var base = script && script.src ? new URL(".", script.src).href : "https://getcrush.get-up.fun/halloween/";
   var root = document.getElementById("hw-root");
   if (!root) return;
   fetch(base + "embed.html", { credentials: "omit" })

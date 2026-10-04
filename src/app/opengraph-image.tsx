@@ -122,7 +122,7 @@ export default function OpenGraphImage() {
 
           <div style={{ display: "flex", marginTop: 40, alignItems: "center" }}>
             <div style={{ display: "flex", padding: "14px 26px", borderRadius: 14, background: PINK, color: "white", fontSize: 24, fontWeight: 700 }}>
-              together.get-up.fun
+              getcrush.get-up.fun
             </div>
             <div style={{ display: "flex", marginLeft: 16, padding: "14px 22px", borderRadius: 14, background: "#f5f5f5", color: INK, fontSize: 22, fontWeight: 700 }}>
               Klub K2 · České Budějovice
