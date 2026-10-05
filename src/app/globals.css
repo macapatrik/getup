@@ -235,6 +235,118 @@ body {
   }
 }
 
+/* Úvodní stránka: obsah vyjede zespodu. Hover efekty používají vlastnosti translate/scale/rotate,
+   animace transform, takže se navzájem nepřepisují. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Postupné objevení úvodu po načtení, pořadí přes --rise-delay */
+@utility rise-in {
+  animation: rise-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) var(--rise-delay, 0s) both;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* Objevení při scrollu. Jen kde prohlížeč umí scroll-driven animace, jinde je obsah rovnou vidět.
+   --reveal-start posune začátek (postupné objevování karet v řadě). */
+@utility reveal {
+  @supports (animation-timeline: view()) {
+    animation: rise-in linear both;
+    animation-timeline: view();
+    animation-range: entry var(--reveal-start, 0%) entry calc(var(--reveal-start, 0%) + 70%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* Barevné skvrny za úvodem pomalu plují */
+@keyframes blob-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(36px, -24px) scale(1.08);
+  }
+  66% {
+    transform: translate(-24px, 28px) scale(0.94);
+  }
+}
+
+@utility blob-drift {
+  animation: blob-drift 18s ease-in-out var(--drift-delay, 0s) infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* Růžový text, přes který přejíždí světlejší odlesk */
+@keyframes text-shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@utility text-shine {
+  background: linear-gradient(
+    90deg,
+    var(--color-accent) 0%,
+    #ffa6ee 25%,
+    var(--color-accent) 50%,
+    #ffa6ee 75%,
+    var(--color-accent) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shine 6s linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* Odlesk, který občas přejede přes hlavní tlačítko */
+@keyframes btn-sheen {
+  0% {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  28%,
+  100% {
+    transform: translateX(320%) skewX(-20deg);
+  }
+}
+
+@utility btn-sheen {
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 35%;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.5), transparent);
+    transform: translateX(-120%) skewX(-20deg);
+    animation: btn-sheen 5s ease-in-out 1.5s infinite;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      display: none;
+    }
+  }
+}
+
 @media print {
   .no-print {
     display: none !important;

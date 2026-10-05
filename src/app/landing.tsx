@@ -19,6 +19,12 @@ const JOIN_HREF = `/j/${EVENT.joinCode}`;
 const glassPill = "liquid-glass-light inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-bold text-accent";
 const glassChip = "liquid-glass inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium";
 
+// Hover (v Tailwindu 4 jen na zařízeních s myší): karta se zvedne s růžovým stínem, tlačítko povyskočí.
+const hoverLift = "transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_40px_-22px_rgb(247_89_245/0.5)]";
+const btnHover = "hover:-translate-y-0.5 hover:shadow-[0_18px_32px_-14px_rgb(247_89_245/0.7)]";
+// Karty v jedné řadě se při scrollu objevují postupně (utilita reveal v globals.css)
+const STAGGER = ["[--reveal-start:0%]", "[--reveal-start:12%]", "[--reveal-start:24%]"];
+
 const steps = (joinable: boolean): { icon: IconName; title: string; text: string }[] => [
   {
     icon: "qr",
@@ -97,7 +103,7 @@ function Initial({ letter, flip = false, className = "" }: { letter: string; fli
 
 function SectionHead({ badge, title, text, center = false }: { badge: string; title: ReactNode; text?: string; center?: boolean }) {
   return (
-    <div className={center ? "text-center" : "text-center lg:text-left"}>
+    <div className={`reveal ${center ? "text-center" : "text-center lg:text-left"}`}>
       <span className={glassPill}>{badge}</span>
       <h2 className="mt-3 text-[30px] leading-[1.1] font-bold lg:text-[38px]">{title}</h2>
       {text && <p className={`mt-3 text-[16px] leading-snug text-muted ${center ? "mx-auto max-w-md" : "mx-auto max-w-md lg:mx-0"}`}>{text}</p>}
@@ -110,20 +116,20 @@ function Ctas({ comingSoon, startHref, secondary }: { comingSoon: boolean; start
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
       {comingSoon ? (
-        <Link href="/halloween" className={`${btnPrimary} py-3.5 sm:px-8`}>
+        <Link href="/halloween" className={`${btnPrimary} btn-sheen ${btnHover} py-3.5 sm:px-8`}>
           {EVENT.name}
         </Link>
       ) : (
-        <a href={startHref} className={`${btnPrimary} py-3.5 sm:px-10`}>
+        <a href={startHref} className={`${btnPrimary} btn-sheen ${btnHover} py-3.5 sm:px-10`}>
           Začít
         </a>
       )}
       {comingSoon || secondary === "instagram" ? (
-        <a href={EVENT.instagram} target="_blank" rel="noopener" className={`${btnSecondary} py-3.5`}>
+        <a href={EVENT.instagram} target="_blank" rel="noopener" className={`${btnSecondary} ${btnHover} py-3.5`}>
           <Icon name="instagram" className="size-5" /> Sledovat {EVENT.instagramHandle}
         </a>
       ) : (
-        <a href="#jak" className={`${btnSecondary} py-3.5`}>
+        <a href="#jak" className={`${btnSecondary} ${btnHover} py-3.5`}>
           Jak to funguje
         </a>
       )}
@@ -134,7 +140,7 @@ function Ctas({ comingSoon, startHref, secondary }: { comingSoon: boolean; start
 /** Telefon s ukázkou swipování – stejné prvky jako v aplikaci, jen zmenšené. */
 function PhoneMock() {
   return (
-    <div className="relative mx-auto w-[248px] sm:w-[272px]">
+    <div className="relative mx-auto w-[248px] animate-[hw-float_7s_ease-in-out_infinite] transition-[rotate] duration-500 hover:-rotate-2 motion-reduce:animate-none sm:w-[272px]">
       <div className="rounded-[46px] bg-ink p-[9px] shadow-[0_40px_80px_-30px_rgb(62_54_237/0.6)]">
         <div className="relative aspect-[9/19] overflow-hidden rounded-[38px] bg-white">
           <div className="absolute top-2.5 left-1/2 h-[22px] w-[78px] -translate-x-1/2 rounded-full bg-ink" />
@@ -215,9 +221,9 @@ function PhoneMock() {
 /** Ukázka obrazovky „Je to match!“ s kontakty protějšku. */
 function MatchMock() {
   return (
-    <div className="match-bg surface mx-auto w-full max-w-sm rounded-[32px] px-5 pt-8 pb-6 text-center shadow-[0_30px_60px_-30px_rgb(247_89_245/0.45)]">
+    <div className="match-bg surface mx-auto w-full max-w-sm rounded-[32px] px-5 pt-8 pb-6 text-center shadow-[0_30px_60px_-30px_rgb(247_89_245/0.45)] transition duration-500 hover:scale-[1.02] hover:rotate-1">
       <span className="mx-auto grid size-24 place-items-center rounded-full bg-gradient-to-b from-[#ff9be9] to-accent shadow-[0_30px_50px_-24px_rgb(247_89_245/0.75)]">
-        <Icon name="heart" className="size-12 text-white" />
+        <Icon name="heart" className="heartbeat size-12 text-white" />
       </span>
       <div className="-mt-5 flex justify-center">
         <Initial letter="P" className="-mr-3 size-16 border-4 text-[24px]" />
@@ -230,7 +236,7 @@ function MatchMock() {
           { icon: "instagram" as const, label: "Instagram", detail: "@tereza.k" },
           { icon: "snapchat" as const, label: "Snapchat", detail: "terka.k" },
         ].map((c) => (
-          <span key={c.label} className="liquid-glass-light flex items-center gap-2.5 rounded-[16px] p-2.5">
+          <span key={c.label} className="liquid-glass-light flex items-center gap-2.5 rounded-[16px] p-2.5 transition duration-300 hover:-translate-y-0.5 hover:scale-[1.03]">
             <span className="fill-accent-soft grid size-9 shrink-0 place-items-center rounded-full">
               <Icon name={c.icon} className="size-5" />
             </span>
@@ -261,7 +267,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
               <Icon name="clock" className="size-4" /> Připravujeme
             </span>
           ) : (
-            <Link href="/login" className={`${btnSecondary} !px-4 !py-2 !text-[14px]`}>
+            <Link href="/login" className={`${btnSecondary} ${btnHover} !px-4 !py-2 !text-[14px]`}>
               Přihlásit se
             </Link>
           )}
@@ -271,27 +277,27 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
         <section className="relative isolate mt-10 lg:mt-16 lg:grid lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-12">
           {/* Barevné skvrny za sklem. Přes celou šířku okna a bez ořezu, ať nemají ostrou hranu (vodorovně ořízne obal stránky). */}
           <div aria-hidden className="pointer-events-none absolute -top-48 -bottom-10 left-1/2 -z-10 w-screen -translate-x-1/2">
-            <span className="absolute top-[14%] left-[8%] size-72 rounded-full bg-accent/25 blur-3xl lg:left-[18%]" />
-            <span className="absolute top-[38%] right-[-10%] size-80 rounded-full bg-[#b9b4ff]/45 blur-3xl" />
-            <span className="absolute bottom-[6%] left-[-12%] size-64 rounded-full bg-[#ff9be9]/30 blur-3xl" />
+            <span className="blob-drift absolute top-[14%] left-[8%] size-72 rounded-full bg-accent/25 blur-3xl lg:left-[18%]" />
+            <span className="blob-drift absolute top-[38%] right-[-10%] size-80 rounded-full bg-[#b9b4ff]/45 blur-3xl [--drift-delay:-6s]" />
+            <span className="blob-drift absolute bottom-[6%] left-[-12%] size-64 rounded-full bg-[#ff9be9]/30 blur-3xl [--drift-delay:-12s]" />
           </div>
           <div className="text-center lg:text-left">
-            <span className={glassPill}>
+            <span className={`${glassPill} rise-in`}>
               <Icon name="ticket" className="size-4" /> Seznamka pro návštěvníky akcí GetUp
             </span>
-            <h1 className="mt-5 text-[44px] leading-[1.02] font-bold lg:text-[64px]">
+            <h1 className="rise-in mt-5 text-[44px] leading-[1.02] font-bold [--rise-delay:0.08s] lg:text-[64px]">
               Potkej lidi
               <br />
-              <span className="text-accent">z&nbsp;akce.</span>
+              <span className="text-shine">z&nbsp;akce.</span>
             </h1>
-            <p className="mx-auto mt-4 max-w-sm text-[17px] leading-snug text-muted lg:mx-0 lg:max-w-md lg:text-[19px]">
+            <p className="rise-in mx-auto mt-4 max-w-sm text-[17px] leading-snug text-muted [--rise-delay:0.16s] lg:mx-0 lg:max-w-md lg:text-[19px]">
               Uvidíš jen lidi, kteří jdou na stejnou akci jako ty. Swipuj už před akcí, a když se lajknete oba, ukážou se vám
               kontakty a potkáte se na místě.
             </p>
-            <div className="mx-auto mt-7 max-w-sm lg:mx-0 lg:max-w-none">
+            <div className="rise-in mx-auto mt-7 max-w-sm [--rise-delay:0.24s] lg:mx-0 lg:max-w-none">
               <Ctas comingSoon={comingSoon} startHref={startHref} secondary="how" />
             </div>
-            <p className="mt-4 text-[13px] font-medium text-muted">
+            <p className="rise-in mt-4 text-[13px] font-medium text-muted [--rise-delay:0.32s]">
               {comingSoon
                 ? `Spouštíme na Halloweenu ${EVENT.dateLabel.replace(/ /g, " ")} v Klubu K2.`
                 : joinable
@@ -300,20 +306,25 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
             </p>
           </div>
 
-          <div className="mt-14 lg:mt-0">
+          <div className="rise-in mt-14 [--rise-delay:0.2s] lg:mt-0">
             <PhoneMock />
           </div>
         </section>
 
         <section className="mt-16 lg:mt-24">
-          <p className="text-center text-[15px] font-bold">Akce GetUp, kde se potkáte</p>
-          <div className="no-scrollbar -mx-4 mt-4 flex snap-x gap-3 overflow-x-auto px-4 lg:mx-0 lg:grid lg:grid-cols-6 lg:overflow-visible lg:px-0">
-            {GALLERY.map((photo) => (
+          <p className="reveal text-center text-[15px] font-bold">Akce GetUp, kde se potkáte</p>
+          <div className="no-scrollbar reveal -mx-4 mt-4 flex snap-x gap-3 overflow-x-auto px-4 lg:mx-0 lg:grid lg:grid-cols-6 lg:overflow-visible lg:px-0">
+            {GALLERY.map((photo, i) => (
               <span
                 key={photo}
-                className="relative block aspect-[3/4] w-36 shrink-0 snap-start overflow-hidden rounded-[16px] bg-coal sm:w-44 lg:w-auto"
+                className={`group relative block aspect-[3/4] w-36 shrink-0 snap-start overflow-hidden rounded-[16px] bg-coal transition duration-300 sm:w-44 lg:w-auto lg:hover:-translate-y-1.5 lg:hover:shadow-[0_24px_40px_-20px_rgb(18_21_28/0.5)] ${
+                  i % 2 ? "lg:hover:rotate-[1.5deg]" : "lg:hover:-rotate-[1.5deg]"
+                }`}
               >
-                <FallbackImg src={`/halloween/gallery/${photo}-800.webp`} className="absolute inset-0 size-full object-cover" />
+                <FallbackImg
+                  src={`/halloween/gallery/${photo}-800.webp`}
+                  className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-110"
+                />
               </span>
             ))}
           </div>
@@ -324,9 +335,11 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
           <SectionHead badge="Jak to funguje" title="Tři kroky k rande na akci" center />
           <ol className="mt-8 grid gap-3 lg:grid-cols-3 lg:gap-5">
             {steps(joinable).map((step, i) => (
-              <li key={step.title} className="surface relative rounded-[16px] p-5">
-                <span className="absolute top-4 right-5 text-[40px] leading-none font-bold text-accent-soft">{i + 1}</span>
-                <span className="fill-accent-soft grid size-12 place-items-center rounded-[12px]">
+              <li key={step.title} className={`surface group reveal relative rounded-[16px] p-5 ${hoverLift} ${STAGGER[i % 3]}`}>
+                <span className="absolute top-4 right-5 text-[40px] leading-none font-bold text-accent-soft transition group-hover:text-accent/40">
+                    {i + 1}
+                  </span>
+                <span className="fill-accent-soft grid size-12 place-items-center rounded-[12px] transition duration-300 group-hover:-rotate-6 group-hover:scale-110">
                   <Icon name={step.icon} className="size-6" />
                 </span>
                 <p className="mt-4 text-[18px] font-bold">{step.title}</p>
@@ -349,7 +362,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
             }
             text="Chaty po dvou zprávách umírají. Když se lajknete oba, uvidíte na sebe Instagram, Snapchat nebo telefon, který si každý sám vyplní. Domluvíte se, kde se na akci potkáte."
           />
-          <div className="mt-8 lg:mt-0">
+          <div className="reveal mt-8 lg:mt-0">
             <MatchMock />
           </div>
         </section>
@@ -358,9 +371,9 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
         <section className="mt-20 lg:mt-28">
           <SectionHead badge={`Proč ${APP_NAME}`} title="Seznamka, která dává smysl" center />
           <ul className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-3 lg:gap-5">
-            {FEATURES.map((f) => (
-              <li key={f.title} className="surface rounded-[16px] p-4 lg:p-5">
-                <span className="fill-accent-soft grid size-10 place-items-center rounded-full">
+            {FEATURES.map((f, i) => (
+              <li key={f.title} className={`surface group reveal rounded-[16px] p-4 lg:p-5 ${hoverLift} ${STAGGER[i % 3]}`}>
+                <span className="fill-accent-soft grid size-10 place-items-center rounded-full transition duration-300 group-hover:fill-accent group-hover:scale-110">
                   <Icon name={f.icon} className="size-5" />
                 </span>
                 <p className="mt-3 text-[16px] leading-tight font-bold">{f.title}</p>
@@ -374,9 +387,12 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
         {joinable && (
           <section className="mt-20 lg:mt-28">
             <SectionHead badge="Nejbližší akce" title={`Poprvé na ${EVENT.name}`} center />
-            <div className="surface mx-auto mt-8 grid max-w-3xl overflow-hidden rounded-[32px] sm:grid-cols-[220px_1fr]">
+            <div className={`surface group reveal mx-auto mt-8 grid max-w-3xl overflow-hidden rounded-[32px] sm:grid-cols-[220px_1fr] ${hoverLift}`}>
               <div className="relative h-56 bg-coal sm:h-auto">
-                <FallbackImg src="/halloween/poster-540.webp" className="absolute inset-0 size-full object-cover" />
+                <FallbackImg
+                  src="/halloween/poster-540.webp"
+                  className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105"
+                />
               </div>
               <div className="p-5 sm:p-6">
                 <p className="text-[24px] leading-tight font-bold">{EVENT.name}</p>
@@ -401,7 +417,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
                 </p>
                 <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
                   {!comingSoon && (
-                    <a href={JOIN_HREF} className={`${btnPrimary} !py-3 !text-[16px]`}>
+                    <a href={JOIN_HREF} className={`${btnPrimary} btn-sheen ${btnHover} !py-3 !text-[16px]`}>
                       <Icon name="heart" className="size-5" /> Připojit se
                     </a>
                   )}
@@ -409,12 +425,16 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
                     href={EVENT.ticketsUrl}
                     target="_blank"
                     rel="noopener"
-                    className={`${comingSoon ? btnPrimary : btnSecondary} !py-3 !text-[16px]`}
+                    className={`${comingSoon ? btnPrimary : btnSecondary} ${btnHover} !py-3 !text-[16px]`}
                   >
                     <Icon name="ticket" className="size-5" /> Vstupenky
                   </a>
-                  <Link href="/halloween" className="inline-flex items-center justify-center px-2 py-3 text-[15px] font-bold text-accent">
+                  <Link
+                    href="/halloween"
+                    className="group/more inline-flex items-center justify-center gap-1 px-2 py-3 text-[15px] font-bold text-accent"
+                  >
                     Víc o akci
+                    <Icon name="chevron" className="size-4 transition group-hover/more:translate-x-1" />
                   </Link>
                 </div>
               </div>
@@ -427,10 +447,13 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
           <SectionHead badge="Otázky" title="Na co se lidi ptají" center />
           <div className="mx-auto mt-8 max-w-3xl space-y-2.5">
             {faq(joinable).map((item) => (
-              <details key={item.q} className="surface group rounded-[16px] px-4 [&_summary::-webkit-details-marker]:hidden">
+              <details
+                key={item.q}
+                className="surface group reveal rounded-[16px] px-4 transition hover:border-accent-soft open:border-accent-soft [&_summary::-webkit-details-marker]:hidden"
+              >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-4 text-[16px] font-bold">
                   {item.q}
-                  <Icon name="chevron" className="size-4 shrink-0 text-muted transition group-open:rotate-90" />
+                  <Icon name="chevron" className="size-4 shrink-0 text-muted transition group-hover:text-accent group-open:rotate-90 group-open:text-accent" />
                 </summary>
                 <p className="-mt-1 pb-4 text-[15px] leading-snug text-muted">{item.a}</p>
               </details>
@@ -439,9 +462,9 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
         </section>
 
         {/* Závěr */}
-        <section className="match-bg surface mt-20 rounded-[32px] px-5 py-10 text-center lg:mt-28 lg:py-14">
+        <section className="match-bg surface reveal mt-20 rounded-[32px] px-5 py-10 text-center lg:mt-28 lg:py-14">
           <span className="mx-auto grid size-16 place-items-center rounded-full bg-gradient-to-b from-[#ff9be9] to-accent shadow-[0_24px_40px_-20px_rgb(247_89_245/0.75)]">
-            <Icon name="heart" className="size-8 text-white" />
+            <Icon name="heart" className="heartbeat size-8 text-white" />
           </span>
           <h2 className="mt-5 text-[30px] leading-[1.1] font-bold lg:text-[40px]">
             Uvidíme se <span className="text-accent">na akci?</span>
