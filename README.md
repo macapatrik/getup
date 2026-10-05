@@ -170,7 +170,7 @@ src/
     (app)/profile/        Můj účet: přehled, úprava profilu, lajky, export dat, smazání účtu
     podminky/, soukromi/  podmínky užití a ochrana soukromí (údaje provozovatele v src/lib/legal.ts)
     tinder/               veřejná kampaňová stránka k Tinder party (fakta v event.ts, grafika v public/tinder); karta akce a úvod z ní berou fakta
-    halloween/            veřejná kampaňová stránka k Halloweenu (fakta v event.ts, grafika v public/halloween), vložená na webu get-up.fun
+    halloween/            veřejná kampaňová stránka k Halloweenu (fakta v event.ts, obsah v content.tsx, grafika v public/halloween)
     opengraph-image.tsx   náhled při sdílení odkazu; error.tsx / global-error.tsx chybové stránky
     admin/                administrace týmu GetUp: přehled, akce + QR, uživatelé, nahlášení, tým
     api/push/match/       webhook z databáze → rozeslání push upozornění
@@ -187,6 +187,14 @@ stejný soubor používá úvodní stránka (`src/app/landing.tsx`) i karta akce
 Grafika v `public/tinder` jsou podklady z Drive (plakát `poster`, banner z Eventlooku `banner`, panely `post-1..3`) a
 fotky z akcí GetUp přebarvené do růžova (`crowd`, `dj`); náhled při sdílení je `src/app/tinder/opengraph-image.jpg`.
 Chromový nápis TINDER je text (písmo Anton + utilita `tp-chrome` v globals.css), psací akcenty jsou písmo Yellowtail.
+Pod Tinder party je na stejné stránce celý obsah Halloweenu (`src/app/halloween/content.tsx` s předponou kotev
+`hw-`) a v hlavičce odkaz „Halloween“, který na něj skočí; spodní lišta se vstupenkami se nad Halloweenem schová.
+
+Na web get-up.fun (WordPress + Elementor) se stránka vkládá dvěma řádky (`<div id="tp-root">` + `tinder/embed.js`),
+obsah se načítá z `public/tinder/embed.html`. Po změně textů spusť `npm run build` a
+`node scripts/export-tinder-wordpress.mjs`, který embed přegeneruje (a do `out/tinder-wordpress/` dá i samostatný
+`tinder.html`); postup je v `scripts/tinder-wordpress-NAVOD.md`. Tenhle blok nahrazuje dřívější vložení samotného
+Halloweenu.
 
 ## Kampaňová stránka /halloween
 

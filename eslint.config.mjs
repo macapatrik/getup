@@ -18,6 +18,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vložení do WordPressu generují scripts/export-*-wordpress.mjs (zminifikovaný skript)
+    "public/**/embed.js",
   ]),
 ]);
 

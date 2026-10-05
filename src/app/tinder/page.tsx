@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import { Icon, type IconName } from "@/components/icons";
 import { LogoMark } from "@/components/logo";
 import { APP_NAME } from "@/lib/config";
 import { OPERATOR } from "@/lib/legal";
+import { HalloweenContent } from "../halloween/content";
+import { EVENT as HALLOWEEN } from "../halloween/event";
+import { metalMania } from "../halloween/fonts";
 import { Countdown } from "./countdown";
 import { EVENT } from "./event";
 import { TicketBar } from "./ticket-bar";
@@ -14,12 +18,16 @@ import poster from "../../../public/tinder/poster.webp";
 
 // Kampaňová stránka k Tinder party: grafika je z plakátu (public/tinder, podklady ze složky na Drive), fakta v ./event.ts.
 // Fotky davu jsou skutečné fotky z akcí GetUp v K2 (public/halloween/gallery) přebarvené do růžova jako na plakátu.
+// Pod Tinder party je celý obsah Halloweenu (../halloween/content.tsx) s odkazem v hlavičce; stejná stránka se
+// vkládá na web get-up.fun (scripts/export-tinder-wordpress.mjs).
 
 const NAV = [
   { href: "#jak", label: "Jak to funguje" },
   { href: "#aplikace", label: "Aplikace" },
   { href: "#sleva", label: "Sleva" },
   { href: "#info", label: "Info" },
+  // Skok na Halloween níž na stránce (červeně jako jeho plakát)
+  { href: "#halloween", label: "Halloween", accent: true },
 ];
 
 const TICKER = [
@@ -194,14 +202,23 @@ export default function TinderPage() {
           </a>
           <nav className="hidden gap-7 text-[13px] font-bold tracking-[0.16em] text-white/60 uppercase md:flex">
             {NAV.map((item) => (
-              <a key={item.href} href={item.href} className="transition hover:text-white">
+              <a key={item.href} href={item.href} className={`transition hover:text-white ${item.accent ? "text-ember" : ""}`}>
                 {item.label}
               </a>
             ))}
           </nav>
-          <a {...ticketLink} className="tp-pink inline-flex items-center gap-2 rounded-[12px] px-4 py-2 text-[14px] font-bold transition active:scale-[0.97]">
-            <Icon name="ticket" className="size-4" /> Vstupenky
-          </a>
+          <div className="flex items-center gap-2">
+            {/* Na mobilu není navigace, skok na Halloween je proto vedle tlačítka se vstupenkami */}
+            <a
+              href="#halloween"
+              className="hw-outline inline-flex items-center gap-1 rounded-[12px] px-3 py-2 text-[12px] font-bold tracking-[0.12em] text-white uppercase md:hidden"
+            >
+              Halloween <Icon name="chevron" className="size-3.5 rotate-90" />
+            </a>
+            <a {...ticketLink} className="tp-pink inline-flex items-center gap-2 rounded-[12px] px-4 py-2 text-[14px] font-bold transition active:scale-[0.97]">
+              <Icon name="ticket" className="size-4" /> Vstupenky
+            </a>
+          </div>
         </div>
       </header>
 
@@ -476,6 +493,16 @@ export default function TinderPage() {
         </div>
       </section>
 
+      {/* Halloween by GetUp pod Tinder party: stejný obsah jako /halloween (kotvy s předponou hw-), vlastní tmavý motiv a písmo */}
+      <section id="halloween" className={`hw ${metalMania.variable} scroll-mt-16 bg-night text-bone`}>
+        <div className="bg-blood px-4 py-2.5 text-center">
+          <p className="font-metal text-[20px] tracking-wide text-white uppercase">
+            Další akce GetUp: {HALLOWEEN.name} · {HALLOWEEN.weekday} {HALLOWEEN.dateLabel}
+          </p>
+        </div>
+        <HalloweenContent idPrefix="hw-" />
+      </section>
+
       <footer className="border-t border-white/10 py-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 text-center text-[13px] text-white/60 sm:flex-row sm:justify-between sm:px-6 sm:text-left">
           <p>
@@ -501,7 +528,10 @@ export default function TinderPage() {
         </div>
       </footer>
 
-      <TicketBar href={EVENT.ticketsUrl} label={`Koupit vstupenku · ${EVENT.dateLabel}`} watch="top" />
+      {/* Galerie Halloweenu v překryvu, ovládá public/halloween/gallery.js */}
+      <Script src="/halloween/gallery.js" strategy="afterInteractive" />
+
+      <TicketBar href={EVENT.ticketsUrl} label={`Koupit vstupenku · ${EVENT.dateLabel}`} watch="top" hideIn="halloween" />
     </div>
   );
 }

@@ -3,17 +3,32 @@
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/icons";
 
-/** Mobil: tlačítko na vstupenky přilepené dole, vyjede až po odscrollování úvodu (tam už tlačítko je). */
-export function TicketBar({ href, label, watch }: { href: string; label: string; watch: string }) {
-  const [shown, setShown] = useState(false);
+/**
+ * Mobil: tlačítko na vstupenky přilepené dole, vyjede až po odscrollování úvodu (tam už tlačítko je)
+ * a schová se nad sekcí `hideIn` (Halloween pod Tinder party má vlastní vstupenky).
+ */
+export function TicketBar({ href, label, watch, hideIn }: { href: string; label: string; watch: string; hideIn?: string }) {
+  const [heroVisible, setHeroVisible] = useState(true);
+  const [hiddenZone, setHiddenZone] = useState(false);
 
   useEffect(() => {
+    const observers: IntersectionObserver[] = [];
     const hero = document.getElementById(watch);
-    if (!hero) return;
-    const observer = new IntersectionObserver(([entry]) => setShown(!entry.isIntersecting), { threshold: 0.12 });
-    observer.observe(hero);
-    return () => observer.disconnect();
-  }, [watch]);
+    if (hero) {
+      const observer = new IntersectionObserver(([entry]) => setHeroVisible(entry.isIntersecting), { threshold: 0.12 });
+      observer.observe(hero);
+      observers.push(observer);
+    }
+    const zone = hideIn ? document.getElementById(hideIn) : null;
+    if (zone) {
+      const observer = new IntersectionObserver(([entry]) => setHiddenZone(entry.isIntersecting));
+      observer.observe(zone);
+      observers.push(observer);
+    }
+    return () => observers.forEach((observer) => observer.disconnect());
+  }, [watch, hideIn]);
+
+  const shown = !heroVisible && !hiddenZone;
 
   return (
     <div

@@ -12,6 +12,14 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // Totéž pro stránku /tinder (Tinder party + Halloween), scripts/export-tinder-wordpress.mjs.
+        source: "/tinder/embed.html",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+        ],
+      },
+      {
         // Service worker se musí vždy stáhnout čerstvý (jinak by se nové verze nedostaly k uživatelům).
         source: "/sw.js",
         headers: [

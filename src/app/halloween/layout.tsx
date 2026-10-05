@@ -1,14 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Metal_Mania } from "next/font/google";
 import { EVENT } from "./event";
-
-// Písmo titulků jako na plakátu; latin-ext kvůli češtině. Proměnnou čte utility `font-metal` v globals.css.
-const metalMania = Metal_Mania({
-  weight: "400",
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-metal-mania",
-  display: "swap",
-});
+import { metalMania } from "./fonts";
 
 const description = `${EVENT.weekday} ${EVENT.dateLabel}, ${EVENT.venue} ${EVENT.city}. 2 stage, nejlepší kostým vyhraje ${EVENT.prize}. Start ${EVENT.doors}, předprodej na ${EVENT.ticketsLabel}.`;
 

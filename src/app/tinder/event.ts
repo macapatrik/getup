@@ -16,8 +16,7 @@ export const EVENT = {
   venue: "Klub K2",
   venueStreet: "Sokolský ostrov 462",
   mapUrl: "https://www.google.com/maps/search/?api=1&query=Klub+K2+Sokolsk%C3%BD+ostrov+462+%C4%8Cesk%C3%A9+Bud%C4%9Bjovice",
-  // TODO: přesný odkaz na událost na Eventlooku (z vývojového prostředí není eventlook.cz dostupný)
-  ticketsUrl: "https://www.eventlook.cz/",
+  ticketsUrl: "https://www.eventlook.cz/udalosti/tinder-luxouo/",
   ticketsLabel: "Eventlook.cz",
   // Kód akce v GetCrush – odkaz /j/KÓD připojí návštěvníka k akci (akce Tinder Party v administraci)
   joinCode: "TINDER26",
