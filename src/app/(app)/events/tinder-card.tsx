@@ -1,37 +1,43 @@
 import Link from "next/link";
 import { FallbackImg } from "@/components/fallback-img";
 import { Icon } from "@/components/icons";
-import { daysUntilStart, eventStatus, formatTime, peopleLabel } from "@/lib/format";
+import { LogoMark } from "@/components/logo";
+import { APP_NAME } from "@/lib/config";
+import { daysUntilStart, eventStatus, formatDayMonth, formatTime, peopleLabel } from "@/lib/format";
 import type { EventRow } from "@/lib/types";
-import { EVENT } from "../../halloween/event";
+import { EVENT } from "../../tinder/event";
+import { anton } from "../../tinder/fonts";
+import { TinderTitle } from "../../tinder/title";
 
-// Tlačítko v červené jako na stránce /halloween (Koupit vstupenku).
-const hwButton =
-  "hw-red mt-4 inline-flex w-full items-center justify-center gap-2 rounded-[12px] py-3.5 text-[17px] font-bold transition active:scale-[0.97]";
+// Růžové tlačítko jako na stránce /tinder (Koupit vstupenku).
+const button = "tp-pink mt-4 inline-flex w-full items-center justify-center gap-2 rounded-[12px] py-3.5 text-[17px] font-bold transition active:scale-[0.97]";
 
 /**
- * Halloween ve stylu plakátu. Bez `event` je to pozvánka (jedno klepnutí na /j/KÓD, bez QR kódu),
- * po připojení stejná karta s odpočtem, počtem lidí a tlačítkem Swipovat.
+ * Tinder party ve stylu plakátu. Bez `event` je to pozvánka (jedno klepnutí na /j/KÓD, bez QR kódu),
+ * po připojení stejná karta s odpočtem, počtem lidí a tlačítkem Swipovat (dokud tým swipování neotevře, ukáže datum).
  */
-export function HalloweenCard({ event, attendees = 0 }: { event?: EventRow; attendees?: number }) {
+export function TinderCard({ event, attendees = 0, opensAt = null }: { event?: EventRow; attendees?: number; opensAt?: Date | null }) {
   const startsAt = event?.starts_at ?? EVENT.startsAt;
   const status = event ? eventStatus(event) : "upcoming";
   const days = daysUntilStart(startsAt);
   const when =
     days <= 0 ? `dnes ve ${formatTime(startsAt)}` : days === 1 ? `zítra ve ${formatTime(startsAt)}` : `za ${days} ${days < 5 ? "dny" : "dní"}`;
   const badge = !event ? `Pozvánka · ${when}` : status === "live" ? "Právě teď" : status === "after" ? "Po akci" : `Jdeš tam · ${when}`;
+  const paused = Boolean(event && opensAt && status === "upcoming");
   const text = !event
-    ? "Připoj se a uvidíš všechny, kdo na Halloween jdou. Nic neskenuješ, stačí jedno klepnutí."
+    ? `Připoj se a uvidíš všechny, kdo na ${EVENT.name} jdou. Nic neskenuješ, stačí jedno klepnutí.`
     : status === "live"
       ? "Lidi jsou tady. Swipuj a domluvte se, kde se potkáte."
       : status === "after"
         ? "Akce skončila, swipovat můžeš ještě 24 hodin."
-        : "Swipuj už teď, ať víš, koho na Halloweenu potkáš.";
+        : paused
+          ? `Swipování startuje ${formatDayMonth(opensAt!.toISOString())}. Dolaď si profil, ať máš fotky a kontakt hotové.`
+          : `Swipuj už teď, ať víš, koho na ${EVENT.name} potkáš.`;
 
   return (
-    <div className="relative overflow-hidden rounded-[32px] bg-night text-white shadow-[0_24px_40px_-20px_rgb(224_20_28/0.45)]">
-      <FallbackImg src="/halloween/hero-800.webp" className="absolute inset-0 size-full object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-b from-night/20 via-night/55 to-night" aria-hidden />
+    <div className={`${anton.variable} relative overflow-hidden rounded-[32px] bg-plum text-white shadow-[0_24px_40px_-20px_rgb(247_89_245/0.45)]`}>
+      <FallbackImg src="/tinder/crowd-800.webp" className="absolute inset-0 size-full object-cover opacity-80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-plum/10 via-plum/55 to-plum" aria-hidden />
       <div className="relative p-5 pt-6">
         <div className="flex items-center justify-between gap-3">
           <span className="liquid-glass inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[12px] font-bold tracking-wide uppercase">
@@ -48,8 +54,13 @@ export function HalloweenCard({ event, attendees = 0 }: { event?: EventRow; atte
             </span>
           )}
         </div>
-        <img src="/halloween/title-600.webp" alt={EVENT.name} className="mt-4 w-[78%] max-w-[300px] drop-shadow-[0_6px_18px_rgb(0_0_0/0.6)]" />
-        <p className="mt-1 text-[15px] font-bold">by GetUp</p>
+        <p className="mt-4">
+          <TinderTitle className="text-[64px]" />
+          <span className="sr-only">{EVENT.name}</span>
+        </p>
+        <p className="mt-1 flex items-center gap-1.5 text-[15px] font-bold">
+          <LogoMark className="size-5 text-accent" /> {APP_NAME} by GetUp
+        </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <span className="liquid-glass inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-medium">
             <Icon name="calendar" className="size-4" /> <span className="capitalize">{EVENT.weekday}</span> {EVENT.dateLabel}, {EVENT.doors}
@@ -60,12 +71,20 @@ export function HalloweenCard({ event, attendees = 0 }: { event?: EventRow; atte
         </div>
         <p className="mt-4 text-[14px] leading-snug text-white/85">{text}</p>
         {event ? (
-          <Link href={`/e/${event.id}`} className={hwButton}>
-            <Icon name="heart" className="size-5" /> Swipovat
+          <Link href={`/e/${event.id}`} className={button}>
+            {paused ? (
+              <>
+                <Icon name="clock" className="size-5" /> Od {formatDayMonth(opensAt!.toISOString())}
+              </>
+            ) : (
+              <>
+                <Icon name="heart" className="size-5" /> Swipovat
+              </>
+            )}
           </Link>
         ) : (
           // Plná navigace: /j/KÓD je route handler, který připojí a přesměruje na swipování.
-          <a href={`/j/${EVENT.joinCode}`} className={hwButton}>
+          <a href={`/j/${EVENT.joinCode}`} className={button}>
             <Icon name="heart" className="size-5" /> Připojit se
           </a>
         )}

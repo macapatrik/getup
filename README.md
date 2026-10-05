@@ -169,13 +169,24 @@ src/
     (app)/matches/        matche + stránka matche s kontakty
     (app)/profile/        Můj účet: přehled, úprava profilu, lajky, export dat, smazání účtu
     podminky/, soukromi/  podmínky užití a ochrana soukromí (údaje provozovatele v src/lib/legal.ts)
-    halloween/            veřejná kampaňová stránka k Halloweenu (fakta v event.ts, grafika v public/halloween)
+    tinder/               veřejná kampaňová stránka k Tinder party (fakta v event.ts, grafika v public/tinder); karta akce a úvod z ní berou fakta
+    halloween/            veřejná kampaňová stránka k Halloweenu (fakta v event.ts, grafika v public/halloween), vložená na webu get-up.fun
     opengraph-image.tsx   náhled při sdílení odkazu; error.tsx / global-error.tsx chybové stránky
     admin/                administrace týmu GetUp: přehled, akce + QR, uživatelé, nahlášení, tým
     api/push/match/       webhook z databáze → rozeslání push upozornění
   lib/                    Supabase klienti, typy, formátování, chybové hlášky
   components/             sdílené UI
 ```
+
+## Kampaňová stránka /tinder
+
+Veřejná (bez přihlášení) stránka k Tinder party 16. 10. 2026 v Klubu K2, akci, pro kterou GetCrush vznikl: odpočet, jak
+seznamka funguje, připojení k akci v GetCrush (`/j/TINDER26`), sleva na vstup přes zprávy na Instagramu, plakát a panely do
+Instagramu ke stažení, předprodej a praktické info. Fakta (datum, místo, kód akce, odkazy) jsou v `src/app/tinder/event.ts`;
+stejný soubor používá úvodní stránka (`src/app/landing.tsx`) i karta akce v aplikaci (`src/app/(app)/events/tinder-card.tsx`).
+Grafika v `public/tinder` jsou podklady z Drive (plakát `poster`, banner z Eventlooku `banner`, panely `post-1..3`) a
+fotky z akcí GetUp přebarvené do růžova (`crowd`, `dj`); náhled při sdílení je `src/app/tinder/opengraph-image.jpg`.
+Chromový nápis TINDER je text (písmo Anton + utilita `tp-chrome` v globals.css), psací akcenty jsou písmo Yellowtail.
 
 ## Kampaňová stránka /halloween
 
@@ -206,8 +217,8 @@ protože z vývojového prostředí není Drive dostupný.
 
 Dokud seznamka nejde na veřejnost, nastav v prostředí `COMING_SOON=1` (na Vercelu je proměnná pro production
 i preview, od 4. 10. 2026 s hodnotou `0` = spuštěno): úvodní stránka `/` (`src/app/landing.tsx`) pak nemá tlačítko
-přihlášení a místo „Začít“ vede na Halloween a Instagram. Všechno ostatní běží dál: tým se přihlásí přímo přes `/login`, fungují odkazy `/j/KÓD`,
-administrace i `/halloween`. Změna hodnoty platí až po novém nasazení.
+přihlášení a místo „Začít“ vede na Tinder party (`/tinder`) a Instagram. Všechno ostatní běží dál: tým se přihlásí přímo přes `/login`, fungují odkazy `/j/KÓD`,
+administrace i `/tinder` a `/halloween`. Změna hodnoty platí až po novém nasazení.
 
 ## Demo data
 

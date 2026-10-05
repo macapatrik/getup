@@ -26,6 +26,9 @@
   --color-ember: #ff3b3b;
   --color-bone: #f3ede6;
   --color-ash: #9a948e;
+  /* /tinder: švestkově tmavé pozadí a světle růžová z plakátu */
+  --color-plum: #130611;
+  --color-rose: #ff9be9;
   --font-sans: var(--font-urbanist), system-ui, sans-serif;
   --font-display: var(--font-urbanist), system-ui, sans-serif;
 }
@@ -505,4 +508,69 @@ body {
     opacity: 0.25;
     transform: translateY(-50%) scale(1);
   }
+}
+
+/* ---- /tinder: růžový kampaňový motiv podle plakátu (obalený třídou .tp) ---- */
+:root:has(.tp) {
+  background: var(--color-plum);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+:root:has(.tp) body {
+  background: var(--color-plum);
+  color: white;
+}
+
+/* Úzký tučný grotesk na velké nápisy (Anton) a psací písmo na akcenty (Yellowtail), obojí z layoutu /tinder */
+@utility font-display {
+  font-family: var(--font-anton), "Anton", Impact, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+@utility font-script {
+  font-family: var(--font-yellowtail), "Yellowtail", cursive;
+  font-weight: 400;
+}
+
+/* Chromový nápis TINDER: růžový kovový přechod v písmu a tvrdé stíny jako 3D vytlačení */
+@utility tp-chrome {
+  background-image: linear-gradient(180deg, #fff0fc 0%, #ffb3f0 22%, #f759f5 46%, #c21ab0 52%, #ff86ee 74%, #ffe3fa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0.03em 0.05em 0 #8a0d78) drop-shadow(0.03em 0.05em 0 #5c0850) drop-shadow(0 24px 40px rgb(247 89 245 / 0.45));
+}
+
+/* Tmavá karta s jemnou linkou */
+@utility tp-surface {
+  background: rgb(255 255 255 / 0.05);
+  border: 1px solid rgb(255 255 255 / 0.1);
+}
+
+/* Růžové hlavní tlačítko */
+@utility tp-pink {
+  background: linear-gradient(180deg, #ff7cf3 0%, #f759f5 55%, #e23ad9 100%);
+  color: white;
+  box-shadow: 0 18px 40px -16px rgb(247 89 245 / 0.85);
+}
+
+/* Obrysový štítek jako na plakátu („PŘEDPRODEJ NA EVENTLOOK.CZ“) */
+@utility tp-outline {
+  border: 2px solid rgb(247 89 245 / 0.9);
+  box-shadow: 0 0 18px rgb(247 89 245 / 0.35), inset 0 0 12px rgb(247 89 245 / 0.15);
+}
+
+@utility tp-glow {
+  text-shadow: 0 0 22px rgb(247 89 245 / 0.6), 0 0 2px rgb(247 89 245 / 0.9);
+}
+
+/* Mlha ze spodu / shora sekce do pozadí stránky */
+@utility tp-fog-bottom {
+  background: linear-gradient(180deg, rgb(19 6 17 / 0) 0%, rgb(19 6 17 / 0.65) 55%, var(--color-plum) 100%);
+}
+
+@utility tp-fog-top {
+  background: linear-gradient(180deg, var(--color-plum) 0%, rgb(19 6 17 / 0.55) 40%, rgb(19 6 17 / 0) 100%);
 }

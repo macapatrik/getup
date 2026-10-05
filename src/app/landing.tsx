@@ -7,9 +7,9 @@ import { MadeBy } from "@/components/made-by";
 import { btnPrimary, btnSecondary } from "@/components/ui";
 import { APP_NAME } from "@/lib/config";
 import { isJoinable } from "@/lib/events";
-import { EVENT } from "./halloween/event";
+import { EVENT } from "./tinder/event";
 
-// Skutečné fotky z akcí GetUp (stejné jako na /halloween). Konkrétní lidi z aplikace tu neukazujeme.
+// Skutečné fotky z akcí GetUp v K2 (složka public/halloween/gallery). Konkrétní lidi z aplikace tu neukazujeme.
 const GALLERY = ["215", "113", "146", "068", "203", "256"];
 
 // Odkaz /j/KÓD připojí k akci hned po přihlášení a vyplnění profilu, bez skenování QR kódu.
@@ -119,7 +119,7 @@ function Ctas({ comingSoon, startHref, secondary }: { comingSoon: boolean; start
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
       {comingSoon ? (
-        <Link href="/halloween" className={`${btnPrimary} btn-sheen ${btnHover} py-3.5 sm:px-8`}>
+        <Link href="/tinder" className={`${btnPrimary} btn-sheen ${btnHover} py-3.5 sm:px-8`}>
           {EVENT.name}
         </Link>
       ) : (
@@ -303,7 +303,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
             </div>
             <p className="rise-in mt-4 text-[13px] font-medium text-muted [--rise-delay:0.32s]">
               {comingSoon
-                ? `Spouštíme na Halloweenu ${EVENT.dateLabel.replace(/ /g, " ")} v Klubu K2.`
+                ? `Spouštíme na ${EVENT.name} ${EVENT.dateLabel} v ${EVENT.venue}.`
                 : joinable
                   ? `Zdarma · jen 18+ · rovnou tě připojíme na ${EVENT.name}`
                   : "Zdarma · jen 18+ · bez instalace"}
@@ -394,7 +394,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
             <div className={`surface group reveal mx-auto mt-8 grid max-w-3xl overflow-hidden rounded-[32px] sm:grid-cols-[220px_1fr] ${hoverLift}`}>
               <div className="relative h-56 bg-coal sm:h-auto">
                 <FallbackImg
-                  src="/halloween/poster-540.webp"
+                  src="/tinder/poster-540.webp"
                   className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105"
                 />
               </div>
@@ -411,7 +411,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
                   </li>
                   <li className="flex items-center gap-2">
                     <Icon name="users" className="size-5 shrink-0 text-accent" />
-                    {EVENT.stages.map((s) => s.genre).join(" · ")}
+                    Hraje {EVENT.lineup.join(", ")} · jen 18+
                   </li>
                 </ul>
                 <p className="mt-4 text-[14px] leading-snug">
@@ -434,7 +434,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
                     <Icon name="ticket" className="size-5" /> Vstupenky
                   </a>
                   <Link
-                    href="/halloween"
+                    href="/tinder"
                     className="group/more inline-flex items-center justify-center gap-1 px-2 py-3 text-[15px] font-bold text-accent"
                   >
                     Víc o akci
@@ -475,7 +475,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
           </h2>
           <p className="mx-auto mt-3 max-w-sm text-[16px] leading-snug text-muted">
             {comingSoon
-              ? `${APP_NAME} otevíráme na Halloweenu. Sleduj nás, ať ti spuštění neuteče.`
+              ? `${APP_NAME} otevíráme na ${EVENT.name}. Sleduj nás, ať ti spuštění neuteče.`
               : "Založ si profil, připoj se k akci a začni swipovat."}
           </p>
           <div className="mx-auto mt-7 max-w-sm sm:max-w-none sm:[&>div]:justify-center">

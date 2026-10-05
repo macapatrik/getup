@@ -21,10 +21,10 @@ import {
 import { getSwipingOpensAt, swipingClosed } from "@/lib/settings";
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow, PastEvent } from "@/lib/types";
-import { EVENT } from "../../halloween/event";
-import { HalloweenCard } from "./halloween-card";
+import { EVENT } from "../../tinder/event";
 import { JoinForm } from "./join-form";
 import { QrScanButton } from "./qr-scanner";
+import { TinderCard } from "./tinder-card";
 
 export const metadata: Metadata = { title: "Akce" };
 
@@ -54,7 +54,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
   // Nejbližší otevřená akce (probíhající má přednost) dostane velkou kartu nahoře, ostatní jsou v seznamu.
   const featured = pickFeatured(events);
   const rest = events.filter((e) => e.id !== featured?.id);
-  // Pozvánka na Halloween, dokud se k němu člověk nepřipojí – bez skenování QR kódu (odkaz /j/KÓD).
+  // Pozvánka na Tinder party, dokud se k ní člověk nepřipojí – bez skenování QR kódu (odkaz /j/KÓD).
   const invite = isJoinable(EVENT.startsAt) && !events.some((e) => e.join_code === EVENT.joinCode);
 
   return (
@@ -69,14 +69,14 @@ export default async function EventsPage(props: PageProps<"/events">) {
 
         {invite && (
           <section className="mt-5">
-            <HalloweenCard />
+            <TinderCard />
           </section>
         )}
 
         {featured && (
           <section className="mt-5">
             {featured.join_code === EVENT.joinCode ? (
-              <HalloweenCard event={featured} attendees={counts.get(featured.id) ?? 0} />
+              <TinderCard event={featured} attendees={counts.get(featured.id) ?? 0} opensAt={paused ? opensAt : null} />
             ) : (
               <NextEventCard event={featured} attendees={counts.get(featured.id) ?? 0} opensAt={paused ? opensAt : null} />
             )}

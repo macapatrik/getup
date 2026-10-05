@@ -2,8 +2,8 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { supabaseEnv } from "./env";
 
-// Veřejné bez přihlášení: přihlášení (návštěvníci kódem, tým heslem), právní stránky, náhledy a kampaňová stránka /halloween.
-const PUBLIC_PATHS = ["/login", "/admin/login", "/auth", "/podminky", "/soukromi", "/halloween", "/robots.txt", "/opengraph-image", "/twitter-image"];
+// Veřejné bez přihlášení: přihlášení (návštěvníci kódem, tým heslem), právní stránky, náhledy a kampaňové stránky /tinder a /halloween.
+const PUBLIC_PATHS = ["/login", "/admin/login", "/auth", "/podminky", "/soukromi", "/tinder", "/halloween", "/robots.txt", "/opengraph-image", "/twitter-image"];
 
 function isPublic(pathname: string) {
   return pathname === "/" || PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
