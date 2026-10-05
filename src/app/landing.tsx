@@ -177,7 +177,7 @@ function PhoneMock() {
                 <Icon name="x" className="size-4" />
               </span>
               <span className="shadow-indigo grid size-12 place-items-center rounded-full bg-white text-accent">
-                <Icon name="heart" className="size-6" />
+                <Icon name="heart" className="heartbeat size-6 [--beat-delay:0.7s]" />
               </span>
               <span className="shadow-indigo grid size-9 place-items-center rounded-full bg-white text-indigo">
                 <Icon name="info" className="size-4" />
@@ -187,7 +187,8 @@ function PhoneMock() {
         </div>
       </div>
 
-      <div className="liquid-glass-light absolute top-[27%] -left-8 flex items-center gap-2 rounded-full py-1.5 pr-3.5 pl-1.5 sm:-left-16">
+      {/* Lajk, match a kontakt: srdce tepne, pak poskočí „Je to match!“ a po něm Instagram */}
+      <div className="liquid-glass-light bubble-hop absolute top-[27%] -left-8 flex items-center gap-2 rounded-full py-1.5 pr-3.5 pl-1.5 [--hop-delay:1s] [--pop-delay:0.4s] sm:-left-16">
         <span className="relative flex">
           <Initial letter="P" className="size-8 text-[13px]" />
           <Initial letter="T" flip className="-ml-2.5 size-8 text-[13px]" />
@@ -198,7 +199,7 @@ function PhoneMock() {
         <span className="text-[13px] font-bold">Je to match!</span>
       </div>
 
-      <div className="liquid-glass-light absolute top-[50%] -right-8 flex items-center gap-2.5 rounded-[16px] py-2 pr-3.5 pl-2 sm:-right-16">
+      <div className="liquid-glass-light bubble-hop absolute top-[50%] -right-8 flex items-center gap-2.5 rounded-[16px] py-2 pr-3.5 pl-2 [--hop-delay:2.6s] [--hop-tilt:3deg] [--pop-delay:0.8s] sm:-right-16">
         <span className="fill-accent-soft grid size-8 place-items-center rounded-full">
           <Icon name="instagram" className="size-4" />
         </span>
