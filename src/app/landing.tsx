@@ -22,6 +22,9 @@ const glassChip = "liquid-glass inline-flex items-center gap-1 rounded-full px-2
 // Hover (v Tailwindu 4 jen na zařízeních s myší): karta se zvedne s růžovým stínem, tlačítko povyskočí.
 const hoverLift = "transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_40px_-22px_rgb(247_89_245/0.5)]";
 const btnHover = "hover:-translate-y-0.5 hover:shadow-[0_18px_32px_-14px_rgb(247_89_245/0.7)]";
+// Vedlejší tlačítko na úvodu: mléčné sklo místo plné světle růžové, na barevném pozadí působí lehčeji
+const btnGlass =
+  "liquid-glass-light inline-flex items-center justify-center gap-2 rounded-[12px] px-5 py-3.5 text-[16px] font-bold text-ink transition active:scale-[0.97]";
 // Karty v jedné řadě se při scrollu objevují postupně (utilita reveal v globals.css)
 const STAGGER = ["[--reveal-start:0%]", "[--reveal-start:12%]", "[--reveal-start:24%]"];
 
@@ -125,12 +128,13 @@ function Ctas({ comingSoon, startHref, secondary }: { comingSoon: boolean; start
         </a>
       )}
       {comingSoon || secondary === "instagram" ? (
-        <a href={EVENT.instagram} target="_blank" rel="noopener" className={`${btnSecondary} ${btnHover} py-3.5`}>
-          <Icon name="instagram" className="size-5" /> Sledovat {EVENT.instagramHandle}
+        <a href={EVENT.instagram} target="_blank" rel="noopener" className={`${btnGlass} ${btnHover}`}>
+          <Icon name="instagram" className="size-5 text-accent" /> Sledovat {EVENT.instagramHandle}
         </a>
       ) : (
-        <a href="#jak" className={`${btnSecondary} ${btnHover} py-3.5`}>
+        <a href="#jak" className={`group/how ${btnGlass} ${btnHover}`}>
           Jak to funguje
+          <Icon name="chevron" className="size-4 rotate-90 text-accent transition group-hover/how:translate-y-0.5" />
         </a>
       )}
     </div>
@@ -267,7 +271,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
               <Icon name="clock" className="size-4" /> Připravujeme
             </span>
           ) : (
-            <Link href="/login" className={`${btnSecondary} ${btnHover} !px-4 !py-2 !text-[14px]`}>
+            <Link href="/login" className={`${btnGlass} ${btnHover} !px-4 !py-2 !text-[14px]`}>
               Přihlásit se
             </Link>
           )}
