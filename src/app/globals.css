@@ -172,60 +172,64 @@ body {
   }
 }
 
-/* Úvodní stránka: bubliny u telefonu vyskočí a pak střídavě poskakují (odraz a malý dopad), srdce v telefonu tepe.
-   Na prvku se nastaví --pop-delay (vyskočení), --hop-delay (první skok) a --hop-tilt (náklon ve skoku). */
-@keyframes bubble-hop {
+/* Úvodní stránka: smyčka 7 s u telefonu. Srdce tepne, „Je to match!“ naskočí (odraz, dopad a malý odskok),
+   po ní kontakt, obě chvíli zůstanou a zmizí. Na bublině se nastaví --pop-delay (kdy naskočí) a --pop-tilt (náklon). */
+@keyframes bubble-pop {
   0% {
-    transform: translateY(0) rotate(0) scale(1);
-    animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+    opacity: 0;
+    transform: translateY(8px) rotate(0) scale(0.5);
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
   }
-  9% {
-    transform: translateY(-16px) rotate(var(--hop-tilt, -3deg)) scale(1);
+  5% {
+    opacity: 1;
+    transform: translateY(-10px) rotate(var(--pop-tilt, -3deg)) scale(1.06);
     animation-timing-function: cubic-bezier(0.6, 0, 0.9, 0.5);
   }
-  17% {
+  9% {
     transform: translateY(0) rotate(0) scale(1.04, 0.95);
     animation-timing-function: ease-out;
   }
-  23% {
-    transform: translateY(-5px) rotate(0) scale(1);
+  12% {
+    transform: translateY(-4px) rotate(0) scale(1);
     animation-timing-function: ease-in;
   }
-  29%,
-  100% {
+  15%,
+  62% {
+    opacity: 1;
     transform: translateY(0) rotate(0) scale(1);
+    animation-timing-function: ease-in;
+  }
+  68%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px) rotate(0) scale(0.8);
   }
 }
 
 @keyframes heartbeat {
   0%,
-  36%,
+  6%,
+  12%,
   100% {
     transform: scale(1);
   }
-  8% {
+  3% {
     transform: scale(1.18);
   }
-  16% {
-    transform: scale(1);
-  }
-  26% {
+  9% {
     transform: scale(1.1);
   }
 }
 
-@utility bubble-hop {
-  transform-origin: 50% 100%;
-  animation:
-    pop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) var(--pop-delay, 0s) both,
-    bubble-hop 3.2s var(--hop-delay, 0.6s) infinite;
+@utility bubble-pop {
+  animation: bubble-pop 7s var(--pop-delay, 0s) infinite both;
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
 }
 
 @utility heartbeat {
-  animation: heartbeat 3.2s ease-in-out var(--beat-delay, 0s) infinite;
+  animation: heartbeat 7s ease-in-out infinite;
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
