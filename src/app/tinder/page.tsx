@@ -3,7 +3,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { Icon, type IconName } from "@/components/icons";
 import { LogoMark } from "@/components/logo";
-import { APP_NAME } from "@/lib/config";
+import { APP_NAME, SITE_URL, WEB_URL } from "@/lib/config";
 import { OPERATOR } from "@/lib/legal";
 import { HalloweenContent } from "../halloween/content";
 import { EVENT as HALLOWEEN } from "../halloween/event";
@@ -58,7 +58,8 @@ const STEPS = [
 const POSTS = [1, 2, 3];
 
 const ticketLink = { href: EVENT.ticketsUrl, target: "_blank", rel: "noopener" } as const;
-const joinHref = `/j/${EVENT.joinCode}`;
+// Odkazy do aplikace absolutně: stránka běží i na webu get-up.fun
+const joinHref = `${SITE_URL}/j/${EVENT.joinCode}`;
 
 function SectionTitle({ kicker, title, className = "" }: { kicker: string; title: string; className?: string }) {
   return (
@@ -197,7 +198,7 @@ export default function TinderPage() {
     <div className="pb-20 md:pb-0">
       <header className="fixed inset-x-0 top-0 z-30 border-b border-white/5 bg-plum/70 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <a href="#top" className="font-display text-[26px] leading-none tracking-wide text-white">
+          <a href={WEB_URL} className="font-display text-[26px] leading-none tracking-wide text-white">
             GET<span className="text-accent">UP</span>
           </a>
           <nav className="hidden gap-7 text-[13px] font-bold tracking-[0.16em] text-white/60 uppercase md:flex">

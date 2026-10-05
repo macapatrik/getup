@@ -5,7 +5,7 @@ import { SubmitButton } from "@/components/submit-button";
 import { btnPrimary, errorText, input, label } from "@/components/ui";
 import type { AdminFormState } from "./actions";
 
-type EventDefaults = { name: string; venue: string; starts_at: string; ends_at: string };
+type EventDefaults = { name: string; venue: string; starts_at: string; ends_at: string; tickets_url?: string; description?: string; hidden?: boolean };
 
 /** Založení i úprava akce. Časy se zadávají v české zóně (datetime-local). */
 export function EventForm({
@@ -58,6 +58,45 @@ export function EventForm({
         </div>
       </div>
       <p className="ml-1 text-[13px] text-muted">Čas v české zóně. Po konci akce je swipování otevřené ještě 24 hodin.</p>
+
+      {/* Údaje pro web get-up.fun */}
+      <div>
+        <label htmlFor="tickets_url" className={label}>
+          Vstupenky (odkaz)
+        </label>
+        <input
+          id="tickets_url"
+          name="tickets_url"
+          type="url"
+          inputMode="url"
+          maxLength={300}
+          defaultValue={defaults?.tickets_url}
+          placeholder="https://www.eventlook.cz/udalosti/…"
+          className={input}
+        />
+      </div>
+      <div>
+        <label htmlFor="description" className={label}>
+          Popis pro web
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          rows={3}
+          maxLength={600}
+          defaultValue={defaults?.description}
+          placeholder="Pár vět o akci: co hraje, co je speciálního, pro koho to je."
+          className={`${input} resize-y rounded-[16px]`}
+        />
+      </div>
+      <label className="surface flex items-center justify-between gap-4 rounded-[16px] px-4 py-3">
+        <span>
+          <span className="block text-[15px] font-bold">Skrýt na webu</span>
+          <span className="block text-[13px] text-muted">Akce se neukáže na get-up.fun (soukromá, zkušební). V aplikaci funguje dál.</span>
+        </span>
+        <input type="checkbox" name="hidden" defaultChecked={defaults?.hidden ?? false} className="size-6 shrink-0 accent-accent" />
+      </label>
+      <p className="ml-1 text-[13px] text-muted">Web get-up.fun bere akce odsud: název, datum, místo, vstupenky a popis.</p>
       {state.error && <p className={errorText}>{state.error}</p>}
       {state.ok && <p className="ml-1 text-[15px] font-semibold text-green-700">✓ {state.ok}</p>}
       <SubmitButton className={`${btnPrimary} w-full sm:w-auto`} pendingText={pendingText}>

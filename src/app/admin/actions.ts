@@ -17,10 +17,20 @@ function readEventForm(formData: FormData) {
   const startsAt = String(formData.get("starts_at") ?? "");
   const endsAt = String(formData.get("ends_at") ?? "");
 
+  const ticketsUrl = String(formData.get("tickets_url") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
+  const hidden = formData.get("hidden") === "on";
+
   if (!name) return "Vyplň název akce.";
   if (!startsAt || !endsAt) return "Vyplň začátek i konec akce.";
   if (endsAt <= startsAt) return "Konec musí být po začátku.";
-  return { name, venue, startsAt, endsAt };
+  if (ticketsUrl && !/^https?:\/\/\S+$/i.test(ticketsUrl)) return "Odkaz na vstupenky musí začínat https://.";
+  return { name, venue, startsAt, endsAt, ticketsUrl, description, hidden };
+}
+
+/** Web get-up.fun bere akce z databáze; po změně se jeho stránky přegenerují. */
+function revalidateWeb() {
+  revalidatePath("/web", "layout");
 }
 
 // ---------- Akce ----------
@@ -37,10 +47,14 @@ export async function createEventAction(_prev: AdminFormState, formData: FormDat
     p_starts_at: form.startsAt,
     p_ends_at: form.endsAt,
     p_time_zone: TIME_ZONE,
+    p_tickets_url: form.ticketsUrl,
+    p_description: form.description,
+    p_hidden: form.hidden,
   });
   if (error || !data) return { error: errorMessage(error) };
 
   revalidatePath("/admin", "layout");
+  revalidateWeb();
   redirect(`/admin/events/${(data as { id: string }).id}`);
 }
 
@@ -57,10 +71,14 @@ export async function updateEventAction(eventId: string, _prev: AdminFormState, 
     p_starts_at: form.startsAt,
     p_ends_at: form.endsAt,
     p_time_zone: TIME_ZONE,
+    p_tickets_url: form.ticketsUrl,
+    p_description: form.description,
+    p_hidden: form.hidden,
   });
   if (error) return { error: errorMessage(error) };
 
   revalidatePath("/admin", "layout");
+  revalidateWeb();
   return { error: null, ok: "Uloženo." };
 }
 
@@ -69,6 +87,7 @@ export async function deleteEventAction(eventId: string) {
   const supabase = await createClient();
   await supabase.from("events").delete().eq("id", eventId);
   revalidatePath("/admin", "layout");
+  revalidateWeb();
   redirect("/admin/events");
 }
 

@@ -574,3 +574,29 @@ body {
 @utility tp-fog-top {
   background: linear-gradient(180deg, var(--color-plum) 0%, rgb(19 6 17 / 0.55) 40%, rgb(19 6 17 / 0) 100%);
 }
+
+/* ---- web get-up.fun: tmavý motiv (obalený třídou .gu); karty a mlhu sdílí s /halloween (hw-surface, hw-fog-*) ---- */
+:root:has(.gu) {
+  background: var(--color-night);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+:root:has(.gu) body {
+  background: var(--color-night);
+  color: white;
+}
+
+/* Bílé hlavní tlačítko */
+@utility gu-btn {
+  background: white;
+  color: var(--color-night);
+  box-shadow: 0 18px 40px -18px rgb(255 255 255 / 0.45);
+}
+
+/* Jemná mřížka v pozadí úvodu */
+@utility gu-grid {
+  background-image: linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}

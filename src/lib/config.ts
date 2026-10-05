@@ -4,6 +4,12 @@ export const APP_TAGLINE = "Seznam se s lidmi z akcí GetUp";
 // Veřejná adresa aplikace (odkazy v QR kódech, náhledy při sdílení). Na Vercelu nastav NEXT_PUBLIC_SITE_URL.
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://getcrush.get-up.fun").replace(/\/$/, "");
 
+// Web GetUp (get-up.fun) běží ve stejné aplikaci: proxy podle domény ukáže stránky ze src/app/web.
+export const WEB_URL = (process.env.NEXT_PUBLIC_WEB_URL || "https://get-up.fun").replace(/\/$/, "");
+export const WEB_HOSTS = ["get-up.fun", "www.get-up.fun", ...(process.env.WEB_HOST ? [process.env.WEB_HOST] : [])];
+export const INSTAGRAM_URL = "https://www.instagram.com/getup.fun/";
+export const INSTAGRAM_HANDLE = "@getup.fun";
+
 // Časy akcí zadáváme i zobrazujeme v české časové zóně.
 export const TIME_ZONE = "Europe/Prague";
 

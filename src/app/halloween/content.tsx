@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Icon, type IconName } from "@/components/icons";
 import { LogoMark } from "@/components/logo";
-import { APP_NAME } from "@/lib/config";
+import { APP_NAME, SITE_URL } from "@/lib/config";
 import { Countdown } from "./countdown";
 import { EVENT } from "./event";
 import crowd from "../../../public/halloween/gallery/215.webp";
@@ -382,7 +382,7 @@ export function HalloweenContent({ idPrefix = "" }: { idPrefix?: string }) {
                 vám kontakty a domluvíte se, kde se potkáte.
               </p>
               <a
-                href={`/j/${EVENT.joinCode}`}
+                href={`${SITE_URL}/j/${EVENT.joinCode}`}
                 className="fill-accent mt-6 inline-flex items-center justify-center gap-2 rounded-[12px] px-7 py-3.5 text-[17px] font-bold transition active:scale-[0.97]"
               >
                 <Icon name="heart" className="size-5" /> Připojit se k Halloweenu

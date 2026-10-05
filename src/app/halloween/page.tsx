@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Script from "next/script";
 import { Icon } from "@/components/icons";
+import { WEB_URL } from "@/lib/config";
 import { OPERATOR } from "@/lib/legal";
 import { HalloweenContent, ticketLink } from "./content";
 import { EVENT } from "./event";
@@ -20,7 +21,7 @@ export default function HalloweenPage() {
     <div className="pb-20 md:pb-0">
       <header className="fixed inset-x-0 top-0 z-30 border-b border-white/5 bg-night/70 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <a href="#top" className="font-metal text-[26px] leading-none tracking-wide text-bone">
+          <a href={WEB_URL} className="font-metal text-[26px] leading-none tracking-wide text-bone">
             GET<span className="text-ember">UP</span>
           </a>
           <nav className="hidden gap-7 text-[13px] font-bold tracking-[0.16em] text-ash uppercase md:flex">

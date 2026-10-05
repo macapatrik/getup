@@ -76,6 +76,19 @@ export interface EventRow {
   join_code?: string;
 }
 
+/** Údaje k akci pro web get-up.fun (sloupce events.tickets_url, description, hidden) */
+export interface EventWebInfo {
+  tickets_url: string;
+  description: string;
+  hidden: boolean;
+}
+
+/** Výstup RPC public_events (web get-up.fun, bez přihlášení) */
+export interface PublicEvent extends Required<EventRow> {
+  tickets_url: string;
+  description: string;
+}
+
 // ---------- Administrace (RPC admin_*) ----------
 
 export interface AdminOverview {

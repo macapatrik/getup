@@ -6,7 +6,7 @@ import { btnDanger, btnSecondary, card, sectionTitle } from "@/components/ui";
 import { getOrigin, requireOrganizer } from "@/lib/auth";
 import { STATUS_LABELS, eventStatus, formatDateTime, formatNumber, formatTime, toLocalInput } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
-import type { EventRow } from "@/lib/types";
+import type { EventRow, EventWebInfo } from "@/lib/types";
 import { deleteEventAction, updateEventAction } from "../../actions";
 import { ConfirmButton } from "../../confirm-button";
 import { EventForm } from "../../event-form";
@@ -31,9 +31,9 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
   const [{ data: event }, { data: statsRows }] = await Promise.all([
     supabase
       .from("events")
-      .select("id, name, venue, starts_at, ends_at, join_code")
+      .select("id, name, venue, starts_at, ends_at, join_code, tickets_url, description, hidden")
       .eq("id", id)
-      .maybeSingle<Required<EventRow>>(),
+      .maybeSingle<Required<EventRow> & EventWebInfo>(),
     supabase.rpc("event_stats", { p_event_id: id }),
   ]);
   if (!event) notFound();
@@ -84,6 +84,9 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
                   venue: event.venue,
                   starts_at: toLocalInput(event.starts_at),
                   ends_at: toLocalInput(event.ends_at),
+                  tickets_url: event.tickets_url,
+                  description: event.description,
+                  hidden: event.hidden,
                 }}
                 submitLabel="Uložit změny"
                 pendingText="Ukládám…"
