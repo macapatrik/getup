@@ -4,9 +4,11 @@ import { Icon } from "@/components/icons";
 import { btnPrimary } from "@/components/ui";
 import { requireOrganizer } from "@/lib/auth";
 import { APP_NAME } from "@/lib/config";
-import { dayAndMonth, eventStatus, formatDateTime, formatNumber } from "@/lib/format";
+import { dayAndMonth, eventStatus, formatDateTime, formatNumber, toLocalInput } from "@/lib/format";
+import { getSwipingOpensAt, swipingClosed } from "@/lib/settings";
 import { createClient } from "@/lib/supabase/server";
 import type { AdminEvent, AdminOverview, AdminReport } from "@/lib/types";
+import { SwipingForm } from "./swiping-form";
 import { Avatar, Empty, PageHeader, SectionTitle, StatTile, StatusBadge, list, row } from "./ui";
 
 export const metadata: Metadata = { title: { absolute: `Administrace · ${APP_NAME}` } };
@@ -14,11 +16,13 @@ export const metadata: Metadata = { title: { absolute: `Administrace · ${APP_NA
 export default async function AdminHomePage() {
   await requireOrganizer();
   const supabase = await createClient();
-  const [{ data: overviewRows }, { data: eventRows }, { data: reportRows }] = await Promise.all([
+  const [{ data: overviewRows }, { data: eventRows }, { data: reportRows }, opensAt] = await Promise.all([
     supabase.rpc("admin_overview"),
     supabase.rpc("admin_events"),
     supabase.rpc("admin_reports", { p_open_only: true }),
+    getSwipingOpensAt(),
   ]);
+  const closed = swipingClosed(opensAt);
 
   const overview = (overviewRows as AdminOverview[] | null)?.[0];
   const events = ((eventRows ?? []) as AdminEvent[])
@@ -50,6 +54,16 @@ export default async function AdminHomePage() {
           alert={Boolean(overview?.open_reports)}
         />
       </div>
+
+      <section className="surface mt-6 rounded-[16px] p-5">
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          <h2 className="text-[18px] font-bold">Swipování</h2>
+          <span className={`rounded-[10px] px-3 py-1 text-[12px] font-semibold ${closed ? "bg-amber-100 text-amber-800" : "fill-accent-soft"}`}>
+            {closed && opensAt ? `pozastaveno do ${formatDateTime(opensAt.toISOString())}` : "otevřené"}
+          </span>
+        </div>
+        <SwipingForm key={opensAt?.toISOString() ?? "open"} defaultValue={opensAt ? toLocalInput(opensAt.toISOString()) : ""} closed={closed} />
+      </section>
 
       <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <section>

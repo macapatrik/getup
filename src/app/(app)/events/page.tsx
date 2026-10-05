@@ -13,10 +13,12 @@ import {
   eventCountdown,
   eventStatus,
   formatDateTime,
+  formatDayMonth,
   formatNumber,
   formatTime,
   peopleLabel,
 } from "@/lib/format";
+import { getSwipingOpensAt, swipingClosed } from "@/lib/settings";
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow, PastEvent } from "@/lib/types";
 import { EVENT } from "../../halloween/event";
@@ -40,10 +42,12 @@ export default async function EventsPage(props: PageProps<"/events">) {
   const events = ((data ?? []) as unknown as { event: EventRow | null }[])
     .map((row) => row.event)
     .filter((e): e is EventRow => e !== null);
-  const [{ data: countRows }, { data: pastRows }] = await Promise.all([
+  const [{ data: countRows }, { data: pastRows }, opensAt] = await Promise.all([
     supabase.rpc("attendee_counts", { p_event_ids: events.map((e) => e.id) }),
     supabase.rpc("past_events"),
+    getSwipingOpensAt(),
   ]);
+  const paused = swipingClosed(opensAt);
   const pastCount = ((pastRows ?? []) as PastEvent[]).length;
   const counts = new Map(((countRows ?? []) as { event_id: string; attendees: number }[]).map((r) => [r.event_id, Number(r.attendees)]));
 
@@ -74,7 +78,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
             {featured.join_code === EVENT.joinCode ? (
               <HalloweenCard event={featured} attendees={counts.get(featured.id) ?? 0} />
             ) : (
-              <NextEventCard event={featured} attendees={counts.get(featured.id) ?? 0} />
+              <NextEventCard event={featured} attendees={counts.get(featured.id) ?? 0} opensAt={paused ? opensAt : null} />
             )}
           </section>
         )}
@@ -169,7 +173,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
 }
 
 /** Velká karta nejbližší akce – přechod jako na kartách Romio, odpočet a tlačítko Swipovat. */
-function NextEventCard({ event, attendees }: { event: EventRow; attendees: number }) {
+function NextEventCard({ event, attendees, opensAt }: { event: EventRow; attendees: number; opensAt: Date | null }) {
   const status = eventStatus(event);
   const days = daysUntilStart(event.starts_at);
   const big = status === "live" ? "LIVE" : status === "after" ? "24 h" : days <= 0 ? "DNES" : days === 1 ? "ZÍTRA" : String(days);
@@ -216,7 +220,15 @@ function NextEventCard({ event, attendees }: { event: EventRow; attendees: numbe
             {peopleLabel(attendees)}
           </span>
           <span className="inline-flex items-center gap-1 rounded-[12px] bg-white px-4 py-2 text-[14px] font-bold text-accent">
-            Swipovat <Icon name="chevron" className="size-4" />
+            {opensAt ? (
+              <>
+                <Icon name="clock" className="size-4" /> Od {formatDayMonth(opensAt.toISOString())}
+              </>
+            ) : (
+              <>
+                Swipovat <Icon name="chevron" className="size-4" />
+              </>
+            )}
           </span>
         </div>
       </div>

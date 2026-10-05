@@ -81,6 +81,12 @@ Administrace je pak na adrese `/admin` (v zákaznické aplikaci na ni nic neodka
 5. Na [Vercelu](https://vercel.com) importuj repozitář a nastav proměnné z `.env.example`
    (`NEXT_PUBLIC_SITE_URL` = veřejná adresa, ta se tiskne do QR kódů).
 
+## Pozastavení swipování
+
+Tým může swipování pozastavit do zadaného času (administrace → Přehled → Swipování; tabulka `app_settings`, klíč
+`swiping_opens_at`, RPC `admin_set_swiping_opens_at`). Do té doby `get_deck` a `swipe` odmítají (GU025) a aplikace
+místo balíčku ukáže kartu s datem startu; registrace, profil i připojení k akci jdou dál.
+
 ## Kontakty místo chatu
 
 V profilu si každý nepovinně vyplní Instagram, Snapchat a telefon (sloupce `instagram`, `snapchat`, `phone` v `profiles`;

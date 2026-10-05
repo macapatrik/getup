@@ -102,6 +102,11 @@ export function dayAndMonth(iso: string) {
   return { day: dayFormat.format(date).replace(".", ""), month: monthFormat.format(date).replace(".", "") };
 }
 
+/** "16. 10." (bez roku) pro štítky */
+export function formatDayMonth(iso: string) {
+  return new Intl.DateTimeFormat("cs-CZ", { timeZone: TIME_ZONE, day: "numeric", month: "numeric" }).format(new Date(iso));
+}
+
 export function formatNumber(value: number) {
   return new Intl.NumberFormat("cs-CZ").format(value);
 }

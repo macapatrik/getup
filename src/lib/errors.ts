@@ -20,6 +20,7 @@ const MESSAGES: Record<string, string> = {
   GU022: "Organizátora nejde smazat, nejdřív ho odeber z týmu.",
   GU023: "Uživatel nemá vyplněný profil, na akci ho nejde přidat.",
   GU024: "Akce neexistuje.",
+  GU025: "Swipování ještě není otevřené.",
   GU401: "Přihlas se prosím znovu.",
   GU403: "Na tohle nemáš oprávnění.",
 };

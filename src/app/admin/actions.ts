@@ -72,6 +72,23 @@ export async function deleteEventAction(eventId: string) {
   redirect("/admin/events");
 }
 
+// ---------- Nastavení ----------
+
+/** Odkdy jde swipovat (datetime-local v české zóně); tlačítko „Otevřít hned“ pošle open_now. */
+export async function setSwipingOpensAtAction(_prev: AdminFormState, formData: FormData): Promise<AdminFormState> {
+  await requireOrganizer();
+  const openNow = formData.get("open_now") === "1";
+  const local = String(formData.get("opens_at") ?? "").trim();
+  if (!openNow && !local) return { error: "Zadej čas, nebo klikni na Otevřít hned." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("admin_set_swiping_opens_at", { p_local: openNow ? null : local, p_time_zone: TIME_ZONE });
+  if (error) return { error: errorMessage(error) };
+
+  revalidatePath("/", "layout");
+  return { error: null, ok: openNow ? "Swipování je otevřené." : "Uloženo, swipování se otevře v zadaný čas." };
+}
+
 // ---------- Moderace ----------
 
 export async function setBanAction(
