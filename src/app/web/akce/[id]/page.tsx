@@ -46,12 +46,12 @@ export default async function WebEventPage(props: PageProps<"/web/akce/[id]">) {
       </WebLink>
 
       <div className="mt-6 grid gap-6 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:items-start">
-        <EventArt event={event} className="aspect-[4/5] rounded-[32px]" />
+        <EventArt event={event} className="aspect-[4/5] rounded-[28px] border-[3px] border-white shadow-[8px_8px_0_#2ee7ff]" />
         <div>
-          <p className="text-[13px] font-bold tracking-[0.22em] text-indigo-300 uppercase">
+          <p className="text-[13px] font-bold tracking-[0.22em] text-cyan uppercase">
             {status === "live" ? "Právě probíhá" : upcoming ? "Nadcházející akce" : "Proběhlá akce"}
           </p>
-          <h1 className="font-display mt-3 text-[44px] leading-[0.95] text-white uppercase sm:text-[64px]">{event.name}</h1>
+          <h1 className="font-party mt-3 text-[44px] leading-[0.95] text-white uppercase sm:text-[64px]">{event.name}</h1>
           <div className="mt-4 flex flex-wrap gap-2">
             <Chip icon="calendar">
               <span className="capitalize">{weekdayOf(event.starts_at)}</span> {formatDate(event.starts_at)}
@@ -85,13 +85,13 @@ export default async function WebEventPage(props: PageProps<"/web/akce/[id]">) {
               </p>
             </>
           ) : (
-            <div className="hw-surface mt-7 rounded-[16px] p-5">
+            <div className="mt-7 rounded-[22px] border-[3px] border-white bg-[#1d0f3f] p-5 shadow-[6px_6px_0_#ffd23f]">
               <p className="text-[17px] font-bold text-white">Tahle párty už proběhla.</p>
               <p className="mt-1 text-[14px] text-white/60">Fotky a videa najdeš na Instagramu {INSTAGRAM_HANDLE}. Další akce jsou níž.</p>
             </div>
           )}
 
-          <div className="hw-surface mt-7 flex flex-wrap items-center justify-between gap-3 rounded-[16px] p-5">
+          <div className="mt-7 flex flex-wrap items-center justify-between gap-3 rounded-[22px] border-[3px] border-white bg-[#1d0f3f] p-5 shadow-[6px_6px_0_#2ee7ff]">
             <div>
               <p className="text-[13px] font-bold tracking-[0.2em] text-white/50 uppercase">Kde</p>
               <p className="mt-1 text-[17px] font-bold text-white">{event.venue || VENUE.name}</p>

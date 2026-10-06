@@ -25,22 +25,22 @@ export default function WebContactPage() {
       <SectionTitle kicker="Kontakt" title="Napiš nám" text="Nejrychleji přes Instagram, formálnější věci e-mailem." />
 
       <div className="mt-10 grid gap-4 md:grid-cols-2">
-        <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="hw-surface reveal group rounded-[32px] p-6 transition hover:bg-white/10 sm:p-8">
+        <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="reveal group rounded-[28px] border-[3px] border-white bg-[#1d0f3f] p-6 shadow-[8px_8px_0_#f759f5] transition hover:-translate-y-1 sm:p-8">
           <span className="grid size-12 place-items-center rounded-[12px] bg-accent/20 text-accent">
             <Icon name="instagram" className="size-6" />
           </span>
-          <p className="font-display mt-5 text-[36px] leading-none text-white uppercase">Instagram</p>
+          <p className="font-party mt-5 text-[36px] leading-none text-white uppercase">Instagram</p>
           <p className="mt-2 text-[17px] font-bold text-white">{INSTAGRAM_HANDLE}</p>
           <p className="mt-1 text-[14px] text-white/60">Stories, line-upy, soutěže a slevy. Do DM nám napiš cokoli.</p>
           <span className={`${btnWhite} mt-6 !py-2.5 !text-[14px]`}>
             Sledovat <Icon name="chevron" className="size-4" />
           </span>
         </a>
-        <a href={`mailto:${OPERATOR.email}`} className="hw-surface reveal rounded-[32px] p-6 transition hover:bg-white/10 sm:p-8">
-          <span className="grid size-12 place-items-center rounded-[12px] bg-indigo/25 text-indigo-300">
+        <a href={`mailto:${OPERATOR.email}`} className="reveal rounded-[28px] border-[3px] border-white bg-[#1d0f3f] p-6 shadow-[8px_8px_0_#2ee7ff] transition hover:-translate-y-1 sm:p-8">
+          <span className="grid size-12 place-items-center rounded-[12px] bg-cyan/25 text-cyan">
             <Icon name="mail" className="size-6" />
           </span>
-          <p className="font-display mt-5 text-[36px] leading-none text-white uppercase">E-mail</p>
+          <p className="font-party mt-5 text-[36px] leading-none text-white uppercase">E-mail</p>
           <p className="mt-2 text-[17px] font-bold text-white">{OPERATOR.email}</p>
           <p className="mt-1 text-[14px] text-white/60">Spolupráce, faktury, cokoli písemně.</p>
           <span className={`${btnGhost} mt-6 !py-2.5 !text-[14px]`}>
@@ -51,7 +51,7 @@ export default function WebContactPage() {
 
       <div className="mt-4 grid gap-4 sm:grid-cols-3">
         {TOPICS.map((t) => (
-          <div key={t.title} className="hw-surface reveal rounded-[16px] p-5">
+          <div key={t.title} className="reveal rounded-[22px] border-[3px] border-white bg-[#1d0f3f] p-5 shadow-[6px_6px_0_#c6ff3d]">
             <span className="grid size-11 place-items-center rounded-[12px] bg-white/10 text-white">
               <Icon name={t.icon} className="size-6" />
             </span>
@@ -62,9 +62,9 @@ export default function WebContactPage() {
       </div>
 
       <div className="mt-4 grid gap-4 md:grid-cols-2">
-        <div className="hw-surface reveal rounded-[32px] p-6 sm:p-8">
+        <div className="reveal rounded-[28px] border-[3px] border-white bg-[#1d0f3f] p-6 shadow-[8px_8px_0_#ffd23f] sm:p-8">
           <p className="text-[13px] font-bold tracking-[0.2em] text-white/50 uppercase">Kde nás najdeš</p>
-          <p className="font-display mt-2 text-[36px] leading-none text-white uppercase">{VENUE.name}</p>
+          <p className="font-party mt-2 text-[36px] leading-none text-white uppercase">{VENUE.name}</p>
           <p className="mt-2 text-[15px] text-white/70">
             {VENUE.street}
             <br />
@@ -74,7 +74,7 @@ export default function WebContactPage() {
             <Icon name="pin" className="size-4" /> Otevřít mapu
           </a>
         </div>
-        <div className="hw-surface reveal rounded-[32px] p-6 sm:p-8">
+        <div className="reveal rounded-[28px] border-[3px] border-white bg-[#1d0f3f] p-6 shadow-[8px_8px_0_#ffd23f] sm:p-8">
           <p className="text-[13px] font-bold tracking-[0.2em] text-white/50 uppercase">Provozovatel</p>
           <p className="mt-2 text-[17px] font-bold text-white">{OPERATOR.name}</p>
           <p className="mt-1 text-[15px] leading-snug text-white/70">

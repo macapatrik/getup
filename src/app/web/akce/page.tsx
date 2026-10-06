@@ -29,8 +29,8 @@ export default async function WebEventsPage() {
           ))}
         </div>
       ) : (
-        <div className="hw-surface mt-10 rounded-[32px] p-8 text-center">
-          <p className="font-display text-[32px] text-white uppercase">Další akci právě chystáme</p>
+        <div className="mt-10 rounded-[28px] border-[3px] border-white bg-[#1d0f3f] p-8 text-center shadow-[8px_8px_0_#f759f5]">
+          <p className="font-party text-[32px] text-white uppercase">Další akci právě chystáme</p>
           <p className="mt-2 text-[15px] text-white/60">První se to dozvíš na Instagramu.</p>
           <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className={`${btnGhost} mt-5`}>
             <Icon name="instagram" className="size-5" /> {INSTAGRAM_HANDLE}
@@ -43,7 +43,7 @@ export default async function WebEventsPage() {
           <SectionTitle kicker="Archiv" title={`${formatNumber(past.length)} proběhlých párty`} />
           {groupByYear(past).map(([year, list]) => (
             <div key={year} className="mt-10">
-              <h3 className="font-display text-[28px] text-white/50">{year}</h3>
+              <h3 className="font-party text-[28px] text-white/50 uppercase">{year}</h3>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                 {list.map((event) => {
                   const { day, month } = dayAndMonth(event.starts_at);
@@ -51,11 +51,11 @@ export default async function WebEventsPage() {
                     <li key={event.id}>
                       <WebLink
                         href={eventHref(event)}
-                        className="hw-surface reveal flex items-center gap-4 rounded-[16px] p-3 pr-4 transition hover:bg-white/10"
+                        className="reveal flex items-center gap-4 rounded-[18px] border-[3px] border-white bg-[#1d0f3f] p-3 pr-4 transition hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#2ee7ff]"
                       >
-                        <span className="flex size-14 shrink-0 flex-col items-center justify-center rounded-[12px] bg-white/10">
-                          <span className="text-[11px] font-bold text-white/60 uppercase">{month}</span>
-                          <span className="font-display text-[24px] leading-none text-white">{day}</span>
+                        <span className="flex size-14 shrink-0 flex-col items-center justify-center rounded-[14px] bg-sun text-party">
+                          <span className="text-[11px] font-extrabold uppercase">{month}</span>
+                          <span className="font-party text-[22px] leading-none">{day}</span>
                         </span>
                         <span className="min-w-0 flex-1">
                           <span className="block truncate text-[17px] font-bold text-white">{event.name}</span>

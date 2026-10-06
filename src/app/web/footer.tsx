@@ -6,7 +6,7 @@ import { WebLink } from "./link";
 
 export function WebFooter() {
   return (
-    <footer className="border-t border-white/10 py-12">
+    <footer className="border-t-[3px] border-white/15 py-12">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)]">
         <div>
           <img src="/web/getup-logo.png" alt="GetUp" className="h-12 w-auto" />
@@ -15,10 +15,10 @@ export function WebFooter() {
             z akce.
           </p>
           <div className="mt-5 flex gap-3">
-            <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="hw-surface inline-flex items-center gap-2 rounded-[12px] px-4 py-2.5 text-[14px] font-bold text-white transition hover:bg-white/10">
+            <a href={INSTAGRAM_URL} target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-full border-[3px] border-white/60 px-4 py-2 text-[14px] font-extrabold text-white transition hover:bg-white hover:text-party">
               <Icon name="instagram" className="size-4" /> {INSTAGRAM_HANDLE}
             </a>
-            <a href={`mailto:${OPERATOR.email}`} className="hw-surface inline-flex items-center gap-2 rounded-[12px] px-4 py-2.5 text-[14px] font-bold text-white transition hover:bg-white/10">
+            <a href={`mailto:${OPERATOR.email}`} className="inline-flex items-center gap-2 rounded-full border-[3px] border-white/60 px-4 py-2 text-[14px] font-extrabold text-white transition hover:bg-white hover:text-party">
               <Icon name="mail" className="size-4" /> Napsat
             </a>
           </div>
@@ -26,11 +26,11 @@ export function WebFooter() {
         <div>
           <p className="text-[12px] font-bold tracking-[0.2em] text-white/50 uppercase">Web</p>
           <ul className="mt-3 space-y-2 text-[15px] font-semibold">
-            <li><WebLink href="/akce" className="transition hover:text-indigo-300">Akce</WebLink></li>
-            <li><WebLink href="/kontakt" className="transition hover:text-indigo-300">Kontakt</WebLink></li>
+            <li><WebLink href="/akce" className="transition hover:text-cyan">Akce</WebLink></li>
+            <li><WebLink href="/kontakt" className="transition hover:text-cyan">Kontakt</WebLink></li>
             <li><a href={SITE_URL} className="inline-flex items-center gap-1.5 text-accent transition hover:text-white"><Icon name="heart" className="size-4" /> {APP_NAME}</a></li>
-            <li><Link href="/podminky" className="transition hover:text-indigo-300">Podmínky {APP_NAME}</Link></li>
-            <li><Link href="/soukromi" className="transition hover:text-indigo-300">Ochrana soukromí</Link></li>
+            <li><Link href="/podminky" className="transition hover:text-cyan">Podmínky {APP_NAME}</Link></li>
+            <li><Link href="/soukromi" className="transition hover:text-cyan">Ochrana soukromí</Link></li>
           </ul>
         </div>
         <div>
