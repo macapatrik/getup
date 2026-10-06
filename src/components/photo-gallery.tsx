@@ -25,12 +25,9 @@ export function PhotoGallery({
   }
 
   return (
-    <div className={`relative ${className}`}>
-      <div
-        ref={strip}
-        onScroll={onScroll}
-        className="no-scrollbar flex size-full snap-x snap-mandatory overflow-x-auto rounded-[32px] bg-fill"
-      >
+    <div className={`relative overflow-hidden rounded-[32px] bg-fill ${className}`}>
+      {/* Pás fotek je absolutně přes celý rám: výška 100 % uvnitř aspect-ratio boxu s max-h se v Safari počítá bez ořezu a fotka přetékala přes jméno. */}
+      <div ref={strip} onScroll={onScroll} className="no-scrollbar absolute inset-0 flex snap-x snap-mandatory overflow-x-auto">
         {photos.map((p) => (
           <img key={p} src={photoUrl(p)} alt={alt} className="size-full shrink-0 snap-center object-cover" draggable={false} />
         ))}
