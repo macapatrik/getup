@@ -217,8 +217,8 @@ export default async function WebHome() {
               Všechny akce <Icon name="chevron" className="size-4" />
             </WebLink>
           </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {rest.slice(0, 3).map((event) => (
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {rest.slice(0, 4).map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
           </div>

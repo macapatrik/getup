@@ -7,9 +7,15 @@ import type { PublicEvent } from "./types";
 // Web GetUp (get-up.fun): akce bere z databáze (RPC public_events), kampaňové stránky mají vlastní grafiku.
 
 /** Akce s vlastní kampaňovou stránkou, podle kódu akce. */
-export const CAMPAIGNS: Record<string, { href: string; poster: string; accent: string; tagline: string }> = {
-  [TINDER.joinCode]: { href: "/tinder", poster: "/tinder/poster-540.webp", accent: "#f759f5", tagline: TINDER.claim },
-  [HALLOWEEN.joinCode]: { href: "/halloween", poster: "/halloween/poster-540.webp", accent: "#e0141c", tagline: `Nejlepší kostým vyhraje ${HALLOWEEN.prize}` },
+export const CAMPAIGNS: Record<string, { href: string; poster: string; banner: string; accent: string; tagline: string }> = {
+  [TINDER.joinCode]: { href: "/tinder", poster: "/tinder/poster-540.webp", banner: "/tinder/banner-1200.webp", accent: "#f759f5", tagline: TINDER.claim },
+  [HALLOWEEN.joinCode]: {
+    href: "/halloween",
+    poster: "/halloween/poster-540.webp",
+    banner: "/halloween/banner-1200.webp",
+    accent: "#e0141c",
+    tagline: `Nejlepší kostým vyhraje ${HALLOWEEN.prize}`,
+  },
 };
 
 export const campaignFor = (event: Pick<PublicEvent, "join_code">) => CAMPAIGNS[event.join_code];

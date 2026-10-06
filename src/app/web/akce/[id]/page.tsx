@@ -109,7 +109,7 @@ export default async function WebEventPage(props: PageProps<"/web/akce/[id]">) {
       {others.length > 0 && (
         <section className="mt-20">
           <SectionTitle kicker="Program" title="Další akce" />
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
             {others.map((e) => (
               <EventCard key={e.id} event={e} />
             ))}

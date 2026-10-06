@@ -49,13 +49,17 @@ export function EventArt({ event, className = "" }: { event: Pick<PublicEvent, "
   );
 }
 
-/** Plakát kampaně, nebo obecná grafika. */
-export function EventVisual({ event, className = "" }: { event: PublicEvent; className?: string }) {
+/** Plakát kampaně (na výšku), nebo široký banner jako na Eventlooku (`wide`), jinak obecná grafika. */
+export function EventVisual({ event, wide = false, className = "" }: { event: PublicEvent; wide?: boolean; className?: string }) {
   const campaign = campaignFor(event);
   if (campaign) {
     return (
       <div className={`relative overflow-hidden ${className}`}>
-        <img src={campaign.poster} alt={`Plakát ${event.name}`} className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105" />
+        <img
+          src={wide ? campaign.banner : campaign.poster}
+          alt={`${wide ? "Banner" : "Plakát"} ${event.name}`}
+          className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105"
+        />
       </div>
     );
   }
@@ -73,7 +77,7 @@ export function EventCard({ event, past = false }: { event: PublicEvent; past?: 
       style={{ boxShadow: `0 30px 70px -40px ${accent}` }}
     >
       <WebLink href={href} className="block">
-        <EventVisual event={event} className="aspect-[4/5] sm:aspect-[3/4]" />
+        <EventVisual event={event} wide className="aspect-[16/9]" />
       </WebLink>
       <div className="flex flex-1 flex-col p-5">
         <p className="text-[13px] font-bold tracking-[0.16em] text-white/55 uppercase">

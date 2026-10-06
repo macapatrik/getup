@@ -23,7 +23,7 @@ export default async function WebEventsPage() {
       <SectionTitle kicker="Program" title="Akce GetUp" text="Všechno, co chystáme v Klubu K2, a archiv toho, co už proběhlo." />
 
       {upcoming.length > 0 ? (
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
           {upcoming.map((event) => (
             <EventCard key={event.id} event={event} />
           ))}

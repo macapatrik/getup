@@ -204,7 +204,8 @@ Veřejná (bez přihlášení) stránka k Tinder party 16. 10. 2026 v Klubu K2, 
 seznamka funguje, připojení k akci v GetCrush (`/j/TINDER26`), sleva na vstup přes zprávy na Instagramu, plakát a panely do
 Instagramu ke stažení, předprodej a praktické info. Fakta (datum, místo, kód akce, odkazy) jsou v `src/app/tinder/event.ts`;
 stejný soubor používá úvodní stránka (`src/app/landing.tsx`) i karta akce v aplikaci (`src/app/(app)/events/tinder-card.tsx`).
-Grafika v `public/tinder` jsou podklady z Drive (plakát `poster`, banner z Eventlooku `banner`, panely `post-1..3`) a
+Grafika v `public/tinder` jsou podklady z Drive (plakát `poster`, banner z Eventlooku `banner`, panely `post-1..3`; Halloween má
+složený banner `public/halloween/banner.webp` pro široké karty akcí na webu) a
 fotky z akcí GetUp přebarvené do růžova (`crowd`, `dj`); náhled při sdílení je `src/app/tinder/opengraph-image.jpg`.
 Chromový nápis TINDER je text (písmo Anton + utilita `tp-chrome` v globals.css), psací akcenty jsou písmo Yellowtail.
 Pod Tinder party je na stejné stránce celý obsah Halloweenu (`src/app/halloween/content.tsx` s předponou kotev
