@@ -13,7 +13,8 @@ export const WEB_DESCRIPTION =
 
 export const metadata: Metadata = {
   metadataBase: new URL(WEB_URL),
-  title: { default: WEB_TITLE, template: "%s · GetUp" },
+  // absolute: šablona kořenového layoutu („· GetCrush“) se na web nevztahuje; template platí pro podstránky
+  title: { absolute: WEB_TITLE, template: "%s · GetUp" },
   description: WEB_DESCRIPTION,
   applicationName: "GetUp",
   appleWebApp: { capable: false, title: "GetUp" },

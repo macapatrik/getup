@@ -49,3 +49,15 @@ export function groupByYear<T extends { starts_at: string }>(events: T[]) {
   }
   return [...byYear.entries()].sort((a, b) => b[0] - a[0]);
 }
+
+/** Den v týdnu česky (pátek) v české zóně. */
+export function weekdayOf(iso: string) {
+  return new Intl.DateTimeFormat("cs-CZ", { weekday: "long", timeZone: "Europe/Prague" }).format(new Date(iso));
+}
+
+export const VENUE = {
+  name: "Klub K2",
+  street: "Sokolský ostrov 462",
+  city: "České Budějovice",
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=Klub+K2+Sokolsk%C3%BD+ostrov+462+%C4%8Cesk%C3%A9+Bud%C4%9Bjovice",
+};

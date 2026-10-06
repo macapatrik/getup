@@ -169,6 +169,7 @@ src/
     (app)/matches/        matche + stránka matche s kontakty
     (app)/profile/        Můj účet: přehled, úprava profilu, lajky, export dat, smazání účtu
     podminky/, soukromi/  podmínky užití a ochrana soukromí (údaje provozovatele v src/lib/legal.ts)
+    web/                  web GetUp na doméně get-up.fun (domů, akce, detail akce, kontakt; mapuje src/proxy.ts podle domény)
     tinder/               veřejná kampaňová stránka k Tinder party (fakta v event.ts, grafika v public/tinder); karta akce a úvod z ní berou fakta
     halloween/            veřejná kampaňová stránka k Halloweenu (fakta v event.ts, obsah v content.tsx, grafika v public/halloween)
     opengraph-image.tsx   náhled při sdílení odkazu; error.tsx / global-error.tsx chybové stránky
@@ -177,6 +178,23 @@ src/
   lib/                    Supabase klienti, typy, formátování, chybové hlášky
   components/             sdílené UI
 ```
+
+## Web GetUp (get-up.fun)
+
+Veřejný web GetUp běží ve stejné aplikaci: `src/proxy.ts` podle domény (`WEB_HOSTS` v `src/lib/config.ts`, tj. get-up.fun
+a www.get-up.fun, pro vývoj proměnná `WEB_HOST`) přepíše požadavek na stránky ve `src/app/web` (domů, `/akce`, `/akce/[id]`,
+`/kontakt`, náhledy při sdílení, `robots.txt`, `sitemap.xml`). Kampaně `/tinder` a `/halloween` a právní stránky jsou na obou
+doménách stejné; v aplikaci se cesty `/web/*` přesměrují na web. Ikony na doméně webu nahradí logo GetUp (`public/web`,
+vyříznuté z plakátu).
+
+Akce bere web z RPC `public_events` (bez přihlášení; bez skrytých a demo akcí). V administraci má akce navíc odkaz na
+vstupenky, popis pro web a volbu „Skrýt na webu“ (migrace `web_events`); akce s kampaní (kód TINDER26, HALLO26 v
+`src/lib/web.ts`) vedou na kampaňovou stránku, ostatní na obecný detail s odpočtem, vstupenkami a mapou. Stránky se
+přegenerují po uložení akce v administraci a jinak každých 5 minut.
+
+Nasazení: na Vercelu přidej doménu `get-up.fun` (+ `www.get-up.fun`) k projektu a v DNS nastav A záznam `76.76.21.21`
+pro apex a CNAME `cname.vercel-dns.com` pro www. Proměnná `NEXT_PUBLIC_WEB_URL` (výchozí https://get-up.fun) určuje
+absolutní odkazy webu.
 
 ## Kampaňová stránka /tinder
 
