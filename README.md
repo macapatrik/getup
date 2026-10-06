@@ -195,6 +195,8 @@ přegenerují po uložení akce v administraci a jinak každých 5 minut.
 Nasazení: na Vercelu přidej doménu `get-up.fun` (+ `www.get-up.fun`) k projektu a v DNS nastav A záznam `76.76.21.21`
 pro apex a CNAME `cname.vercel-dns.com` pro www. Proměnná `NEXT_PUBLIC_WEB_URL` (výchozí https://get-up.fun) určuje
 absolutní odkazy webu.
+Dokud DNS na Vercel nemíří, je web k náhledu na adrese projektu (getup-match.vercel.app): proměnná `WEB_HOST` na Vercelu
+ji přidává mezi domény webu. Po přepnutí DNS ji smaž, ať adresa Vercelu zase ukazuje aplikaci.
 
 ## Kampaňová stránka /tinder
 
