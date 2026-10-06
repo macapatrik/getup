@@ -66,8 +66,12 @@ export function EventVisual({ event, className = "" }: { event: PublicEvent; cla
 export function EventCard({ event, past = false }: { event: PublicEvent; past?: boolean }) {
   const href = eventHref(event);
   const campaign = campaignFor(event);
+  const accent = campaign?.accent ?? `hsl(${eventHue(event.name)} 80% 55%)`;
   return (
-    <article className="group hw-surface reveal flex flex-col overflow-hidden rounded-[32px] transition duration-300 hover:-translate-y-1 hover:border-white/20">
+    <article
+      className="group hw-surface reveal flex flex-col overflow-hidden rounded-[32px] transition duration-300 hover:-translate-y-1.5 hover:border-white/20"
+      style={{ boxShadow: `0 30px 70px -40px ${accent}` }}
+    >
       <WebLink href={href} className="block">
         <EventVisual event={event} className="aspect-[4/5] sm:aspect-[3/4]" />
       </WebLink>
