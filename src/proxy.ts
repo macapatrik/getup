@@ -38,6 +38,9 @@ export async function proxy(request: NextRequest) {
     return NextResponse.rewrite(url);
   }
 
+  // Ikony a manifest aplikace (matcher je přidává jen kvůli webu) jdou bez kontroly přihlášení.
+  if (pathname in WEB_FILES) return NextResponse.next();
+
   // V aplikaci stránky webu nejsou: odkaz na ně vede na get-up.fun.
   if (pathname === "/web" || pathname.startsWith("/web/")) {
     return NextResponse.redirect(new URL(pathname.replace(/^\/web/, "") + search || "/", WEB_URL), 308);
