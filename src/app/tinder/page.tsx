@@ -11,6 +11,7 @@ import { metalMania } from "../halloween/fonts";
 import { Countdown } from "./countdown";
 import { EVENT } from "./event";
 import { TicketBar } from "./ticket-bar";
+import { Tickets } from "./tickets";
 import { TinderTitle } from "./title";
 import crowd from "../../../public/tinder/crowd.webp";
 import dj from "../../../public/tinder/dj.webp";
@@ -25,6 +26,7 @@ const NAV = [
   { href: "#jak", label: "Jak to funguje" },
   { href: "#aplikace", label: "Aplikace" },
   { href: "#sleva", label: "Sleva" },
+  { href: "#vstupenky", label: "Vstupenky" },
   { href: "#info", label: "Info" },
   // Skok na Halloween níž na stránce (červeně jako jeho plakát)
   { href: "#halloween", label: "Halloween", accent: true },
@@ -57,7 +59,8 @@ const STEPS = [
 // Tři panely do Instagramu (public/tinder/post-*.webp), vedle sebe dávají jeden souvislý obrázek
 const POSTS = [1, 2, 3];
 
-const ticketLink = { href: EVENT.ticketsUrl, target: "_blank", rel: "noopener" } as const;
+// Vstupenky se prodávají přímo na stránce (sekce #vstupenky), odkaz na Eventlook zůstává jen jako záloha.
+const ticketLink = { href: "#vstupenky" } as const;
 // Odkazy do aplikace absolutně: stránka běží i na webu get-up.fun
 const joinHref = `${SITE_URL}/j/${EVENT.joinCode}`;
 
@@ -468,6 +471,12 @@ export default function TinderPage() {
         </div>
       </section>
 
+      {/* Vstupenky přímo na stránce + vstup do GetCrush hned po zaplacení */}
+      <section id="vstupenky" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-14 sm:px-6 sm:py-20">
+        <SectionTitle kicker="Vstupenky" title="Kup lístek a rovnou se připoj" />
+        <Tickets slug={EVENT.ticketsSlug} joinHref={joinHref} fallbackUrl={EVENT.ticketsUrl} />
+      </section>
+
       {/* Praktické info */}
       <section id="info" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-14 sm:px-6 sm:py-20">
         <SectionTitle kicker="Info" title="Kdy, kde a jak" />
@@ -483,7 +492,7 @@ export default function TinderPage() {
             icon="ticket"
             title="Vstupenky"
             lines={[`Předprodej na ${EVENT.ticketsLabel}`, "Slevu domluvíš v DM na Instagramu."]}
-            link={{ href: EVENT.ticketsUrl, label: "Koupit vstupenku", external: true }}
+            link={{ href: "#vstupenky", label: "Koupit vstupenku" }}
           />
           <InfoTile
             icon="heart"
@@ -532,7 +541,7 @@ export default function TinderPage() {
       {/* Galerie Halloweenu v překryvu, ovládá public/halloween/gallery.js */}
       <Script src="/halloween/gallery.js" strategy="afterInteractive" />
 
-      <TicketBar href={EVENT.ticketsUrl} label={`Koupit vstupenku · ${EVENT.dateLabel}`} watch="top" hideIn="halloween" />
+      <TicketBar href="#vstupenky" label={`Koupit vstupenku · ${EVENT.dateLabel}`} watch="top" hideIn="vstupenky,halloween" />
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { Icon } from "@/components/icons";
 
 /**
  * Mobil: tlačítko na vstupenky přilepené dole, vyjede až po odscrollování úvodu (tam už tlačítko je)
- * a schová se nad sekcí `hideIn` (Halloween pod Tinder party má vlastní vstupenky).
+ * a schová se nad sekcemi `hideIn` (id oddělená čárkou: formulář vstupenek, Halloween má vlastní vstupenky).
  */
 export function TicketBar({ href, label, watch, hideIn }: { href: string; label: string; watch: string; hideIn?: string }) {
   const [heroVisible, setHeroVisible] = useState(true);
@@ -19,10 +19,14 @@ export function TicketBar({ href, label, watch, hideIn }: { href: string; label:
       observer.observe(hero);
       observers.push(observer);
     }
-    const zone = hideIn ? document.getElementById(hideIn) : null;
-    if (zone) {
-      const observer = new IntersectionObserver(([entry]) => setHiddenZone(entry.isIntersecting));
-      observer.observe(zone);
+    const zones = (hideIn ?? "").split(",").map((id) => document.getElementById(id.trim())).filter((zone) => zone !== null);
+    if (zones.length > 0) {
+      const visible = new Set<Element>();
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => (entry.isIntersecting ? visible.add(entry.target) : visible.delete(entry.target)));
+        setHiddenZone(visible.size > 0);
+      });
+      zones.forEach((zone) => observer.observe(zone));
       observers.push(observer);
     }
     return () => observers.forEach((observer) => observer.disconnect());
@@ -39,8 +43,7 @@ export function TicketBar({ href, label, watch, hideIn }: { href: string; label:
     >
       <a
         href={href}
-        target="_blank"
-        rel="noopener"
+        {...(href.startsWith("#") ? {} : { target: "_blank", rel: "noopener" })}
         tabIndex={shown ? 0 : -1}
         className="tp-pink flex items-center justify-center gap-2 rounded-[12px] py-3.5 text-[17px] font-bold"
       >
