@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BackHeader } from "@/components/app-header";
 import { Icon } from "@/components/icons";
+import { RefreshAt } from "@/components/refresh-at";
 import { ShareButton } from "@/components/share-button";
 import { btnPrimary, btnSecondary, card } from "@/components/ui";
 import { getOrigin, requireProfile } from "@/lib/auth";
@@ -122,6 +123,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
         </div>
       ) : paused && opensAt ? (
         <div className="flex flex-1 items-center px-4">
+          <RefreshAt at={opensAt.toISOString()} />
           <div className={`${card} w-full py-8 text-center`}>
             <span className="fill-accent-soft mx-auto grid size-16 place-items-center rounded-full">
               <Icon name="clock" className="size-8" />

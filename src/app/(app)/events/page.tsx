@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AppHeader } from "@/components/app-header";
 import { Icon } from "@/components/icons";
+import { RefreshAt } from "@/components/refresh-at";
 import { card, largeTitle, pill, sectionTitle } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
 import { errorMessage } from "@/lib/errors";
@@ -60,6 +61,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
   return (
     <main className="mx-auto max-w-md pb-nav lg:pt-6">
       <AppHeader right={<QrScanButton compact />} />
+      {paused && opensAt && <RefreshAt at={opensAt.toISOString()} />}
 
       <div className="px-4">
         <header className="pt-5">
