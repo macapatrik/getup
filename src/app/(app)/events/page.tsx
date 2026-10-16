@@ -69,6 +69,23 @@ export default async function EventsPage(props: PageProps<"/events">) {
           <h1 className={largeTitle}>Kam vyrazíš?</h1>
         </header>
 
+        {/* Upozornění pro všechny: v profilu musí být aspoň jedna fotka, na které je člověk sám (moderujeme ručně). */}
+        <Link
+          href="/profile/edit"
+          className="mt-5 flex items-center gap-3 rounded-[16px] bg-accent p-4 text-white shadow-[0_18px_40px_-18px_rgb(247_89_245/0.9)] transition active:scale-[0.98]"
+        >
+          <span className="grid size-11 shrink-0 place-items-center rounded-full bg-white/20">
+            <Icon name="cameraPlus" className="size-6" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[16px] leading-snug font-bold">Dej si do profilu svoji fotku</span>
+            <span className="mt-0.5 block text-[13px] leading-snug text-white/90">
+              Aspoň jedna fotka, na které jsi ty. Profily bez tvé fotky mažeme.
+            </span>
+          </span>
+          <Icon name="chevron" className="size-5 shrink-0" />
+        </Link>
+
         {invite && (
           <section className="mt-5">
             <TinderCard />
