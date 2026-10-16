@@ -35,7 +35,6 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
 
   const profile = user.profile;
   const info: [string, string][] = [
-    ["E-mail", user.email],
     ["Registrace", formatDateTime(user.created_at)],
     ["Naposledy přihlášen/a", user.last_sign_in_at ? formatDateTime(user.last_sign_in_at) : "–"],
     ...(profile
@@ -83,7 +82,7 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
             </div>
           ) : (
             <div className={`${card} flex items-center gap-3`}>
-              <Avatar name={user.email} className="size-12" />
+              <Avatar name={profile?.display_name ?? "?"} className="size-12" />
               <p className="text-[15px] text-muted">Profil zatím nevyplnil/a.</p>
             </div>
           )}
@@ -181,7 +180,7 @@ export default async function AdminUserPage(props: PageProps<"/admin/users/[id]"
                   Smaže účet, profil, fotky, lajky, matche i účast na akcích. Nejde to vrátit. Blokace je většinou lepší, člověk
                   si pak nemůže založit nový účet se stejným e-mailem.
                 </p>
-                <DeleteUserForm userId={user.id} name={profile?.display_name ?? user.email} />
+                <DeleteUserForm userId={user.id} name={profile?.display_name ?? "tento účet"} />
               </div>
             )}
           </section>

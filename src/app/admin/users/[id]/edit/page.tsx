@@ -39,8 +39,8 @@ export default async function AdminEditUserPage(props: PageProps<"/admin/users/[
     <div className="mx-auto max-w-md">
       <PageHeader
         title={profile ? `Upravit profil: ${profile.display_name}` : "Vytvořit profil"}
-        subtitle={`${user.email} · fotky, texty a kontakty se uloží za uživatele`}
-        back={{ href: `/admin/users/${user.id}`, label: profile?.display_name ?? user.email }}
+        subtitle="Fotky, texty a kontakty se uloží za uživatele"
+        back={{ href: `/admin/users/${user.id}`, label: profile?.display_name ?? "Profil" }}
       />
       <ProfileEditor userId={user.id} profile={editable} />
     </div>

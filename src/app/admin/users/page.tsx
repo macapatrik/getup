@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Icon } from "@/components/icons";
 import { btnSecondary, input } from "@/components/ui";
 import { requireOrganizer } from "@/lib/auth";
+import { formatPhone } from "@/lib/contacts";
 import { formatDate, formatNumber } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import type { AdminUserRow } from "@/lib/types";
@@ -25,6 +26,14 @@ export default async function AdminUsersPage(props: PageProps<"/admin/users">) {
     p_offset: (page - 1) * PAGE_SIZE,
   });
   const users = (data ?? []) as AdminUserRow[];
+  // V seznamu ukazujeme místo e-mailu kontakty z profilu (Instagram, Snapchat, telefon).
+  const { data: contactRows } = await supabase.rpc("admin_user_contacts", { p_ids: users.map((u) => u.id) });
+  const contacts = new Map(
+    ((contactRows ?? []) as { id: string; instagram: string | null; snapchat: string | null; phone: string | null }[]).map((c) => [
+      c.id,
+      [c.instagram && `IG @${c.instagram}`, c.snapchat && `Snap ${c.snapchat}`, c.phone && formatPhone(c.phone)].filter(Boolean).join(" · "),
+    ]),
+  );
   const total = users[0]?.total ?? 0;
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const pageHref = (p: number) => `/admin/users?${new URLSearchParams({ ...(query ? { q: query } : {}), page: String(p) })}`;
@@ -58,12 +67,14 @@ export default async function AdminUsersPage(props: PageProps<"/admin/users">) {
           </div>
           {users.map((user) => (
             <Link key={user.id} href={`/admin/users/${user.id}`} className={row}>
-              <Avatar photo={user.photo} name={user.display_name ?? user.email} />
+              <Avatar photo={user.photo} name={user.display_name ?? "?"} />
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-[16px] font-semibold">
                   {user.display_name ? `${user.display_name}, ${user.age}` : <span className="text-muted">Bez profilu</span>}
                 </span>
-                <span className="block truncate text-[13px] text-muted">{user.email}</span>
+                <span className="block truncate text-[13px] text-muted">
+                  {contacts.get(user.id) || (user.display_name ? "Bez kontaktu" : "Nedokončený profil")}
+                </span>
               </span>
               <span className="hidden w-28 text-[14px] text-muted md:block">{formatDate(user.created_at)}</span>
               <span className="hidden w-16 text-right text-[15px] font-semibold md:block">{user.events}</span>
