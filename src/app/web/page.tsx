@@ -270,7 +270,7 @@ export default async function WebHome() {
               </h2>
               <p className="mt-4 max-w-lg text-[17px] leading-snug text-white/80">
                 Připoj se k akci, swipuj lidi, kteří tam jdou taky, a když se lajknete oba, ukážou se vám kontakty. Žádný chat do prázdna,
-                potkáte se rovnou v K2. Zdarma, bez instalace, jen 18+.
+                potkáte se rovnou v K2. Zdarma, bez instalace, od 15 let.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <a href={SITE_URL} className={btnWhite}>

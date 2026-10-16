@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "Než začneš" };
 
 // Krátké shrnutí podmínek; celé znění je na /podminky.
 const RULES: { icon: IconName; title: string; text: string }[] = [
-  { icon: "user", title: "Jen 18+ a jen ty", text: "Jeden účet, tvoje vlastní aktuální fotky, žádné falešné profily." },
+  { icon: "user", title: "Od 15 let a jen ty", text: "Jeden účet, tvoje vlastní aktuální fotky, žádné falešné profily." },
   { icon: "heart", title: "S respektem", text: "Žádné obtěžování, výhrůžky ani spam. Když se ti něco nezdá, člověka nahlas." },
   {
     icon: "shield",

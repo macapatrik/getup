@@ -368,7 +368,7 @@ export default function TinderPage() {
               >
                 <Icon name="heart" className="size-5" /> Připojit se k {EVENT.name}
               </a>
-              <p className="mt-3 text-[12px] text-white/55">Zdarma, jen 18+. Nic neskenuješ: po registraci jsi rovnou v akci.</p>
+              <p className="mt-3 text-[12px] text-white/55">Zdarma, od 15 let. Nic neskenuješ: po registraci jsi rovnou v akci.</p>
             </div>
           </div>
         </div>
@@ -488,7 +488,7 @@ export default function TinderPage() {
           <InfoTile
             icon="heart"
             title="Seznamka"
-            lines={[`${APP_NAME} zdarma`, `swipování od ${EVENT.swipingFrom}, jen 18+`]}
+            lines={[`${APP_NAME} zdarma`, `swipování od ${EVENT.swipingFrom}, od 15 let`]}
             link={{ href: joinHref, label: "Připojit se" }}
           />
         </div>

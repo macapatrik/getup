@@ -22,7 +22,7 @@ export default async function OnboardingPage(props: PageProps<"/onboarding">) {
       <h1 className="mt-7 text-[28px] leading-tight font-bold">Ukaž se</h1>
       <p className="mt-1.5 text-[16px] text-muted">
         Profil uvidí jen lidi ze stejné akce. Datum narození nikomu neukazujeme, jen věk. Používej svoje vlastní fotky, aplikace
-        je jen pro 18+.
+        je od 15 let. Lidé do 18 let vidí jen lidi do 18 let, dospělí jen dospělé.
       </p>
       <ProfileForm userId={user.id} profile={null} redirectTo={nextPath} />
     </main>

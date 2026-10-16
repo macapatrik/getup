@@ -5,7 +5,7 @@ const MESSAGES: Record<string, string> = {
   GU003: "Tahle akce už skončila.",
   GU004: "Na téhle akci nejsi – naskenuj její QR kód.",
   GU005: "Tenhle profil už není k dispozici.",
-  GU010: "Musí ti být alespoň 18 let.",
+  GU010: "Musí ti být alespoň 15 let.",
   GU011: "Nepodařilo se uložit fotky, zkus to znovu.",
   GU012: "Tvůj účet je zablokovaný. Pokud jde o omyl, ozvi se nám.",
   GU013: "Organizátora nejde zablokovat – nejdřív ho odeber z týmu.",

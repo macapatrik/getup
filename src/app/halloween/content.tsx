@@ -387,7 +387,7 @@ export function HalloweenContent({ idPrefix = "" }: { idPrefix?: string }) {
               >
                 <Icon name="heart" className="size-5" /> Připojit se k Halloweenu
               </a>
-              <p className="mt-3 text-[12px] text-ash">Zdarma, jen 18+. Nic neskenuješ: po registraci jsi rovnou v akci.</p>
+              <p className="mt-3 text-[12px] text-ash">Zdarma, od 15 let. Nic neskenuješ: po registraci jsi rovnou v akci.</p>
             </div>
           </div>
         </div>

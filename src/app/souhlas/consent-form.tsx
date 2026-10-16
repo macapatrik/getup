@@ -42,7 +42,7 @@ export function ConsentForm({ next, marketing }: { next: string; marketing: bool
   return (
     <form action={formAction} className="mt-6 space-y-3">
       <Checkbox name="terms" onChange={setTerms}>
-        Je mi 18 let a souhlasím s{" "}
+        Je mi alespoň 15 let a souhlasím s{" "}
         <Link href="/podminky" className="font-semibold text-accent">
           podmínkami užití
         </Link>

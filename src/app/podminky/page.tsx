@@ -15,7 +15,7 @@ export default function TermsPage() {
 
       <h2>Kdo může aplikaci používat</h2>
       <ul>
-        <li>Jen lidé starší 18 let.</li>
+        <li>Jen lidé od 15 let. Lidé do 18 let vidí v balíčku jen ostatní do 18 let, dospělí jen dospělé.</li>
         <li>Každý má jeden účet a vystupuje pod svou skutečnou identitou. Fotky musí být tvoje a aktuální.</li>
         <li>Účet je osobní, nepřevádí se a nesmí se sdílet.</li>
       </ul>

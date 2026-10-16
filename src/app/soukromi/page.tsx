@@ -112,7 +112,7 @@ export default function PrivacyPage() {
       </p>
 
       <h2>Věk</h2>
-      <p>Aplikace je jen pro osoby starší 18 let. Údaje mladších osob vědomě nezpracováváme; pokud na takový účet narazíme, smažeme ho.</p>
+      <p>Aplikace je pro osoby od 15 let. Údaje mladších osob vědomě nezpracováváme; pokud na takový účet narazíme, smažeme ho.</p>
 
       <h2>Změny</h2>
       <p>Tyhle zásady můžeme upravit. O podstatných změnách dáme vědět v aplikaci. Aktuální verze je vždy na této stránce.</p>

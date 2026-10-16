@@ -81,7 +81,7 @@ export default async function WebEventPage(props: PageProps<"/web/akce/[id]">) {
                 </a>
               </div>
               <p className="mt-3 text-[13px] text-white/50">
-                V {APP_NAME} uvidíš jen lidi, kteří jdou na tuhle akci. Zdarma, jen 18+.
+                V {APP_NAME} uvidíš jen lidi, kteří jdou na tuhle akci. Zdarma, od 15 let.
               </p>
             </>
           ) : (

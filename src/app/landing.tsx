@@ -305,8 +305,8 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
               {comingSoon
                 ? `Spouštíme na ${EVENT.name} ${EVENT.dateLabel} v ${EVENT.venue}.`
                 : joinable
-                  ? `Zdarma · jen 18+ · rovnou tě připojíme na ${EVENT.name}`
-                  : "Zdarma · jen 18+ · bez instalace"}
+                  ? `Zdarma · od 15 let · rovnou tě připojíme na ${EVENT.name}`
+                  : "Zdarma · od 15 let · bez instalace"}
             </p>
           </div>
 
@@ -485,7 +485,7 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
 
         <footer className="mt-10 text-center">
           <p className="text-[12px] text-muted">
-            Jen pro 18+ ·{" "}
+            Od 15 let ·{" "}
             <Link href="/podminky" className="font-semibold text-accent">
               Podmínky užití
             </Link>{" "}
