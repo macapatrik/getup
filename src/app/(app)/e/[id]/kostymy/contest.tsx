@@ -20,6 +20,9 @@ const fieldDark =
   "w-full rounded-[12px] border border-white/10 bg-white/5 px-4 py-3.5 text-[16px] text-bone placeholder:text-ash focus:border-blood focus:outline-none";
 const errorDark = "text-[14px] font-semibold text-[#ff6b6b]";
 
+/** Fotka z úložiště, nebo (ukázka) přímo soubor z /public */
+const src = (path: string) => (path.startsWith("/") ? path : photoUrl(path));
+
 const STATUS_TEXT: Record<CostumeStatus, string> = {
   pending: "Čeká na schválení týmem",
   approved: "Jsi v soutěži",
@@ -30,10 +33,13 @@ export function CostumeContestView({
   userId,
   event,
   contest,
+  demo = false,
 }: {
   userId: string;
   event: { id: string; name: string; venue: string };
   contest: CostumeContest;
+  /** Veřejná ukázka bez přihlášení: nic se neodesílá, hlas se jen přepne na stránce. */
+  demo?: boolean;
 }) {
   const router = useRouter();
   const [myVote, setMyVote] = useState(contest.my_vote);
@@ -44,6 +50,7 @@ export function CostumeContestView({
     setError(null);
     const previous = myVote;
     setMyVote(entryId);
+    if (demo) return;
     startTransition(async () => {
       const { error } = await createClient().rpc("cast_costume_vote", { p_event_id: event.id, p_entry_id: entryId });
       if (error) {
@@ -71,7 +78,7 @@ export function CostumeContestView({
         <div className="hw-fog-top absolute inset-x-0 top-0 h-24" />
         <div className="hw-fog-bottom absolute inset-x-0 bottom-0 h-40" />
         <Link
-          href={`/e/${event.id}`}
+          href={demo ? "/halloween" : `/e/${event.id}`}
           aria-label="Zpět"
           className="absolute top-3 left-3 grid size-10 place-items-center rounded-full bg-black/45 text-bone backdrop-blur transition active:scale-90"
           style={{ marginTop: "env(safe-area-inset-top)" }}
@@ -102,7 +109,15 @@ export function CostumeContestView({
           <p className="mx-auto mt-3 max-w-xs text-[15px] leading-snug text-ash">{state}</p>
         </section>
 
-        {contest.enabled && <MyEntry userId={userId} eventId={event.id} contest={contest} onChange={() => router.refresh()} />}
+        {demo && (
+          <p className="hw-outline rounded-[12px] px-4 py-3 text-center text-[14px] font-semibold">
+            Ukázka soutěže. Kostýmy jsou ilustrační a nic se neodesílá.
+          </p>
+        )}
+
+        {contest.enabled && (
+          <MyEntry userId={userId} eventId={event.id} contest={contest} demo={demo} onChange={() => router.refresh()} />
+        )}
 
         {contest.enabled && (
           <section>
@@ -120,7 +135,7 @@ export function CostumeContestView({
                       className={`${surface} overflow-hidden transition ${voted ? "border-blood shadow-[0_0_28px_rgb(224_20_28/0.45)]" : ""}`}
                     >
                       <div className="relative aspect-[3/4] bg-black">
-                        <img src={photoUrl(entry.photo)} alt={entry.title || "Kostým"} className="size-full object-cover" loading="lazy" />
+                        <img src={src(entry.photo)} alt={entry.title || "Kostým"} className="size-full object-cover" loading="lazy" />
                         <div className="hw-fog-bottom absolute inset-x-0 bottom-0 h-1/3" />
                         {entry.mine && (
                           <span className="hw-red absolute top-2 left-2 rounded-[10px] px-2 py-0.5 text-[11px] font-bold">Tvůj kostým</span>
@@ -165,7 +180,19 @@ export function CostumeContestView({
 }
 
 /** Moje přihláška: nahrání fotky kostýmu, stav schválení, výměna nebo stažení. */
-function MyEntry({ userId, eventId, contest, onChange }: { userId: string; eventId: string; contest: CostumeContest; onChange: () => void }) {
+function MyEntry({
+  userId,
+  eventId,
+  contest,
+  demo,
+  onChange,
+}: {
+  userId: string;
+  eventId: string;
+  contest: CostumeContest;
+  demo: boolean;
+  onChange: () => void;
+}) {
   const entry = contest.my_entry;
   const [editing, setEditing] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -176,6 +203,7 @@ function MyEntry({ userId, eventId, contest, onChange }: { userId: string; event
   async function submit(e: FormEvent) {
     e.preventDefault();
     if (!file) return setError("Vyber fotku kostýmu.");
+    if (demo) return setError("V ukázce se fotka nenahrává. V appce se kostým po odeslání objeví ke schválení.");
     setBusy(true);
     setError(null);
     try {
@@ -203,7 +231,7 @@ function MyEntry({ userId, eventId, contest, onChange }: { userId: string; event
   }
 
   async function withdraw() {
-    if (!entry || !window.confirm("Opravdu stáhnout kostým ze soutěže?")) return;
+    if (!entry || demo || !window.confirm("Opravdu stáhnout kostým ze soutěže?")) return;
     setBusy(true);
     const supabase = createClient();
     const { error } = await supabase.rpc("withdraw_costume_entry", { p_event_id: eventId });
@@ -220,7 +248,7 @@ function MyEntry({ userId, eventId, contest, onChange }: { userId: string; event
       <section>
         <h2 className={`${title} mb-4`}>Tvůj kostým</h2>
         <div className={`${surface} flex gap-4 p-4`}>
-          <img src={photoUrl(entry.photo)} alt="" className="h-32 w-24 shrink-0 rounded-[12px] bg-black object-cover" />
+          <img src={src(entry.photo)} alt="" className="h-32 w-24 shrink-0 rounded-[12px] bg-black object-cover" />
           <div className="min-w-0 flex-1">
             <p className="truncate text-[18px] font-bold">{entry.title || "Bez názvu"}</p>
             <p className={`mt-1 text-[14px] font-semibold ${entry.status === "approved" ? "text-blood" : entry.status === "rejected" ? "text-[#ff6b6b]" : "text-ash"}`}>
