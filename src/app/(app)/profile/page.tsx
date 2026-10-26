@@ -63,14 +63,14 @@ export default async function AccountPage() {
         {/* Fotka s růžovým odznakem jako u Romio (account) */}
         <section className="flex flex-col items-center pt-6 text-center">
           <Link href="/profile/edit" className="relative" aria-label="Upravit profil a fotky">
-            <span className="grid size-[104px] place-items-center rounded-full border-2 border-indigo shadow-[0_16px_30px_-16px_rgb(62_54_237/0.5)]">
+            <span className="grid size-[104px] place-items-center rounded-full border-2 border-indigo shadow-[0_16px_30px_-16px_rgb(var(--indigo-rgb)/0.5)]">
               {profile.photos[0] ? (
                 <img src={photoUrl(profile.photos[0])} alt="" className="size-[92px] rounded-full bg-fill object-cover" />
               ) : (
                 <span className="size-[92px] rounded-full bg-fill" />
               )}
             </span>
-            <span className="fill-accent absolute right-0 bottom-0 grid size-9 place-items-center rounded-full border-[3px] border-white">
+            <span className="fill-accent absolute right-0 bottom-0 grid size-9 place-items-center rounded-full border-[3px] border-card">
               <Icon name="cameraPlus" className="size-[18px]" />
             </span>
           </Link>
@@ -98,7 +98,7 @@ export default async function AccountPage() {
                 </Link>
               ) : (
                 <Link href="/profile/edit" className="fill-accent-soft flex items-center gap-3 rounded-[16px] p-3.5 transition active:scale-[0.98]">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-card">
                     <Icon name="instagram" className="size-5" />
                   </span>
                   <span className="min-w-0 flex-1 text-[14px] leading-snug font-medium">
@@ -189,7 +189,7 @@ export default async function AccountPage() {
                         key={like.user_id}
                         src={photoUrl(like.photo)}
                         alt=""
-                        className="size-11 rounded-full border-2 border-white bg-fill object-cover"
+                        className="size-11 rounded-full border-2 border-card bg-fill object-cover"
                       />
                     ))}
                   </span>

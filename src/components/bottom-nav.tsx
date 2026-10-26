@@ -54,7 +54,7 @@ export function SideNav() {
   const { items, isActive } = useNav();
 
   return (
-    <aside className="side-nav no-print fixed inset-y-0 left-0 z-30 hidden w-72 border-r-2 border-fill bg-white p-5 lg:block">
+    <aside className="side-nav no-print fixed inset-y-0 left-0 z-30 hidden w-72 border-r-2 border-fill bg-page p-5 lg:block">
       <Link href="/events" className="px-2 pt-1">
         <Logo tagline />
       </Link>

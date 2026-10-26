@@ -16,6 +16,9 @@ export const TIME_ZONE = "Europe/Prague";
 export const MAX_PHOTOS = 6;
 export const MIN_AGE = 15;
 
+// Halloweenský motiv celé seznamky (barvy a písmo podle plakátu, texty a karta akce). Po Halloweenu přepni na false.
+export const HALLOWEEN = true;
+
 /** Výhra v soutěži o nejlepší kostým (zobrazuje se v aplikaci) */
 export const COSTUME_PRIZE = "5 000 Kč";
 

@@ -72,7 +72,7 @@ export function ProfileSheet({
       />
 
       <div
-        className="relative flex max-h-[92dvh] w-full max-w-md animate-[sheet-up_0.34s_cubic-bezier(0.32,0.72,0,1)] flex-col overflow-hidden rounded-t-[32px] bg-white shadow-[0_-20px_60px_-20px_rgb(0_0_0/0.35)]"
+        className="relative flex max-h-[92dvh] w-full max-w-md animate-[sheet-up_0.34s_cubic-bezier(0.32,0.72,0,1)] flex-col overflow-hidden rounded-t-[32px] bg-card shadow-[0_-20px_60px_-20px_rgb(0_0_0/0.35)]"
         style={{ transform: dragY ? `translateY(${dragY}px)` : undefined, transition: dragY ? "none" : "transform 0.2s ease-out" }}
       >
         {/* Úchyt – tahem dolů se list zavře */}
@@ -130,7 +130,7 @@ export function ProfileSheet({
         </div>
 
         {actions && (
-          <div className="flex shrink-0 items-center justify-center gap-5 border-t-2 border-fill bg-white px-5 pt-3 pb-safe">
+          <div className="flex shrink-0 items-center justify-center gap-5 border-t-2 border-fill bg-card px-5 pt-3 pb-safe">
             {actions}
           </div>
         )}

@@ -56,7 +56,7 @@ export default async function MatchPage(props: PageProps<"/matches/[id]">) {
           <ContactButtons person={match} name={match.display_name} />
           {!hasContact(profile) && (
             <Link href="/profile/edit" className="fill-accent-soft mt-3 flex items-center gap-3 rounded-[16px] p-3.5 transition active:scale-[0.98]">
-              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white">
+              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-card">
                 <Icon name="instagram" className="size-5" />
               </span>
               <span className="min-w-0 flex-1 text-[14px] leading-snug font-medium">

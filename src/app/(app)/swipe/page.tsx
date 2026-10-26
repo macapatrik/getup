@@ -32,7 +32,7 @@ export default async function SwipePage() {
           <span className="fill-accent-soft mx-auto grid size-16 place-items-center rounded-full">
             <Icon name="compass" className="size-8" />
           </span>
-          <p className="mt-4 text-[22px] font-bold">Nejdřív se připoj k akci</p>
+          <p className="hm-title mt-4 text-[22px] font-bold">Nejdřív se připoj k akci</p>
           <p className="mt-1 text-[15px] text-muted">
             Swipuješ jen lidi ze stejné akce. Naskenuj QR kód ze vstupenky nebo od vstupu, nebo opiš kód.
           </p>

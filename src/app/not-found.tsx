@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HalloweenMode } from "@/components/halloween-mode";
 import { Icon } from "@/components/icons";
 import { btnPrimary, photoBadge } from "@/components/ui";
 import { OPERATOR } from "@/lib/legal";
@@ -8,8 +9,8 @@ export default function NotFound() {
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center px-6 pb-10 text-center">
       <div className="relative mb-10 h-[300px] w-[220px]" aria-hidden>
-        <div className="absolute inset-0 translate-x-6 rotate-[9deg] rounded-[32px] bg-gradient-to-br from-accent-soft to-[#d9d6ff]" />
-        <div className="absolute inset-0 -rotate-[5deg] overflow-hidden rounded-[32px] bg-gradient-to-br from-indigo via-[#7a3ff0] to-accent text-left text-white shadow-[0_28px_50px_-20px_rgb(62_54_237/0.55)]">
+        <div className="absolute inset-0 translate-x-6 rotate-[9deg] rounded-[32px] bg-gradient-to-br from-accent-soft to-haze" />
+        <div className="absolute inset-0 -rotate-[5deg] overflow-hidden rounded-[32px] bg-gradient-to-br from-indigo via-violet to-accent text-left text-white shadow-[0_28px_50px_-20px_rgb(var(--indigo-rgb)/0.55)]">
           <p className="px-5 pt-5 text-[72px] leading-none font-bold tracking-tight">404</p>
           <div className="absolute inset-x-0 bottom-0 p-5">
             <p className="text-[22px] leading-tight font-semibold">Stránka</p>
@@ -23,7 +24,7 @@ export default function NotFound() {
             </div>
           </div>
         </div>
-        <span className="fill-accent absolute -top-3 -left-5 grid size-16 -rotate-12 place-items-center rounded-full border-4 border-white">
+        <span className="fill-accent absolute -top-3 -left-5 grid size-16 -rotate-12 place-items-center rounded-full border-4 border-card">
           <Icon name="x" className="size-8" />
         </span>
       </div>
@@ -43,6 +44,7 @@ export default function NotFound() {
         </a>
         .
       </p>
+      <HalloweenMode />
     </main>
   );
 }

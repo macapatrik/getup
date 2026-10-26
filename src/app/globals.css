@@ -15,6 +15,13 @@
   --color-accent: #f759f5;
   --color-accent-soft: #fae8f9;
   --color-indigo: #3e36ed;
+  /* Bílá plocha karet, hlaviček a tlačítek (v halloweenském motivu tmavá) a odstíny do přechodů */
+  --color-card: #ffffff;
+  --color-accent-light: #ff9be9;
+  --color-violet: #7a3ff0;
+  --color-lilac: #e6c9ff;
+  --color-haze: #d9d6ff;
+  --color-periwinkle: #b9b4ff;
   --color-success: #00d061;
   --color-danger: #ff4444;
   --color-danger-strong: #ff4444;
@@ -40,6 +47,9 @@
 
 :root {
   color-scheme: light;
+  /* Růžová a indigo jako RGB kanály pro stíny se známou průhledností: rgb(var(--accent-rgb) / 0.6) */
+  --accent-rgb: 247 89 245;
+  --indigo-rgb: 62 54 237;
 }
 
 body {
@@ -51,7 +61,7 @@ body {
 
 /* Bílá karta s linkou – obsahové bloky, seznamy, položky */
 @utility surface {
-  background: #ffffff;
+  background: var(--color-card);
   border: 2px solid var(--color-fill);
 }
 
@@ -62,8 +72,8 @@ body {
 
 /* Spodní navigace a hlavičky */
 @utility bar {
-  background: #ffffff;
-  border-top: 1px solid #eeeeee;
+  background: var(--color-card);
+  border-top: 1px solid var(--color-line);
 }
 
 /* Liquid glass jako v iOS: průsvitná bublina, rozmaže a prosvítí obrázek pod sebou, světlý okraj a odlesk nahoře */
@@ -82,15 +92,17 @@ body {
 
 /* Světlé liquid glass na bílé stránce (úvod): mléčné sklo s bílým okrajem, prosvítá barevné pozadí */
 @utility liquid-glass-light {
-  background: linear-gradient(135deg, rgb(255 255 255 / 0.78) 0%, rgb(255 255 255 / 0.38) 50%, rgb(255 255 255 / 0.6) 100%);
+  background: var(--glass-bg, linear-gradient(135deg, rgb(255 255 255 / 0.78) 0%, rgb(255 255 255 / 0.38) 50%, rgb(255 255 255 / 0.6) 100%));
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgb(255 255 255 / 0.9);
-  box-shadow:
+  border: 1px solid var(--glass-border, rgb(255 255 255 / 0.9));
+  box-shadow: var(
+    --glass-shadow,
     inset 0 1px 0 rgb(255 255 255 / 1),
     inset 0 -1px 1px rgb(255 255 255 / 0.5),
-    0 10px 30px -12px rgb(62 54 237 / 0.28),
-    0 2px 6px -2px rgb(18 21 28 / 0.08);
+    0 10px 30px -12px rgb(var(--indigo-rgb) / 0.28),
+    0 2px 6px -2px rgb(18 21 28 / 0.08)
+  );
 }
 
 /* Bílý obrys přes fotku – štítky (věk, místo) a tlačítka na kartě */
@@ -101,30 +113,30 @@ body {
 
 /* Přechod do indiga přes spodní polovinu fotky (karta, nový match) */
 @utility photo-fade {
-  background: linear-gradient(180deg, rgb(62 54 237 / 0) 0%, #3e36ed 100%);
+  background: var(--photo-fade, linear-gradient(180deg, rgb(var(--indigo-rgb) / 0) 0%, var(--color-indigo) 100%));
 }
 
 /* Růžová – hlavní tlačítko, srdíčko, odeslat */
 @utility fill-accent {
   background: var(--color-accent);
   color: white;
-  box-shadow: 0 12px 24px -14px rgb(247 89 245 / 0.6);
+  box-shadow: 0 12px 24px -14px rgb(var(--accent-rgb) / 0.6);
 }
 
 /* Světle růžová s růžovým textem – vedlejší tlačítko, štítek */
 @utility fill-accent-soft {
   background: var(--color-accent-soft);
-  color: var(--color-accent);
+  color: var(--accent-ink, var(--color-accent));
 }
 
 /* Bílé kulaté tlačítko pod kartou (✕, ♥, i) */
 @utility shadow-indigo {
-  box-shadow: 0 16px 20px -10px rgb(62 54 237 / 0.32);
+  box-shadow: 0 16px 20px -10px rgb(var(--indigo-rgb) / 0.32);
 }
 
 /* Pozadí obrazovky „Je to match!“ */
 @utility match-bg {
-  background: linear-gradient(180deg, #fae8f9 0%, #ffffff 55%);
+  background: var(--match-bg, linear-gradient(180deg, var(--color-accent-soft) 0%, var(--color-page) 55%));
 }
 
 @utility pb-safe {
@@ -309,9 +321,9 @@ body {
   background: linear-gradient(
     90deg,
     var(--color-accent) 0%,
-    #ffa6ee 25%,
+    var(--shine, #ffa6ee) 25%,
     var(--color-accent) 50%,
-    #ffa6ee 75%,
+    var(--shine, #ffa6ee) 75%,
     var(--color-accent) 100%
   );
   background-size: 200% auto;
@@ -402,6 +414,61 @@ body {
 }
 :root:has(.hw) .bar a[aria-current="page"] span {
   background: var(--color-blood);
+}
+
+/* ---- Halloweenský motiv celé seznamky (HALLOWEEN v src/lib/config.ts, značka .hm z <HalloweenMode />) ----
+   Přebarví tokeny podle plakátu: noc, krvavě červená, kost. Tokeny jsou na :root, takže platí i pro okna v portálu. */
+:root:has(.hm) {
+  color-scheme: dark;
+  --color-ink: #f3ede6;
+  --color-muted: #a59d96;
+  --color-faint: #6f6862;
+  --color-line: #241f29;
+  --color-fill: #18141c;
+  --color-page: #07060a;
+  --color-card: #0f0d12;
+  --color-accent: #ee1a22;
+  --color-accent-soft: #2a0c10;
+  --color-accent-light: #ff5a4a;
+  --color-indigo: #c81e26;
+  --color-violet: #3a0a0e;
+  --color-lilac: #5a1015;
+  --color-haze: #2a0c10;
+  --color-periwinkle: #5a0a10;
+  --shine: #ff8a7a;
+  --color-info: #ff5a4a;
+  --accent-rgb: 238 26 34;
+  --indigo-rgb: 200 30 38;
+  --accent-ink: #ff5a5a;
+  /* spodek fotek mizí do noci místo do indiga, „Je to match!“ má rudou záři */
+  --photo-fade: linear-gradient(180deg, rgb(7 6 10 / 0) 0%, rgb(26 4 7 / 0.72) 55%, #0a0507 100%);
+  --match-bg: radial-gradient(90% 50% at 50% 28%, rgb(238 26 34 / 0.32), transparent 70%), var(--color-night);
+  /* světlé sklo z úvodu je v noci tmavé */
+  --glass-bg: linear-gradient(135deg, rgb(255 255 255 / 0.1) 0%, rgb(255 255 255 / 0.03) 50%, rgb(255 255 255 / 0.07) 100%);
+  --glass-border: rgb(255 255 255 / 0.12);
+  --glass-shadow: inset 0 1px 0 rgb(255 255 255 / 0.12), 0 10px 30px -12px rgb(0 0 0 / 0.7);
+  background: var(--color-night);
+}
+
+:root:has(.hm) body {
+  background:
+    radial-gradient(120% 55% at 50% -12%, rgb(224 20 28 / 0.16), transparent 62%),
+    var(--color-night);
+  background-attachment: fixed;
+  color: var(--color-ink);
+}
+
+:root:has(.hm) ::selection {
+  background: rgb(224 20 28 / 0.45);
+}
+
+/* Titulky stránek písmem z plakátu */
+:root:has(.hm) h1,
+:root:has(.hm) .hm-title {
+  font-family: var(--font-metal-mania), "Metal Mania", serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 22px rgb(255 59 59 / 0.35);
 }
 
 /* Písmo titulků jako na plakátu (Metal Mania) */

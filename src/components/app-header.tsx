@@ -7,7 +7,7 @@ import { Logo } from "./logo";
 /** Hlavní hlavička záložek (logo vlevo, akce vpravo). Na počítači je logo v bočním panelu. */
 export function AppHeader({ right }: { right?: ReactNode }) {
   return (
-    <header className="no-print sticky top-0 z-20 flex items-center justify-between border-b-2 border-fill bg-white px-4 pt-safe pb-2.5 lg:hidden">
+    <header className="no-print sticky top-0 z-20 flex items-center justify-between border-b-2 border-fill bg-page px-4 pt-safe pb-2.5 lg:hidden">
       <Link href="/events" aria-label={APP_NAME}>
         <Logo />
       </Link>
@@ -35,7 +35,7 @@ export function BackHeader({
   right?: ReactNode;
 }) {
   return (
-    <header className="no-print sticky top-0 z-20 flex items-center gap-1 border-b-2 border-fill bg-white px-2 pt-safe pb-2.5 lg:static lg:border-0 lg:pt-0">
+    <header className="no-print sticky top-0 z-20 flex items-center gap-1 border-b-2 border-fill bg-page px-2 pt-safe pb-2.5 lg:static lg:border-0 lg:pt-0">
       <Link href={href} aria-label="Zpět" className="grid size-10 shrink-0 place-items-center text-ink transition active:scale-90">
         <Icon name="back" className="size-6" />
       </Link>

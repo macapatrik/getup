@@ -6,6 +6,7 @@ import { LiveRefresh } from "@/components/live-refresh";
 import { PushPrompt } from "@/components/push-settings";
 import { btnPrimary, card, photoBadge, sectionTitle } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
+import { HALLOWEEN } from "@/lib/config";
 import { hasContact } from "@/lib/contacts";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/server";
@@ -41,8 +42,10 @@ export default async function MatchesPage() {
             <span className="fill-accent-soft mx-auto grid size-16 place-items-center rounded-full">
               <Icon name="heartOutline" className="size-8" />
             </span>
-            <p className="mt-4 text-[22px] font-bold">Zatím žádný match</p>
-            <p className="mt-1 text-[15px] text-muted">Běž swipovat. Match vznikne, když se lajknete oba.</p>
+            <p className="hm-title mt-4 text-[22px] font-bold">Zatím žádný match</p>
+            <p className="mt-1 text-[15px] text-muted">
+              {HALLOWEEN ? "Běž swipovat. Match vznikne, když se navzájem uhranete." : "Běž swipovat. Match vznikne, když se lajknete oba."}
+            </p>
             <Link href="/swipe" className={`${btnPrimary} mt-5 w-full`}>
               Swipovat
             </Link>
@@ -51,7 +54,7 @@ export default async function MatchesPage() {
 
         {matches.length > 0 && !hasContact(profile) && (
           <Link href="/profile/edit" className="fill-accent-soft mt-4 flex items-center gap-3 rounded-[16px] p-3.5 transition active:scale-[0.98]">
-            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white">
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-card">
               <Icon name="instagram" className="size-5" />
             </span>
             <span className="min-w-0 flex-1 text-[14px] leading-snug font-medium">
@@ -106,7 +109,7 @@ export default async function MatchesPage() {
                       <img src={photoUrl(m.photos[0])} alt="" className="size-full object-cover" />
                       {hasContact(m) && (
                         <span
-                          className="fill-accent absolute top-2.5 right-2.5 grid size-7 place-items-center rounded-full border-2 border-white shadow-none"
+                          className="fill-accent absolute top-2.5 right-2.5 grid size-7 place-items-center rounded-full border-2 border-card shadow-none"
                           aria-label="Má vyplněný kontakt"
                         >
                           <Icon name="instagram" className="size-3.5" />

@@ -5,7 +5,7 @@ import { Icon } from "@/components/icons";
 import { RefreshAt } from "@/components/refresh-at";
 import { card, largeTitle, pill, sectionTitle } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
-import { COSTUME_PRIZE } from "@/lib/config";
+import { COSTUME_PRIZE, HALLOWEEN } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
 import { isJoinable, pickFeatured } from "@/lib/events";
 import {
@@ -23,7 +23,9 @@ import {
 import { getSwipingOpensAt, swipingClosed } from "@/lib/settings";
 import { createClient } from "@/lib/supabase/server";
 import type { EventRow, PastEvent } from "@/lib/types";
+import { EVENT as HALLOWEEN_EVENT } from "../../halloween/event";
 import { EVENT } from "../../tinder/event";
+import { HalloweenCard } from "./halloween-card";
 import { JoinForm } from "./join-form";
 import { QrScanButton } from "./qr-scanner";
 import { TinderCard } from "./tinder-card";
@@ -60,6 +62,9 @@ export default async function EventsPage(props: PageProps<"/events">) {
   const rest = events.filter((e) => e.id !== featured?.id);
   // Pozvánka na Tinder party, dokud se k ní člověk nepřipojí – bez skenování QR kódu (odkaz /j/KÓD).
   const invite = isJoinable(EVENT.startsAt) && !events.some((e) => e.join_code === EVENT.joinCode);
+  // Stejně tak pozvánka na Halloween (karta podle plakátu)
+  const halloweenInvite = isJoinable(HALLOWEEN_EVENT.startsAt) && !events.some((e) => e.join_code === HALLOWEEN_EVENT.joinCode);
+  const featuredHalloween = featured?.join_code === HALLOWEEN_EVENT.joinCode;
 
   return (
     <main className="mx-auto max-w-md pb-nav lg:pt-6">
@@ -69,13 +74,13 @@ export default async function EventsPage(props: PageProps<"/events">) {
       <div className="px-4">
         <header className="pt-5">
           <p className="text-[15px] font-semibold text-muted">Čau {profile.display_name}</p>
-          <h1 className={largeTitle}>Kam vyrazíš?</h1>
+          <h1 className={largeTitle}>{HALLOWEEN ? "Kdo tě o Halloweenu uhrane?" : "Kam vyrazíš?"}</h1>
         </header>
 
         {/* Upozornění pro všechny: v profilu musí být aspoň jedna fotka, na které je člověk sám (moderujeme ručně). */}
         <Link
           href="/profile/edit"
-          className="mt-5 flex items-center gap-3 rounded-[16px] bg-accent p-4 text-white shadow-[0_18px_40px_-18px_rgb(247_89_245/0.9)] transition active:scale-[0.98]"
+          className="mt-5 flex items-center gap-3 rounded-[16px] bg-accent p-4 text-white shadow-[0_18px_40px_-18px_rgb(var(--accent-rgb)/0.9)] transition active:scale-[0.98]"
         >
           <span className="grid size-11 shrink-0 place-items-center rounded-full bg-white/20">
             <Icon name="cameraPlus" className="size-6" />
@@ -89,13 +94,20 @@ export default async function EventsPage(props: PageProps<"/events">) {
           <Icon name="chevron" className="size-5 shrink-0" />
         </Link>
 
+        {halloweenInvite && (
+          <section className="mt-5">
+            <HalloweenCard />
+          </section>
+        )}
+
         {invite && (
           <section className="mt-5">
             <TinderCard />
           </section>
         )}
 
-        {contestEvent && (
+        {/* Soutěž o kostým má vlastní tlačítko na halloweenské kartě, jinak samostatný odkaz */}
+        {contestEvent && !(featuredHalloween && featured?.id === contestEvent.id) && (
           <Link
             href={`/e/${contestEvent.id}/kostymy`}
             className="relative mt-5 flex items-center gap-3 overflow-hidden rounded-[16px] border border-blood/50 bg-night p-4 text-bone shadow-[0_18px_40px_-20px_rgb(224_20_28/0.8)] transition active:scale-[0.98]"
@@ -116,7 +128,14 @@ export default async function EventsPage(props: PageProps<"/events">) {
 
         {featured && (
           <section className="mt-5">
-            {featured.join_code === EVENT.joinCode ? (
+            {featuredHalloween ? (
+              <HalloweenCard
+                event={featured}
+                attendees={counts.get(featured.id) ?? 0}
+                opensAt={paused ? opensAt : null}
+                contest={contestEvent?.id === featured.id}
+              />
+            ) : featured.join_code === EVENT.joinCode ? (
               <TinderCard event={featured} attendees={counts.get(featured.id) ?? 0} opensAt={paused ? opensAt : null} />
             ) : (
               <NextEventCard event={featured} attendees={counts.get(featured.id) ?? 0} opensAt={paused ? opensAt : null} />
@@ -147,7 +166,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
 
         {rest.length > 0 && <h2 className={`${sectionTitle} mt-8`}>{featured ? "Další akce" : "Tvoje akce"}</h2>}
         {events.length === 0 ? (
-          !invite && <p className="mt-6 text-center text-[15px] text-muted">Zatím žádná akce. Jakmile se připojíš, objeví se tady.</p>
+          !invite && !halloweenInvite && <p className="mt-6 text-center text-[15px] text-muted">Zatím žádná akce. Jakmile se připojíš, objeví se tady.</p>
         ) : (
           <ul className="space-y-3">
             {rest.map((event) => {
@@ -232,7 +251,7 @@ function NextEventCard({ event, attendees, opensAt }: { event: EventRow; attende
   return (
     <Link
       href={`/e/${event.id}`}
-      className="relative block overflow-hidden rounded-[32px] bg-gradient-to-br from-indigo via-[#7a3ff0] to-accent p-5 text-white shadow-[0_24px_40px_-20px_rgb(62_54_237/0.5)] transition active:scale-[0.98]"
+      className="relative block overflow-hidden rounded-[32px] bg-gradient-to-br from-indigo via-violet to-accent p-5 text-white shadow-[0_24px_40px_-20px_rgb(var(--indigo-rgb)/0.5)] transition active:scale-[0.98]"
     >
       <span className="absolute -top-10 -right-10 size-40 rounded-full bg-white/10" aria-hidden />
       <span className="absolute -bottom-16 -left-6 size-40 rounded-full bg-white/10" aria-hidden />

@@ -4,6 +4,7 @@ import { useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { Icon } from "@/components/icons";
 import { btnPrimary } from "@/components/ui";
+import { HALLOWEEN } from "@/lib/config";
 
 const HINT_KEY = "gt-swipe-hint"; // v localStorage: návod ke swipování už člověk na tomhle zařízení viděl
 const listeners = new Set<() => void>();
@@ -60,7 +61,7 @@ export function SwipeHint({ onClose }: { onClose: () => void }) {
             <Icon name="heart" className="size-5" />
           </span>
           <div
-            className="relative h-36 w-24 animate-[swipe-demo_3.6s_ease-in-out_infinite] overflow-hidden rounded-[16px] bg-gradient-to-br from-accent-soft via-[#e6c9ff] to-indigo/70 shadow-[0_18px_40px_-18px_rgb(62_54_237/0.5)]"
+            className="relative h-36 w-24 animate-[swipe-demo_3.6s_ease-in-out_infinite] overflow-hidden rounded-[16px] bg-gradient-to-br from-accent-soft via-lilac to-indigo/70 shadow-[0_18px_40px_-18px_rgb(var(--indigo-rgb)/0.5)]"
             aria-hidden
           >
             <div className="photo-fade absolute inset-x-0 bottom-0 h-1/2" />
@@ -71,13 +72,13 @@ export function SwipeHint({ onClose }: { onClose: () => void }) {
           </div>
         </div>
 
-        <h2 className="mt-2 text-[24px] leading-tight font-bold">Stačí táhnout</h2>
+        <h2 className="hm-title mt-2 text-[24px] leading-tight font-bold">Stačí táhnout</h2>
         <p className="mt-2 text-[15px] leading-snug text-muted">
           Kartu přetáhni doprava, když se ti někdo líbí, a doleva, když ne. Tlačítka dole dělají to samé. Klepnutím na
           kartu otevřeš celý profil.
         </p>
         <button type="button" onClick={onClose} className={`${btnPrimary} mt-5 w-full py-3.5`}>
-          Jasně, jdu na to
+          {HALLOWEEN ? "Jdu na lov" : "Jasně, jdu na to"}
         </button>
       </div>
     </div>,

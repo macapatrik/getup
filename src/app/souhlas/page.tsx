@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { HalloweenMode } from "@/components/halloween-mode";
 import { Icon, type IconName } from "@/components/icons";
 import { Logo } from "@/components/logo";
 import { MadeBy } from "@/components/made-by";
@@ -52,6 +53,7 @@ export default async function ConsentPage(props: PageProps<"/souhlas">) {
 
       <ConsentForm next={nextPath} marketing={consent?.marketing ?? false} />
       <MadeBy className="mt-8" />
+      <HalloweenMode />
     </main>
   );
 }

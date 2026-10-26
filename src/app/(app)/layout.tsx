@@ -1,4 +1,5 @@
 import { BottomNav, SideNav } from "@/components/bottom-nav";
+import { HalloweenMode } from "@/components/halloween-mode";
 import { PushSync } from "@/components/push-settings";
 import { requireProfile } from "@/lib/auth";
 
@@ -12,6 +13,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <SideNav />
       <BottomNav />
       <PushSync />
+      <HalloweenMode />
     </div>
   );
 }

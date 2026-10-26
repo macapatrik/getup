@@ -7,6 +7,7 @@ import { ContactButtons } from "@/components/contact-buttons";
 import { Icon } from "@/components/icons";
 import { ProfileSheet } from "@/components/profile-sheet";
 import { btnPrimary, btnSecondary, photoBadge } from "@/components/ui";
+import { HALLOWEEN } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
@@ -193,7 +194,7 @@ function ActionButton({
       onClick={onClick}
       disabled={disabled}
       aria-label={labels[kind]}
-      className={`shadow-indigo grid place-items-center rounded-full bg-white transition active:scale-90 disabled:opacity-40 ${
+      className={`shadow-indigo grid place-items-center rounded-full bg-card transition active:scale-90 disabled:opacity-40 ${
         like ? "size-16 text-accent" : "size-12 text-indigo"
       }`}
     >
@@ -341,9 +342,10 @@ function EmptyState({ loading, onRetry }: { loading: boolean; onRetry: () => voi
       <span className="fill-accent-soft grid size-16 place-items-center rounded-full">
         <Icon name="users" className="size-8" />
       </span>
-      <p className="mt-4 text-[22px] font-bold">Zatím jsi viděl/a všechny</p>
+      <p className="hm-title mt-4 text-[22px] font-bold">{HALLOWEEN ? "Všechny duše jsi už prošel/a" : "Zatím jsi viděl/a všechny"}</p>
       <p className="mt-2 text-[15px] text-muted">
-        Další lidi se připojují až do začátku akce i během ní. Zkus to později, nebo se mrkni na své matche.
+        {HALLOWEEN ? "Další se slétají" : "Další lidi se připojují"} až do začátku akce i během ní. Zkus to později, nebo se mrkni na
+        své matche.
       </p>
       <div className="mt-6 flex gap-3">
         <button type="button" onClick={onRetry} disabled={loading} className={btnSecondary}>
@@ -383,7 +385,7 @@ function MatchModal({
   }, [match.matchId]);
 
   const name = match.card.display_name;
-  const avatar = "size-24 rounded-full border-4 border-white bg-fill object-cover shadow-[0_18px_40px_-14px_rgb(62_54_237/0.45)]";
+  const avatar = "size-24 rounded-full border-4 border-white bg-fill object-cover shadow-[0_18px_40px_-14px_rgb(var(--indigo-rgb)/0.45)]";
   return createPortal(
     <div
       className="match-bg fixed inset-0 z-50 flex flex-col items-center overflow-y-auto px-6 pt-safe pb-safe text-center"
@@ -391,18 +393,18 @@ function MatchModal({
       aria-modal="true"
     >
       <div className="flex w-full flex-1 flex-col items-center justify-center py-6">
-        <span className="grid size-40 animate-[pop-in_0.4s_cubic-bezier(0.34,1.56,0.64,1)] place-items-center rounded-full bg-gradient-to-b from-[#ff9be9] to-accent shadow-[0_40px_70px_-30px_rgb(247_89_245/0.75)]">
+        <span className="grid size-40 animate-[pop-in_0.4s_cubic-bezier(0.34,1.56,0.64,1)] place-items-center rounded-full bg-gradient-to-b from-accent-light to-accent shadow-[0_40px_70px_-30px_rgb(var(--accent-rgb)/0.75)]">
           <Icon name="heart" className="size-20 text-white drop-shadow-[0_6px_12px_rgb(0_0_0/0.15)]" />
         </span>
         <div className="-mt-7 flex items-center justify-center">
           {myPhoto && <img src={photoUrl(myPhoto)} alt="" className={`${avatar} -mr-4`} />}
           <img src={photoUrl(match.card.photos[0])} alt={name} className={avatar} />
         </div>
-        <p className="mt-7 text-[32px] leading-tight font-bold">Je to match!</p>
+        <p className="hm-title mt-7 text-[32px] leading-tight font-bold">Je to match!</p>
         <p className="mt-2 text-[16px] text-muted">
           Ty a {name} jste se lajkli.
           <br />
-          Ozvi se.
+          {HALLOWEEN ? "Ozvi se, než odbije půlnoc." : "Ozvi se."}
         </p>
         <div className="mt-6 w-full max-w-sm text-left">
           {other === undefined ? (

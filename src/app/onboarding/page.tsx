@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { HalloweenMode } from "@/components/halloween-mode";
 import { Logo } from "@/components/logo";
 import { ProfileForm } from "@/components/profile-form";
 import { getProfile, hasAcceptedTerms, requireUser } from "@/lib/auth";
@@ -25,6 +26,7 @@ export default async function OnboardingPage(props: PageProps<"/onboarding">) {
         je od 15 let. Lidé do 18 let vidí jen lidi do 18 let, dospělí jen dospělé.
       </p>
       <ProfileForm userId={user.id} profile={null} redirectTo={nextPath} />
+      <HalloweenMode />
     </main>
   );
 }

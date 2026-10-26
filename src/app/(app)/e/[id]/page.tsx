@@ -126,7 +126,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
       {status === "closed" ? (
         <div className="flex flex-1 items-center px-4">
           <div className={`${card} w-full text-center`}>
-            <p className="text-[22px] font-bold">Tahle akce už skončila</p>
+            <p className="hm-title text-[22px] font-bold">Tahle akce už skončila</p>
             <p className="mt-1 text-[15px] text-muted">Tvoje matche ti ale zůstávají.</p>
             <Link href="/matches" className={`${btnSecondary} mt-5`}>
               Moje matche
@@ -140,7 +140,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
             <span className="fill-accent-soft mx-auto grid size-16 place-items-center rounded-full">
               <Icon name="clock" className="size-8" />
             </span>
-            <p className="mt-4 text-[22px] font-bold">Swipování startuje</p>
+            <p className="hm-title mt-4 text-[22px] font-bold">Swipování startuje</p>
             <p className="mt-1 text-[28px] leading-tight font-bold text-accent">{formatDateTime(opensAt.toISOString())}</p>
             <p className="mt-3 text-[15px] leading-snug text-muted">
               Zatím se připojuj k akcím a dolaď si profil, ať máš fotky a kontakt hotové, až to začne. Kdo je na akci s tebou,
