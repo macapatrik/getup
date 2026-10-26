@@ -7,7 +7,7 @@ import { updateSession } from "@/lib/supabase/proxy";
 const LEGACY_HOST = "together.get-up.fun";
 
 // Stránky, které jsou stejné na webu get-up.fun i v aplikaci (kampaně, právní texty).
-const SHARED_PATHS = ["/tinder", "/halloween", "/podminky", "/soukromi"];
+const SHARED_PATHS = ["/tinder", "/halloween", "/halloween2026", "/podminky", "/soukromi"];
 // Soubory webu, které na doméně get-up.fun nahradí ikony aplikace (viz matcher níže).
 const WEB_FILES: Record<string, string> = {
   "/icon.svg": "/web/icon.png",
