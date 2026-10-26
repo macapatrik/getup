@@ -6,11 +6,12 @@ import { btnDanger, btnSecondary, card, sectionTitle } from "@/components/ui";
 import { getOrigin, requireOrganizer } from "@/lib/auth";
 import { STATUS_LABELS, eventStatus, formatDateTime, formatNumber, formatTime, toLocalInput } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
-import type { EventRow, EventWebInfo } from "@/lib/types";
+import type { AdminCostumeEntry, EventRow, EventWebInfo } from "@/lib/types";
 import { deleteEventAction, updateEventAction } from "../../actions";
 import { ConfirmButton } from "../../confirm-button";
 import { EventForm } from "../../event-form";
 import { PageHeader } from "../../ui";
+import { CostumeAdmin } from "./costume-admin";
 import { PrintButton } from "./print-button";
 
 export const metadata: Metadata = { title: "Akce" };
@@ -28,13 +29,18 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
   const { id } = await props.params;
 
   const supabase = await createClient();
-  const [{ data: event }, { data: statsRows }] = await Promise.all([
+  const [{ data: event }, { data: statsRows }, { data: costumeRows }] = await Promise.all([
     supabase
       .from("events")
-      .select("id, name, venue, starts_at, ends_at, join_code, tickets_url, description, hidden")
+      .select(
+        "id, name, venue, starts_at, ends_at, join_code, tickets_url, description, hidden, costume_contest, costume_entries_open, costume_voting_open",
+      )
       .eq("id", id)
-      .maybeSingle<Required<EventRow> & EventWebInfo>(),
+      .maybeSingle<
+        Required<EventRow> & EventWebInfo & { costume_contest: boolean; costume_entries_open: boolean; costume_voting_open: boolean }
+      >(),
     supabase.rpc("event_stats", { p_event_id: id }),
+    supabase.rpc("admin_costume_entries", { p_event_id: id }),
   ]);
   if (!event) notFound();
 
@@ -73,6 +79,8 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
               ))}
             </div>
           </section>
+
+          <CostumeAdmin eventId={event.id} settings={event} entries={(costumeRows ?? []) as AdminCostumeEntry[]} />
 
           <section>
             <h2 className={sectionTitle}>Upravit akci</h2>

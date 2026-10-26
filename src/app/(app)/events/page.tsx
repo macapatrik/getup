@@ -5,6 +5,7 @@ import { Icon } from "@/components/icons";
 import { RefreshAt } from "@/components/refresh-at";
 import { card, largeTitle, pill, sectionTitle } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
+import { COSTUME_PRIZE } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
 import { isJoinable, pickFeatured } from "@/lib/events";
 import {
@@ -36,13 +37,15 @@ export default async function EventsPage(props: PageProps<"/events">) {
   const supabase = await createClient();
   const { data } = await supabase
     .from("event_attendees")
-    .select("joined_at, event:events(id, name, venue, starts_at, ends_at, join_code)")
+    .select("joined_at, event:events(id, name, venue, starts_at, ends_at, join_code, costume_contest)")
     .eq("user_id", user.id)
     .order("joined_at", { ascending: false });
 
-  const events = ((data ?? []) as unknown as { event: EventRow | null }[])
+  const events = ((data ?? []) as unknown as { event: (EventRow & { costume_contest?: boolean }) | null }[])
     .map((row) => row.event)
-    .filter((e): e is EventRow => e !== null);
+    .filter((e): e is EventRow & { costume_contest?: boolean } => e !== null);
+  // Akce se soutěží o kostým, která ještě neskončila (odkaz nahoře na stránce)
+  const contestEvent = events.find((e) => e.costume_contest && eventStatus(e) !== "closed");
   const [{ data: countRows }, { data: pastRows }, opensAt] = await Promise.all([
     supabase.rpc("attendee_counts", { p_event_ids: events.map((e) => e.id) }),
     supabase.rpc("past_events"),
@@ -90,6 +93,24 @@ export default async function EventsPage(props: PageProps<"/events">) {
           <section className="mt-5">
             <TinderCard />
           </section>
+        )}
+
+        {contestEvent && (
+          <Link
+            href={`/e/${contestEvent.id}/kostymy`}
+            className="mt-5 flex items-center gap-3 rounded-[16px] bg-ink p-4 text-white transition active:scale-[0.98]"
+          >
+            <span className="fill-accent grid size-11 shrink-0 place-items-center rounded-full">
+              <Icon name="camera" className="size-6" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[16px] leading-snug font-bold">Soutěž o nejlepší kostým</span>
+              <span className="mt-0.5 block truncate text-[13px] text-white/80">
+                {contestEvent.name} · výhra {COSTUME_PRIZE}
+              </span>
+            </span>
+            <Icon name="chevron" className="size-5 shrink-0" />
+          </Link>
         )}
 
         {featured && (

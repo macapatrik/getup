@@ -16,6 +16,9 @@ export const TIME_ZONE = "Europe/Prague";
 export const MAX_PHOTOS = 6;
 export const MIN_AGE = 15;
 
+/** Výhra v soutěži o nejlepší kostým (zobrazuje se v aplikaci) */
+export const COSTUME_PRIZE = "5 000 Kč";
+
 // Po skončení akce je "místnost" otevřená ještě 24 h (musí sedět s SQL event_is_open).
 export const EVENT_GRACE_HOURS = 24;
 

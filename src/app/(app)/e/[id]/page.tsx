@@ -23,7 +23,11 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
   const supabase = await createClient();
 
   const [{ data: event }, { data: attendance }, { data: counts }, opensAt] = await Promise.all([
-    supabase.from("events").select("id, name, venue, starts_at, ends_at, join_code").eq("id", id).maybeSingle<Required<EventRow>>(),
+    supabase
+      .from("events")
+      .select("id, name, venue, starts_at, ends_at, join_code, costume_contest")
+      .eq("id", id)
+      .maybeSingle<Required<EventRow> & { costume_contest: boolean }>(),
     supabase
       .from("event_attendees")
       .select("visible")
@@ -103,6 +107,14 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
             <Icon name="users" className="size-4" />
             {formatNumber(attendees)} {attendees === 1 ? "člověk" : attendees < 5 ? "lidi" : "lidí"}
           </span>
+          {event.costume_contest && (
+            <Link
+              href={`/e/${id}/kostymy`}
+              className="fill-accent inline-flex items-center gap-1.5 rounded-[10px] px-3 py-1 text-[12px] font-semibold transition active:scale-95"
+            >
+              <Icon name="camera" className="size-4" /> Soutěž o kostým
+            </Link>
+          )}
           {!attendance.visible && (
             <span className="inline-flex items-center rounded-[10px] bg-amber-100 px-3 py-1 text-[12px] font-semibold text-amber-800">
               Jsi skrytý/á

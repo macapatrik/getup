@@ -21,6 +21,11 @@ const MESSAGES: Record<string, string> = {
   GU023: "Uživatel nemá vyplněný profil, na akci ho nejde přidat.",
   GU024: "Akce neexistuje.",
   GU025: "Swipování ještě není otevřené.",
+  GU030: "Přihlášky do soutěže o kostým nejsou otevřené.",
+  GU031: "Hlasování o kostýmech teď neběží.",
+  GU032: "Tenhle kostým už v soutěži není.",
+  GU033: "Pro svůj kostým hlasovat nejde.",
+  GU034: "Neplatný stav přihlášky.",
   GU401: "Přihlas se prosím znovu.",
   GU403: "Na tohle nemáš oprávnění.",
 };

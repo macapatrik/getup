@@ -89,6 +89,31 @@ export interface PublicEvent extends Required<EventRow> {
   description: string;
 }
 
+// ---------- Soutěž o kostým (RPC costume_contest, admin_costume_entries) ----------
+
+export type CostumeStatus = "pending" | "approved" | "rejected";
+
+export interface CostumeContest {
+  enabled: boolean;
+  entries_open: boolean;
+  voting_open: boolean;
+  my_entry: { id: string; title: string; photo: string; status: CostumeStatus } | null;
+  my_vote: string | null;
+  entries: { id: string; title: string; photo: string; name: string | null; mine: boolean }[];
+}
+
+export interface AdminCostumeEntry {
+  id: string;
+  user_id: string;
+  display_name: string | null;
+  title: string;
+  photo: string;
+  status: CostumeStatus;
+  created_at: string;
+  votes: number;
+  fresh_votes: number;
+}
+
 // ---------- Administrace (RPC admin_*) ----------
 
 export interface AdminOverview {

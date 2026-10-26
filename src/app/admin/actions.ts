@@ -202,3 +202,26 @@ export async function removeOrganizerAction(userId: string) {
   await supabase.rpc("admin_remove_organizer", { p_user_id: userId });
   revalidatePath("/admin/team");
 }
+
+// ---------- Soutěž o kostým ----------
+
+export async function setCostumeContestAction(eventId: string, formData: FormData) {
+  await requireOrganizer();
+  const supabase = await createClient();
+  await supabase.rpc("admin_set_costume_contest", {
+    p_event_id: eventId,
+    p_enabled: formData.get("enabled") === "on",
+    p_entries_open: formData.get("entries_open") === "on",
+    p_voting_open: formData.get("voting_open") === "on",
+  });
+  revalidatePath("/admin", "layout");
+  revalidatePath(`/e/${eventId}`, "layout");
+}
+
+export async function setCostumeEntryStatusAction(eventId: string, entryId: string, status: "approved" | "rejected" | "pending") {
+  await requireOrganizer();
+  const supabase = await createClient();
+  await supabase.rpc("admin_set_costume_entry_status", { p_entry_id: entryId, p_status: status });
+  revalidatePath(`/admin/events/${eventId}`);
+  revalidatePath(`/e/${eventId}`, "layout");
+}
