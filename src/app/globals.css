@@ -385,6 +385,25 @@ body {
   color: var(--color-bone);
 }
 
+/* V aplikaci (soutěž o kostým) se do motivu přebarví i spodní lišta a boční panel */
+:root:has(.hw) .bar,
+:root:has(.hw) .side-nav {
+  background: var(--color-night);
+  border-color: rgb(255 255 255 / 0.08);
+  color: var(--color-bone);
+}
+:root:has(.hw) .bar a,
+:root:has(.hw) .side-nav a {
+  color: var(--color-bone);
+}
+:root:has(.hw) .bar a[aria-current="page"],
+:root:has(.hw) .side-nav a[aria-current="page"] {
+  color: var(--color-blood);
+}
+:root:has(.hw) .bar a[aria-current="page"] span {
+  background: var(--color-blood);
+}
+
 /* Písmo titulků jako na plakátu (Metal Mania) */
 @utility font-metal {
   font-family: var(--font-metal-mania), "Metal Mania", serif;

@@ -98,18 +98,19 @@ export default async function EventsPage(props: PageProps<"/events">) {
         {contestEvent && (
           <Link
             href={`/e/${contestEvent.id}/kostymy`}
-            className="mt-5 flex items-center gap-3 rounded-[16px] bg-ink p-4 text-white transition active:scale-[0.98]"
+            className="relative mt-5 flex items-center gap-3 overflow-hidden rounded-[16px] border border-blood/50 bg-night p-4 text-bone shadow-[0_18px_40px_-20px_rgb(224_20_28/0.8)] transition active:scale-[0.98]"
           >
-            <span className="fill-accent grid size-11 shrink-0 place-items-center rounded-full">
+            <img src="/halloween/hero-800.webp" alt="" className="absolute inset-0 size-full object-cover object-[72%_center] opacity-45" />
+            <span className="hw-red relative grid size-11 shrink-0 place-items-center rounded-full">
               <Icon name="camera" className="size-6" />
             </span>
-            <span className="min-w-0 flex-1">
-              <span className="block text-[16px] leading-snug font-bold">Soutěž o nejlepší kostým</span>
-              <span className="mt-0.5 block truncate text-[13px] text-white/80">
+            <span className="relative min-w-0 flex-1">
+              <span className="block text-[16px] leading-snug font-bold uppercase">Soutěž o nejlepší kostým</span>
+              <span className="mt-0.5 block truncate text-[13px] text-bone/85">
                 {contestEvent.name} · výhra {COSTUME_PRIZE}
               </span>
             </span>
-            <Icon name="chevron" className="size-5 shrink-0" />
+            <Icon name="chevron" className="relative size-5 shrink-0" />
           </Link>
         )}
 

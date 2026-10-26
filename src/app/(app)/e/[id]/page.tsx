@@ -110,7 +110,7 @@ export default async function EventPage(props: PageProps<"/e/[id]">) {
           {event.costume_contest && (
             <Link
               href={`/e/${id}/kostymy`}
-              className="fill-accent inline-flex items-center gap-1.5 rounded-[10px] px-3 py-1 text-[12px] font-semibold transition active:scale-95"
+              className="hw-red inline-flex items-center gap-1.5 rounded-[10px] px-3 py-1 text-[12px] font-semibold transition active:scale-95"
             >
               <Icon name="camera" className="size-4" /> Soutěž o kostým
             </Link>
