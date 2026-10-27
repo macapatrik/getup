@@ -16,14 +16,15 @@ mít úplně nezávislou. Vkládá se stejně, jen je ho 107 kB.
 
 ## Postup v Elementoru (5 minut)
 
-1. **Stránky → Přidat stránku**, název „Halloween“, pak **Upravit pomocí Elementoru**.
+1. **Stránky → Přidat stránku**, název „Halloween“. Vpravo v **Nastavení stránky → Odkaz (URL / slug)** nech `halloween`,
+   stránka pak bude na **www.get-up.fun/halloween**. Pak **Upravit pomocí Elementoru**.
 2. Vlevo dole ozubené kolo (**Nastavení stránky**) → **Rozvržení stránky: Elementor Canvas**.
    Stránka tak nemá hlavičku ani patičku webu, má vlastní.
 3. Z panelu widgetů přetáhni **HTML** (skupina Obecné). Do pole **HTML kód** vlož ty dva řádky výše.
 4. Klikni na kontejner kolem widgetu: **Rozvržení → Šířka obsahu: Plná šířka**, odsazení 0.
    Není to nutné, stránka si celou šířku vezme sama, ale je to čistší.
 5. **Publikovat** a zkontroluj na mobilu i na počítači.
-6. Jako úvodní stránku: **Nastavení → Čtení → Úvodní stránka zobrazuje: Statickou stránku → Halloween**.
+6. Volitelně jako úvodní stránku: **Nastavení → Čtení → Úvodní stránka zobrazuje: Statickou stránku → Halloween**.
    Stránka DOMŮ zůstane, po akci ji vrátíš stejným způsobem.
 7. **Accelerator (Seraphinite) → vyčistit cache**, jinak návštěvníci uvidí starou verzi.
 

@@ -10,7 +10,7 @@ const LEGACY_HOST = "together.get-up.fun";
 const SHARED_PATHS = ["/tinder", "/halloween", "/halloween2026", "/podminky", "/soukromi"];
 // Soubory webu, které na doméně get-up.fun nahradí ikony aplikace (viz matcher níže).
 const WEB_FILES: Record<string, string> = {
-  "/icon.svg": "/web/icon.png",
+  "/icon": "/web/icon.png",
   "/apple-icon": "/web/apple-icon.png",
   "/robots.txt": "/web/robots.txt",
   "/sitemap.xml": "/web/sitemap.xml",
@@ -53,7 +53,7 @@ export const config = {
     // Vše kromě statických souborů, ikon, manifestu, service workeru a webhooku push upozornění.
     "/((?!_next/static|_next/image|icon|apple-icon|pwa-icon|manifest.webmanifest|sw\\.js|api/push/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
     // Ikony zvlášť: na doméně webu je nahradí logo GetUp (WEB_FILES).
-    "/icon.svg",
+    "/icon",
     "/apple-icon",
     "/manifest.webmanifest",
   ],
