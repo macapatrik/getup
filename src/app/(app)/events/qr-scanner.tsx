@@ -103,7 +103,9 @@ function Scanner({ onClose }: { onClose: () => void }) {
         if (code) {
           setFound(code);
           stop();
-          router.push(`/j/${code}`);
+          // QR kód z obrazovky v klubu nese i kód pro hlasování o kostýmech
+          const venueCode = text?.match(/[?&]kod=(\d{6})/)?.[1];
+          router.push(`/j/${code}${venueCode ? `?kod=${venueCode}` : ""}`);
           return;
         }
       }

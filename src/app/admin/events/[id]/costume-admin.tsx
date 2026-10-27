@@ -53,6 +53,18 @@ export function CostumeAdmin({
         </p>
       </form>
 
+      <div className={`${card} mt-3`}>
+        <p className="text-[15px] font-bold">Kód z klubu</p>
+        <p className="mt-1 text-[13px] leading-snug text-muted">
+          Hlasovat můžou jen lidi, kteří v klubu opíšou kód z obrazovky nebo naskenují QR kód vedle něj. Kód se mění každých 5
+          minut a z jednoho telefonu se odemkne jen jeden účet. Obrazovku pusť na projektoru, televizi nebo tabletu u stage, kód
+          může říct i moderátor.
+        </p>
+        <Link href={`/admin/events/${eventId}/kod`} target="_blank" className={`${btnSecondary} mt-3 w-full`}>
+          Otevřít obrazovku s kódem
+        </Link>
+      </div>
+
       {pending.length > 0 && (
         <p className="mt-4 text-[14px] font-semibold text-accent">Ke schválení: {pending.length}</p>
       )}

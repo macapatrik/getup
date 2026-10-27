@@ -97,6 +97,8 @@ export interface CostumeContest {
   enabled: boolean;
   entries_open: boolean;
   voting_open: boolean;
+  /** Zadal kód z klubu (hlasovat smí jen lidi na místě) */
+  checked_in?: boolean;
   my_entry: { id: string; title: string; photo: string; status: CostumeStatus } | null;
   my_vote: string | null;
   entries: { id: string; title: string; photo: string; name: string | null; mine: boolean }[];

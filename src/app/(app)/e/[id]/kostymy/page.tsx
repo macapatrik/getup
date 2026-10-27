@@ -14,6 +14,7 @@ export const metadata: Metadata = { title: "Soutěž o kostým" };
  */
 export default async function CostumeContestPage(props: PageProps<"/e/[id]/kostymy">) {
   const { id } = await props.params;
+  const { kod } = await props.searchParams;
   const { user } = await requireProfile();
   const supabase = await createClient();
 
@@ -25,7 +26,12 @@ export default async function CostumeContestPage(props: PageProps<"/e/[id]/kosty
 
   return (
     <main className={`hw ${metalMania.variable} relative mx-auto min-h-dvh max-w-md bg-night pb-nav text-bone lg:pt-6`}>
-      <CostumeContestView userId={user.id} event={event} contest={data as CostumeContest} />
+      <CostumeContestView
+        userId={user.id}
+        event={event}
+        contest={data as CostumeContest}
+        initialCode={typeof kod === "string" ? kod.replace(/\D/g, "").slice(0, 6) : null}
+      />
     </main>
   );
 }
