@@ -1,10 +1,13 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { SITE_URL, WEB_HOSTS, WEB_URL } from "@/lib/config";
+import { EVENT as HALLOWEEN_EVENT } from "./app/halloween/event";
 import { updateSession } from "@/lib/supabase/proxy";
 
 // Stará adresa aplikace. Zůstává na Vercelu kvůli vytištěným QR kódům a starým odkazům a přesměruje se na SITE_URL;
 // blok pro WordPress (/halloween/embed.*) se z ní dál načítá, dokud nebude ve WordPressu nový odkaz.
 const LEGACY_HOST = "together.get-up.fun";
+// Krátká adresa na soutěž o kostým (moderátorka, plakát): připojí k Halloweenu a otevře soutěž v aplikaci.
+const CONTEST_HOST = "halloween.get-up.fun";
 
 // Stránky, které jsou stejné na webu get-up.fun i v aplikaci (kampaně, právní texty).
 const SHARED_PATHS = ["/tinder", "/halloween", "/halloween2026", "/podminky", "/soukromi"];
@@ -23,6 +26,9 @@ export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host") ?? "";
   const target = new URL(SITE_URL);
+  if (host === CONTEST_HOST) {
+    return NextResponse.redirect(new URL(`/j/${HALLOWEEN_EVENT.joinCode}?soutez=1`, target), 307);
+  }
   if (host === LEGACY_HOST && target.host !== LEGACY_HOST && !pathname.startsWith("/halloween/embed")) {
     return NextResponse.redirect(new URL(pathname + search, target), 308);
   }
