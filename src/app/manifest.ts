@@ -1,7 +1,10 @@
 import type { MetadataRoute } from "next";
-import { APP_NAME, APP_TAGLINE, HALLOWEEN } from "@/lib/config";
+import { APP_NAME, APP_TAGLINE } from "@/lib/config";
+import { isHalloween } from "@/lib/theme";
 
-export default function manifest(): MetadataRoute.Manifest {
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const halloween = await isHalloween();
+  const icon = halloween ? "h" : "";
   return {
     name: APP_NAME,
     short_name: APP_NAME,
@@ -10,12 +13,12 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/events",
     display: "standalone",
     orientation: "portrait",
-    background_color: HALLOWEEN ? "#07060a" : "#ffffff",
-    theme_color: HALLOWEEN ? "#07060a" : "#ffffff",
+    background_color: halloween ? "#07060a" : "#ffffff",
+    theme_color: halloween ? "#07060a" : "#ffffff",
     icons: [
-      { src: "/pwa-icon/192", sizes: "192x192", type: "image/png" },
-      { src: "/pwa-icon/512", sizes: "512x512", type: "image/png" },
-      { src: "/pwa-icon/512", sizes: "512x512", type: "image/png", purpose: "maskable" },
+      { src: `/pwa-icon/${icon}192`, sizes: "192x192", type: "image/png" },
+      { src: `/pwa-icon/${icon}512`, sizes: "512x512", type: "image/png" },
+      { src: `/pwa-icon/${icon}512`, sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
   };
 }

@@ -416,7 +416,7 @@ body {
   background: var(--color-blood);
 }
 
-/* ---- Halloweenský motiv celé seznamky (HALLOWEEN v src/lib/config.ts, značka .hm z <HalloweenMode />) ----
+/* ---- Halloweenský motiv celé seznamky (na adrese HALLOWEEN_URL, značka .hm z <HalloweenMode />) ----
    Přebarví tokeny podle plakátu: noc, krvavě červená, kost. Tokeny jsou na :root, takže platí i pro okna v portálu. */
 :root:has(.hm) {
   color-scheme: dark;
@@ -460,6 +460,17 @@ body {
 
 :root:has(.hm) ::selection {
   background: rgb(224 20 28 / 0.45);
+}
+
+/* Texty jen pro jeden motiv (klientské komponenty, kde se adresa nedá zjistit na serveru) */
+.hm-only {
+  display: none;
+}
+:root:has(.hm) .hm-only {
+  display: revert;
+}
+:root:has(.hm) .hm-hide {
+  display: none;
 }
 
 /* Titulky stránek písmem z plakátu */

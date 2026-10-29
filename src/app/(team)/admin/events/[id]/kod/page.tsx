@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import QRCode from "qrcode";
-import { getOrigin, requireOrganizer } from "@/lib/auth";
+import { requireOrganizer } from "@/lib/auth";
+import { HALLOWEEN_URL } from "@/lib/config";
 import { createClient } from "@/lib/supabase/server";
 import { metalMania } from "../../../../../halloween/fonts";
 import { Countdown } from "./countdown";
@@ -26,8 +27,8 @@ export default async function VenueCodePage(props: PageProps<"/admin/events/[id]
   const row = (rows as { code: string; changes_at: string; checked_in: number }[] | null)?.[0];
   if (!event || error || !row) notFound();
 
-  // Naskenováním se člověk připojí k akci (i nový) a hlasování se mu rovnou odemkne.
-  const url = `${await getOrigin()}/j/${event.join_code}?kod=${row.code}`;
+  // Naskenováním se člověk připojí k akci (i nový) a hlasování se mu rovnou odemkne; vede na halloweenskou verzi appky.
+  const url = `${HALLOWEEN_URL}/j/${event.join_code}?kod=${row.code}`;
   const qr = await QRCode.toDataURL(url, { width: 720, margin: 1, errorCorrectionLevel: "M" });
   const off = !event.costume_contest || !event.costume_voting_open;
 

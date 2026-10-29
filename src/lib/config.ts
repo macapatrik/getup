@@ -16,8 +16,10 @@ export const TIME_ZONE = "Europe/Prague";
 export const MAX_PHOTOS = 6;
 export const MIN_AGE = 15;
 
-// Halloweenský motiv celé seznamky (barvy a písmo podle plakátu, texty a karta akce). Po Halloweenu přepni na false.
-export const HALLOWEEN = true;
+// Halloweenská verze seznamky běží na vlastní adrese (stejná aplikace i databáze, jiný vzhled: barvy a písmo podle
+// plakátu, texty, ikona, karta akce). Na SITE_URL zůstává původní vzhled. Lokálně jde zkusit přes HALLOWEEN_HOST.
+export const HALLOWEEN_URL = (process.env.NEXT_PUBLIC_HALLOWEEN_URL || "https://halloween.get-up.fun").replace(/\/$/, "");
+export const HALLOWEEN_HOSTS = [new URL(HALLOWEEN_URL).host, ...(process.env.HALLOWEEN_HOST ? [process.env.HALLOWEEN_HOST] : [])];
 
 /** Výhra v soutěži o nejlepší kostým (zobrazuje se v aplikaci) */
 export const COSTUME_PRIZE = "5 000 Kč";

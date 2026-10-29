@@ -6,10 +6,10 @@ import { LiveRefresh } from "@/components/live-refresh";
 import { PushPrompt } from "@/components/push-settings";
 import { btnPrimary, card, photoBadge, sectionTitle } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
-import { HALLOWEEN } from "@/lib/config";
 import { hasContact } from "@/lib/contacts";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/server";
+import { isHalloween } from "@/lib/theme";
 import type { MatchRow } from "@/lib/types";
 
 export const metadata: Metadata = { title: "Matche" };
@@ -28,6 +28,7 @@ export default async function MatchesPage() {
   const matches = (data ?? []) as MatchRow[];
 
   const fresh = matches.filter((m) => isFresh(m.matched_at));
+  const halloween = await isHalloween();
 
   return (
     <main className="mx-auto max-w-md pb-nav lg:pt-6">
@@ -44,7 +45,7 @@ export default async function MatchesPage() {
             </span>
             <p className="hm-title mt-4 text-[22px] font-bold">Zatím žádný match</p>
             <p className="mt-1 text-[15px] text-muted">
-              {HALLOWEEN ? "Běž swipovat. Match vznikne, když se navzájem uhranete." : "Běž swipovat. Match vznikne, když se lajknete oba."}
+              {halloween ? "Běž swipovat. Match vznikne, když se navzájem uhranete." : "Běž swipovat. Match vznikne, když se lajknete oba."}
             </p>
             <Link href="/swipe" className={`${btnPrimary} mt-5 w-full`}>
               Swipovat

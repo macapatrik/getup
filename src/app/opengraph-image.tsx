@@ -1,12 +1,13 @@
 import { ImageResponse } from "next/og";
-import { APP_NAME, APP_TAGLINE, HALLOWEEN } from "@/lib/config";
+import { APP_NAME, APP_TAGLINE } from "@/lib/config";
 import { logoMarkSvg } from "@/lib/logo-mark";
+import { isHalloween } from "@/lib/theme";
 import * as assets from "./_og/assets";
 import { HalloweenOg } from "./_og/halloween";
 
 // Náhled při sdílení odkazu (WhatsApp, Messenger, iMessage, Instagram): karta z balíčku s fotkou,
 // štítek „Je to match!“ a slogan. Písmo a fotky jsou přibalené jako base64 v src/app/_og/assets.ts.
-export const alt = HALLOWEEN ? `${APP_NAME} – najdi si crush na Halloween` : `${APP_NAME} – ${APP_TAGLINE}`;
+export const alt = `${APP_NAME} – ${APP_TAGLINE}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -63,14 +64,15 @@ function ActionButton({ size, color, children }: { size: number; color: string; 
   );
 }
 
-export default function OpenGraphImage() {
+export default async function OpenGraphImage() {
   const [medium, bold, extraBold] = [font(assets.fontMedium), font(assets.fontBold), font(assets.fontExtraBold)];
   const fonts = [
     { name: "Urbanist", data: medium, weight: 500, style: "normal" },
     { name: "Urbanist", data: bold, weight: 700, style: "normal" },
     { name: "Urbanist", data: extraBold, weight: 800, style: "normal" },
   ] as const;
-  if (HALLOWEEN) return new ImageResponse(<HalloweenOg />, { ...size, fonts: [...fonts] });
+  // Na halloweenské adrese náhled podle plakátu
+  if (await isHalloween()) return new ImageResponse(<HalloweenOg />, { ...size, fonts: [...fonts] });
   const [tereza, veronika, jakub, me, klara] = [assets.tereza, assets.veronika, assets.jakub, assets.meAvatar, assets.klaraAvatar].map(jpeg);
 
   const backCard = (src: string, rotate: string, translate: string) => (

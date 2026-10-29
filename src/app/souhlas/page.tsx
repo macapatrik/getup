@@ -5,10 +5,12 @@ import { Icon, type IconName } from "@/components/icons";
 import { Logo } from "@/components/logo";
 import { MadeBy } from "@/components/made-by";
 import { getConsent, hasAcceptedTerms, requireUser } from "@/lib/auth";
+import { themeMetadata, themeViewport } from "@/lib/halloween-meta";
 import { safeNext } from "@/lib/navigation";
 import { ConsentForm } from "./consent-form";
 
-export const metadata: Metadata = { title: "Než začneš" };
+export const generateMetadata = (): Promise<Metadata> => themeMetadata({ title: "Než začneš" });
+export const generateViewport = themeViewport;
 
 // Krátké shrnutí podmínek; celé znění je na /podminky.
 const RULES: { icon: IconName; title: string; text: string }[] = [

@@ -4,7 +4,6 @@ import { useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { Icon } from "@/components/icons";
 import { btnPrimary } from "@/components/ui";
-import { HALLOWEEN } from "@/lib/config";
 
 const HINT_KEY = "gt-swipe-hint"; // v localStorage: návod ke swipování už člověk na tomhle zařízení viděl
 const listeners = new Set<() => void>();
@@ -78,7 +77,8 @@ export function SwipeHint({ onClose }: { onClose: () => void }) {
           kartu otevřeš celý profil.
         </p>
         <button type="button" onClick={onClose} className={`${btnPrimary} mt-5 w-full py-3.5`}>
-          {HALLOWEEN ? "Jdu na lov" : "Jasně, jdu na to"}
+          <span className="hm-hide">Jasně, jdu na to</span>
+          <span className="hm-only">Jdu na lov</span>
         </button>
       </div>
     </div>,

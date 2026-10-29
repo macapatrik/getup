@@ -1,6 +1,9 @@
-import { HALLOWEEN } from "@/lib/config";
+import { isHalloween } from "@/lib/theme";
 
-/** Zapne halloweenský motiv na stránce: globals.css přebarví tokeny přes `:root:has(.hm)`. */
-export function HalloweenMode() {
-  return HALLOWEEN ? <span hidden className="hm" /> : null;
+/**
+ * Zapne halloweenský motiv na halloweenské adrese: globals.css přebarví tokeny přes `:root:has(.hm)`
+ * a ukáže halloweenské texty (`.hm-only`) místo běžných (`.hm-hide`).
+ */
+export async function HalloweenMode() {
+  return (await isHalloween()) ? <span hidden className="hm" /> : null;
 }

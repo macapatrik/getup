@@ -1,16 +1,16 @@
 import { ImageResponse } from "next/og";
-import { HALLOWEEN } from "./config";
 import { logoMarkSvg } from "./logo-mark";
 
 const MARK_SVG = "data:image/svg+xml;utf8," + encodeURIComponent(logoMarkSvg());
 
-// Pozadí ikony: růžovo-indigový přechod, v halloweenském motivu krvavě červená do noci jako na plakátu.
-export const ICON_BACKGROUND = HALLOWEEN
-  ? "linear-gradient(135deg, #ff3b3b 0%, #c0121a 42%, #2a0508 100%)"
-  : "linear-gradient(135deg, #f759f5, #3e36ed)";
+// Pozadí ikony: růžovo-indigový přechod, v halloweenské verzi krvavě červená do noci jako na plakátu.
+const BACKGROUND = {
+  default: "linear-gradient(135deg, #f759f5, #3e36ed)",
+  halloween: "linear-gradient(135deg, #ff3b3b 0%, #c0121a 42%, #2a0508 100%)",
+};
 
 /** Ikona aplikace jako PNG (pro PWA manifest a iOS). Značka má kolem sebe rezervu pro "maskable" ořez. */
-export function renderAppIcon(size: number, radius = 0) {
+export function renderAppIcon(size: number, { radius = 0, halloween = false }: { radius?: number; halloween?: boolean } = {}) {
   const mark = Math.round(size * 0.74);
   return new ImageResponse(
     (
@@ -21,7 +21,7 @@ export function renderAppIcon(size: number, radius = 0) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: ICON_BACKGROUND,
+          background: halloween ? BACKGROUND.halloween : BACKGROUND.default,
           borderRadius: radius,
           overflow: "hidden",
           position: "relative",

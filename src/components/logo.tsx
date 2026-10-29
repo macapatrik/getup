@@ -1,4 +1,4 @@
-import { APP_NAME, HALLOWEEN } from "@/lib/config";
+import { APP_NAME } from "@/lib/config";
 import { LOGO_HEART, LOGO_ROTATE, LOGO_SHINE, LOGO_SPARK } from "@/lib/logo-mark";
 
 /** Značka: srdce se zábleskem a leskem. Barvu bere z `currentColor`. */
@@ -31,12 +31,11 @@ export function Logo({ className = "", tagline = false }: { className?: string; 
     <span className={`inline-flex items-center gap-2 text-accent ${className}`}>
       <LogoMark className="size-8" />
       <span className="flex flex-col">
-        {HALLOWEEN ? (
-          // Halloween: název písmem z plakátu, rudý s jemnou září
-          <span className="font-metal hw-glow text-[24px] leading-none text-accent">{APP_NAME}</span>
-        ) : (
-          <span className="bg-gradient-to-r from-accent to-indigo bg-clip-text text-[20px] leading-none font-bold text-transparent">{APP_NAME}</span>
-        )}
+        <span className="hm-hide bg-gradient-to-r from-accent to-indigo bg-clip-text text-[20px] leading-none font-bold text-transparent">
+          {APP_NAME}
+        </span>
+        {/* Halloween: název písmem z plakátu, rudý s jemnou září */}
+        <span className="hm-only font-metal hw-glow text-[24px] leading-none text-accent">{APP_NAME}</span>
         {tagline && (
           <span className="mt-1 text-[10px] leading-none font-bold tracking-[0.2em] text-muted uppercase">by GetUp</span>
         )}

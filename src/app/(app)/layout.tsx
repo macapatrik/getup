@@ -2,6 +2,10 @@ import { BottomNav, SideNav } from "@/components/bottom-nav";
 import { HalloweenMode } from "@/components/halloween-mode";
 import { PushSync } from "@/components/push-settings";
 import { requireProfile } from "@/lib/auth";
+import { themeMetadata, themeViewport } from "@/lib/halloween-meta";
+
+export const generateMetadata = () => themeMetadata();
+export const generateViewport = themeViewport;
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   await requireProfile();

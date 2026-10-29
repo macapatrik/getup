@@ -4,9 +4,11 @@ import { HalloweenMode } from "@/components/halloween-mode";
 import { Logo } from "@/components/logo";
 import { ProfileForm } from "@/components/profile-form";
 import { getProfile, hasAcceptedTerms, requireUser } from "@/lib/auth";
+import { themeMetadata, themeViewport } from "@/lib/halloween-meta";
 import { safeNext } from "@/lib/navigation";
 
-export const metadata: Metadata = { title: "Tvůj profil" };
+export const generateMetadata = (): Promise<Metadata> => themeMetadata({ title: "Tvůj profil" });
+export const generateViewport = themeViewport;
 
 export default async function OnboardingPage(props: PageProps<"/onboarding">) {
   const user = await requireUser();

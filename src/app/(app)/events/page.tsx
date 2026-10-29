@@ -5,7 +5,7 @@ import { Icon } from "@/components/icons";
 import { RefreshAt } from "@/components/refresh-at";
 import { card, largeTitle, pill, sectionTitle } from "@/components/ui";
 import { requireProfile } from "@/lib/auth";
-import { COSTUME_PRIZE, HALLOWEEN } from "@/lib/config";
+import { COSTUME_PRIZE } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
 import { isJoinable, pickFeatured } from "@/lib/events";
 import {
@@ -22,6 +22,7 @@ import {
 } from "@/lib/format";
 import { getSwipingOpensAt, swipingClosed } from "@/lib/settings";
 import { createClient } from "@/lib/supabase/server";
+import { isHalloween } from "@/lib/theme";
 import type { EventRow, PastEvent } from "@/lib/types";
 import { EVENT as HALLOWEEN_EVENT } from "../../halloween/event";
 import { EVENT } from "../../tinder/event";
@@ -48,6 +49,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
     .filter((e): e is EventRow & { costume_contest?: boolean } => e !== null);
   // Akce se soutěží o kostým, která ještě neskončila (odkaz nahoře na stránce)
   const contestEvent = events.find((e) => e.costume_contest && eventStatus(e) !== "closed");
+  const halloween = await isHalloween();
   const [{ data: countRows }, { data: pastRows }, opensAt] = await Promise.all([
     supabase.rpc("attendee_counts", { p_event_ids: events.map((e) => e.id) }),
     supabase.rpc("past_events"),
@@ -62,9 +64,10 @@ export default async function EventsPage(props: PageProps<"/events">) {
   const rest = events.filter((e) => e.id !== featured?.id);
   // Pozvánka na Tinder party, dokud se k ní člověk nepřipojí – bez skenování QR kódu (odkaz /j/KÓD).
   const invite = isJoinable(EVENT.startsAt) && !events.some((e) => e.join_code === EVENT.joinCode);
-  // Stejně tak pozvánka na Halloween (karta podle plakátu)
-  const halloweenInvite = isJoinable(HALLOWEEN_EVENT.startsAt) && !events.some((e) => e.join_code === HALLOWEEN_EVENT.joinCode);
-  const featuredHalloween = featured?.join_code === HALLOWEEN_EVENT.joinCode;
+  // Na halloweenské adrese pozvánka a karta Halloweenu podle plakátu
+  const halloweenInvite =
+    halloween && isJoinable(HALLOWEEN_EVENT.startsAt) && !events.some((e) => e.join_code === HALLOWEEN_EVENT.joinCode);
+  const featuredHalloween = halloween && featured?.join_code === HALLOWEEN_EVENT.joinCode;
 
   return (
     <main className="mx-auto max-w-md pb-nav lg:pt-6">
@@ -74,7 +77,7 @@ export default async function EventsPage(props: PageProps<"/events">) {
       <div className="px-4">
         <header className="pt-5">
           <p className="text-[15px] font-semibold text-muted">Čau {profile.display_name}</p>
-          <h1 className={largeTitle}>{HALLOWEEN ? "Kdo tě o Halloweenu uhrane?" : "Kam vyrazíš?"}</h1>
+          <h1 className={largeTitle}>{halloween ? "Kdo tě o Halloweenu uhrane?" : "Kam vyrazíš?"}</h1>
         </header>
 
         {/* Upozornění pro všechny: v profilu musí být aspoň jedna fotka, na které je člověk sám (moderujeme ručně). */}

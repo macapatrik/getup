@@ -6,19 +6,21 @@ import { HalloweenMode } from "@/components/halloween-mode";
 import { Logo } from "@/components/logo";
 import { MadeBy } from "@/components/made-by";
 import { btnPrimary, btnSecondary } from "@/components/ui";
-import { APP_NAME, HALLOWEEN } from "@/lib/config";
+import { APP_NAME } from "@/lib/config";
 import { isJoinable } from "@/lib/events";
 import { EVENT as HALLOWEEN_EVENT } from "./halloween/event";
-import { EVENT as TINDER_EVENT } from "./tinder/event";
 
 // Skutečné fotky z akcí GetUp v K2 (složka public/halloween/gallery). Konkrétní lidi z aplikace tu neukazujeme.
 const GALLERY = ["215", "113", "146", "068", "203", "256"];
 
 // Odkaz /j/KÓD připojí k akci hned po přihlášení a vyplnění profilu, bez skenování QR kódu.
-// Nejbližší akce na úvodu: v halloweenském motivu Halloween, jinak Tinder party (stránka akce, plakát a kdo hraje).
-const EVENT = HALLOWEEN
-  ? { ...HALLOWEEN_EVENT, page: "/halloween", poster: "/halloween/poster-540.webp", lineup: HALLOWEEN_EVENT.stages.flatMap((s) => s.acts) }
-  : { ...TINDER_EVENT, page: "/tinder", poster: "/tinder/poster-540.webp", lineup: TINDER_EVENT.lineup };
+// Nejbližší akce na úvodu (stránka akce, plakát a kdo hraje). Halloweenské texty (.hm-only) jen na halloweenské adrese.
+const EVENT = {
+  ...HALLOWEEN_EVENT,
+  page: "/halloween",
+  poster: "/halloween/poster-540.webp",
+  lineup: HALLOWEEN_EVENT.stages.flatMap((s) => s.acts),
+};
 const JOIN_HREF = `/j/${EVENT.joinCode}`;
 
 // Liquid glass: světlá skleněná bublina na bílém pozadí a tmavší na fotce v telefonu.
@@ -296,9 +298,13 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
               <Icon name="ticket" className="size-4" /> Seznamka pro návštěvníky akcí GetUp
             </span>
             <h1 className="rise-in mt-5 text-[44px] leading-[1.02] font-bold [--rise-delay:0.08s] lg:text-[64px]">
-              {HALLOWEEN ? "Najdi si crush" : "Potkej lidi"}
+              <span className="hm-hide">Potkej lidi</span>
+              <span className="hm-only">Najdi si crush</span>
               <br />
-              <span className="text-shine">{HALLOWEEN ? "na Halloween." : "z\u00a0akce."}</span>
+              <span className="text-shine">
+                <span className="hm-hide">z&nbsp;akce.</span>
+                <span className="hm-only">na Halloween.</span>
+              </span>
             </h1>
             <p className="rise-in mx-auto mt-4 max-w-sm text-[17px] leading-snug text-muted [--rise-delay:0.16s] lg:mx-0 lg:max-w-md lg:text-[19px]">
               Uvidíš jen lidi, kteří jdou na stejnou akci jako ty. Swipuj už před akcí, a když se lajknete oba, ukážou se vám
@@ -418,7 +424,6 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
                   <li className="flex items-center gap-2">
                     <Icon name="users" className="size-5 shrink-0 text-accent" />
                     Hraje {EVENT.lineup.join(", ")}
-                    {HALLOWEEN ? "" : " · jen 18+"}
                   </li>
                 </ul>
                 <p className="mt-4 text-[14px] leading-snug">
@@ -478,7 +483,11 @@ export function Landing({ comingSoon }: { comingSoon: boolean }) {
             <Icon name="heart" className="heartbeat size-8 text-white" />
           </span>
           <h2 className="hm-title mt-5 text-[30px] leading-[1.1] font-bold lg:text-[40px]">
-            Uvidíme se <span className="text-accent">{HALLOWEEN ? "na Halloweenu?" : "na akci?"}</span>
+            Uvidíme se{" "}
+            <span className="text-accent">
+              <span className="hm-hide">na akci?</span>
+              <span className="hm-only">na Halloweenu?</span>
+            </span>
           </h2>
           <p className="mx-auto mt-3 max-w-sm text-[16px] leading-snug text-muted">
             {comingSoon

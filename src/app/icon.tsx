@@ -1,9 +1,10 @@
 import { renderAppIcon } from "@/lib/app-icon";
+import { isHalloween } from "@/lib/theme";
 
-// Favicon: stejná ikona jako na ploše telefonu (v halloweenském motivu rudá), se zaoblenými rohy.
+// Favicon: stejná ikona jako na ploše telefonu (na halloweenské adrese rudá), se zaoblenými rohy.
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
-export default function Icon() {
-  return renderAppIcon(size.width, 16);
+export default async function Icon() {
+  return renderAppIcon(size.width, { radius: 16, halloween: await isHalloween() });
 }

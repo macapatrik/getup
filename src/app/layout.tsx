@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Urbanist } from "next/font/google";
 import "./globals.css";
-import { APP_NAME, APP_TAGLINE, HALLOWEEN, SITE_URL } from "@/lib/config";
+import { APP_NAME, APP_TAGLINE, SITE_URL } from "@/lib/config";
 import { metalMania } from "./halloween/fonts";
 
 // Písmo šablony Romio; latin-ext kvůli češtině.
@@ -15,20 +15,20 @@ export const metadata: Metadata = {
   title: { default: APP_NAME, template: `%s · ${APP_NAME}` },
   description: APP_TAGLINE,
   applicationName: APP_NAME,
-  appleWebApp: { capable: true, title: APP_NAME, statusBarStyle: HALLOWEEN ? "black" : "default" },
+  appleWebApp: { capable: true, title: APP_NAME, statusBarStyle: "default" },
   // Náhled při sdílení odkazu (obrázek generuje src/app/opengraph-image.tsx)
   openGraph: { title: APP_NAME, description: APP_TAGLINE, siteName: APP_NAME, locale: "cs_CZ", type: "website" },
   twitter: { card: "summary_large_image", title: APP_NAME, description: APP_TAGLINE },
 };
 
 export const viewport: Viewport = {
-  themeColor: HALLOWEEN ? "#07060a" : "#ffffff",
+  themeColor: "#ffffff",
   viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="cs" className={`${urbanist.variable} ${HALLOWEEN ? metalMania.variable : ""} h-full`}>
+    <html lang="cs" className={`${urbanist.variable} ${metalMania.variable} h-full`}>
       <body className="min-h-full font-sans text-ink">{children}</body>
     </html>
   );

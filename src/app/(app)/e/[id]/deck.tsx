@@ -7,7 +7,6 @@ import { ContactButtons } from "@/components/contact-buttons";
 import { Icon } from "@/components/icons";
 import { ProfileSheet } from "@/components/profile-sheet";
 import { btnPrimary, btnSecondary, photoBadge } from "@/components/ui";
-import { HALLOWEEN } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
 import { photoUrl } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
@@ -342,10 +341,14 @@ function EmptyState({ loading, onRetry }: { loading: boolean; onRetry: () => voi
       <span className="fill-accent-soft grid size-16 place-items-center rounded-full">
         <Icon name="users" className="size-8" />
       </span>
-      <p className="hm-title mt-4 text-[22px] font-bold">{HALLOWEEN ? "Všechny duše jsi už prošel/a" : "Zatím jsi viděl/a všechny"}</p>
+      <p className="hm-title mt-4 text-[22px] font-bold">
+        <span className="hm-hide">Zatím jsi viděl/a všechny</span>
+        <span className="hm-only">Všechny duše jsi už prošel/a</span>
+      </p>
       <p className="mt-2 text-[15px] text-muted">
-        {HALLOWEEN ? "Další se slétají" : "Další lidi se připojují"} až do začátku akce i během ní. Zkus to později, nebo se mrkni na
-        své matche.
+        <span className="hm-hide">Další lidi se připojují</span>
+        <span className="hm-only">Další se slétají</span> až do začátku akce i během ní. Zkus to později, nebo se mrkni na své
+        matche.
       </p>
       <div className="mt-6 flex gap-3">
         <button type="button" onClick={onRetry} disabled={loading} className={btnSecondary}>
@@ -404,7 +407,8 @@ function MatchModal({
         <p className="mt-2 text-[16px] text-muted">
           Ty a {name} jste se lajkli.
           <br />
-          {HALLOWEEN ? "Ozvi se, než odbije půlnoc." : "Ozvi se."}
+          <span className="hm-hide">Ozvi se.</span>
+          <span className="hm-only">Ozvi se, než odbije půlnoc.</span>
         </p>
         <div className="mt-6 w-full max-w-sm text-left">
           {other === undefined ? (
