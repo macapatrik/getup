@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HalloweenMode } from "@/components/halloween-mode";
+import { HalloweenModeClient } from "@/components/halloween-mode-client";
 import { Icon } from "@/components/icons";
 import { btnPrimary, photoBadge } from "@/components/ui";
 import { OPERATOR } from "@/lib/legal";
@@ -44,7 +44,7 @@ export default function NotFound() {
         </a>
         .
       </p>
-      <HalloweenMode />
+      <HalloweenModeClient />
     </main>
   );
 }
