@@ -4,6 +4,11 @@ export function photoUrl(path: string) {
   return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${PHOTOS_BUCKET}/${path}`;
 }
 
+/** Fotka z úložiště, nebo přímo soubor z /public (ukázka, testovací kostýmy s cestou začínající „/“) */
+export function photoSrc(path: string) {
+  return path.startsWith("/") ? path : photoUrl(path);
+}
+
 /** Náhodné id – funguje i mimo HTTPS (např. testování na mobilu přes LAN), kde chybí crypto.randomUUID. */
 export function randomId() {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto && window.isSecureContext) {

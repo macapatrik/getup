@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/icons";
 import { formatNumber } from "@/lib/format";
-import { photoUrl } from "@/lib/photos";
+import { photoSrc } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
 import type { CostumeResults } from "@/lib/types";
 
@@ -80,7 +80,7 @@ export function LiveVoting({
                 className={`flex items-center gap-3 rounded-[16px] p-2 transition ${leader ? "bg-blood/15 ring-1 ring-blood/70" : "bg-white/[0.04]"}`}
               >
                 <span className="w-4 shrink-0 text-center text-[14px] font-bold text-ash tabular-nums">{i + 1}</span>
-                <img src={photoUrl(entry.photo)} alt="" className="size-12 shrink-0 rounded-[12px] bg-black object-cover" />
+                <img src={photoSrc(entry.photo)} alt="" className="size-12 shrink-0 rounded-[12px] bg-black object-cover" />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <p className="min-w-0 truncate text-[15px] font-bold">{entry.title || "Bez názvu"}</p>

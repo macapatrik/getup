@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SubmitButton } from "@/components/submit-button";
 import { btnPrimary, btnSecondary, card, sectionTitle } from "@/components/ui";
 import { COSTUME_PRIZE } from "@/lib/config";
-import { photoUrl } from "@/lib/photos";
+import { photoSrc, photoUrl } from "@/lib/photos";
 import { formatTime } from "@/lib/format";
 import type { AdminCostumeEntry, AdminCostumeVoter } from "@/lib/types";
 import { setCostumeContestAction, setCostumeEntryStatusAction } from "../../actions";
@@ -86,8 +86,8 @@ export function CostumeAdmin({
               const share = totalVotes > 0 ? Math.round((Number(entry.votes) / totalVotes) * 100) : 0;
               return (
                 <li key={entry.id} className="flex gap-3 p-3">
-                  <a href={photoUrl(entry.photo)} target="_blank" rel="noopener" className="shrink-0">
-                    <img src={photoUrl(entry.photo)} alt="" className="h-24 w-18 rounded-[12px] bg-fill object-cover" />
+                  <a href={photoSrc(entry.photo)} target="_blank" rel="noopener" className="shrink-0">
+                    <img src={photoSrc(entry.photo)} alt="" className="h-24 w-18 rounded-[12px] bg-fill object-cover" />
                   </a>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-1.5">

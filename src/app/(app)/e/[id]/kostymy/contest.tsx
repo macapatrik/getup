@@ -6,7 +6,7 @@ import { useState, useTransition, type FormEvent } from "react";
 import { Icon } from "@/components/icons";
 import { COSTUME_PRIZE } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
-import { PHOTOS_BUCKET, photoExtension, photoUrl, randomId, resizeImage } from "@/lib/photos";
+import { PHOTOS_BUCKET, photoExtension, photoSrc, randomId, resizeImage } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
 import type { CostumeContest, CostumeResults, CostumeStatus } from "@/lib/types";
 import { LiveVoting } from "../../../events/live-voting";
@@ -29,8 +29,7 @@ const searchable = (text: string) =>
     .toLowerCase()
     .trim();
 
-/** Fotka z úložiště, nebo (ukázka) přímo soubor z /public */
-const src = (path: string) => (path.startsWith("/") ? path : photoUrl(path));
+const src = photoSrc;
 
 const STATUS_TEXT: Record<CostumeStatus, string> = {
   pending: "Jsi v soutěži",
