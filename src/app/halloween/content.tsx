@@ -25,7 +25,7 @@ const TICKER = [
 const CONTEST_STEPS = [
   { title: "Přijď v kostýmu", text: "Čím víc si s ním vyhraješ, tím líp. Rekvizity, masky, líčení, všechno se počítá." },
   { title: `Přihlas ho v ${APP_NAME}`, text: "Vyfoť se v kostýmu a nahraj fotku do soutěže v aplikaci. Hned ji uvidí všichni z party." },
-  { title: "Hlasují lidi z party", text: "Během večera otevřeme hlasování. QR kód najdeš na plakátech v K2 a v našich stories. Každý má jeden hlas." },
+  { title: "Hlasují lidi z party", text: "Během večera otevřeme hlasování. QR kód najdeš na plakátech v K2 a v našich stories. Každý má 3 hlasy." },
   { title: "Vyhlášení na hlavní stagi", text: `Kostým s nejvíc hlasy si odnáší ${EVENT.prize}.` },
 ];
 

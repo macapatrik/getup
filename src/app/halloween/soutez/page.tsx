@@ -17,6 +17,8 @@ const DEMO: CostumeContest = {
   voting_open: true,
   my_entry: { id: "demo-me", title: "Upírka z K2", photo: g("203"), status: "approved" },
   my_vote: "demo-2",
+  my_votes: ["demo-2"],
+  votes_max: 3,
   entries: [
     { id: "demo-1", title: "Smrtka", photo: g("058"), name: "Tereza", mine: false },
     { id: "demo-2", title: "Zombie nevěsta", photo: g("092"), name: "Kuba", mine: false },

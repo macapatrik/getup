@@ -31,7 +31,7 @@ export function HalloweenOg() {
         <img src={file("halloween-title.png", "image/png")} width={560} height={187} style={{ marginTop: 26, marginLeft: -8 }} alt="" />
         <div style={{ display: "flex", marginTop: 18, fontSize: 52, fontWeight: 800, lineHeight: 1.05, letterSpacing: -1 }}>Hlasuj o nejlepší kostým.</div>
         <div style={{ display: "flex", marginTop: 18, fontSize: 25, lineHeight: 1.35, color: ASH, fontWeight: 500, maxWidth: 600 }}>
-          {`Nahraj svůj kostým, dej jeden hlas a sleduj živé pořadí. Vítěz bere ${COSTUME_PRIZE} v hotovosti.`}
+          {`Nahraj svůj kostým, rozdej 3 hlasy a sleduj živé pořadí. Vítěz bere ${COSTUME_PRIZE} v hotovosti.`}
         </div>
         <div style={{ display: "flex", marginTop: 30, alignItems: "center" }}>
           <div style={{ display: "flex", padding: "13px 24px", borderRadius: 14, background: BLOOD, color: "white", fontSize: 23, fontWeight: 700 }}>

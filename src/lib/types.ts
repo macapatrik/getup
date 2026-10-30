@@ -101,6 +101,9 @@ export interface CostumeContest {
   checked_in?: boolean;
   my_entry: { id: string; title: string; photo: string; status: CostumeStatus } | null;
   my_vote: string | null;
+  /** Kostýmy, pro které hlasuju (až votes_max, dají se přehazovat) */
+  my_votes?: string[];
+  votes_max?: number;
   entries: { id: string; title: string; photo: string; name: string | null; mine: boolean }[];
 }
 

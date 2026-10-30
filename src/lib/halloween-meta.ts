@@ -13,7 +13,7 @@ export async function themeMetadata(metadata: Metadata = {}): Promise<Metadata> 
   if (!(await isHalloween())) return metadata;
   // Halloweenská adresa je soutěž o nejlepší kostým (ne seznamka): vlastní název, popis a náhled
   const name = "Halloween · Soutěž o kostým";
-  const description = `Nahraj svůj kostým a hlasuj o nejlepší kostým večera v Klubu K2. Vítěz bere ${COSTUME_PRIZE} v hotovosti.`;
+  const description = `Nahraj svůj kostým a rozdej 3 hlasy nejlepším kostýmům večera v Klubu K2. Vítěz bere ${COSTUME_PRIZE} v hotovosti.`;
   const image = { url: `${HALLOWEEN_URL}/halloween/crush-og`, width: 1200, height: 630, alt: name };
   const title = typeof metadata.title === "string" ? { absolute: `${metadata.title} · Halloween` } : { default: name, template: "%s · Halloween" };
   return {

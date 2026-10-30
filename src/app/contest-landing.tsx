@@ -10,7 +10,7 @@ export const CONTEST_START = `/j/${EVENT.joinCode}?soutez=1`;
 
 const STEPS: { icon: IconName; title: string; text: string }[] = [
   { icon: "cameraPlus", title: "Nahraj svůj kostým", text: "Vyfoť se v kostýmu a přihlas se do soutěže. Fotka se hned objeví v galerii." },
-  { icon: "heart", title: "Dej jeden hlas", text: "Vyber nejlepší kostým večera. Každý má jen jeden hlas a ten už nejde změnit." },
+  { icon: "heart", title: "Rozdej 3 hlasy", text: "Dej hlas třem nejlepším kostýmům večera. Když potkáš lepší, hlas přehodíš." },
   { icon: "users", title: "Sleduj živé pořadí", text: "Hlasy naskakují v reálném čase. Vítěze vyhlásíme na hlavní stagi." },
 ];
 
@@ -71,7 +71,7 @@ export function ContestLanding() {
         <p className="hw-outline mt-6 rounded-[16px] p-4 text-[13px] leading-snug text-ash">
           <span className="mb-1 block text-[15px] font-bold text-bone">Pravidla</span>
           Fotku kostýmu nahráváš jen jednou a nejde ji změnit. Pokud na ní nebudeš ty v kostýmu nebo budeš podvádět (třeba víc
-          účtů), budeš ze soutěže vyřazen/a a vzdáváš se výhry. Každý účet má jeden hlas.
+          účtů), budeš ze soutěže vyřazen/a a vzdáváš se výhry. Každý účet má 3 hlasy pro 3 různé kostýmy.
         </p>
 
         <a href={CONTEST_START} className={`${btnRed} mt-6`}>

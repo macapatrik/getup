@@ -57,34 +57,39 @@ export function CostumeContestView({
   demo?: boolean;
 }) {
   const router = useRouter();
-  const [myVote, setMyVote] = useState(contest.my_vote);
-  const [confirming, setConfirming] = useState<string | null>(null);
+  // Až 3 hlasy, každý pro jiný kostým; jde je odebírat a dávat jinam, dokud hlasování běží (hlídá to i databáze).
+  const maxVotes = contest.votes_max ?? 3;
+  const [myVotes, setMyVotes] = useState<string[]>(contest.my_votes ?? (contest.my_vote ? [contest.my_vote] : []));
+  const left = Math.max(0, maxVotes - myVotes.length);
   const [query, setQuery] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
-  // Jeden hlas napořád: nejdřív potvrzení, pak už nejde změnit (hlídá to i databáze).
-  function vote(entryId: string) {
+  function toggleVote(entryId: string) {
     setError(null);
-    setConfirming(null);
-    const previous = myVote;
-    setMyVote(entryId);
+    const previous = myVotes;
+    const remove = myVotes.includes(entryId);
+    if (!remove && left === 0) return setError(`Máš už všechny ${maxVotes} hlasy. Odeber jeden a dej ho tomuhle kostýmu.`);
+    setMyVotes(remove ? myVotes.filter((id) => id !== entryId) : [...myVotes, entryId]);
     if (demo) return;
     startTransition(async () => {
-      const { error } = await createClient().rpc("cast_costume_vote", { p_event_id: event.id, p_entry_id: entryId });
+      const { error } = await createClient().rpc(remove ? "remove_costume_vote" : "cast_costume_vote", {
+        p_event_id: event.id,
+        p_entry_id: entryId,
+      });
       if (error) {
-        setMyVote(previous);
+        setMyVotes(previous);
         setError(errorMessage(error));
       }
     });
   }
 
+  const votesLeft = left === 0 ? "Všechny hlasy máš rozdané" : `Zbývá ti ${left} ${left === 1 ? "hlas" : "hlasy"} ze ${maxVotes}`;
+
   const state = !contest.enabled
     ? "Soutěž o kostým na téhle akci neběží."
     : contest.voting_open
-      ? myVote
-        ? "Hotovo, tvůj hlas je započítaný. Hlasovat jde jen jednou."
-        : "Hlasování běží. Máš jeden hlas a po odeslání už nejde změnit, tak vybírej pečlivě."
+      ? `Hlasování běží. Máš ${maxVotes} hlasy pro ${maxVotes} různé kostýmy a do konce hlasování je můžeš přehazovat.`
       : contest.entries_open
         ? "Nahraj fotku svého kostýmu. Hned se objeví v galerii a lidi z party o něm budou hlasovat."
         : "Hlasování otevřeme během večera. Vítěze vyhlásíme na stagi.";
@@ -150,12 +155,18 @@ export function CostumeContestView({
         {contest.enabled && (
           <section>
             <h2 className={`${title} mb-4`}>{contest.voting_open ? "Hlasuj" : "Kostýmy v soutěži"}</h2>
-            {contest.voting_open && !myVote && (
-              <p className="hw-outline mb-4 rounded-[16px] p-4 text-[14px] leading-snug text-ash">
-                <span className="mb-1 block text-[16px] font-bold text-bone">Jeden hlas napořád</span>
-                Hlasovat můžeš jen jednou a hlas už nejde změnit. Kdo podvádí (třeba víc účtů), toho smažeme a jeho hlas
-                propadá.
-              </p>
+            {contest.voting_open && (
+              <div className="hw-outline sticky top-2 z-10 mb-4 flex items-center gap-3 rounded-[16px] bg-night/90 p-3.5 backdrop-blur">
+                <span className="flex shrink-0 gap-1.5" aria-hidden>
+                  {Array.from({ length: maxVotes }, (_, i) => (
+                    <span key={i} className={`size-3.5 rounded-full ${i < myVotes.length ? "bg-blood" : "border-2 border-blood/70"}`} />
+                  ))}
+                </span>
+                <span className="min-w-0 text-[14px] leading-snug">
+                  <span className="block font-bold">{votesLeft}</span>
+                  <span className="block text-[12px] text-ash">Hlas odebereš klepnutím na „Tvůj hlas“. Podvodné účty mažeme.</span>
+                </span>
+              </div>
             )}
             {error && <p className={`${errorDark} mb-3`}>{error}</p>}
             {ordered.length > 3 && (
@@ -178,7 +189,7 @@ export function CostumeContestView({
             ) : (
               <ul className="grid grid-cols-2 gap-3">
                 {shown.map((entry) => {
-                  const voted = myVote === entry.id;
+                  const voted = myVotes.includes(entry.id);
                   return (
                     <li
                       key={entry.id}
@@ -199,36 +210,25 @@ export function CostumeContestView({
                       <div className="p-3">
                         <p className="truncate text-[15px] font-bold">{entry.title || "Bez názvu"}</p>
                         <p className="truncate text-[12px] text-ash">{entry.name ?? "Účastník akce"}</p>
-                        {voted && <p className={`${btnRed} mt-2 w-full !px-2 !py-2 text-[14px]`}>Tvůj hlas</p>}
-                        {contest.voting_open && !myVote && !entry.mine &&
-                          (confirming === entry.id ? (
-                            <div className="mt-2 space-y-1.5">
-                              <button
-                                type="button"
-                                onClick={() => vote(entry.id)}
-                                disabled={pending}
-                                className={`${btnRed} w-full !px-2 !py-2 text-[14px]`}
-                              >
-                                Potvrdit hlas
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => setConfirming(null)}
-                                className="w-full py-1 text-[13px] font-semibold text-ash underline"
-                              >
-                                Zpět
-                              </button>
-                            </div>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setConfirming(entry.id)}
-                              disabled={pending}
-                              className={`${btnGhost} mt-2 w-full !px-2 !py-2 text-[14px]`}
-                            >
-                              Hlasovat
-                            </button>
-                          ))}
+                        {contest.voting_open && !entry.mine ? (
+                          <button
+                            type="button"
+                            onClick={() => toggleVote(entry.id)}
+                            disabled={pending || (!voted && left === 0)}
+                            aria-pressed={voted}
+                            className={`${voted ? btnRed : btnGhost} mt-2 w-full !px-2 !py-2 text-[14px] disabled:opacity-40`}
+                          >
+                            {voted ? (
+                              <>
+                                <Icon name="check" className="size-4" /> Tvůj hlas
+                              </>
+                            ) : (
+                              "Hlasovat"
+                            )}
+                          </button>
+                        ) : (
+                          voted && <p className={`${btnRed} mt-2 w-full !px-2 !py-2 text-[14px]`}>Tvůj hlas</p>
+                        )}
                       </div>
                     </li>
                   );
@@ -239,7 +239,8 @@ export function CostumeContestView({
         )}
 
         <p className="text-center text-[12px] text-ash/80">
-          Každý účet má jeden hlas a ten už nejde změnit. Pro svůj kostým hlasovat nejde. Fotku kostýmu nahráváš jen jednou;
+          Každý účet má 3 hlasy pro 3 různé kostýmy a do konce hlasování je může přehazovat. Pro svůj kostým hlasovat nejde.
+          Fotku kostýmu nahráváš jen jednou;
           kdo na ní není v kostýmu nebo podvádí, je vyřazen a vzdává se výhry. Živé pořadí je na hlavní stránce appky, vítěze
           vyhlásíme na stagi.
         </p>

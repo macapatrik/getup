@@ -65,7 +65,7 @@ export function CostumeAdmin({
           <div className="min-w-0">
             <p className="text-[15px] font-bold">QR kód soutěže na Instagram a plakáty</p>
             <p className="mt-1 text-[13px] leading-snug text-muted">
-              Přihlásí, připojí k akci a otevře rovnou soutěž o kostým. Každý účet má jeden hlas napořád a nejde ho změnit.
+              Přihlásí, připojí k akci a otevře rovnou soutěž o kostým. Každý účet má 3 hlasy pro 3 různé kostýmy a může je přehazovat, dokud hlasování běží.
             </p>
             <p className="mt-1 truncate text-[12px] text-muted">{contestUrl}</p>
             <a href={contestQr} download="soutez-o-kostym-qr.png" className={`${btnSecondary} mt-3 !py-2 text-[14px]`}>
@@ -165,7 +165,7 @@ export function CostumeAdmin({
         </ul>
       )}
       <p className="mt-2 text-[12px] text-muted">
-        Každý účet má jeden hlas napořád. Kdo nemá v profilu svoji fotku v kostýmu, toho otevři a smaž účet, jeho hlas tím zmizí.
+        Každý účet má až 3 hlasy (u každého vidíš, komu je dal). Podvodný účet otevři a smaž, jeho hlasy tím zmizí.
       </p>
     </section>
   );

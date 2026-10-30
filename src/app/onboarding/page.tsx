@@ -28,7 +28,7 @@ export default async function OnboardingPage(props: PageProps<"/onboarding">) {
         <>
           <h1 className="mt-7 text-[28px] leading-tight font-bold">Založ si profil</h1>
           <p className="mt-1.5 text-[16px] text-muted">
-            Stačí jméno, věk a tvoje fotka, klidně rovnou v kostýmu. Pak nahraješ svůj kostým do soutěže a dáš jeden hlas. Datum
+            Stačí jméno, věk a tvoje fotka, klidně rovnou v kostýmu. Pak nahraješ svůj kostým do soutěže a rozdáš 3 hlasy. Datum
             narození nikomu neukazujeme, soutěž je od 15 let.
           </p>
         </>
