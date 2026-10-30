@@ -292,7 +292,7 @@ function MyEntry({
         .upload(path, blob, { contentType: blob.type, cacheControl: "31536000" });
       if (uploadError) throw uploadError;
       // Malý náhled do galerie a pořadí (stovky lidí listují galerií); když se nepovede, ukáže se velká fotka.
-      const thumb = await resizeImage(file, 420, 0.72);
+      const thumb = await resizeImage(file, 360, 0.68); // dlaždice v galerii je ~180 px, na retině tedy 360 px
       if (thumb.type === blob.type) {
         await supabase.storage.from(PHOTOS_BUCKET).upload(thumbPath(path), thumb, { contentType: thumb.type, cacheControl: "31536000" });
       }
