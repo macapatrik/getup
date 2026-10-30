@@ -58,7 +58,7 @@ export function LiveVoting({ eventId, initial }: { eventId: string; initial: Cos
       <p className="font-metal hw-glow mt-1 text-[26px] leading-tight text-blood">Nejlepší kostým</p>
 
       {top.length === 0 ? (
-        <p className="mt-3 text-[14px] text-ash">Zatím tu není žádný schválený kostým. Přihlas ten svůj.</p>
+        <p className="mt-3 text-[14px] text-ash">Zatím tu není žádný kostým. Přihlas ten svůj.</p>
       ) : (
         <ol className="mt-3 space-y-2.5">
           {top.map((entry, i) => {

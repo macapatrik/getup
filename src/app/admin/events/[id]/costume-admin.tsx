@@ -9,12 +9,12 @@ import { setCostumeContestAction, setCostumeEntryStatusAction } from "../../acti
 import { Badge, Empty } from "../../ui";
 
 const STATUS = {
-  pending: { label: "Čeká", tone: "accent" },
+  pending: { label: "V soutěži", tone: "success" },
   approved: { label: "V soutěži", tone: "success" },
-  rejected: { label: "Odmítnuto", tone: "danger" },
+  rejected: { label: "Vyřazeno", tone: "danger" },
 } as const;
 
-/** Soutěž o kostým v detailu akce: přepínače, schvalování přihlášek a pořadí podle hlasů (vidí jen tým). */
+/** Soutěž o kostým v detailu akce: přepínače, pořadí podle hlasů, vyřazení kostýmů a kontrola hlasujících. */
 export function CostumeAdmin({
   eventId,
   settings,
@@ -33,7 +33,6 @@ export function CostumeAdmin({
   const approved = entries.filter((e) => e.status === "approved");
   const totalVotes = approved.reduce((sum, e) => sum + Number(e.votes), 0);
   const rank = new Map(approved.map((e, i) => [e.id, i + 1]));
-  const pending = entries.filter((e) => e.status === "pending");
   const checkbox = "size-5 accent-[#f759f5]";
 
   return (
@@ -76,9 +75,6 @@ export function CostumeAdmin({
         </div>
       )}
 
-      {pending.length > 0 && (
-        <p className="mt-4 text-[14px] font-semibold text-accent">Ke schválení: {pending.length}</p>
-      )}
 
       <div className="mt-3">
         {entries.length === 0 ? (
@@ -111,17 +107,16 @@ export function CostumeAdmin({
                       </p>
                     )}
                     <div className="mt-2 flex flex-wrap gap-2">
-                      {entry.status !== "approved" && (
+                      {entry.status === "rejected" ? (
                         <form action={setCostumeEntryStatusAction.bind(null, eventId, entry.id, "approved")}>
-                          <SubmitButton className={`${btnPrimary} !px-3 !py-1.5 text-[13px]`} pendingText="…">
-                            Schválit
+                          <SubmitButton className={`${btnSecondary} !px-3 !py-1.5 text-[13px]`} pendingText="…">
+                            Vrátit do soutěže
                           </SubmitButton>
                         </form>
-                      )}
-                      {entry.status !== "rejected" && (
+                      ) : (
                         <form action={setCostumeEntryStatusAction.bind(null, eventId, entry.id, "rejected")}>
                           <SubmitButton className={`${btnSecondary} !px-3 !py-1.5 text-[13px]`} pendingText="…">
-                            Odmítnout
+                            Vyřadit
                           </SubmitButton>
                         </form>
                       )}
@@ -134,7 +129,7 @@ export function CostumeAdmin({
         )}
       </div>
       <p className="mt-2 text-[12px] text-muted">
-        Odmítnutím kostýmu se smažou i jeho hlasy. Hlasy „z nových účtů“ přišly z účtů založených méně než den před hlasováním.
+        Kostýmy se v galerii ukážou hned po nahrání, fotku nejde měnit. Vyřazením kostýmu se smažou i jeho hlasy (ti lidé můžou hlasovat znovu). Hlasy „z nových účtů“ přišly z účtů založených méně než den před hlasováním.
       </p>
 
       {/* Kontrola hlasujících: každý musí mít v profilu svoji fotku v kostýmu, jinak účet smaž (hlas zmizí s ním) */}

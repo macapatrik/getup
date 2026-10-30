@@ -24,9 +24,9 @@ const errorDark = "text-[14px] font-semibold text-[#ff6b6b]";
 const src = (path: string) => (path.startsWith("/") ? path : photoUrl(path));
 
 const STATUS_TEXT: Record<CostumeStatus, string> = {
-  pending: "Čeká na schválení týmem",
+  pending: "Jsi v soutěži",
   approved: "Jsi v soutěži",
-  rejected: "Tým přihlášku neschválil",
+  rejected: "Tým tě ze soutěže vyřadil",
 };
 
 export function CostumeContestView({
@@ -70,7 +70,7 @@ export function CostumeContestView({
         ? "Hotovo, tvůj hlas je započítaný. Hlasovat jde jen jednou."
         : "Hlasování běží. Máš jeden hlas a po odeslání už nejde změnit, tak vybírej pečlivě."
       : contest.entries_open
-        ? "Nahraj fotku svého kostýmu. Po schválení se objeví v galerii a lidi z party o něm budou hlasovat."
+        ? "Nahraj fotku svého kostýmu. Hned se objeví v galerii a lidi z party o něm budou hlasovat."
         : "Hlasování otevřeme během večera. Vítěze vyhlásíme na stagi.";
   const badge = !contest.enabled ? null : contest.voting_open ? "Hlasování běží" : contest.entries_open ? "Přihlášky otevřené" : "Brzy hlasování";
   const ordered = [...contest.entries.filter((e) => !e.mine), ...contest.entries.filter((e) => e.mine)];
@@ -130,13 +130,13 @@ export function CostumeContestView({
             {contest.voting_open && !myVote && (
               <p className="hw-outline mb-4 rounded-[16px] p-4 text-[14px] leading-snug text-ash">
                 <span className="mb-1 block text-[16px] font-bold text-bone">Jeden hlas napořád</span>
-                Hlasovat můžeš jen jednou a hlas už nejde změnit. V profilu musíš mít svoji fotku v kostýmu, účty bez ní mažeme
-                a jejich hlas propadá.
+                Hlasovat můžeš jen jednou a hlas už nejde změnit. Kdo podvádí (třeba víc účtů), toho smažeme a jeho hlas
+                propadá.
               </p>
             )}
             {error && <p className={`${errorDark} mb-3`}>{error}</p>}
             {ordered.length === 0 ? (
-              <p className={`${surface} p-5 text-center text-[15px] text-ash`}>Zatím tu žádný schválený kostým není.</p>
+              <p className={`${surface} p-5 text-center text-[15px] text-ash`}>Zatím tu žádný kostým není.</p>
             ) : (
               <ul className="grid grid-cols-2 gap-3">
                 {ordered.map((entry) => {
@@ -201,15 +201,16 @@ export function CostumeContestView({
         )}
 
         <p className="text-center text-[12px] text-ash/80">
-          Každý účet má jeden hlas a ten už nejde změnit. Pro svůj kostým hlasovat nejde. Účty bez vlastní fotky v kostýmu
-          mažeme i s hlasem. Živé pořadí je na hlavní stránce appky, vítěze vyhlásíme na stagi.
+          Každý účet má jeden hlas a ten už nejde změnit. Pro svůj kostým hlasovat nejde. Fotku kostýmu nahráváš jen jednou;
+          kdo na ní není v kostýmu nebo podvádí, je vyřazen a vzdává se výhry. Živé pořadí je na hlavní stránce appky, vítěze
+          vyhlásíme na stagi.
         </p>
       </div>
     </>
   );
 }
 
-/** Moje přihláška: nahrání fotky kostýmu, stav schválení, výměna nebo stažení. */
+/** Moje přihláška: jednorázové nahrání fotky kostýmu (pak už jen stav, vyřazení dělá tým). */
 function MyEntry({
   userId,
   eventId,
@@ -224,16 +225,18 @@ function MyEntry({
   onChange: () => void;
 }) {
   const entry = contest.my_entry;
-  const [editing, setEditing] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const [name, setName] = useState(entry?.title ?? "");
+  const [name, setName] = useState("");
+  const [agreed, setAgreed] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Přihláška je jednou provždy: kostým se ukáže hned v galerii a fotku už nejde vyměnit ani stáhnout.
   async function submit(e: FormEvent) {
     e.preventDefault();
     if (!file) return setError("Vyber fotku kostýmu.");
-    if (demo) return setError("V ukázce se fotka nenahrává. V appce se kostým po odeslání objeví ke schválení.");
+    if (!agreed) return setError("Potvrď pravidla soutěže.");
+    if (demo) return setError("V ukázce se fotka nenahrává. V appce se kostým po odeslání hned objeví v galerii.");
     setBusy(true);
     setError(null);
     try {
@@ -249,8 +252,6 @@ function MyEntry({
         await supabase.storage.from(PHOTOS_BUCKET).remove([path]);
         throw error;
       }
-      if (entry?.photo) await supabase.storage.from(PHOTOS_BUCKET).remove([entry.photo]);
-      setEditing(false);
       setFile(null);
       onChange();
     } catch (err) {
@@ -260,20 +261,9 @@ function MyEntry({
     }
   }
 
-  async function withdraw() {
-    if (!entry || demo || !window.confirm("Opravdu stáhnout kostým ze soutěže?")) return;
-    setBusy(true);
-    const supabase = createClient();
-    const { error } = await supabase.rpc("withdraw_costume_entry", { p_event_id: eventId });
-    if (!error) await supabase.storage.from(PHOTOS_BUCKET).remove([entry.photo]);
-    setBusy(false);
-    if (error) setError(errorMessage(error));
-    else onChange();
-  }
-
   if (!entry && !contest.entries_open) return null;
 
-  if (entry && !editing) {
+  if (entry) {
     return (
       <section>
         <h2 className={`${title} mb-4`}>Tvůj kostým</h2>
@@ -281,29 +271,23 @@ function MyEntry({
           <img src={src(entry.photo)} alt="" className="h-32 w-24 shrink-0 rounded-[12px] bg-black object-cover" />
           <div className="min-w-0 flex-1">
             <p className="truncate text-[18px] font-bold">{entry.title || "Bez názvu"}</p>
-            <p className={`mt-1 text-[14px] font-semibold ${entry.status === "approved" ? "text-blood" : entry.status === "rejected" ? "text-[#ff6b6b]" : "text-ash"}`}>
+            <p className={`mt-1 text-[14px] font-semibold ${entry.status === "rejected" ? "text-[#ff6b6b]" : "text-blood"}`}>
               {STATUS_TEXT[entry.status]}
             </p>
-            {contest.entries_open && (
-              <div className="mt-3 flex flex-wrap items-center gap-2">
-                <button type="button" onClick={() => setEditing(true)} className={`${btnGhost} !px-3 !py-2 text-[14px]`} disabled={busy}>
-                  Vyměnit fotku
-                </button>
-                <button type="button" onClick={withdraw} className="px-2 text-[14px] font-semibold text-ash underline" disabled={busy}>
-                  Stáhnout
-                </button>
-              </div>
+            {entry.status !== "rejected" && (
+              <p className="mt-2 text-[13px] leading-snug text-ash">
+                {contest.voting_open ? "Teď dej svůj hlas nejlepšímu kostýmu níž." : "Hlasování otevřeme během večera."}
+              </p>
             )}
           </div>
         </div>
-        {error && <p className={`${errorDark} mt-2`}>{error}</p>}
       </section>
     );
   }
 
   return (
     <section>
-      <h2 className={`${title} mb-4`}>{entry ? "Nová fotka" : "Přihlas kostým"}</h2>
+      <h2 className={`${title} mb-4`}>Přihlas kostým</h2>
       <form onSubmit={submit} className={`${surface} space-y-3 p-4`}>
         <label className="flex cursor-pointer items-center gap-3 rounded-[12px] border-2 border-dashed border-blood/60 bg-blood/5 p-4">
           <span className="hw-red grid size-12 shrink-0 place-items-center rounded-full">
@@ -316,18 +300,18 @@ function MyEntry({
           <input type="file" accept="image/*" className="sr-only" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
         </label>
         <input value={name} onChange={(e) => setName(e.target.value)} maxLength={60} placeholder="Název kostýmu, třeba Upír z K2" className={fieldDark} />
-        <p className="text-[12px] text-ash">Na fotce musí být tvůj kostým. Jde přihlásit i dvojici nebo partu, napiš to do názvu.</p>
+        <p className="text-[12px] text-ash">Na fotce musíš být ty v kostýmu. Jde přihlásit i dvojici nebo partu, napiš to do názvu.</p>
+        <label className="flex cursor-pointer items-start gap-3 rounded-[12px] border border-blood/50 bg-blood/10 p-3">
+          <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="mt-0.5 size-5 shrink-0 accent-[#e0141c]" />
+          <span className="text-[13px] leading-snug">
+            <span className="font-bold">Fotku nahráváš jen jednou a pak už nejde změnit.</span> Pokud na ní nebudeš ty v kostýmu,
+            budeš ze soutěže vyřazen/a a vzdáváš se výhry.
+          </span>
+        </label>
         {error && <p className={errorDark}>{error}</p>}
-        <div className="flex gap-2">
-          <button type="submit" className={`${btnRed} flex-1`} disabled={busy}>
-            {busy ? "Nahrávám…" : "Přihlásit do soutěže"}
-          </button>
-          {entry && (
-            <button type="button" onClick={() => setEditing(false)} className={btnGhost} disabled={busy}>
-              Zrušit
-            </button>
-          )}
-        </div>
+        <button type="submit" className={`${btnRed} w-full`} disabled={busy}>
+          {busy ? "Nahrávám…" : "Přihlásit do soutěže"}
+        </button>
       </form>
     </section>
   );
