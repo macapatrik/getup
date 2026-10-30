@@ -8,7 +8,8 @@ import { COSTUME_PRIZE } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
 import { PHOTOS_BUCKET, photoExtension, photoUrl, randomId, resizeImage } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
-import type { CostumeContest, CostumeStatus } from "@/lib/types";
+import type { CostumeContest, CostumeResults, CostumeStatus } from "@/lib/types";
+import { LiveVoting } from "../../../events/live-voting";
 
 // Halloweenský motiv podle plakátu: noc, krvavě červená, nápis Metal Mania (font-metal).
 const btnRed = "hw-red inline-flex items-center justify-center gap-2 rounded-[12px] px-5 py-3 text-[16px] font-bold transition active:scale-[0.97] disabled:opacity-50";
@@ -34,10 +35,16 @@ export function CostumeContestView({
   event,
   contest,
   demo = false,
+  results = null,
+  home = false,
 }: {
   userId: string;
   event: { id: string; name: string; venue: string };
   contest: CostumeContest;
+  /** Živé pořadí (nahoře na stránce) */
+  results?: CostumeResults | null;
+  /** Stránka je hlavní stránkou appky (halloweenská adresa): bez šipky zpět */
+  home?: boolean;
   /** Veřejná ukázka bez přihlášení: nic se neodesílá, hlas se jen přepne na stránce. */
   demo?: boolean;
 }) {
@@ -82,14 +89,16 @@ export function CostumeContestView({
         <img src="/halloween/hero-800.webp" alt="" className="absolute inset-0 size-full object-cover object-[72%_center]" />
         <div className="hw-fog-top absolute inset-x-0 top-0 h-24" />
         <div className="hw-fog-bottom absolute inset-x-0 bottom-0 h-40" />
-        <Link
-          href={demo ? "/halloween" : `/e/${event.id}`}
-          aria-label="Zpět"
-          className="absolute top-3 left-3 grid size-10 place-items-center rounded-full bg-black/45 text-bone backdrop-blur transition active:scale-90"
-          style={{ marginTop: "env(safe-area-inset-top)" }}
-        >
-          <Icon name="back" className="size-6" />
-        </Link>
+        {!home && (
+          <Link
+            href={demo ? "/halloween" : `/e/${event.id}`}
+            aria-label="Zpět"
+            className="absolute top-3 left-3 grid size-10 place-items-center rounded-full bg-black/45 text-bone backdrop-blur transition active:scale-90"
+            style={{ marginTop: "env(safe-area-inset-top)" }}
+          >
+            <Icon name="back" className="size-6" />
+          </Link>
+        )}
         <div className="absolute inset-x-0 bottom-3 px-6 text-center">
           <img src="/halloween/title-600.webp" alt="Halloween" className="mx-auto w-[86%] drop-shadow-[0_8px_24px_rgb(224_20_28/0.45)]" />
           <p className="mt-1 text-[12px] font-bold tracking-[0.22em] text-bone/80 uppercase">{event.venue || event.name}</p>
@@ -119,6 +128,8 @@ export function CostumeContestView({
             Ukázka soutěže. Kostýmy jsou ilustrační a nic se neodesílá.
           </p>
         )}
+
+        {contest.enabled && results && <LiveVoting eventId={event.id} initial={results} showLink={false} />}
 
         {contest.enabled && (
           <MyEntry userId={userId} eventId={event.id} contest={contest} demo={demo} onChange={() => router.refresh()} />

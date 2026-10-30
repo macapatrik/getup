@@ -16,7 +16,15 @@ function votesLabel(n: number) {
 }
 
 /** Živé výsledky soutěže o kostým na hlavní stránce: pořadí s pruhy hlasů, vedoucí kostým má štítek „Vede“. */
-export function LiveVoting({ eventId, initial }: { eventId: string; initial: CostumeResults }) {
+export function LiveVoting({
+  eventId,
+  initial,
+  showLink = true,
+}: {
+  eventId: string;
+  initial: CostumeResults;
+  showLink?: boolean;
+}) {
   const [results, setResults] = useState(initial);
 
   // Obnova každých pár sekund, jen když je appka vidět (a hned po návratu do ní).
@@ -24,7 +32,9 @@ export function LiveVoting({ eventId, initial }: { eventId: string; initial: Cos
     const supabase = createClient();
     async function load() {
       if (document.visibilityState !== "visible") return;
-      const { data } = await supabase.rpc("costume_results", { p_event_id: eventId });
+      const { data } = await supabase.rpc("costume_results", {
+        p_event_id: eventId,
+      });
       if (data) setResults(data as CostumeResults);
     }
     const timer = window.setInterval(load, REFRESH_MS);
@@ -96,13 +106,15 @@ export function LiveVoting({ eventId, initial }: { eventId: string; initial: Cos
         </ol>
       )}
 
-      <Link
-        href={`/e/${eventId}/kostymy`}
-        className="hw-red mt-4 inline-flex w-full items-center justify-center gap-2 rounded-[12px] py-3 text-[16px] font-bold transition active:scale-[0.97]"
-      >
-        <Icon name="camera" className="size-5" />
-        {results.voting_open ? "Hlasovat" : "Soutěž o kostým"}
-      </Link>
+      {showLink && (
+        <Link
+          href={`/e/${eventId}/kostymy`}
+          className="hw-red mt-4 inline-flex w-full items-center justify-center gap-2 rounded-[12px] py-3 text-[16px] font-bold transition active:scale-[0.97]"
+        >
+          <Icon name="camera" className="size-5" />
+          {results.voting_open ? "Hlasovat" : "Soutěž o kostým"}
+        </Link>
+      )}
     </section>
   );
 }

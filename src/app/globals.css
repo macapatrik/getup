@@ -467,7 +467,7 @@ body {
   display: none;
 }
 :root:has(.hm) .hm-only {
-  display: revert;
+  display: revert-layer; /* zpět na utilitu (flex…), jinak výchozí zobrazení prvku */
 }
 :root:has(.hm) .hm-hide {
   display: none;

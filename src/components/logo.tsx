@@ -29,13 +29,13 @@ export function AppIcon({ className = "size-9 rounded-[10px]", mark = "size-6" }
 export function Logo({ className = "", tagline = false }: { className?: string; tagline?: boolean }) {
   return (
     <span className={`inline-flex items-center gap-2 text-accent ${className}`}>
-      <LogoMark className="size-8" />
+      <LogoMark className="hm-hide size-8" />
       <span className="flex flex-col">
         <span className="hm-hide bg-gradient-to-r from-accent to-indigo bg-clip-text text-[20px] leading-none font-bold text-transparent">
           {APP_NAME}
         </span>
-        {/* Halloween: název písmem z plakátu, rudý s jemnou září */}
-        <span className="hm-only font-metal hw-glow text-[24px] leading-none text-accent">{APP_NAME}</span>
+        {/* Halloweenská adresa je soutěž o kostým, ne seznamka: „Halloween“ písmem z plakátu, rudý s jemnou září */}
+        <span className="hm-only font-metal hw-glow text-[26px] leading-none text-accent">Halloween</span>
         {tagline && (
           <span className="mt-1 text-[10px] leading-none font-bold tracking-[0.2em] text-muted uppercase">by GetUp</span>
         )}

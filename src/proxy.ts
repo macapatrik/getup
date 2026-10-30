@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { SITE_URL, WEB_HOSTS, WEB_URL } from "@/lib/config";
+import { HALLOWEEN_HOSTS, SITE_URL, WEB_HOSTS, WEB_URL } from "@/lib/config";
+import { EVENT as HALLOWEEN_EVENT } from "./app/halloween/event";
 import { updateSession } from "@/lib/supabase/proxy";
 
 // Stará adresa aplikace. Zůstává na Vercelu kvůli vytištěným QR kódům a starým odkazům a přesměruje se na SITE_URL;
@@ -16,6 +17,11 @@ const WEB_FILES: Record<string, string> = {
   "/sitemap.xml": "/web/sitemap.xml",
   "/manifest.webmanifest": "/web/manifest.webmanifest",
 };
+
+// Halloweenská adresa je jen hlasování o kostýmech: seznamka (akce, swipování, matche, lajky) vede rovnou do soutěže.
+const DATING_PATHS = ["/events", "/swipe", "/matches", "/profile/likes"];
+const isDatingPath = (pathname: string) => startsWithAny(pathname, DATING_PATHS) || /^\/e\/[^/]+\/?$/.test(pathname);
+const CONTEST_PATH = `/j/${HALLOWEEN_EVENT.joinCode}?soutez=1`;
 
 const startsWithAny = (pathname: string, prefixes: string[]) => prefixes.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 
@@ -36,6 +42,10 @@ export async function proxy(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = file ?? `/web${pathname === "/" ? "" : pathname}`;
     return NextResponse.rewrite(url);
+  }
+
+  if (HALLOWEEN_HOSTS.includes(host) && isDatingPath(pathname)) {
+    return NextResponse.redirect(new URL(CONTEST_PATH, request.url), 307);
   }
 
   // Ikony a manifest aplikace (matcher je přidává jen kvůli webu) jdou bez kontroly přihlášení.

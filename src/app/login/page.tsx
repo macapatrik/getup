@@ -24,7 +24,10 @@ export default async function LoginPage(props: PageProps<"/login">) {
         <Icon name="back" className="size-6" />
       </Link>
       <h1 className="mt-3 text-[28px] leading-tight font-bold">{(await isHalloween()) ? "Vítej v temnotách!" : "Vítej!"}</h1>
-      <p className="mt-1 text-[16px] text-muted">Pošleme ti na e-mail kód. Žádné heslo si nemusíš pamatovat.</p>
+      <p className="mt-1 text-[16px] text-muted">
+        <span className="hm-only">Přihlas se a hlasuj o nejlepší kostým večera. </span>
+        Pošleme ti na e-mail kód. Žádné heslo si nemusíš pamatovat.
+      </p>
       <LoginForm next={nextPath} linkError={error === "link"} />
       <p className="mt-auto pt-8 text-center text-[12px] text-muted">
         Přihlášením souhlasíš s{" "}

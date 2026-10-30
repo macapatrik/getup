@@ -34,9 +34,12 @@ export function ProfileForm({
   profile,
   redirectTo,
   onSave,
+  contestOnly = false,
 }: {
   userId: string;
   profile: Profile | null;
+  /** Halloweenská adresa (jen soutěž o kostým): bez „Chci potkat“, kontaktů a bia; nový profil hledá všechny. */
+  contestOnly?: boolean;
   /** Kam po uložení (onboarding). Bez něj zůstaneme na stránce. */
   redirectTo?: string;
   /** Vlastní uložení místo zápisu do vlastního řádku profiles (administrace ukládá přes RPC za uživatele). */
@@ -48,7 +51,7 @@ export function ProfileForm({
   const [name, setName] = useState(profile?.display_name ?? "");
   const [birthdate, setBirthdate] = useState(profile?.birthdate ?? "");
   const [gender, setGender] = useState<Gender | null>(profile?.gender ?? null);
-  const [interestedIn, setInterestedIn] = useState<Gender[]>(profile?.interested_in ?? []);
+  const [interestedIn, setInterestedIn] = useState<Gender[]>(profile?.interested_in ?? (contestOnly ? [...GENDERS] : []));
   const [bio, setBio] = useState(profile?.bio ?? "");
   const [instagram, setInstagram] = useState(profile?.instagram ?? "");
   const [snapchat, setSnapchat] = useState(profile?.snapchat ?? "");
@@ -291,97 +294,103 @@ export function ProfileForm({
         </div>
       </fieldset>
 
-      <fieldset>
-        <legend className={label}>Chci potkat</legend>
-        <div className="flex flex-wrap gap-2">
-          {GENDERS.map((g) => (
-            <button
-              key={g}
-              type="button"
-              onClick={() => toggleInterest(g)}
-              className={chip(interestedIn.includes(g))}
-              aria-pressed={interestedIn.includes(g)}
-            >
-              {INTEREST_LABELS[g]}
-            </button>
-          ))}
-        </div>
-      </fieldset>
+      {!contestOnly && (
+        <fieldset>
+          <legend className={label}>Chci potkat</legend>
+          <div className="flex flex-wrap gap-2">
+            {GENDERS.map((g) => (
+              <button
+                key={g}
+                type="button"
+                onClick={() => toggleInterest(g)}
+                className={chip(interestedIn.includes(g))}
+                aria-pressed={interestedIn.includes(g)}
+              >
+                {INTEREST_LABELS[g]}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+      )}
 
-      <section>
-        <span className={label}>
-          Kontakt pro matche <span className="text-faint normal-case">(nepovinné)</span>
-        </span>
-        <p className="-mt-1 mb-3 text-[14px] leading-snug text-muted">
-          Uvidí ho jen lidi, se kterými se matchneš. Vyplň aspoň jeden, ať se ti dá ozvat.
-        </p>
-        <div className="space-y-2.5">
-          <IconField icon="instagram">
-            <input
-              aria-label="Instagram"
-              value={instagram}
-              onChange={(e) => {
-                setInstagram(e.target.value);
-                setSaved(false);
-              }}
-              maxLength={80}
-              autoCapitalize="none"
-              autoCorrect="off"
-              spellCheck={false}
-              className={inputWithIcon}
-              placeholder="Instagram, třeba @jmeno.prijmeni"
-            />
-          </IconField>
-          <IconField icon="snapchat">
-            <input
-              aria-label="Snapchat"
-              value={snapchat}
-              onChange={(e) => {
-                setSnapchat(e.target.value);
-                setSaved(false);
-              }}
-              maxLength={80}
-              autoCapitalize="none"
-              autoCorrect="off"
-              spellCheck={false}
-              className={inputWithIcon}
-              placeholder="Snapchat"
-            />
-          </IconField>
-          <IconField icon="phone">
-            <input
-              aria-label="Telefon"
-              type="tel"
-              value={phone}
-              onChange={(e) => {
-                setPhone(e.target.value);
-                setSaved(false);
-              }}
-              maxLength={25}
-              className={inputWithIcon}
-              placeholder="Telefon, třeba +420 777 123 456"
-            />
-          </IconField>
-        </div>
-      </section>
+      {!contestOnly && (
+        <section>
+          <span className={label}>
+            Kontakt pro matche <span className="text-faint normal-case">(nepovinné)</span>
+          </span>
+          <p className="-mt-1 mb-3 text-[14px] leading-snug text-muted">
+            Uvidí ho jen lidi, se kterými se matchneš. Vyplň aspoň jeden, ať se ti dá ozvat.
+          </p>
+          <div className="space-y-2.5">
+            <IconField icon="instagram">
+              <input
+                aria-label="Instagram"
+                value={instagram}
+                onChange={(e) => {
+                  setInstagram(e.target.value);
+                  setSaved(false);
+                }}
+                maxLength={80}
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                className={inputWithIcon}
+                placeholder="Instagram, třeba @jmeno.prijmeni"
+              />
+            </IconField>
+            <IconField icon="snapchat">
+              <input
+                aria-label="Snapchat"
+                value={snapchat}
+                onChange={(e) => {
+                  setSnapchat(e.target.value);
+                  setSaved(false);
+                }}
+                maxLength={80}
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                className={inputWithIcon}
+                placeholder="Snapchat"
+              />
+            </IconField>
+            <IconField icon="phone">
+              <input
+                aria-label="Telefon"
+                type="tel"
+                value={phone}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  setSaved(false);
+                }}
+                maxLength={25}
+                className={inputWithIcon}
+                placeholder="Telefon, třeba +420 777 123 456"
+              />
+            </IconField>
+          </div>
+        </section>
+      )}
 
-      <div>
-        <label htmlFor="bio" className={label}>
-          Pár slov o tobě <span className="text-faint">(nepovinné)</span>
-        </label>
-        <textarea
-          id="bio"
-          rows={3}
-          maxLength={500}
-          value={bio}
-          onChange={(e) => {
-            setBio(e.target.value);
-            setSaved(false);
-          }}
-          className={`${input} resize-none rounded-[16px]`}
-          placeholder="Na koho se nejvíc těšíš? Co piješ na baru?"
-        />
-      </div>
+      {!contestOnly && (
+        <div>
+          <label htmlFor="bio" className={label}>
+            Pár slov o tobě <span className="text-faint">(nepovinné)</span>
+          </label>
+          <textarea
+            id="bio"
+            rows={3}
+            maxLength={500}
+            value={bio}
+            onChange={(e) => {
+              setBio(e.target.value);
+              setSaved(false);
+            }}
+            className={`${input} resize-none rounded-[16px]`}
+            placeholder="Na koho se nejvíc těšíš? Co piješ na baru?"
+          />
+        </div>
+      )}
 
       {error && <p className={errorText}>{error}</p>}
       {saved && (
@@ -391,7 +400,7 @@ export function ProfileForm({
       )}
 
       <button type="submit" disabled={saving} className={`${btnPrimary} w-full py-3.5`}>
-        {saving ? "Ukládám…" : profile ? "Uložit změny" : "Hotovo, jdeme na to"}
+        {saving ? "Ukládám…" : profile ? "Uložit změny" : contestOnly ? "Hotovo, jdu soutěžit" : "Hotovo, jdeme na to"}
       </button>
     </form>
   );

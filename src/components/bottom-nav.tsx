@@ -3,22 +3,28 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon, type IconName } from "./icons";
+import { EVENT as HALLOWEEN_EVENT } from "@/app/halloween/event";
 import { Logo } from "./logo";
 
-type NavItem = { href: string; label: string; icon: IconName; match: string[] };
+// `className` přepíná záložky podle motivu: na halloweenské adrese (.hm) je appka jen soutěž o kostým a účet.
+type NavItem = { href: string; label: string; icon: IconName; match: string[]; className?: string };
 
-// Čtyři záložky jako u Romio: domů (akce), swipování, matche, účet.
+// Čtyři záložky jako u Romio: domů (akce), swipování, matche, účet. Na halloweenské adrese soutěž a účet.
 const ITEMS: NavItem[] = [
-  { href: "/events", label: "Akce", icon: "home", match: ["/events"] },
-  { href: "/swipe", label: "Swipování", icon: "compass", match: ["/swipe", "/e/"] },
-  { href: "/matches", label: "Matche", icon: "heartOutline", match: ["/matches"] },
+  { href: "/events", label: "Akce", icon: "home", match: ["/events"], className: "hm-hide" },
+  { href: `/j/${HALLOWEEN_EVENT.joinCode}?soutez=1`, label: "Soutěž o kostým", icon: "camera", match: ["/kostymy"], className: "hm-only" },
+  { href: "/swipe", label: "Swipování", icon: "compass", match: ["/swipe", "/e/"], className: "hm-hide" },
+  { href: "/matches", label: "Matche", icon: "heartOutline", match: ["/matches"], className: "hm-hide" },
   { href: "/profile", label: "Můj účet", icon: "user", match: ["/profile"] },
 ];
 
 // Čistě zákaznická navigace – administrace týmu je jen na /admin a odsud na ni nic neodkazuje.
 function useNav() {
   const pathname = usePathname();
-  return { pathname, items: ITEMS, isActive: (item: NavItem) => item.match.some((m) => pathname.startsWith(m)) };
+  // Soutěž o kostým (/e/…/kostymy) patří pod záložku soutěže, ne pod swipování
+  const isActive = (item: NavItem) =>
+    pathname.includes("/kostymy") ? item.match.includes("/kostymy") : item.match.some((m) => pathname.startsWith(m));
+  return { pathname, items: ITEMS, isActive };
 }
 
 /** Spodní lišta (telefon a tablet): jen ikony, aktivní je růžová s tečkou. */
@@ -31,7 +37,7 @@ export function BottomNav() {
         {items.map((item) => {
           const active = isActive(item);
           return (
-            <li key={item.href}>
+            <li key={item.href} className={item.className}>
               <Link
                 href={item.href}
                 aria-label={item.label}
@@ -66,7 +72,7 @@ export function SideNav() {
               key={item.href}
               href={item.href}
               aria-current={active ? "page" : undefined}
-              className={`flex items-center gap-3 rounded-[12px] px-3 py-2.5 text-[16px] font-semibold transition ${
+              className={`${item.className ?? ""} flex items-center gap-3 rounded-[12px] px-3 py-2.5 text-[16px] font-semibold transition ${
                 active ? "fill-accent-soft" : "text-ink hover:bg-fill"
               }`}
             >
@@ -77,7 +83,8 @@ export function SideNav() {
         })}
       </nav>
       <p className="absolute right-5 bottom-6 left-5 text-[12px] leading-snug text-muted">
-        Seznamka pro návštěvníky akcí GetUp. Tvoje data vidíš jen ty.
+        <span className="hm-hide">Seznamka pro návštěvníky akcí GetUp. Tvoje data vidíš jen ty.</span>
+        <span className="hm-only">Soutěž o nejlepší kostým Halloweenu by GetUp.</span>
       </p>
     </aside>
   );
