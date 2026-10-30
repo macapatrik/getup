@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
+import { useCountdown } from "@/components/countdown";
 import { Icon } from "@/components/icons";
 import { COSTUME_PRIZE } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
@@ -89,25 +90,29 @@ export function CostumeContestView({
 
   // Halloween: hlasování končí v pevný čas a hned potom vyhlašujeme vítěze na stagi
   const endsAt = event.id === HALLOWEEN_EVENT.eventId ? HALLOWEEN_EVENT.votingEnds : null;
+  const deadline = event.id === HALLOWEEN_EVENT.eventId ? HALLOWEEN_EVENT.votingEndsAt : null;
+  // Po odpočtu schováme hlasovací tlačítka hned, databáze hlasování zavře během minuty
+  const countdownLeft = useCountdown(deadline);
+  const votingOpen = contest.voting_open && countdownLeft !== 0;
   // Zavřené přihlášky i hlasování znamenají konec soutěže (před hlasováním jsou přihlášky vždy otevřené)
-  const ended = contest.enabled && !contest.voting_open && !contest.entries_open;
+  const ended = contest.enabled && (countdownLeft === 0 || (!votingOpen && !contest.entries_open));
   const announce = endsAt ? `Vítěze vyhlásíme v ${endsAt} na stagi.` : "Vítěze vyhlásíme na stagi.";
   const state = !contest.enabled
     ? "Soutěž o kostým na téhle akci neběží."
-    : contest.voting_open
-      ? `Hlasování běží${endsAt ? ` do ${endsAt}` : ""}. Máš ${maxVotes} hlasy pro ${maxVotes} různé kostýmy a do konce hlasování je můžeš přehazovat.`
-      : contest.entries_open
-        ? "Nahraj fotku svého kostýmu. Hned se objeví v galerii a lidi z party o něm budou hlasovat."
-        : `Hlasování skončilo. ${announce}`;
+    : ended
+      ? `Hlasování skončilo. ${announce}`
+      : votingOpen
+        ? `Hlasování běží${endsAt ? ` do ${endsAt}` : ""}. Máš ${maxVotes} hlasy pro ${maxVotes} různé kostýmy a do konce hlasování je můžeš přehazovat.`
+        : "Nahraj fotku svého kostýmu. Hned se objeví v galerii a lidi z party o něm budou hlasovat.";
   const badge = !contest.enabled
     ? null
-    : contest.voting_open
-      ? endsAt
-        ? `Hlasování do ${endsAt}`
-        : "Hlasování běží"
-      : contest.entries_open
-        ? "Přihlášky otevřené"
-        : "Hlasování skončilo";
+    : ended
+      ? "Hlasování skončilo"
+      : votingOpen
+        ? endsAt
+          ? `Hlasování do ${endsAt}`
+          : "Hlasování běží"
+        : "Přihlášky otevřené";
   const ordered = [...contest.entries.filter((e) => !e.mine), ...contest.entries.filter((e) => e.mine)];
   // Hledání podle názvu kostýmu nebo jména (bez diakritiky a velikosti písmen): „upir“ najde „Upír z K2“
   const needle = searchable(query);
@@ -147,7 +152,7 @@ export function CostumeContestView({
           </p>
           {badge && (
             <span className="hw-outline mt-4 inline-flex items-center gap-2 rounded-[12px] px-4 py-1.5 text-[13px] font-bold tracking-[0.14em] uppercase">
-              {contest.voting_open && <span className="size-2 animate-[hw-pulse_1.6s_ease-in-out_infinite] rounded-full bg-blood" />}
+              {votingOpen && <span className="size-2 animate-[hw-pulse_1.6s_ease-in-out_infinite] rounded-full bg-blood" />}
               {badge}
             </span>
           )}
@@ -160,7 +165,7 @@ export function CostumeContestView({
           </p>
         )}
 
-        {contest.enabled && results && <LiveVoting eventId={event.id} initial={results} showLink={false} endsAt={endsAt} ended={ended} />}
+        {contest.enabled && results && <LiveVoting eventId={event.id} initial={results} showLink={false} endsAt={endsAt} deadline={deadline} ended={ended} />}
 
         {contest.enabled && (
           <MyEntry userId={userId} eventId={event.id} contest={contest} demo={demo} onChange={() => router.refresh()} />
@@ -168,11 +173,11 @@ export function CostumeContestView({
 
         {contest.enabled && (
           <section>
-            <h2 className={`${title} mb-4`}>{contest.voting_open ? "Hlasuj" : "Kostýmy v soutěži"}</h2>
+            <h2 className={`${title} mb-4`}>{votingOpen ? "Hlasuj" : "Kostýmy v soutěži"}</h2>
             {/* Počítadlo hlasů a hledání zůstávají při scrollování galerií nahoře */}
-            {(contest.voting_open || ordered.length > 0) && (
+            {(votingOpen || ordered.length > 0) && (
               <div className="sticky top-2 z-10 mb-4 space-y-2 rounded-[18px] bg-night/90 backdrop-blur">
-                {contest.voting_open && (
+                {votingOpen && (
                   <div className="hw-outline flex items-center gap-3 rounded-[16px] p-3.5">
                     <span className="flex shrink-0 gap-1.5" aria-hidden>
                       {Array.from({ length: maxVotes }, (_, i) => (
@@ -229,7 +234,7 @@ export function CostumeContestView({
                       <div className="p-3">
                         <p className="truncate text-[15px] font-bold">{entry.title || "Bez názvu"}</p>
                         <p className="truncate text-[12px] text-ash">{entry.name ?? "Účastník akce"}</p>
-                        {contest.voting_open && !entry.mine ? (
+                        {votingOpen && !entry.mine ? (
                           <button
                             type="button"
                             onClick={() => toggleVote(entry.id)}

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { CountdownClock, useCountdown } from "@/components/countdown";
 import { Icon } from "@/components/icons";
 import { formatNumber } from "@/lib/format";
 import { ThumbImg } from "@/components/thumb-img";
@@ -22,6 +23,7 @@ export function LiveVoting({
   initial,
   showLink = true,
   endsAt = null,
+  deadline = null,
   ended = false,
 }: {
   eventId: string;
@@ -29,10 +31,15 @@ export function LiveVoting({
   showLink?: boolean;
   /** Čas konce hlasování („1:00“), ukáže se v hlavičce */
   endsAt?: string | null;
+  /** Konec hlasování jako ISO čas: ukáže odpočet */
+  deadline?: string | null;
   /** Soutěž skončila (hlasování i přihlášky zavřené) */
   ended?: boolean;
 }) {
   const [results, setResults] = useState(initial);
+  const left = useCountdown(deadline);
+  // Po odpočtu bereme hlasování jako skončené hned, databáze ho zavře během minuty
+  const open = results.voting_open && left !== 0;
 
   // Obnova každých pár sekund, jen když je appka vidět (a hned po návratu do ní).
   useEffect(() => {
@@ -60,7 +67,7 @@ export function LiveVoting({
     <section className="relative overflow-hidden rounded-[24px] border border-blood/40 bg-night p-4 text-bone shadow-[0_18px_40px_-20px_rgb(224_20_28/0.8)]">
       <div className="flex items-center justify-between gap-3">
         <p className="flex items-center gap-2 text-[13px] font-bold tracking-[0.14em] uppercase">
-          {results.voting_open ? (
+          {open ? (
             <span className="relative flex size-2.5">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-blood opacity-70" />
               <span className="relative inline-flex size-2.5 rounded-full bg-blood" />
@@ -68,15 +75,22 @@ export function LiveVoting({
           ) : (
             <Icon name="clock" className="size-4 text-ash" />
           )}
-          {results.voting_open
+          {open
             ? `Live hlasování${endsAt ? ` do ${endsAt}` : ""}`
-            : ended
+            : ended || left === 0
               ? "Hlasování skončilo"
               : "Hlasování zatím neběží"}
         </p>
         <span className="text-[13px] font-semibold text-ash tabular-nums">{votesLabel(results.total)}</span>
       </div>
       <p className="font-metal hw-glow mt-1 text-[26px] leading-tight text-blood">Nejlepší kostým</p>
+
+      {open && left !== null && left > 0 && (
+        <div className="mt-3 rounded-[16px] border border-blood/40 bg-blood/10 px-3 pt-2.5 pb-3">
+          <p className="mb-2 text-center text-[12px] font-bold tracking-[0.14em] text-bone/80 uppercase">Do konce hlasování zbývá</p>
+          <CountdownClock left={left} />
+        </div>
+      )}
 
       {top.length === 0 ? (
         <p className="mt-3 text-[14px] text-ash">Zatím tu není žádný kostým. Přihlas ten svůj.</p>
@@ -123,7 +137,7 @@ export function LiveVoting({
           className="hw-red mt-4 inline-flex w-full items-center justify-center gap-2 rounded-[12px] py-3 text-[16px] font-bold transition active:scale-[0.97]"
         >
           <Icon name="camera" className="size-5" />
-          {results.voting_open ? "Hlasovat" : "Soutěž o kostým"}
+          {open ? "Hlasovat" : "Soutěž o kostým"}
         </Link>
       )}
     </section>
