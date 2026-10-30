@@ -169,14 +169,14 @@ export function CostumeContestView({
               </div>
             )}
             {error && <p className={`${errorDark} mb-3`}>{error}</p>}
-            {ordered.length > 3 && (
+            {ordered.length > 0 && (
               <label className="relative mb-3 block">
                 <Icon name="search" className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-ash" />
                 <input
                   type="search"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Hledej kostým nebo jméno"
+                  placeholder="Hledej podle jména nebo kostýmu"
                   aria-label="Hledat kostým"
                   className={`${fieldDark} pl-12`}
                 />
