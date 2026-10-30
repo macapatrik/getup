@@ -16,6 +16,8 @@ export const EVENT = {
   prize: "5\u00a0000\u00a0Kč", // pevné mezery, ať se částka nezalomí
   // Kód akce v GetCrush – odkaz /j/KÓD připojí návštěvníka k akci. TODO: kód skutečné akce z administrace.
   joinCode: "HALLO26",
+  // Id akce v databázi: odkazy přímo na soutěž o kostým (/e/ID/kostymy) bez mezikroku přes /j/KÓD
+  eventId: "2b269fde-f28b-4eea-9cd8-4d513d68f7ac",
   instagram: "https://www.instagram.com/getup.fun/",
   instagramHandle: "@getup.fun",
   stages: [

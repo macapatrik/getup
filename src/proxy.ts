@@ -21,7 +21,8 @@ const WEB_FILES: Record<string, string> = {
 // Halloweenská adresa je jen hlasování o kostýmech: seznamka (akce, swipování, matche, lajky) vede rovnou do soutěže.
 const DATING_PATHS = ["/events", "/swipe", "/matches", "/profile/likes"];
 const isDatingPath = (pathname: string) => startsWithAny(pathname, DATING_PATHS) || /^\/e\/[^/]+\/?$/.test(pathname);
-const CONTEST_PATH = `/j/${HALLOWEEN_EVENT.joinCode}?soutez=1`;
+// Rovnou na stránku soutěže (kdo k akci ještě není připojený, toho stránka pošle přes /j/KÓD)
+const CONTEST_PATH = `/e/${HALLOWEEN_EVENT.eventId}/kostymy`;
 
 const startsWithAny = (pathname: string, prefixes: string[]) => prefixes.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 

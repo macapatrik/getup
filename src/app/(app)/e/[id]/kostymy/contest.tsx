@@ -21,6 +21,14 @@ const fieldDark =
   "w-full rounded-[12px] border border-white/10 bg-white/5 px-4 py-3.5 text-[16px] text-bone placeholder:text-ash focus:border-blood focus:outline-none";
 const errorDark = "text-[14px] font-semibold text-[#ff6b6b]";
 
+/** Text pro hledání: malá písmena bez diakritiky */
+const searchable = (text: string) =>
+  text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+
 /** Fotka z úložiště, nebo (ukázka) přímo soubor z /public */
 const src = (path: string) => (path.startsWith("/") ? path : photoUrl(path));
 
@@ -51,6 +59,7 @@ export function CostumeContestView({
   const router = useRouter();
   const [myVote, setMyVote] = useState(contest.my_vote);
   const [confirming, setConfirming] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
@@ -81,6 +90,9 @@ export function CostumeContestView({
         : "Hlasování otevřeme během večera. Vítěze vyhlásíme na stagi.";
   const badge = !contest.enabled ? null : contest.voting_open ? "Hlasování běží" : contest.entries_open ? "Přihlášky otevřené" : "Brzy hlasování";
   const ordered = [...contest.entries.filter((e) => !e.mine), ...contest.entries.filter((e) => e.mine)];
+  // Hledání podle názvu kostýmu nebo jména (bez diakritiky a velikosti písmen): „upir“ najde „Upír z K2“
+  const needle = searchable(query);
+  const shown = needle ? ordered.filter((e) => searchable(`${e.title} ${e.name ?? ""}`).includes(needle)) : ordered;
 
   return (
     <>
@@ -146,11 +158,26 @@ export function CostumeContestView({
               </p>
             )}
             {error && <p className={`${errorDark} mb-3`}>{error}</p>}
+            {ordered.length > 3 && (
+              <label className="relative mb-3 block">
+                <Icon name="search" className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-ash" />
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Hledej kostým nebo jméno"
+                  aria-label="Hledat kostým"
+                  className={`${fieldDark} pl-12`}
+                />
+              </label>
+            )}
             {ordered.length === 0 ? (
               <p className={`${surface} p-5 text-center text-[15px] text-ash`}>Zatím tu žádný kostým není.</p>
+            ) : shown.length === 0 ? (
+              <p className={`${surface} p-5 text-center text-[15px] text-ash`}>Nic takového tu není. Zkus jiný název nebo jméno.</p>
             ) : (
               <ul className="grid grid-cols-2 gap-3">
-                {ordered.map((entry) => {
+                {shown.map((entry) => {
                   const voted = myVote === entry.id;
                   return (
                     <li
@@ -252,7 +279,7 @@ function MyEntry({
     setError(null);
     try {
       const supabase = createClient();
-      const blob = await resizeImage(file, 1440, 0.82);
+      const blob = await resizeImage(file, 1080, 0.8); // menší fotky = rychlejší galerie na přetížené síti v klubu
       const path = `${userId}/costume-${randomId()}.${photoExtension(blob)}`;
       const { error: uploadError } = await supabase.storage
         .from(PHOTOS_BUCKET)

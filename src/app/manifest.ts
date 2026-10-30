@@ -12,7 +12,7 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
     short_name: halloween ? "Halloween" : APP_NAME,
     description: halloween ? "Hlasuj o nejlepší kostým večera" : APP_TAGLINE,
     lang: "cs",
-    start_url: halloween ? `/j/${HALLOWEEN_EVENT.joinCode}?soutez=1` : "/events",
+    start_url: halloween ? `/e/${HALLOWEEN_EVENT.eventId}/kostymy` : "/events",
     display: "standalone",
     orientation: "portrait",
     background_color: halloween ? "#07060a" : "#ffffff",

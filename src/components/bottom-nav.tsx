@@ -12,7 +12,7 @@ type NavItem = { href: string; label: string; icon: IconName; match: string[]; c
 // Čtyři záložky jako u Romio: domů (akce), swipování, matche, účet. Na halloweenské adrese soutěž a účet.
 const ITEMS: NavItem[] = [
   { href: "/events", label: "Akce", icon: "home", match: ["/events"], className: "hm-hide" },
-  { href: `/j/${HALLOWEEN_EVENT.joinCode}?soutez=1`, label: "Soutěž o kostým", icon: "camera", match: ["/kostymy"], className: "hm-only" },
+  { href: `/e/${HALLOWEEN_EVENT.eventId}/kostymy`, label: "Soutěž o kostým", icon: "camera", match: ["/kostymy"], className: "hm-only" },
   { href: "/swipe", label: "Swipování", icon: "compass", match: ["/swipe", "/e/"], className: "hm-hide" },
   { href: "/matches", label: "Matche", icon: "heartOutline", match: ["/matches"], className: "hm-hide" },
   { href: "/profile", label: "Můj účet", icon: "user", match: ["/profile"] },

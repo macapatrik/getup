@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { requireProfile } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { isHalloween } from "@/lib/theme";
 import type { CostumeContest, CostumeResults } from "@/lib/types";
+import { EVENT as HALLOWEEN_EVENT } from "../../../../halloween/event";
 import { metalMania } from "../../../../halloween/fonts";
 import { CostumeContestView } from "./contest";
 
@@ -15,15 +16,18 @@ export const metadata: Metadata = { title: "Soutěž o kostým" };
  */
 export default async function CostumeContestPage(props: PageProps<"/e/[id]/kostymy">) {
   const { id } = await props.params;
-  const { user } = await requireProfile();
   const supabase = await createClient();
 
-  const [{ data: event }, { data, error }, { data: results }, halloween] = await Promise.all([
+  // Vše najednou (kontrola profilu i data soutěže), ať se stránka načte co nejrychleji
+  const [{ user }, { data: event }, { data, error }, { data: results }, halloween] = await Promise.all([
+    requireProfile(),
     supabase.from("events").select("id, name, venue").eq("id", id).maybeSingle<{ id: string; name: string; venue: string }>(),
     supabase.rpc("costume_contest", { p_event_id: id }),
     supabase.rpc("costume_results", { p_event_id: id }),
     isHalloween(),
   ]);
+  // Ještě není připojený k akci (odkaz z lišty nebo appky na ploše): připojit přes /j/KÓD a vrátit sem
+  if (error?.code === "GU004") redirect(`/j/${HALLOWEEN_EVENT.joinCode}?soutez=1`);
   if (!event || error || !data) notFound();
 
   return (
