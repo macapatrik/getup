@@ -24,10 +24,14 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
     });
     setBusy(false);
     if (error) {
+      // Při stovkách lidí najednou (stejná Wi-Fi v klubu) narazí limit na IP adresu nebo na odesílání e-mailů:
+      // poradíme počkat nebo přepnout na mobilní data, chybu adresy hlásíme jen u skutečně špatné adresy.
       setError(
         error.status === 429
-          ? "Moc pokusů za sebou. Počkej chvilku a zkus to znovu."
-          : "E-mail se nepodařilo odeslat. Zkontroluj adresu.",
+          ? "Teď se přihlašuje hodně lidí najednou. Počkej minutku a zkus to znovu, nebo se přepni z Wi-Fi na mobilní data."
+          : error.status === 400 || error.status === 422
+            ? "E-mail se nepodařilo odeslat. Zkontroluj adresu."
+            : "E-mail se teď nepodařilo odeslat. Zkus to za chvilku znovu.",
       );
       return;
     }
@@ -45,7 +49,11 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
     });
     if (error) {
       setBusy(false);
-      setError("Kód nesedí nebo už vypršel.");
+      setError(
+        error.status === 429
+          ? "Teď se přihlašuje hodně lidí najednou. Počkej minutku a zkus kód zadat znovu, nebo se přepni na mobilní data."
+          : "Kód nesedí nebo už vypršel.",
+      );
       return;
     }
     // Plná navigace: `next` může být route handler /j/KOD (připojení k akci).
