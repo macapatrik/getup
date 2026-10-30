@@ -21,10 +21,16 @@ export function LiveVoting({
   eventId,
   initial,
   showLink = true,
+  endsAt = null,
+  ended = false,
 }: {
   eventId: string;
   initial: CostumeResults;
   showLink?: boolean;
+  /** Čas konce hlasování („1:00“), ukáže se v hlavičce */
+  endsAt?: string | null;
+  /** Soutěž skončila (hlasování i přihlášky zavřené) */
+  ended?: boolean;
 }) {
   const [results, setResults] = useState(initial);
 
@@ -62,7 +68,11 @@ export function LiveVoting({
           ) : (
             <Icon name="clock" className="size-4 text-ash" />
           )}
-          {results.voting_open ? "Live hlasování" : "Hlasování zatím neběží"}
+          {results.voting_open
+            ? `Live hlasování${endsAt ? ` do ${endsAt}` : ""}`
+            : ended
+              ? "Hlasování skončilo"
+              : "Hlasování zatím neběží"}
         </p>
         <span className="text-[13px] font-semibold text-ash tabular-nums">{votesLabel(results.total)}</span>
       </div>

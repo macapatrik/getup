@@ -13,6 +13,9 @@ export const EVENT = {
   mapUrl: "https://www.google.com/maps/search/?api=1&query=Klub+K2+Sokolsk%C3%BD+ostrov+462+%C4%8Cesk%C3%A9+Bud%C4%9Bjovice",
   ticketsUrl: "https://www.eventlook.cz/udalosti/halloween-wjcfya/",
   ticketsLabel: "eventlook.cz",
+  // Konec hlasování o kostým a vyhlášení na stagi (hlasování zavře databáze sama, viz migrace costume_voting_close)
+  votingEndsAt: "2026-10-31T01:00:00+01:00",
+  votingEnds: "1:00",
   prize: "5\u00a0000\u00a0Kč", // pevné mezery, ať se částka nezalomí
   // Kód akce v GetCrush – odkaz /j/KÓD připojí návštěvníka k akci. TODO: kód skutečné akce z administrace.
   joinCode: "HALLO26",

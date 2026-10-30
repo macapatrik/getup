@@ -10,6 +10,7 @@ import { ThumbImg } from "@/components/thumb-img";
 import { PHOTOS_BUCKET, photoExtension, photoSrc, randomId, resizeImage, thumbPath } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
 import type { CostumeContest, CostumeResults, CostumeStatus } from "@/lib/types";
+import { EVENT as HALLOWEEN_EVENT } from "@/app/halloween/event";
 import { LiveVoting } from "../../../events/live-voting";
 
 // Halloweenský motiv podle plakátu: noc, krvavě červená, nápis Metal Mania (font-metal).
@@ -86,14 +87,27 @@ export function CostumeContestView({
 
   const votesLeft = left === 0 ? "Všechny hlasy máš rozdané" : `Zbývá ti ${left} ${left === 1 ? "hlas" : "hlasy"} ze ${maxVotes}`;
 
+  // Halloween: hlasování končí v pevný čas a hned potom vyhlašujeme vítěze na stagi
+  const endsAt = event.id === HALLOWEEN_EVENT.eventId ? HALLOWEEN_EVENT.votingEnds : null;
+  // Zavřené přihlášky i hlasování znamenají konec soutěže (před hlasováním jsou přihlášky vždy otevřené)
+  const ended = contest.enabled && !contest.voting_open && !contest.entries_open;
+  const announce = endsAt ? `Vítěze vyhlásíme v ${endsAt} na stagi.` : "Vítěze vyhlásíme na stagi.";
   const state = !contest.enabled
     ? "Soutěž o kostým na téhle akci neběží."
     : contest.voting_open
-      ? `Hlasování běží. Máš ${maxVotes} hlasy pro ${maxVotes} různé kostýmy a do konce hlasování je můžeš přehazovat.`
+      ? `Hlasování běží${endsAt ? ` do ${endsAt}` : ""}. Máš ${maxVotes} hlasy pro ${maxVotes} různé kostýmy a do konce hlasování je můžeš přehazovat.`
       : contest.entries_open
         ? "Nahraj fotku svého kostýmu. Hned se objeví v galerii a lidi z party o něm budou hlasovat."
-        : "Hlasování otevřeme během večera. Vítěze vyhlásíme na stagi.";
-  const badge = !contest.enabled ? null : contest.voting_open ? "Hlasování běží" : contest.entries_open ? "Přihlášky otevřené" : "Brzy hlasování";
+        : `Hlasování skončilo. ${announce}`;
+  const badge = !contest.enabled
+    ? null
+    : contest.voting_open
+      ? endsAt
+        ? `Hlasování do ${endsAt}`
+        : "Hlasování běží"
+      : contest.entries_open
+        ? "Přihlášky otevřené"
+        : "Hlasování skončilo";
   const ordered = [...contest.entries.filter((e) => !e.mine), ...contest.entries.filter((e) => e.mine)];
   // Hledání podle názvu kostýmu nebo jména (bez diakritiky a velikosti písmen): „upir“ najde „Upír z K2“
   const needle = searchable(query);
@@ -146,7 +160,7 @@ export function CostumeContestView({
           </p>
         )}
 
-        {contest.enabled && results && <LiveVoting eventId={event.id} initial={results} showLink={false} />}
+        {contest.enabled && results && <LiveVoting eventId={event.id} initial={results} showLink={false} endsAt={endsAt} ended={ended} />}
 
         {contest.enabled && (
           <MyEntry userId={userId} eventId={event.id} contest={contest} demo={demo} onChange={() => router.refresh()} />
@@ -246,8 +260,8 @@ export function CostumeContestView({
         <p className="text-center text-[12px] text-ash/80">
           Každý účet má 3 hlasy pro 3 různé kostýmy a do konce hlasování je může přehazovat. Pro svůj kostým hlasovat nejde.
           Fotku kostýmu nahráváš jen jednou;
-          kdo na ní není v kostýmu nebo podvádí, je vyřazen a vzdává se výhry. Živé pořadí je na hlavní stránce appky, vítěze
-          vyhlásíme na stagi.
+          kdo na ní není v kostýmu nebo podvádí, je vyřazen a vzdává se výhry. Živé pořadí je nahoře, hlasování končí
+          {endsAt ? ` v ${endsAt}` : " během večera"}. {announce}
         </p>
       </div>
     </>
@@ -325,7 +339,11 @@ function MyEntry({
             </p>
             {entry.status !== "rejected" && (
               <p className="mt-2 text-[13px] leading-snug text-ash">
-                {contest.voting_open ? "Teď dej svůj hlas nejlepšímu kostýmu níž." : "Hlasování otevřeme během večera."}
+                {contest.voting_open
+                  ? "Teď rozdej své hlasy nejlepším kostýmům níž."
+                  : contest.entries_open
+                    ? "Hlasování otevřeme během večera."
+                    : "Hlasování skončilo, vítěze vyhlásíme na stagi."}
               </p>
             )}
           </div>
