@@ -154,33 +154,38 @@ export function CostumeContestView({
         {contest.enabled && (
           <section>
             <h2 className={`${title} mb-4`}>{contest.voting_open ? "Hlasuj" : "Kostýmy v soutěži"}</h2>
-            {contest.voting_open && (
-              <div className="hw-outline sticky top-2 z-10 mb-4 flex items-center gap-3 rounded-[16px] bg-night/90 p-3.5 backdrop-blur">
-                <span className="flex shrink-0 gap-1.5" aria-hidden>
-                  {Array.from({ length: maxVotes }, (_, i) => (
-                    <span key={i} className={`size-3.5 rounded-full ${i < myVotes.length ? "bg-blood" : "border-2 border-blood/70"}`} />
-                  ))}
-                </span>
-                <span className="min-w-0 text-[14px] leading-snug">
-                  <span className="block font-bold">{votesLeft}</span>
-                  <span className="block text-[12px] text-ash">Hlas odebereš klepnutím na „Tvůj hlas“. Podvodné účty mažeme.</span>
-                </span>
+            {/* Počítadlo hlasů a hledání zůstávají při scrollování galerií nahoře */}
+            {(contest.voting_open || ordered.length > 0) && (
+              <div className="sticky top-2 z-10 mb-4 space-y-2 rounded-[18px] bg-night/90 backdrop-blur">
+                {contest.voting_open && (
+                  <div className="hw-outline flex items-center gap-3 rounded-[16px] p-3.5">
+                    <span className="flex shrink-0 gap-1.5" aria-hidden>
+                      {Array.from({ length: maxVotes }, (_, i) => (
+                        <span key={i} className={`size-3.5 rounded-full ${i < myVotes.length ? "bg-blood" : "border-2 border-blood/70"}`} />
+                      ))}
+                    </span>
+                    <span className="min-w-0 text-[14px] leading-snug">
+                      <span className="block font-bold">{votesLeft}</span>
+                      <span className="block text-[12px] text-ash">Hlas odebereš klepnutím na „Tvůj hlas“. Podvodné účty mažeme.</span>
+                    </span>
+                  </div>
+                )}
+                {ordered.length > 0 && (
+                  <label className="relative block">
+                    <Icon name="search" className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-ash" />
+                    <input
+                      type="search"
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      placeholder="Hledej podle jména nebo kostýmu"
+                      aria-label="Hledat kostým"
+                      className={`${fieldDark} pl-12`}
+                    />
+                  </label>
+                )}
               </div>
             )}
             {error && <p className={`${errorDark} mb-3`}>{error}</p>}
-            {ordered.length > 0 && (
-              <label className="relative mb-3 block">
-                <Icon name="search" className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-ash" />
-                <input
-                  type="search"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Hledej podle jména nebo kostýmu"
-                  aria-label="Hledat kostým"
-                  className={`${fieldDark} pl-12`}
-                />
-              </label>
-            )}
             {ordered.length === 0 ? (
               <p className={`${surface} p-5 text-center text-[15px] text-ash`}>Zatím tu žádný kostým není.</p>
             ) : shown.length === 0 ? (
