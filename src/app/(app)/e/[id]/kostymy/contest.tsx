@@ -189,8 +189,8 @@ export function CostumeContestView({
         )}
 
         <p className="text-center text-[12px] text-ash/80">
-          Hlasovat můžou jen lidi v klubu, jeden hlas na člověka a telefon. Pro svůj kostým hlasovat nejde. Pořadí zná jen tým
-          GetUp a vítěze vyhlásí na stagi.
+          Hlasovat můžou jen lidi v klubu, jeden hlas na člověka a telefon. Pro svůj kostým hlasovat nejde. Živé pořadí je na
+          hlavní stránce appky, vítěze vyhlásíme na stagi.
         </p>
       </div>
     </>

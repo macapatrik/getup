@@ -23,11 +23,12 @@ import {
 import { getSwipingOpensAt, swipingClosed } from "@/lib/settings";
 import { createClient } from "@/lib/supabase/server";
 import { isHalloween } from "@/lib/theme";
-import type { EventRow, PastEvent } from "@/lib/types";
+import type { CostumeResults, EventRow, PastEvent } from "@/lib/types";
 import { EVENT as HALLOWEEN_EVENT } from "../../halloween/event";
 import { EVENT } from "../../tinder/event";
 import { HalloweenCard } from "./halloween-card";
 import { JoinForm } from "./join-form";
+import { LiveVoting } from "./live-voting";
 import { QrScanButton } from "./qr-scanner";
 import { TinderCard } from "./tinder-card";
 
@@ -50,10 +51,12 @@ export default async function EventsPage(props: PageProps<"/events">) {
   // Akce se soutěží o kostým, která ještě neskončila (odkaz nahoře na stránce)
   const contestEvent = events.find((e) => e.costume_contest && eventStatus(e) !== "closed");
   const halloween = await isHalloween();
-  const [{ data: countRows }, { data: pastRows }, opensAt] = await Promise.all([
+  const [{ data: countRows }, { data: pastRows }, opensAt, { data: contestResults }] = await Promise.all([
     supabase.rpc("attendee_counts", { p_event_ids: events.map((e) => e.id) }),
     supabase.rpc("past_events"),
     getSwipingOpensAt(),
+    // Živé výsledky soutěže o kostým (karta nahoře, dál se obnovuje v prohlížeči)
+    contestEvent ? supabase.rpc("costume_results", { p_event_id: contestEvent.id }) : Promise.resolve({ data: null }),
   ]);
   const paused = swipingClosed(opensAt);
   const pastCount = ((pastRows ?? []) as PastEvent[]).length;
@@ -79,6 +82,12 @@ export default async function EventsPage(props: PageProps<"/events">) {
           <p className="text-[15px] font-semibold text-muted">Čau {profile.display_name}</p>
           <h1 className={largeTitle}>{halloween ? "Kdo tě o Halloweenu uhrane?" : "Kam vyrazíš?"}</h1>
         </header>
+
+        {contestEvent && contestResults && (
+          <div className="mt-5">
+            <LiveVoting eventId={contestEvent.id} initial={contestResults as CostumeResults} />
+          </div>
+        )}
 
         {/* Upozornění pro všechny: v profilu musí být aspoň jedna fotka, na které je člověk sám (moderujeme ručně). */}
         <Link

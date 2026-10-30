@@ -49,7 +49,7 @@ export function CostumeAdmin({
           Uložit nastavení soutěže
         </SubmitButton>
         <p className="text-[12px] text-muted">
-          V appce je soutěž na stránce akce pod tlačítkem „Soutěž o kostým“. Pořadí vidí jen tým.
+          V appce je soutěž na stránce akce pod tlačítkem „Soutěž o kostým“. Živé pořadí schválených kostýmů vidí lidi z akce na hlavní stránce appky.
         </p>
       </form>
 

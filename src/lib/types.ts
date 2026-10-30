@@ -104,6 +104,14 @@ export interface CostumeContest {
   entries: { id: string; title: string; photo: string; name: string | null; mine: boolean }[];
 }
 
+/** Živé výsledky soutěže o kostým (RPC costume_results), seřazené od nejvíc hlasů */
+export interface CostumeResults {
+  enabled: boolean;
+  voting_open: boolean;
+  total: number;
+  entries: { id: string; title: string; photo: string; name: string | null; votes: number }[];
+}
+
 export interface AdminCostumeEntry {
   id: string;
   user_id: string;
