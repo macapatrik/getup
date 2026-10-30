@@ -29,6 +29,7 @@ const MESSAGES: Record<string, string> = {
   GU035: "Kód z klubu platí jen během akce.",
   GU036: "Tenhle telefon se nepodařilo ověřit, zkus to v jiném prohlížeči.",
   GU037: "Hlasovat můžeš jen v klubu. Nejdřív zadej kód z obrazovky.",
+  GU038: "Už jsi hlasoval/a. Každý má jen jeden hlas a ten nejde změnit.",
   GU401: "Přihlas se prosím znovu.",
   GU403: "Na tohle nemáš oprávnění.",
 };

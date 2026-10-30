@@ -3,7 +3,8 @@ import { SubmitButton } from "@/components/submit-button";
 import { btnPrimary, btnSecondary, card, sectionTitle } from "@/components/ui";
 import { COSTUME_PRIZE } from "@/lib/config";
 import { photoUrl } from "@/lib/photos";
-import type { AdminCostumeEntry } from "@/lib/types";
+import { formatTime } from "@/lib/format";
+import type { AdminCostumeEntry, AdminCostumeVoter } from "@/lib/types";
 import { setCostumeContestAction, setCostumeEntryStatusAction } from "../../actions";
 import { Badge, Empty } from "../../ui";
 
@@ -18,10 +19,16 @@ export function CostumeAdmin({
   eventId,
   settings,
   entries,
+  voters,
+  contestUrl,
+  contestQr,
 }: {
   eventId: string;
   settings: { costume_contest: boolean; costume_entries_open: boolean; costume_voting_open: boolean };
   entries: AdminCostumeEntry[];
+  voters: AdminCostumeVoter[];
+  contestUrl: string;
+  contestQr: string | null;
 }) {
   const approved = entries.filter((e) => e.status === "approved");
   const totalVotes = approved.reduce((sum, e) => sum + Number(e.votes), 0);
@@ -53,17 +60,21 @@ export function CostumeAdmin({
         </p>
       </form>
 
-      <div className={`${card} mt-3`}>
-        <p className="text-[15px] font-bold">Kód z klubu</p>
-        <p className="mt-1 text-[13px] leading-snug text-muted">
-          Hlasovat můžou jen lidi, kteří v klubu opíšou kód z obrazovky nebo naskenují QR kód vedle něj. Kód se mění každých 5
-          minut a z jednoho telefonu se odemkne jen jeden účet. Obrazovku pusť na projektoru, televizi nebo tabletu u stage, kód
-          může říct i moderátor.
-        </p>
-        <Link href={`/admin/events/${eventId}/kod`} target="_blank" className={`${btnSecondary} mt-3 w-full`}>
-          Otevřít obrazovku s kódem
-        </Link>
-      </div>
+      {contestQr && (
+        <div className={`${card} mt-3 flex flex-col items-center gap-4 sm:flex-row sm:items-start`}>
+          <img src={contestQr} alt="QR kód soutěže" className="size-40 shrink-0 rounded-[12px] border-2 border-fill" />
+          <div className="min-w-0">
+            <p className="text-[15px] font-bold">QR kód soutěže na Instagram a plakáty</p>
+            <p className="mt-1 text-[13px] leading-snug text-muted">
+              Přihlásí, připojí k akci a otevře rovnou soutěž o kostým. Každý účet má jeden hlas napořád a nejde ho změnit.
+            </p>
+            <p className="mt-1 truncate text-[12px] text-muted">{contestUrl}</p>
+            <a href={contestQr} download="soutez-o-kostym-qr.png" className={`${btnSecondary} mt-3 !py-2 text-[14px]`}>
+              Stáhnout QR kód
+            </a>
+          </div>
+        </div>
+      )}
 
       {pending.length > 0 && (
         <p className="mt-4 text-[14px] font-semibold text-accent">Ke schválení: {pending.length}</p>
@@ -124,6 +135,42 @@ export function CostumeAdmin({
       </div>
       <p className="mt-2 text-[12px] text-muted">
         Odmítnutím kostýmu se smažou i jeho hlasy. Hlasy „z nových účtů“ přišly z účtů založených méně než den před hlasováním.
+      </p>
+
+      {/* Kontrola hlasujících: každý musí mít v profilu svoji fotku v kostýmu, jinak účet smaž (hlas zmizí s ním) */}
+      <h3 className="mt-6 mb-2 text-[16px] font-bold">Hlasující ({voters.length})</h3>
+      {voters.length === 0 ? (
+        <Empty>Zatím nikdo nehlasoval.</Empty>
+      ) : (
+        <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+          {voters.map((voter) => {
+            const fresh = new Date(voter.voted_at).getTime() - new Date(voter.account_created_at).getTime() < 86_400_000;
+            return (
+              <li key={voter.user_id}>
+                <Link
+                  href={`/admin/users/${voter.user_id}`}
+                  className="surface block overflow-hidden rounded-[12px] transition hover:border-accent"
+                >
+                  {voter.photo ? (
+                    <img src={photoUrl(voter.photo)} alt="" className="aspect-[3/4] w-full bg-fill object-cover" loading="lazy" />
+                  ) : (
+                    <span className="grid aspect-[3/4] w-full place-items-center bg-fill text-[12px] text-muted">Bez fotky</span>
+                  )}
+                  <span className="block p-2">
+                    <span className="block truncate text-[13px] font-bold">{voter.display_name ?? "Bez profilu"}</span>
+                    <span className="block truncate text-[12px] text-muted">
+                      {formatTime(voter.voted_at)} · pro „{voter.voted_for}“
+                    </span>
+                    {fresh && <span className="block text-[11px] font-semibold text-danger">nový účet</span>}
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      <p className="mt-2 text-[12px] text-muted">
+        Každý účet má jeden hlas napořád. Kdo nemá v profilu svoji fotku v kostýmu, toho otevři a smaž účet, jeho hlas tím zmizí.
       </p>
     </section>
   );

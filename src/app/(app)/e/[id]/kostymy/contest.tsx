@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, useTransition, type FormEvent } from "react";
+import { useState, useTransition, type FormEvent } from "react";
 import { Icon } from "@/components/icons";
 import { COSTUME_PRIZE } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
 import { PHOTOS_BUCKET, photoExtension, photoUrl, randomId, resizeImage } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
 import type { CostumeContest, CostumeStatus } from "@/lib/types";
-import { QrScanButton } from "../../../events/qr-scanner";
 
 // Halloweenský motiv podle plakátu: noc, krvavě červená, nápis Metal Mania (font-metal).
 const btnRed = "hw-red inline-flex items-center justify-center gap-2 rounded-[12px] px-5 py-3 text-[16px] font-bold transition active:scale-[0.97] disabled:opacity-50";
@@ -35,25 +34,23 @@ export function CostumeContestView({
   event,
   contest,
   demo = false,
-  initialCode = null,
 }: {
   userId: string;
   event: { id: string; name: string; venue: string };
   contest: CostumeContest;
   /** Veřejná ukázka bez přihlášení: nic se neodesílá, hlas se jen přepne na stránce. */
   demo?: boolean;
-  /** Kód z QR kódu v klubu (?kod=…), rovnou se ověří */
-  initialCode?: string | null;
 }) {
   const router = useRouter();
   const [myVote, setMyVote] = useState(contest.my_vote);
-  const [checkedIn, setCheckedIn] = useState(Boolean(contest.checked_in));
-  const canVote = contest.voting_open && checkedIn;
+  const [confirming, setConfirming] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
+  // Jeden hlas napořád: nejdřív potvrzení, pak už nejde změnit (hlídá to i databáze).
   function vote(entryId: string) {
     setError(null);
+    setConfirming(null);
     const previous = myVote;
     setMyVote(entryId);
     if (demo) return;
@@ -69,7 +66,9 @@ export function CostumeContestView({
   const state = !contest.enabled
     ? "Soutěž o kostým na téhle akci neběží."
     : contest.voting_open
-      ? "Hlasování běží. Vyber jeden kostým, hlas můžeš do konce hlasování změnit."
+      ? myVote
+        ? "Hotovo, tvůj hlas je započítaný. Hlasovat jde jen jednou."
+        : "Hlasování běží. Máš jeden hlas a po odeslání už nejde změnit, tak vybírej pečlivě."
       : contest.entries_open
         ? "Nahraj fotku svého kostýmu. Po schválení se objeví v galerii a lidi z party o něm budou hlasovat."
         : "Hlasování otevřeme během večera. Vítěze vyhlásíme na stagi.";
@@ -128,16 +127,12 @@ export function CostumeContestView({
         {contest.enabled && (
           <section>
             <h2 className={`${title} mb-4`}>{contest.voting_open ? "Hlasuj" : "Kostýmy v soutěži"}</h2>
-            {contest.voting_open && !checkedIn && (
-              <CheckIn
-                eventId={event.id}
-                demo={demo}
-                initialCode={initialCode}
-                onDone={() => {
-                  setCheckedIn(true);
-                  if (!demo) router.refresh();
-                }}
-              />
+            {contest.voting_open && !myVote && (
+              <p className="hw-outline mb-4 rounded-[16px] p-4 text-[14px] leading-snug text-ash">
+                <span className="mb-1 block text-[16px] font-bold text-bone">Jeden hlas napořád</span>
+                Hlasovat můžeš jen jednou a hlas už nejde změnit. V profilu musíš mít svoji fotku v kostýmu, účty bez ní mažeme
+                a jejich hlas propadá.
+              </p>
             )}
             {error && <p className={`${errorDark} mb-3`}>{error}</p>}
             {ordered.length === 0 ? (
@@ -166,13 +161,30 @@ export function CostumeContestView({
                       <div className="p-3">
                         <p className="truncate text-[15px] font-bold">{entry.title || "Bez názvu"}</p>
                         <p className="truncate text-[12px] text-ash">{entry.name ?? "Účastník akce"}</p>
-                        {canVote && !entry.mine &&
-                          (voted ? (
-                            <p className={`${btnRed} mt-2 w-full !px-2 !py-2 text-[14px]`}>Tvůj hlas</p>
+                        {voted && <p className={`${btnRed} mt-2 w-full !px-2 !py-2 text-[14px]`}>Tvůj hlas</p>}
+                        {contest.voting_open && !myVote && !entry.mine &&
+                          (confirming === entry.id ? (
+                            <div className="mt-2 space-y-1.5">
+                              <button
+                                type="button"
+                                onClick={() => vote(entry.id)}
+                                disabled={pending}
+                                className={`${btnRed} w-full !px-2 !py-2 text-[14px]`}
+                              >
+                                Potvrdit hlas
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setConfirming(null)}
+                                className="w-full py-1 text-[13px] font-semibold text-ash underline"
+                              >
+                                Zpět
+                              </button>
+                            </div>
                           ) : (
                             <button
                               type="button"
-                              onClick={() => vote(entry.id)}
+                              onClick={() => setConfirming(entry.id)}
                               disabled={pending}
                               className={`${btnGhost} mt-2 w-full !px-2 !py-2 text-[14px]`}
                             >
@@ -189,106 +201,11 @@ export function CostumeContestView({
         )}
 
         <p className="text-center text-[12px] text-ash/80">
-          Hlasovat můžou jen lidi v klubu, jeden hlas na člověka a telefon. Pro svůj kostým hlasovat nejde. Živé pořadí je na
-          hlavní stránce appky, vítěze vyhlásíme na stagi.
+          Každý účet má jeden hlas a ten už nejde změnit. Pro svůj kostým hlasovat nejde. Účty bez vlastní fotky v kostýmu
+          mažeme i s hlasem. Živé pořadí je na hlavní stránce appky, vítěze vyhlásíme na stagi.
         </p>
       </div>
     </>
-  );
-}
-
-const DEVICE_KEY = "gc-device"; // v localStorage: náhodné ID telefonu, na jednom telefonu se v klubu odbaví jen jeden účet
-
-function deviceId() {
-  try {
-    const saved = localStorage.getItem(DEVICE_KEY);
-    if (saved) return saved;
-    const id = crypto.randomUUID();
-    localStorage.setItem(DEVICE_KEY, id);
-    return id;
-  } catch {
-    return crypto.randomUUID(); // bez úložiště aspoň pro tuhle návštěvu
-  }
-}
-
-const CHECK_IN_TEXT: Record<string, string> = {
-  wrong: "Kód nesedí nebo už vypršel. Opiš ten, který je teď na obrazovce.",
-  locked: "Moc špatných pokusů. Ozvi se někomu z týmu GetUp v klubu.",
-  device: "Z tohohle telefonu už hlasuje jiný účet. Hlasovat jde jen jednou z jednoho telefonu.",
-};
-
-/** Odemčení hlasování kódem z obrazovky v klubu (mění se každých 5 minut), nebo naskenováním QR kódu vedle něj. */
-function CheckIn({
-  eventId,
-  demo,
-  initialCode,
-  onDone,
-}: {
-  eventId: string;
-  demo: boolean;
-  initialCode: string | null;
-  onDone: () => void;
-}) {
-  const [code, setCode] = useState(initialCode ?? "");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const tried = useRef(false);
-
-  async function check(value: string) {
-    const clean = value.replace(/\D/g, "");
-    if (clean.length !== 6) return setError("Kód má 6 číslic.");
-    setBusy(true);
-    setError(null);
-    if (demo) {
-      setBusy(false);
-      return onDone();
-    }
-    const { data, error } = await createClient().rpc("costume_check_in", { p_event_id: eventId, p_code: clean, p_device: deviceId() });
-    setBusy(false);
-    if (error) return setError(errorMessage(error));
-    if (data === "ok") return onDone();
-    setError(CHECK_IN_TEXT[data as string] ?? "Kód se nepodařilo ověřit, zkus to znovu.");
-  }
-
-  // Kód z naskenovaného QR kódu ověříme hned po načtení stránky.
-  useEffect(() => {
-    if (!initialCode || tried.current) return;
-    tried.current = true;
-    const timer = window.setTimeout(() => void check(initialCode), 0);
-    return () => window.clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialCode]);
-
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        void check(code);
-      }}
-      className="hw-outline mb-4 space-y-3 rounded-[16px] p-4"
-    >
-      <p className="text-[17px] font-bold">Hlasovat můžou jen lidi v klubu</p>
-      <p className="text-[14px] leading-snug text-ash">
-        Na obrazovce u stage je 6místný kód, který se každých pár minut mění. Opiš ho, nebo naskenuj QR kód vedle něj, a hlasování
-        se ti odemkne.
-      </p>
-      <div className="flex gap-2">
-        <input
-          value={code}
-          onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-          inputMode="numeric"
-          autoComplete="one-time-code"
-          placeholder="Kód z klubu"
-          aria-label="Kód z klubu"
-          className={`${fieldDark} text-center font-bold tracking-[0.3em]`}
-        />
-        <button type="submit" className={`${btnRed} shrink-0`} disabled={busy}>
-          {busy ? "…" : "Odemknout"}
-        </button>
-      </div>
-      {!demo && <QrScanButton />}
-      {error && <p className={errorDark}>{error}</p>}
-    </form>
   );
 }
 

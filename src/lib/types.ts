@@ -112,6 +112,16 @@ export interface CostumeResults {
   entries: { id: string; title: string; photo: string; name: string | null; votes: number }[];
 }
 
+/** Kdo hlasoval v soutěži o kostým (RPC admin_costume_voters) */
+export interface AdminCostumeVoter {
+  user_id: string;
+  display_name: string | null;
+  photo: string | null;
+  voted_for: string;
+  voted_at: string;
+  account_created_at: string;
+}
+
 export interface AdminCostumeEntry {
   id: string;
   user_id: string;

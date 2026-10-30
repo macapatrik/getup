@@ -25,7 +25,7 @@ const TICKER = [
 const CONTEST_STEPS = [
   { title: "Přijď v kostýmu", text: "Čím víc si s ním vyhraješ, tím líp. Rekvizity, masky, líčení, všechno se počítá." },
   { title: `Přihlas ho v ${APP_NAME}`, text: "Vyfoť se v kostýmu a nahraj fotku do soutěže v aplikaci. Po schválení ji uvidí všichni z party." },
-  { title: "Hlasují lidi v klubu", text: "Během večera otevřeme hlasování. Hlasovat jde jen přímo v K2, kód je na obrazovce u stage." },
+  { title: "Hlasují lidi z party", text: "Během večera otevřeme hlasování. QR kód najdeš na plakátech v K2 a v našich stories. Každý má jeden hlas." },
   { title: "Vyhlášení na hlavní stagi", text: `Kostým s nejvíc hlasy si odnáší ${EVENT.prize}.` },
 ];
 
@@ -183,7 +183,7 @@ export function HalloweenContent({ idPrefix = "" }: { idPrefix?: string }) {
       {/* Tři věci, které musíš vědět */}
       <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
         <div className="grid gap-4 sm:grid-cols-3">
-          <Highlight value={EVENT.prize} label="za nejlepší kostým" text={`Soutěž o nejlepší kostým večera. O vítězi rozhodujete vy, hlasuje se v ${APP_NAME} přímo v klubu.`} />
+          <Highlight value={EVENT.prize} label="za nejlepší kostým" text={`Soutěž o nejlepší kostým večera. O vítězi rozhodujete vy, hlasuje se v ${APP_NAME}.`} />
           <Highlight value="2 stage" label="Mainstream / Rap a Techno" text="Dva parkety, dva zvuky. Přecházíš, jak se ti zrovna chce." />
           <Highlight value={EVENT.doors} label={`start v ${EVENT.venue}`} text={`${EVENT.weekday} ${EVENT.dateLabel}, ${EVENT.venueStreet}, ${EVENT.city}.`} />
         </div>

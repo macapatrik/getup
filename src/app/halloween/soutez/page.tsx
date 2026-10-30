@@ -15,7 +15,6 @@ const DEMO: CostumeContest = {
   enabled: true,
   entries_open: true,
   voting_open: true,
-  checked_in: false, // v ukázce odemkne hlasování jakýkoli 6místný kód
   my_entry: { id: "demo-me", title: "Upírka z K2", photo: g("203"), status: "approved" },
   my_vote: "demo-2",
   entries: [

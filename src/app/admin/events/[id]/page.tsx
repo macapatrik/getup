@@ -4,9 +4,10 @@ import QRCode from "qrcode";
 import { AppIcon } from "@/components/logo";
 import { btnDanger, btnSecondary, card, sectionTitle } from "@/components/ui";
 import { getOrigin, requireOrganizer } from "@/lib/auth";
+import { HALLOWEEN_URL } from "@/lib/config";
 import { STATUS_LABELS, eventStatus, formatDateTime, formatNumber, formatTime, toLocalInput } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
-import type { AdminCostumeEntry, EventRow, EventWebInfo } from "@/lib/types";
+import type { AdminCostumeEntry, AdminCostumeVoter, EventRow, EventWebInfo } from "@/lib/types";
 import { deleteEventAction, updateEventAction } from "../../actions";
 import { ConfirmButton } from "../../confirm-button";
 import { EventForm } from "../../event-form";
@@ -29,7 +30,7 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
   const { id } = await props.params;
 
   const supabase = await createClient();
-  const [{ data: event }, { data: statsRows }, { data: costumeRows }] = await Promise.all([
+  const [{ data: event }, { data: statsRows }, { data: costumeRows }, { data: voterRows }] = await Promise.all([
     supabase
       .from("events")
       .select(
@@ -41,12 +42,18 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
       >(),
     supabase.rpc("event_stats", { p_event_id: id }),
     supabase.rpc("admin_costume_entries", { p_event_id: id }),
+    supabase.rpc("admin_costume_voters", { p_event_id: id }),
   ]);
   if (!event) notFound();
 
   const stats = (statsRows as Stats[] | null)?.[0];
   const joinUrl = `${await getOrigin()}/j/${event.join_code}`;
   const qr = await QRCode.toDataURL(joinUrl, { width: 1024, margin: 2, errorCorrectionLevel: "M" });
+  // QR kód soutěže na Instagram a plakáty: připojí k akci a otevře rovnou soutěž o kostým (halloweenská verze appky)
+  const contestUrl = `${HALLOWEEN_URL}/j/${event.join_code}?soutez=1`;
+  const contestQr = event.costume_contest
+    ? await QRCode.toDataURL(contestUrl, { width: 1200, margin: 2, errorCorrectionLevel: "M" })
+    : null;
 
   const tiles: [string, number | undefined][] = [
     ["Lidí na akci", stats?.attendees],
@@ -80,7 +87,14 @@ export default async function AdminEventPage(props: PageProps<"/admin/events/[id
             </div>
           </section>
 
-          <CostumeAdmin eventId={event.id} settings={event} entries={(costumeRows ?? []) as AdminCostumeEntry[]} />
+          <CostumeAdmin
+            eventId={event.id}
+            settings={event}
+            entries={(costumeRows ?? []) as AdminCostumeEntry[]}
+            voters={(voterRows ?? []) as AdminCostumeVoter[]}
+            contestUrl={contestUrl}
+            contestQr={contestQr}
+          />
 
           <section>
             <h2 className={sectionTitle}>Upravit akci</h2>
