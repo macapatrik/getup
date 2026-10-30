@@ -84,7 +84,7 @@ export function LoginForm({ next, linkError }: { next: string; linkError: boolea
   return (
     <form onSubmit={verifyCode} className="mt-8 space-y-5">
       <p className="text-[15px] text-muted">
-        Kód jsme poslali na <span className="font-bold text-ink">{email}</span>. Můžeš taky kliknout na odkaz v e-mailu.
+        Kód jsme poslali na <span className="font-bold text-ink">{email}</span>.<span className="hm-hide"> Můžeš taky kliknout na odkaz v e-mailu.</span>
       </p>
       <div>
         <label htmlFor="code" className={label}>
