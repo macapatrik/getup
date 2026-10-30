@@ -4,11 +4,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/icons";
 import { formatNumber } from "@/lib/format";
-import { photoSrc } from "@/lib/photos";
+import { ThumbImg } from "@/components/thumb-img";
 import { createClient } from "@/lib/supabase/client";
 import type { CostumeResults } from "@/lib/types";
 
-const REFRESH_MS = 8000;
+// Obnova pořadí: při stovkách lidí v appce nechceme zahlcovat databázi (k tomu náhodný posun, ať se nesejdou)
+const REFRESH_MS = 15000;
 const SHOWN = 5;
 
 function votesLabel(n: number) {
@@ -37,7 +38,7 @@ export function LiveVoting({
       });
       if (data) setResults(data as CostumeResults);
     }
-    const timer = window.setInterval(load, REFRESH_MS);
+    const timer = window.setInterval(load, REFRESH_MS + Math.round(Math.random() * 4000));
     document.addEventListener("visibilitychange", load);
     return () => {
       window.clearInterval(timer);
@@ -80,7 +81,7 @@ export function LiveVoting({
                 className={`flex items-center gap-3 rounded-[16px] p-2 transition ${leader ? "bg-blood/15 ring-1 ring-blood/70" : "bg-white/[0.04]"}`}
               >
                 <span className="w-4 shrink-0 text-center text-[14px] font-bold text-ash tabular-nums">{i + 1}</span>
-                <img src={photoSrc(entry.photo)} alt="" className="size-12 shrink-0 rounded-[12px] bg-black object-cover" />
+                <ThumbImg path={entry.photo} alt="" className="size-12 shrink-0 rounded-[12px] bg-black object-cover" />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <p className="min-w-0 truncate text-[15px] font-bold">{entry.title || "Bez názvu"}</p>

@@ -9,6 +9,16 @@ export function photoSrc(path: string) {
   return path.startsWith("/") ? path : photoUrl(path);
 }
 
+/** Cesta k náhledu fotky kostýmu (malá verze vedle velké, „…_t.webp“): galerie a pořadí šetří data. */
+export function thumbPath(path: string) {
+  return path.replace(/(\.[a-z]+)$/i, "_t$1");
+}
+
+/** Náhled fotky kostýmu; soubory z /public (testovací kostýmy) nemají náhled. */
+export function thumbSrc(path: string) {
+  return path.startsWith("/") ? path : photoUrl(thumbPath(path));
+}
+
 /** Náhodné id – funguje i mimo HTTPS (např. testování na mobilu přes LAN), kde chybí crypto.randomUUID. */
 export function randomId() {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto && window.isSecureContext) {

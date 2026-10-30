@@ -6,7 +6,8 @@ import { useState, useTransition, type FormEvent } from "react";
 import { Icon } from "@/components/icons";
 import { COSTUME_PRIZE } from "@/lib/config";
 import { errorMessage } from "@/lib/errors";
-import { PHOTOS_BUCKET, photoExtension, photoSrc, randomId, resizeImage } from "@/lib/photos";
+import { ThumbImg } from "@/components/thumb-img";
+import { PHOTOS_BUCKET, photoExtension, photoSrc, randomId, resizeImage, thumbPath } from "@/lib/photos";
 import { createClient } from "@/lib/supabase/client";
 import type { CostumeContest, CostumeResults, CostumeStatus } from "@/lib/types";
 import { LiveVoting } from "../../../events/live-voting";
@@ -200,7 +201,7 @@ export function CostumeContestView({
                       className={`${surface} overflow-hidden transition ${voted ? "border-blood shadow-[0_0_28px_rgb(224_20_28/0.45)]" : ""}`}
                     >
                       <div className="relative aspect-[3/4] bg-black">
-                        <img src={src(entry.photo)} alt={entry.title || "Kostým"} className="size-full object-cover" loading="lazy" />
+                        <ThumbImg path={entry.photo} alt={entry.title || "Kostým"} className="size-full object-cover" loading="lazy" />
                         <div className="hw-fog-bottom absolute inset-x-0 bottom-0 h-1/3" />
                         {entry.mine && (
                           <span className="hw-red absolute top-2 left-2 rounded-[10px] px-2 py-0.5 text-[11px] font-bold">Tvůj kostým</span>
@@ -290,6 +291,11 @@ function MyEntry({
         .from(PHOTOS_BUCKET)
         .upload(path, blob, { contentType: blob.type, cacheControl: "31536000" });
       if (uploadError) throw uploadError;
+      // Malý náhled do galerie a pořadí (stovky lidí listují galerií); když se nepovede, ukáže se velká fotka.
+      const thumb = await resizeImage(file, 420, 0.72);
+      if (thumb.type === blob.type) {
+        await supabase.storage.from(PHOTOS_BUCKET).upload(thumbPath(path), thumb, { contentType: thumb.type, cacheControl: "31536000" });
+      }
       const { error } = await supabase.rpc("submit_costume_entry", { p_event_id: eventId, p_photo: path, p_title: name });
       if (error) {
         await supabase.storage.from(PHOTOS_BUCKET).remove([path]);
